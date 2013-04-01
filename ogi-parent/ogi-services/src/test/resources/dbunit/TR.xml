@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<TR_CATEGORY CAT_ID="1" CAT_CODE="HSE" CAT_LABEL="Maison" />
+	<TR_CATEGORY CAT_ID="2" CAT_CODE="APT" CAT_LABEL="Appartement" />
+	<TR_CATEGORY CAT_ID="3" CAT_CODE="GRG" CAT_LABEL="Garage" />
+	<TR_CATEGORY CAT_ID="4" CAT_CODE="PLT" CAT_LABEL="Terrain" />
+	<TR_CATEGORY CAT_ID="5" CAT_CODE="BSN" CAT_LABEL="Local commercial" />
+
+	<TR_TYPE TYP_ID="1" TYP_LABEL="Villa" CAT_ID="1"/>
+	<TR_TYPE TYP_ID="2" TYP_LABEL="Ferme" CAT_ID="1"/>
+
+</dataset>
