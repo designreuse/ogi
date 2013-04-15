@@ -40,53 +40,56 @@ public abstract class RealProperty {
 	@Id
 	@Column(name = "PRO_ID", unique = true, nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer				techid;
+	private Integer						techid;
 
 	@Column(name = "PRO_REFERENCE", nullable = false, unique = true, length = 64)
-	private String				reference;
+	private String						reference;
 
 	@Column(name = "PRO_LAND_AREA")
-	private Integer				landArea;
+	private Integer						landArea;
 
 	@Column(name = "PRO_COS")
-	private Float				cos;
+	private Float						cos;
 
 	/** Lotissement */
 	@Column(name = "PRO_HOUSING_ESTATE")
-	private Boolean				housingEstate;
+	private Boolean						housingEstate;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "ADD_ID")
-	private Address				address;
+	private Address						address;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "PRO_ID")
-	private Set<Description>	descriptions;
+	private Set<Description>			descriptions;
 
 	@ManyToMany(cascade = CascadeType.PERSIST)
 	@JoinTable(name = "TJ_PRP_EQP", //
 	joinColumns = @JoinColumn(name = "PRO_ID"), //
 	inverseJoinColumns = @JoinColumn(name = "EQP_ID")//
 	)
-	private Set<Equipment>		equipments;
+	private Set<Equipment>				equipments;
 
 	@ManyToOne
 	@JoinColumn(name = "CAT_ID", nullable = false)
-	private Category			category;
+	private Category					category;
 
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "TYP_ID", nullable = false)
-	private Type				type;
+	private Type						type;
+
+	@OneToMany(mappedBy = "pk.property", cascade = CascadeType.ALL)
+	private Set<DiagnosisRealProperty>	diagnosisProperty;
 
 	// ##### Technical field #####
 	// Il faut obligatoirement spécifier l'attribut columnDefinition sinon mysql crée un champ date time
 	@Column(name = "PRO_MODIFICATION_DATE", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Calendar			modificationDate;
+	private Calendar					modificationDate;
 
 	@Version
 	@Column(name = "PRO_VERSION", nullable = false)
-	private Integer				version;
+	private Integer						version;
 
 	protected RealProperty(String reference, Category category, Type type) {
 		super();
