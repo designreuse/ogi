@@ -42,6 +42,6 @@ public class OrikaMapper extends ConfigurableMapper {
 		factory.classMap(Address.class, AddressTo.class).byDefault().register();
 		factory.classMap(Description.class, DescriptionTo.class).byDefault().register();
 		factory.classMap(RealPropertyLivable.class, RealPropertyLivableTo.class)
-				.field("equipments{label}", "equipments{}").byDefault().register();
+				.field("equipments{label}", "equipments{}").field("type.label", "type").byDefault().register();
 	}
 }
