@@ -5,7 +5,7 @@ import fr.jerep6.ogi.persistance.bo.RealProperty;
 
 public interface DaoProperty extends DaoCRUD<RealProperty, Integer> {
 
-	void readByReference(String reference);
+	RealProperty readByReference(String reference);
 
 	void test();
 }

@@ -8,12 +8,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
+
 import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.dao.DaoProperty;
 import fr.jerep6.ogi.service.ServiceRealProperty;
 
-@Service("sp")
+@Service("serviceRealProperty")
 @Transactional(propagation = Propagation.REQUIRED)
 public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealProperty, Integer> implements
 		ServiceRealProperty {
@@ -31,8 +34,10 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 	}
 
 	@Override
-	public void readByReference(String reference) {
-		daoProperty.readByReference(reference);
+	public RealProperty readByReference(String reference) {
+		Preconditions.checkArgument(!Strings.isNullOrEmpty(reference));
+
+		return daoProperty.readByReference(reference);
 	}
 
 }

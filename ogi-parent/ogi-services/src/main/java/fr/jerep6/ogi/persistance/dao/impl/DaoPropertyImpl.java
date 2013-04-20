@@ -19,29 +19,20 @@ import fr.jerep6.ogi.transfert.database.CustomObj;
 @Repository("daoProperty")
 @Transactional(propagation = Propagation.MANDATORY)
 public class DaoPropertyImpl extends AbstractDao<RealProperty, Integer> implements DaoProperty {
-	Logger	LOGGER	= LoggerFactory.getLogger(DaoPropertyImpl.class);
+	Logger						LOGGER			= LoggerFactory.getLogger(DaoPropertyImpl.class);
+
+	private static final String	PARAM_REFERENCE	= "REFERENCE";
 
 	@Override
-	public void readByReference(String reference) {
-		LOGGER.info("READ");
-		RealProperty rp = read(1);
+	public RealProperty readByReference(String reference) {
+		StringBuilder q = new StringBuilder();
+		q.append("SELECT r ").append(" FROM ").append(RealProperty.class.getName()).append(" r ");
+		q.append(" WHERE r.reference= :").append(PARAM_REFERENCE);
 
-		System.out.println(rp);
+		Query query = entityManager.createQuery(q.toString());
+		query.setParameter(PARAM_REFERENCE, reference);
 
-		// RealPropertyLivable maison = new RealPropertyLivable();
-		// maison.setReference("r1");
-		// entityManager.persist(maison);
-		// entityManager.flush();
-
-		// System.out.println("DAO : " + entityManager);
-		// RealProperty p = new RealProperty();
-		// p.setCreateDate(Calendar.getInstance());
-		// p.setReference("r1");
-		//
-		// RealProperty p1 = read(1);
-		// System.out.println(p1);
-		// p1.setReference("r1");
-
+		return (RealProperty) query.getSingleResult();
 	}
 
 	@Override

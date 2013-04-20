@@ -9,5 +9,5 @@ public interface ServiceRealProperty extends TransactionalService<RealProperty, 
 	 * 
 	 * @param reference
 	 */
-	void readByReference(String reference);
+	RealProperty readByReference(String reference);
 }

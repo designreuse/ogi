@@ -14,7 +14,7 @@ import org.hibernate.annotations.Type;
 
 import com.google.common.base.Objects;
 
-import fr.jerep6.ogi.enumeration.EnumLabelType;
+import fr.jerep6.ogi.enumeration.EnumDescriptionType;
 
 @Entity
 @Table(name = "TA_DESCRIPTION")
@@ -25,17 +25,17 @@ import fr.jerep6.ogi.enumeration.EnumLabelType;
 public class Description {
 	@Id
 	@Column(name = "DSC_ID", unique = true, nullable = false)
-	private Integer			techid;
+	private Integer				techid;
 
 	@Column(name = "DSC_TYPE", nullable = false, length = 16)
 	@Type(type = "fr.jerep6.ogi.framework.persistance.GenericEnumUserType", parameters = {
 			@Parameter(name = "enumClass", value = "fr.jerep6.ogi.enumeration.EnumDescriptionType"),
 			@Parameter(name = "identifierMethod", value = "getCode"),
 			@Parameter(name = "valueOfMethod", value = "valueOfByCode") })
-	private EnumLabelType	type;
+	private EnumDescriptionType	type;
 
 	@Column(name = "DSC_LABEL", nullable = false)
-	private String			label;
+	private String				label;
 
 	@Override
 	public String toString() {

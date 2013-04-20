@@ -1,4 +1,4 @@
-package fr.jerep6.ogi.transfert.converter;
+package fr.jerep6.ogi.transfert.mapping.converter;
 
 import ma.glasnost.orika.converter.BidirectionalConverter;
 import ma.glasnost.orika.metadata.Type;

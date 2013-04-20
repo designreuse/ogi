@@ -37,6 +37,10 @@ public class RealPropertyLivable extends RealPropertyBuilt {
 	@Column(name = "PRL_HOT_WATER")
 	private String	hotWater;
 
+	private RealPropertyLivable() {
+		super(null, null, null);
+	}
+
 	public RealPropertyLivable(String reference, Category category, Type type) {
 		super(reference, category, type);
 	}

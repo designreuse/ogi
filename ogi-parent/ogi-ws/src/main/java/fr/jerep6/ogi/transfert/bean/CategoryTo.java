@@ -8,7 +8,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class CategoryTo {
-	private Integer	techid;
 	private String	code;
 	private String	label;
 }
