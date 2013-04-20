@@ -18,6 +18,7 @@ import fr.jerep6.ogi.transfert.bean.RealPropertyLivableTo;
 import fr.jerep6.ogi.transfert.bean.RealPropertyTo;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumCategory;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumDescriptionType;
+import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumOrientation;
 
 @Component("orikaMapper")
 public class OrikaMapper extends ConfigurableMapper {
@@ -31,6 +32,7 @@ public class OrikaMapper extends ConfigurableMapper {
 		// Specifics converter
 		converterFactory.registerConverter(new ConverterEnumCategory());
 		converterFactory.registerConverter(new ConverterEnumDescriptionType());
+		converterFactory.registerConverter(new ConverterEnumOrientation());
 
 		// Specifics factory (create objet)
 		factory.registerObjectFactory(new FactoryRealProperty(), TypeFactory.valueOf(RealPropertyTo.class));
