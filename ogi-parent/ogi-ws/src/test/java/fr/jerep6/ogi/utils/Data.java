@@ -19,6 +19,7 @@ public class Data {
 	private static RealPropertyLivable	farm;
 	private static Address				addressTyrosse;
 	private static Category				categoryHouse;
+	private static Type					typeFarm;
 
 	static {
 		// ##### Diagnosis #####
@@ -42,10 +43,10 @@ public class Data {
 		categoryHouse.setDiagnosis(diags);
 
 		// ##### Type #####
-		Type t1 = new Type();
-		t1.setTechid(1);
-		t1.setLabel("Ferme");
-		t1.setCategory(categoryHouse);
+		typeFarm = new Type();
+		typeFarm.setTechid(1);
+		typeFarm.setLabel("Ferme");
+		typeFarm.setCategory(categoryHouse);
 
 		Type t2 = new Type();
 		t2.setTechid(2);
@@ -81,7 +82,7 @@ public class Data {
 		addressTyrosse.setPostalCode("40230");
 		addressTyrosse.setCity("Saint Vincent de Tyrosse");
 
-		farm = new RealPropertyLivable("ref1", categoryHouse, t1);
+		farm = new RealPropertyLivable("ref1", categoryHouse, typeFarm);
 		farm.setEquipments(Sets.newHashSet(eqpt1, eqpt2));
 		farm.setLandArea(3400);
 		farm.setHousingEstate(false);
@@ -99,6 +100,10 @@ public class Data {
 
 	public static RealPropertyLivable getFarm() {
 		return farm;
+	}
+
+	public static Type getTypeFarm() {
+		return typeFarm;
 	}
 
 }

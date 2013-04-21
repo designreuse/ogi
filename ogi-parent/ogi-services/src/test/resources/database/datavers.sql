@@ -26,6 +26,13 @@ INSERT INTO TA_PROPERTY_BUILT (PRB_AREA, PRB_BUILD_DATE, PRB_DPE_CLASS_GES, PRB_
 INSERT INTO TA_PROPERTY_LIVABLE (PRL_HEATING, PRL_HOT_WATER, PRL_NB_BATHROOM, PRL_NB_BEDROOM, PRL_NB_ROOM, PRL_NB_SHOWERROOM, PRL_NB_WC, PRO_ID) VALUES
 ('bois', 'cumulus', 1, 3, NULL, 1, 2, 1);
 
+
+INSERT INTO TA_DESCRIPTION(DSC_ID, PRO_ID, DSC_TYPE, DSC_LABEL) VALUES
+(1, 1, 'VITRINE', 'Ferme située dans un endroit calme (vitrine)'),
+(2, 1, 'WEBSITE_PERSO', 'Ferme située dans un endroit calme (site)'),
+(3, 1, 'ETAT', 'Quelques travaux à prévoir : toiture et cloture');
+
+
 INSERT INTO TJ_PRP_EQP (PRO_ID, EQP_ID) VALUES
 (1, 1),
 (1, 2);

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.collect.Iterables;
+
 import fr.jerep6.ogi.framework.persistance.dao.impl.AbstractDao;
 import fr.jerep6.ogi.persistance.bo.Type;
 import fr.jerep6.ogi.persistance.dao.DaoType;
@@ -19,7 +21,7 @@ import fr.jerep6.ogi.persistance.dao.DaoType;
 public class DaoTypeImpl extends AbstractDao<Type, Integer> implements DaoType {
 	Logger						LOGGER		= LoggerFactory.getLogger(DaoTypeImpl.class);
 
-	private static final String	PARAM_LABEL	= "CODE";
+	private static final String	PARAM_LABEL	= "LABEL";
 
 	@Override
 	public Type readByLabel(String label) {
@@ -31,9 +33,9 @@ public class DaoTypeImpl extends AbstractDao<Type, Integer> implements DaoType {
 		query.setParameter(PARAM_LABEL, label);
 
 		@SuppressWarnings("unchecked")
-		List<Type> type = query.getResultList();
+		List<Type> types = query.getResultList();
 
 		// Return null if no result
-		return type.isEmpty() ? null : type.get(0);
+		return Iterables.getFirst(types, null);
 	}
 }

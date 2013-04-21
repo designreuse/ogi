@@ -10,7 +10,6 @@ import lombok.ToString;
 @EqualsAndHashCode(of = { "number", "street", "postalCode", "city", "additional" })
 @ToString
 public class AddressTo {
-	private Integer	techid;
 	private String	number;
 	private String	street;
 	private String	additional;

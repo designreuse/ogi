@@ -29,7 +29,7 @@ import fr.jerep6.ogi.utils.Data;
  */
 @ContextConfiguration(locations = { "classpath:META-INF/spring/tu-web-context.xml",
 		"classpath:META-INF/spring/web-context.xml" })
-public class WSCategoryTest extends AbstractTest {
+public class WSRealPropertyTest extends AbstractTest {
 
 	@Autowired
 	private WSRealProperty		wsRealProperty;
@@ -45,6 +45,7 @@ public class WSCategoryTest extends AbstractTest {
 		Assert.assertEquals(EnumCategory.HOUSE.getCode(), read.getCategory().getCode());
 		ListAssert.assertEquals(Arrays.asList("Cheminée", "Interphone"), new ArrayList<>(read.getEquipments()));
 
+		// Description
 		Description d = Data.getFarm().getDescriptions().iterator().next();
 		DescriptionTo d1 = new DescriptionTo();
 		d1.setType(d.getType().getCode());
@@ -56,6 +57,9 @@ public class WSCategoryTest extends AbstractTest {
 		Assert.assertEquals(a.getNumber(), read.getAddress().getNumber());
 		Assert.assertEquals(a.getCity(), read.getAddress().getCity());
 		Assert.assertEquals(a.getLatitude(), read.getAddress().getLatitude());
+
+		// Type
+		Assert.assertEquals(Data.getTypeFarm().getLabel(), read.getType());
 
 	}
 

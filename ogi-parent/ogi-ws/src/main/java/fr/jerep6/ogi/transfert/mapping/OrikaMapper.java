@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import fr.jerep6.ogi.persistance.bo.Address;
 import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.Description;
+import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 import fr.jerep6.ogi.transfert.bean.AddressTo;
 import fr.jerep6.ogi.transfert.bean.CategoryTo;
@@ -35,7 +36,8 @@ public class OrikaMapper extends ConfigurableMapper {
 		converterFactory.registerConverter(new ConverterEnumOrientation());
 
 		// Specifics factory (create objet)
-		factory.registerObjectFactory(new FactoryRealProperty(), TypeFactory.valueOf(RealPropertyTo.class));
+		factory.registerObjectFactory(new FactoryRealPropertyTo(), TypeFactory.valueOf(RealPropertyTo.class));
+		factory.registerObjectFactory(new FactoryRealProperty(), TypeFactory.valueOf(RealProperty.class));
 
 		// Mapping definition
 		factory.classMap(Category.class, CategoryTo.class).byDefault().register();

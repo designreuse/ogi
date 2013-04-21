@@ -37,6 +37,29 @@ public class Equipment {
 	@ManyToMany(mappedBy = "equipments")
 	private Set<RealProperty>	properties;
 
+	public Equipment() {
+		super();
+	}
+
+	public Equipment(String label, Category category) {
+		super();
+		this.label = label;
+		this.category = category;
+	}
+
+	// /**
+	// * Add property
+	// * @param rp
+	// */
+	// public void addProperty(RealProperty rp) {
+	// Preconditions.checkNotNull(rp);
+	//
+	// if (properties == null) {
+	// properties = new HashSet<>(1);
+	// }
+	// properties.add(rp);
+	// }
+
 	@Override
 	public String toString() {
 		return Objects.toStringHelper(this).add("techid", techid).add("label", label).toString();

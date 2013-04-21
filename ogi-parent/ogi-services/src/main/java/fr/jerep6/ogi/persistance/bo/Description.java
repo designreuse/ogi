@@ -2,7 +2,11 @@ package fr.jerep6.ogi.persistance.bo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.EqualsAndHashCode;
@@ -25,6 +29,7 @@ import fr.jerep6.ogi.enumeration.EnumDescriptionType;
 public class Description {
 	@Id
 	@Column(name = "DSC_ID", unique = true, nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer				techid;
 
 	@Column(name = "DSC_TYPE", nullable = false, length = 16)
@@ -36,6 +41,10 @@ public class Description {
 
 	@Column(name = "DSC_LABEL", nullable = false)
 	private String				label;
+
+	@ManyToOne
+	@JoinColumn(name = "PRO_ID", nullable = false)
+	private RealProperty		property;
 
 	@Override
 	public String toString() {

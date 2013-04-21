@@ -6,7 +6,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,7 +23,7 @@ import fr.jerep6.ogi.transfert.mapping.OrikaMapper;
  */
 @Controller
 @Path("/category")
-public class WSCategory {
+public class WSCategory extends AbstractJaxRsWS {
 
 	@Autowired
 	private ServiceCategory	serviceCategory;
@@ -36,8 +35,7 @@ public class WSCategory {
 	 * @return all categories in the system
 	 */
 	@GET
-	@Path("/")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(APPLICATION_JSON_UTF8)
 	public Collection<CategoryTo> listAll() {
 		Collection<Category> categoriesBo = serviceCategory.listAll();
 
@@ -52,7 +50,7 @@ public class WSCategory {
 	 */
 	@GET
 	@Path("/{code}")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(APPLICATION_JSON_UTF8)
 	public CategoryTo readbyCode(@PathParam("code") String code) {
 		Category categoryBo = serviceCategory.readByCode(EnumCategory.valueOfByCode(code));
 

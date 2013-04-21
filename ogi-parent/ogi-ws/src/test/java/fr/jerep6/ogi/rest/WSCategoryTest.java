@@ -21,7 +21,7 @@ import fr.jerep6.ogi.utils.Data;
  */
 @ContextConfiguration(locations = { "classpath:META-INF/spring/tu-web-context.xml",
 		"classpath:META-INF/spring/web-context.xml" })
-public class WSRealPropertyTest extends AbstractTest {
+public class WSCategoryTest extends AbstractTest {
 
 	@Autowired
 	private WSCategory		wsCategory;

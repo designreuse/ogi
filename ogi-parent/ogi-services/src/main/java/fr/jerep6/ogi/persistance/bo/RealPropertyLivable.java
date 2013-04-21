@@ -37,7 +37,7 @@ public class RealPropertyLivable extends RealPropertyBuilt {
 	@Column(name = "PRL_HOT_WATER")
 	private String	hotWater;
 
-	private RealPropertyLivable() {
+	public RealPropertyLivable() {
 		super(null, null, null);
 	}
 
