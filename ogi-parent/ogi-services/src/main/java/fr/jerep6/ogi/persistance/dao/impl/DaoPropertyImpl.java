@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.collect.Iterables;
+
 import fr.jerep6.ogi.framework.persistance.dao.impl.AbstractDao;
 import fr.jerep6.ogi.persistance.bo.Book;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
@@ -24,6 +26,7 @@ public class DaoPropertyImpl extends AbstractDao<RealProperty, Integer> implemen
 	private static final String	PARAM_REFERENCE	= "REFERENCE";
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public RealProperty readByReference(String reference) {
 		StringBuilder q = new StringBuilder();
 		q.append("SELECT r ").append(" FROM ").append(RealProperty.class.getName()).append(" r ");
@@ -32,7 +35,7 @@ public class DaoPropertyImpl extends AbstractDao<RealProperty, Integer> implemen
 		Query query = entityManager.createQuery(q.toString());
 		query.setParameter(PARAM_REFERENCE, reference);
 
-		return (RealProperty) query.getSingleResult();
+		return Iterables.getFirst(query.getResultList(), null);
 	}
 
 	@Override
