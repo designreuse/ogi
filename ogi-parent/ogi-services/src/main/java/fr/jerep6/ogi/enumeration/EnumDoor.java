@@ -18,12 +18,10 @@ public enum EnumDoor {
 	 */
 	public static EnumDoor valueOfByCode(String code) {
 		for (EnumDoor oneEnum : EnumDoor.values()) {
-			if (oneEnum.getCode().equals(code)) {
-				return oneEnum;
-			}
+			if (oneEnum.getCode().equals(code)) { return oneEnum; }
 		}
 
-		throw new IllegalArgumentException("No " + EnumDoor.class.getSimpleName() + "for " + code);
+		throw new IllegalArgumentException("No " + EnumDoor.class.getSimpleName() + " for " + code);
 	}
 
 	private String	code;

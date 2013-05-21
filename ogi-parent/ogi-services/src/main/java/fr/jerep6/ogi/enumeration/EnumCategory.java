@@ -20,12 +20,10 @@ public enum EnumCategory {
 	 */
 	public static EnumCategory valueOfByCode(String code) {
 		for (EnumCategory oneEnum : EnumCategory.values()) {
-			if (oneEnum.getCode().equals(code)) {
-				return oneEnum;
-			}
+			if (oneEnum.getCode().equals(code)) { return oneEnum; }
 		}
 
-		throw new IllegalArgumentException("No " + EnumCategory.class.getSimpleName() + "for " + code);
+		throw new IllegalArgumentException("No " + EnumCategory.class.getSimpleName() + " for " + code);
 	}
 
 	private String	code;

@@ -19,12 +19,10 @@ public enum EnumLabelType {
 	 */
 	public static EnumLabelType valueOfByCode(String code) {
 		for (EnumLabelType oneEnum : EnumLabelType.values()) {
-			if (oneEnum.getCode().equals(code)) {
-				return oneEnum;
-			}
+			if (oneEnum.getCode().equals(code)) { return oneEnum; }
 		}
 
-		throw new IllegalArgumentException("No " + EnumLabelType.class.getSimpleName() + "for " + code);
+		throw new IllegalArgumentException("No " + EnumLabelType.class.getSimpleName() + " for " + code);
 	}
 
 	private String	code;

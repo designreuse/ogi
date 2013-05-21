@@ -23,12 +23,10 @@ public enum EnumOrientation {
 	 */
 	public static EnumOrientation valueOfByCode(String code) {
 		for (EnumOrientation oneEnum : EnumOrientation.values()) {
-			if (oneEnum.getCode().equals(code)) {
-				return oneEnum;
-			}
+			if (oneEnum.getCode().equals(code)) { return oneEnum; }
 		}
 
-		throw new IllegalArgumentException("No " + EnumOrientation.class.getSimpleName() + "for " + code);
+		throw new IllegalArgumentException("No " + EnumOrientation.class.getSimpleName() + " for " + code);
 	}
 
 	private String	code;
