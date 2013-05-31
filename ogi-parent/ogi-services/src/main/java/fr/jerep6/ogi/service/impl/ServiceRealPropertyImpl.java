@@ -49,32 +49,37 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 	public RealProperty createFromBusinessFields(RealProperty property) {
 		Preconditions.checkNotNull(property);
 
-		// It's impossible to create new category
+		// If property already exist return it
+		RealProperty propertyFromDB = readByReference(property.getReference());
+		if (propertyFromDB != null) { return propertyFromDB; }
+
+		// It's impossible to create new category so only read from database given code
 		Category cat = serviceCategory.readByCode(property.getCategory().getCode());
 		property.setCategory(cat);
 
+		// Create type if needed
 		Type t = serviceType.readOrInsert(property.getType().getLabel(), cat);
 		property.setType(t);
 
 		Set<Equipment> eqpts = new HashSet<>(property.getEquipments().size());
-		for (Equipment oneEqpt : property.getEquipments()) {
+		for (Equipment anEqpt : property.getEquipments()) {
 			// Read equipment from DB
-			Equipment eqptFull = serviceEquipment.readByLabel(oneEqpt.getLabel(), cat.getCode());
+			Equipment eqptFull = serviceEquipment.readByLabel(anEqpt.getLabel(), cat.getCode());
 
 			// if not exist create it
 			if (eqptFull == null) {
-				eqptFull = new Equipment(oneEqpt.getLabel(), cat);
+				eqptFull = new Equipment(anEqpt.getLabel(), cat);
 			}
 
-			// not add property do equipment because property is relation owner
+			// don't supply property because property is relation owner
 			eqpts.add(eqptFull);
 		}
 		property.setEquipments(eqpts);
 
-		// Description, address
+		// Nothing to do for description, address
 
 		// Save real property into database
-		save(property);
+		// save(property);
 
 		return null;
 	}
@@ -87,7 +92,7 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 
 	@Override
 	public RealProperty readByReference(String reference) {
-		Preconditions.checkArgument(!Strings.isNullOrEmpty(reference));
+		Preconditions.checkArgument(!Strings.isNullOrEmpty(reference), "Reference is null or empty");
 
 		return daoProperty.readByReference(reference);
 	}

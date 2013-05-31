@@ -58,9 +58,8 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>junit-addons</groupId>
-			<artifactId>junit-addons</artifactId>
-			<scope>test</scope>
+			<groupId>org.easytesting</groupId>
+			<artifactId>fest-assert-core</artifactId>
 		</dependency>
 
 	</dependencies>

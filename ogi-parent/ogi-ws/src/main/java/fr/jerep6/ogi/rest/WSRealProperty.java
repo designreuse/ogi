@@ -33,7 +33,7 @@ public class WSRealProperty extends AbstractJaxRsWS {
 		System.out.println(rp);
 
 		// Map into business object. Fulfill only business field. I.E technical field will be retrieve on database
-		// before record
+		// before record. I sould have proced with a another do but afterwards
 		RealProperty property = mapper.map(rp, RealProperty.class);
 		System.out.println(property);
 

@@ -1,8 +1,10 @@
 package fr.jerep6.ogi.utils;
 
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
 import fr.jerep6.ogi.enumeration.EnumCategory;
@@ -11,9 +13,11 @@ import fr.jerep6.ogi.persistance.bo.Address;
 import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.Description;
 import fr.jerep6.ogi.persistance.bo.Diagnosis;
+import fr.jerep6.ogi.persistance.bo.DiagnosisRealProperty;
 import fr.jerep6.ogi.persistance.bo.Equipment;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 import fr.jerep6.ogi.persistance.bo.Type;
+import fr.jerep6.ogi.persistance.bo.id.DiagnosisRealPropertyId;
 
 public class Data {
 	private static RealPropertyLivable	farm;
@@ -23,17 +27,17 @@ public class Data {
 
 	static {
 		// ##### Diagnosis #####
-		Diagnosis diag1 = new Diagnosis();
-		diag1.setTechid(1);
-		diag1.setLabel("Termite");
+		Diagnosis diagTermite = new Diagnosis();
+		diagTermite.setTechid(1);
+		diagTermite.setLabel("Termite");
 
-		Diagnosis diag2 = new Diagnosis();
-		diag2.setTechid(1);
-		diag2.setLabel("Electricité");
+		Diagnosis diagElectric = new Diagnosis();
+		diagElectric.setTechid(1);
+		diagElectric.setLabel("Electricité");
 
 		Set<Diagnosis> diags = new HashSet<>();
-		diags.add(diag1);
-		diags.add(diag2);
+		diags.add(diagTermite);
+		diags.add(diagElectric);
 
 		// ##### Category #####
 		categoryHouse = new Category();
@@ -75,7 +79,7 @@ public class Data {
 		d2.setLabel("Description site web");
 		d2.setType(EnumDescriptionType.WEBSITE_OWN);
 
-		// ##### Adress #####
+		// ##### Address #####
 		addressTyrosse = new Address();
 		addressTyrosse.setNumber("27bis");
 		addressTyrosse.setStreet("Avenue Nationale");
@@ -88,6 +92,11 @@ public class Data {
 		farm.setHousingEstate(false);
 		farm.setDescriptions(Sets.newHashSet(d1, d2));
 		farm.setAddress(addressTyrosse);
+
+		DiagnosisRealProperty d = new DiagnosisRealProperty();
+		d.setDate(Calendar.getInstance());
+		d.setPk(new DiagnosisRealPropertyId(farm, diagTermite));
+		farm.setDiagnosisProperty(ImmutableSet.of(d));
 	}
 
 	public static Address getAddressTyrosse() {

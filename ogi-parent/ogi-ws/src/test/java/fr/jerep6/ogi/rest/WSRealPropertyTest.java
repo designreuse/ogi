@@ -1,13 +1,8 @@
 package fr.jerep6.ogi.rest;
 
-import static org.mockito.Mockito.when;
+import static org.fest.assertions.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import junitx.framework.ListAssert;
-
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,26 +35,29 @@ public class WSRealPropertyTest extends AbstractTest {
 	@Test
 	public void readPropertyLiveable() {
 		RealPropertyTo read = wsRealProperty.read("ref1");
-		Assert.assertNotNull(read);
+		assertThat(read).isNotNull();
 
-		Assert.assertEquals(EnumCategory.HOUSE.getCode(), read.getCategory().getCode());
-		ListAssert.assertEquals(Arrays.asList("Cheminée", "Interphone"), new ArrayList<>(read.getEquipments()));
+		assertThat(read.getCategory().getCode()).isEqualTo(EnumCategory.HOUSE.getCode());
+		assertThat(read.getEquipments()).containsOnly("Cheminée", "Interphone");
 
 		// Description
 		Description d = Data.getFarm().getDescriptions().iterator().next();
 		DescriptionTo d1 = new DescriptionTo();
 		d1.setType(d.getType().getCode());
 		d1.setLabel(d.getLabel());
-		ListAssert.assertContains(new ArrayList<>(read.getDescriptions()), d1);
+		assertThat(read.getDescriptions()).contains(d1);
 
 		// Address
 		Address a = Data.getAddressTyrosse();
-		Assert.assertEquals(a.getNumber(), read.getAddress().getNumber());
-		Assert.assertEquals(a.getCity(), read.getAddress().getCity());
-		Assert.assertEquals(a.getLatitude(), read.getAddress().getLatitude());
+		assertThat(read.getAddress().getNumber()).isEqualTo(a.getNumber());
+		assertThat(read.getAddress().getCity()).isEqualTo(a.getCity());
+		assertThat(read.getAddress().getLatitude()).isEqualTo(a.getLatitude());
 
 		// Type
-		Assert.assertEquals(Data.getTypeFarm().getLabel(), read.getType());
+		assertThat(read.getType()).isEqualTo(Data.getTypeFarm().getLabel());
+
+		// Diagnosis
+		assertThat(read.getDiagnosis()).isNotNull();
 
 	}
 

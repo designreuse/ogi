@@ -40,6 +40,11 @@ public class DiagnosisRealProperty {
 		return pk.getProperty();
 	}
 
+	// needed by orika for mapping
+	public void setDiagnosis(Diagnosis d) {
+		pk.setDiagnosis(d);
+	}
+
 	@Override
 	public String toString() {
 		return Objects.toStringHelper(this).add("property", getRealProperty().getReference())

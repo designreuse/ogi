@@ -19,8 +19,9 @@
 		<junit.version>4.11</junit.version>
 		<dbunit.version>2.4.9</dbunit.version>
 		<jersey.version>1.17.1</jersey.version>
-		<orika.version>1.4.1</orika.version>
+		<orika.version>1.4.2</orika.version>
 		<mockito.version>1.9.5</mockito.version>
+		<fest.version>2.0M10</fest.version>
 	</properties>
 
 	<modules>
@@ -165,11 +166,11 @@
 				<version>${dbunit.version}</version>
 			</dependency>
 
-			<!-- Assert extension for junit -->
+			<!-- Powerful assertion -->
 			<dependency>
-				<groupId>junit-addons</groupId>
-				<artifactId>junit-addons</artifactId>
-				<version>1.4</version>
+				<groupId>org.easytesting</groupId>
+				<artifactId>fest-assert-core</artifactId>
+				<version>${fest.version}</version>
 			</dependency>
 
 			<dependency>

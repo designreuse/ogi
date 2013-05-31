@@ -21,13 +21,14 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
 @Setter
 @ToString
 public class RealPropertyTo {
-	private String				reference;
-	private Set<String>			equipments;
-	private Integer				landArea;
-	private Float				cos;
-	private Boolean				housingEstate;
-	private AddressTo			address;
-	private Set<DescriptionTo>	descriptions;
-	private CategoryTo			category;
-	private String				type;
+	private String							reference;
+	private Set<String>						equipments;
+	private Integer							landArea;
+	private Float							cos;
+	private Boolean							housingEstate;
+	private AddressTo						address;
+	private Set<DescriptionTo>				descriptions;
+	private Set<DiagnosisRealPropertyTo>	diagnosis;
+	private CategoryTo						category;
+	private String							type;
 }
