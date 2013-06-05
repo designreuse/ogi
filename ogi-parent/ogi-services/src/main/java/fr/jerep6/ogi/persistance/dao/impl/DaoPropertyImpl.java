@@ -3,6 +3,7 @@ package fr.jerep6.ogi.persistance.dao.impl;
 import java.util.List;
 
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,13 +27,12 @@ public class DaoPropertyImpl extends AbstractDao<RealProperty, Integer> implemen
 	private static final String	PARAM_REFERENCE	= "REFERENCE";
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public RealProperty readByReference(String reference) {
 		StringBuilder q = new StringBuilder();
 		q.append("SELECT r ").append(" FROM ").append(RealProperty.class.getName()).append(" r ");
 		q.append(" WHERE r.reference= :").append(PARAM_REFERENCE);
 
-		Query query = entityManager.createQuery(q.toString());
+		TypedQuery<RealProperty> query = entityManager.createQuery(q.toString(), RealProperty.class);
 		query.setParameter(PARAM_REFERENCE, reference);
 
 		return Iterables.getFirst(query.getResultList(), null);
