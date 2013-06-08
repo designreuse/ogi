@@ -17,9 +17,9 @@ import com.google.common.base.Strings;
 import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
 import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.Description;
-import fr.jerep6.ogi.persistance.bo.RealPropertyDiagnosis;
 import fr.jerep6.ogi.persistance.bo.Equipment;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
+import fr.jerep6.ogi.persistance.bo.RealPropertyDiagnosis;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 import fr.jerep6.ogi.persistance.bo.Room;
 import fr.jerep6.ogi.persistance.bo.Type;
@@ -105,14 +105,15 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 			}
 		}
 
-		// Nothing to do for description, address
+		// Description
 		for (Description aDescription : prp.getDescriptions()) {
 			aDescription.setProperty(prp);
 		}
 
+		// Nothing to do for address
+
 		// Save real property into database
 		save(property);
-
 		return property;
 	}
 
