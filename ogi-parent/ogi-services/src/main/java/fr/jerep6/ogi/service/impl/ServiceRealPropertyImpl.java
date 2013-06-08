@@ -17,7 +17,7 @@ import com.google.common.base.Strings;
 import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
 import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.Description;
-import fr.jerep6.ogi.persistance.bo.DiagnosisRealProperty;
+import fr.jerep6.ogi.persistance.bo.RealPropertyDiagnosis;
 import fr.jerep6.ogi.persistance.bo.Equipment;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
@@ -89,7 +89,7 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 		}
 		prp.setEquipments(eqpts);
 
-		for (DiagnosisRealProperty dia : prp.getDiagnosisProperty()) {
+		for (RealPropertyDiagnosis dia : prp.getDiagnosisProperty()) {
 			// Read diagnosis corresponding to label
 			dia.setPk(new DiagnosisRealPropertyId(prp, serviceDiagnosis.readByLabel(dia.getDiagnosis().getLabel())));
 		}

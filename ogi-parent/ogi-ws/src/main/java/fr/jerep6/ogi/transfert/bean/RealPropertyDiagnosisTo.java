@@ -18,7 +18,7 @@ import fr.jerep6.ogi.transfert.mapping.json.JsonCalendarSerializer;
 @Getter
 @Setter
 @EqualsAndHashCode(of = { "diagnosis", "date" })
-public class DiagnosisRealPropertyTo {
+public class RealPropertyDiagnosisTo {
 	private String		diagnosis;
 	@JsonSerialize(using = JsonCalendarSerializer.class)
 	@JsonDeserialize(using = JsonCalendarDeserializer.class)

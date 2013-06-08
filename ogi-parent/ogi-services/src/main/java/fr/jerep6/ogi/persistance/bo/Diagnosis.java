@@ -33,7 +33,7 @@ public class Diagnosis {
 	private String						label;
 
 	@OneToMany(mappedBy = "pk.diagnosis", cascade = CascadeType.ALL)
-	private Set<DiagnosisRealProperty>	diagnosisProperty;
+	private Set<RealPropertyDiagnosis>	diagnosisProperty;
 
 	@ManyToMany
 	@JoinTable(name = "TJ_DIA_CAT", //

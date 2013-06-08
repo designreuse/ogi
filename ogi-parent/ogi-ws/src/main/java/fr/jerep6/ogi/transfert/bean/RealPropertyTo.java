@@ -28,7 +28,7 @@ public class RealPropertyTo {
 	private Boolean							housingEstate;
 	private AddressTo						address;
 	private Set<DescriptionTo>				descriptions;
-	private Set<DiagnosisRealPropertyTo>	diagnosis;
+	private Set<RealPropertyDiagnosisTo>	diagnosis;
 	private CategoryTo						category;
 	private String							type;
 }

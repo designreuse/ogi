@@ -13,7 +13,7 @@ import fr.jerep6.ogi.persistance.bo.Address;
 import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.Description;
 import fr.jerep6.ogi.persistance.bo.Diagnosis;
-import fr.jerep6.ogi.persistance.bo.DiagnosisRealProperty;
+import fr.jerep6.ogi.persistance.bo.RealPropertyDiagnosis;
 import fr.jerep6.ogi.persistance.bo.Equipment;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 import fr.jerep6.ogi.persistance.bo.Type;
@@ -93,7 +93,7 @@ public class Data {
 		farm.setDescriptions(Sets.newHashSet(d1, d2));
 		farm.setAddress(addressTyrosse);
 
-		DiagnosisRealProperty d = new DiagnosisRealProperty();
+		RealPropertyDiagnosis d = new RealPropertyDiagnosis();
 		d.setDate(Calendar.getInstance());
 		d.setPk(new DiagnosisRealPropertyId(farm, diagTermite));
 		farm.setDiagnosisProperty(ImmutableSet.of(d));

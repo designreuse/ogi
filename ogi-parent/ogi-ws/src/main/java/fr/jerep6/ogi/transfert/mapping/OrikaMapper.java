@@ -10,14 +10,14 @@ import org.springframework.stereotype.Component;
 import fr.jerep6.ogi.persistance.bo.Address;
 import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.Description;
-import fr.jerep6.ogi.persistance.bo.DiagnosisRealProperty;
+import fr.jerep6.ogi.persistance.bo.RealPropertyDiagnosis;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 import fr.jerep6.ogi.persistance.bo.Room;
 import fr.jerep6.ogi.transfert.bean.AddressTo;
 import fr.jerep6.ogi.transfert.bean.CategoryTo;
 import fr.jerep6.ogi.transfert.bean.DescriptionTo;
-import fr.jerep6.ogi.transfert.bean.DiagnosisRealPropertyTo;
+import fr.jerep6.ogi.transfert.bean.RealPropertyDiagnosisTo;
 import fr.jerep6.ogi.transfert.bean.RealPropertyLivableTo;
 import fr.jerep6.ogi.transfert.bean.RealPropertyTo;
 import fr.jerep6.ogi.transfert.bean.RoomTo;
@@ -47,7 +47,7 @@ public class OrikaMapper extends ConfigurableMapper {
 		factory.classMap(Category.class, CategoryTo.class).byDefault().register();
 		factory.classMap(Address.class, AddressTo.class).byDefault().register();
 		factory.classMap(Description.class, DescriptionTo.class).byDefault().register();
-		factory.classMap(DiagnosisRealProperty.class, DiagnosisRealPropertyTo.class)
+		factory.classMap(RealPropertyDiagnosis.class, RealPropertyDiagnosisTo.class)
 				.field("diagnosis.label", "diagnosis").byDefault().register();
 		factory.classMap(Room.class, RoomTo.class).byDefault().register();
 

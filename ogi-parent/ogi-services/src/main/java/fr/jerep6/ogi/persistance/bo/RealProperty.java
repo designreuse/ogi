@@ -78,7 +78,7 @@ public abstract class RealProperty {
 	private Type						type;
 
 	@OneToMany(mappedBy = "pk.property", cascade = CascadeType.ALL)
-	private Set<DiagnosisRealProperty>	diagnosisProperty;
+	private Set<RealPropertyDiagnosis>	diagnosisProperty;
 
 	// ##### Technical field #####
 	// Il faut obligatoirement spécifier l'attribut columnDefinition sinon mysql crée un champ date time

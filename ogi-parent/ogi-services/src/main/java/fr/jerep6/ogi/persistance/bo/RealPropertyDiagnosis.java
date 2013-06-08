@@ -25,7 +25,7 @@ import fr.jerep6.ogi.persistance.bo.id.DiagnosisRealPropertyId;
 @Getter
 @Setter
 @EqualsAndHashCode(of = { "pk" })
-public class DiagnosisRealProperty {
+public class RealPropertyDiagnosis {
 	@EmbeddedId
 	private DiagnosisRealPropertyId	pk	= new DiagnosisRealPropertyId();
 
