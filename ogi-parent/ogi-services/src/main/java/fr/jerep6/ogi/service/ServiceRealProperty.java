@@ -12,8 +12,10 @@ public interface ServiceRealProperty extends TransactionalService<RealProperty, 
 	RealProperty readByReference(String reference);
 
 	/**
-	 * Create a real property. All the associated entities are read in database from theirs business fields. If entitu
-	 * doesn't exist it will be created
+	 * Create a real property. All the associated entities are read in database from theirs business fields.
+	 * If entity doesn't exist it will be created.
+	 * 
+	 * 
 	 * 
 	 * @param property
 	 * @return

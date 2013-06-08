@@ -14,6 +14,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Objects.ToStringHelper;
 
 import fr.jerep6.ogi.persistance.bo.id.DiagnosisRealPropertyId;
 
@@ -47,8 +48,9 @@ public class DiagnosisRealProperty {
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(this).add("property", getRealProperty().getReference())
-				.add("diagnosis", getDiagnosis()).add("date", date).toString();
+		ToStringHelper ts = Objects.toStringHelper(this);
+		ts.add("property", getRealProperty().getReference()).add("diagnosis", getDiagnosis());
+		ts.add("date", date == null ? date : date.getTime());
+		return ts.toString();
 	}
-
 }

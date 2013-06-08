@@ -60,7 +60,6 @@ public abstract class RealProperty {
 	private Address						address;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "PRO_ID")
 	private Set<Description>			descriptions;
 
 	@ManyToMany(cascade = CascadeType.PERSIST)

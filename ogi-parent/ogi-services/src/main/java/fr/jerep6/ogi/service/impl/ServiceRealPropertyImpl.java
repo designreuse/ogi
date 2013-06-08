@@ -16,11 +16,17 @@ import com.google.common.base.Strings;
 
 import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
 import fr.jerep6.ogi.persistance.bo.Category;
+import fr.jerep6.ogi.persistance.bo.Description;
+import fr.jerep6.ogi.persistance.bo.DiagnosisRealProperty;
 import fr.jerep6.ogi.persistance.bo.Equipment;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
+import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
+import fr.jerep6.ogi.persistance.bo.Room;
 import fr.jerep6.ogi.persistance.bo.Type;
+import fr.jerep6.ogi.persistance.bo.id.DiagnosisRealPropertyId;
 import fr.jerep6.ogi.persistance.dao.DaoProperty;
 import fr.jerep6.ogi.service.ServiceCategory;
+import fr.jerep6.ogi.service.ServiceDiagnosis;
 import fr.jerep6.ogi.service.ServiceEquipment;
 import fr.jerep6.ogi.service.ServiceRealProperty;
 import fr.jerep6.ogi.service.ServiceType;
@@ -42,27 +48,34 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 	@Autowired
 	private ServiceEquipment	serviceEquipment;
 
+	@Autowired
+	private ServiceDiagnosis	serviceDiagnosis;
+
 	@Value("${search.result.max}")
 	private Integer				searchMaxResult;
 
 	@Override
 	public RealProperty createFromBusinessFields(RealProperty property) {
 		Preconditions.checkNotNull(property);
+		RealProperty prp = property;
 
 		// If property already exist return it
-		RealProperty propertyFromDB = readByReference(property.getReference());
-		if (propertyFromDB != null) { return propertyFromDB; }
+		if (!Strings.isNullOrEmpty(prp.getReference())) {
+			RealProperty propertyFromDB = readByReference(prp.getReference());
+			if (propertyFromDB != null) { return propertyFromDB; }
+		}
 
+		// ###### COMMON ######
 		// It's impossible to create new category so only read from database given code
-		Category cat = serviceCategory.readByCode(property.getCategory().getCode());
-		property.setCategory(cat);
+		Category cat = serviceCategory.readByCode(prp.getCategory().getCode());
+		prp.setCategory(cat);
 
 		// Create type if needed
-		Type t = serviceType.readOrInsert(property.getType().getLabel(), cat);
-		property.setType(t);
+		Type t = serviceType.readOrInsert(prp.getType().getLabel(), cat);
+		prp.setType(t);
 
-		Set<Equipment> eqpts = new HashSet<>(property.getEquipments().size());
-		for (Equipment anEqpt : property.getEquipments()) {
+		Set<Equipment> eqpts = new HashSet<>(prp.getEquipments().size());
+		for (Equipment anEqpt : prp.getEquipments()) {
 			// Read equipment from DB
 			Equipment eqptFull = serviceEquipment.readByLabel(anEqpt.getLabel(), cat.getCode());
 
@@ -74,14 +87,33 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 			// don't supply property because property is relation owner
 			eqpts.add(eqptFull);
 		}
-		property.setEquipments(eqpts);
+		prp.setEquipments(eqpts);
+
+		for (DiagnosisRealProperty dia : prp.getDiagnosisProperty()) {
+			// Read diagnosis corresponding to label
+			dia.setPk(new DiagnosisRealPropertyId(prp, serviceDiagnosis.readByLabel(dia.getDiagnosis().getLabel())));
+		}
+
+		// ###### SPECIFIC ######
+		if (RealPropertyLivable.class.equals(prp.getClass())) {
+			RealPropertyLivable liveable = (RealPropertyLivable) prp;
+			// Room
+			for (Room aRoom : liveable.getRooms()) {
+				// techid to null to force insert
+				aRoom.setTechid(null);
+				aRoom.setProperty(liveable);
+			}
+		}
 
 		// Nothing to do for description, address
+		for (Description aDescription : prp.getDescriptions()) {
+			aDescription.setProperty(prp);
+		}
 
 		// Save real property into database
-		// save(property);
+		save(property);
 
-		return null;
+		return property;
 	}
 
 	@Override

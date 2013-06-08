@@ -6,10 +6,12 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import com.google.common.base.Objects;
 
+import fr.jerep6.ogi.transfert.mapping.json.JsonCalendarDeserializer;
 import fr.jerep6.ogi.transfert.mapping.json.JsonCalendarSerializer;
 
 // Lombok
@@ -19,6 +21,7 @@ import fr.jerep6.ogi.transfert.mapping.json.JsonCalendarSerializer;
 public class DiagnosisRealPropertyTo {
 	private String		diagnosis;
 	@JsonSerialize(using = JsonCalendarSerializer.class)
+	@JsonDeserialize(using = JsonCalendarDeserializer.class)
 	private Calendar	date;
 
 	@Override

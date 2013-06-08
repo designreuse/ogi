@@ -2,6 +2,8 @@ package fr.jerep6.ogi.persistance.bo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -32,6 +34,7 @@ import fr.jerep6.ogi.enumeration.EnumOrientation;
 public class Room {
 	@Id
 	@Column(name = "ROO_ID", unique = true, nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer				techid;
 
 	@Column(name = "ROO_TYPE", nullable = false)

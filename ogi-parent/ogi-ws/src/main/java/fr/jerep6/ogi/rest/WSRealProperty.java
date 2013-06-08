@@ -30,8 +30,6 @@ public class WSRealProperty extends AbstractJaxRsWS {
 	@POST
 	@Consumes(APPLICATION_JSON_UTF8)
 	public Response create(RealPropertyTo rp) {
-		System.out.println(rp);
-
 		// Map into business object. Fulfill only business field. I.E technical field will be retrieve on database
 		// before record. I should have proceed with a another dto but afterwards
 		RealProperty property = mapper.map(rp, RealProperty.class);

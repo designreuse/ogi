@@ -13,12 +13,14 @@ import fr.jerep6.ogi.persistance.bo.Description;
 import fr.jerep6.ogi.persistance.bo.DiagnosisRealProperty;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
+import fr.jerep6.ogi.persistance.bo.Room;
 import fr.jerep6.ogi.transfert.bean.AddressTo;
 import fr.jerep6.ogi.transfert.bean.CategoryTo;
 import fr.jerep6.ogi.transfert.bean.DescriptionTo;
 import fr.jerep6.ogi.transfert.bean.DiagnosisRealPropertyTo;
 import fr.jerep6.ogi.transfert.bean.RealPropertyLivableTo;
 import fr.jerep6.ogi.transfert.bean.RealPropertyTo;
+import fr.jerep6.ogi.transfert.bean.RoomTo;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumCategory;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumDescriptionType;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumOrientation;
@@ -37,7 +39,7 @@ public class OrikaMapper extends ConfigurableMapper {
 		converterFactory.registerConverter(new ConverterEnumDescriptionType());
 		converterFactory.registerConverter(new ConverterEnumOrientation());
 
-		// Specifics factory (create objet)
+		// Specifics factory (create object)
 		factory.registerObjectFactory(new FactoryRealPropertyTo(), TypeFactory.valueOf(RealPropertyTo.class));
 		factory.registerObjectFactory(new FactoryRealProperty(), TypeFactory.valueOf(RealProperty.class));
 
@@ -47,6 +49,7 @@ public class OrikaMapper extends ConfigurableMapper {
 		factory.classMap(Description.class, DescriptionTo.class).byDefault().register();
 		factory.classMap(DiagnosisRealProperty.class, DiagnosisRealPropertyTo.class)
 				.field("diagnosis.label", "diagnosis").byDefault().register();
+		factory.classMap(Room.class, RoomTo.class).byDefault().register();
 
 		factory.classMap(RealPropertyLivable.class, RealPropertyLivableTo.class)
 				.field("equipments{label}", "equipments{}")//
