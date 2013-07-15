@@ -15,7 +15,7 @@ import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 import fr.jerep6.ogi.persistance.bo.Type;
 
-@ContextConfiguration(locations = { "classpath:META-INF/spring/spring-context.xml", "classpath:tu-context.xml" })
+@ContextConfiguration(locations = { "classpath:spring-tu-context.xml" })
 public class ServiceRealPropertyTest extends AbstractTransactionalTest {
 
 	@Autowired

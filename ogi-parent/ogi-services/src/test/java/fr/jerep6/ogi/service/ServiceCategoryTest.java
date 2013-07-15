@@ -12,7 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import fr.jerep6.ogi.framework.test.AbstractTransactionalTest;
 import fr.jerep6.ogi.persistance.bo.Category;
 
-@ContextConfiguration(locations = { "classpath:META-INF/spring/spring-context.xml", "classpath:tu-context.xml" })
+@ContextConfiguration(locations = { "classpath:spring-tu-context.xml" })
 public class ServiceCategoryTest extends AbstractTransactionalTest {
 
 	@Autowired

@@ -12,6 +12,13 @@
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
+	
+	<resource-ref>
+		<description>SQL Datasource</description>
+		<res-ref-name>jdbc/ogi</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>

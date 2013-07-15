@@ -13,7 +13,7 @@
 
 
 	<import resource="classpath:META-INF/spring/general-context.xml" />
-	<import resource="classpath:META-INF/spring/datasource-context.xml" />
 	<import resource="classpath:META-INF/spring/bdd-context.xml" />
-	
+
+	<import resource="classpath:datasource-tu-context.xml" />
 </beans>
