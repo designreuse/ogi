@@ -1,5 +1,7 @@
 package fr.jerep6.ogi.rest;
 
+import java.util.Collection;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -35,6 +37,15 @@ public class WSRealProperty extends AbstractJaxRsWS {
 		property = serviceRealProperty.createFromBusinessFields(property);
 
 		return mapper.map(property, RealPropertyTo.class);
+	}
+
+	@GET
+	@Produces(APPLICATION_JSON_UTF8)
+	public Collection<RealPropertyTo> listAll() {
+		Collection<RealProperty> properties = serviceRealProperty.listAll();
+
+		Collection<RealPropertyTo> rpt = mapper.mapAsList(properties, RealPropertyTo.class);
+		return rpt;
 	}
 
 	@GET
