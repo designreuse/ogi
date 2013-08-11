@@ -5,7 +5,7 @@ import java.util.Collection;
 
 import fr.jerep6.ogi.framework.exception.BusinessException;
 
-public interface TransactionalService<T, PK extends Serializable> {
+public interface TransactionalService<T, PK extends Serializable> extends Service {
 	T read(PK id);
 
 	T save(T bo);

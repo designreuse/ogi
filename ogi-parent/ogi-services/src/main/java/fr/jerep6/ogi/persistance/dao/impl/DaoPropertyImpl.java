@@ -30,6 +30,14 @@ public class DaoPropertyImpl extends AbstractDao<RealProperty, Integer> implemen
 	public RealProperty readByReference(String reference) {
 		StringBuilder q = new StringBuilder();
 		q.append("SELECT r ").append(" FROM ").append(RealProperty.class.getName()).append(" r ");
+		// I don't want a select for each many to one : prefer join
+		q.append(" JOIN fetch r.address");
+		q.append(" JOIN fetch r.category");
+		q.append(" JOIN fetch r.type");
+		q.append(" JOIN fetch r.descriptions");
+		q.append(" JOIN fetch r.photos");
+		q.append(" JOIN fetch r.rooms");
+		q.append(" JOIN fetch r.equipments");
 		q.append(" WHERE r.reference= :").append(PARAM_REFERENCE);
 
 		TypedQuery<RealProperty> query = entityManager.createQuery(q.toString(), RealProperty.class);

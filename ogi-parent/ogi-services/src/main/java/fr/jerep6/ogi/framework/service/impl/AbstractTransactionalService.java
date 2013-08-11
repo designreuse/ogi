@@ -14,7 +14,8 @@ import fr.jerep6.ogi.framework.persistance.dao.DaoCRUD;
 import fr.jerep6.ogi.framework.service.TransactionalService;
 
 @Transactional(propagation = Propagation.REQUIRED)
-public abstract class AbstractTransactionalService<T, PK extends Serializable> implements TransactionalService<T, PK> {
+public abstract class AbstractTransactionalService<T, PK extends Serializable> extends AbstractService implements
+		TransactionalService<T, PK> {
 	@SuppressWarnings("unused")
 	private final Class<T>	persistentClass;
 

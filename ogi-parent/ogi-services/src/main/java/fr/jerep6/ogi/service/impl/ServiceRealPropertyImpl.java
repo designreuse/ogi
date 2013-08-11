@@ -127,7 +127,8 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 	public RealProperty readByReference(String reference) {
 		Preconditions.checkArgument(!Strings.isNullOrEmpty(reference), "Reference is null or empty");
 
-		return daoProperty.readByReference(reference);
+		RealProperty r = daoProperty.readByReference(reference);
+		return r;
 	}
 
 }

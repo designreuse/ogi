@@ -19,11 +19,13 @@ import fr.jerep6.ogi.persistance.bo.RealProperty;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DiagnosisRealPropertyId implements Serializable {
+	private static final long	serialVersionUID	= 8905828625077879545L;
+
 	@ManyToOne
 	@JoinColumn(name = "PRP_ID")
-	private RealProperty	property;
+	private RealProperty		property;
 
 	@ManyToOne
 	@JoinColumn(name = "DIA_ID")
-	private Diagnosis		diagnosis;
+	private Diagnosis			diagnosis;
 }

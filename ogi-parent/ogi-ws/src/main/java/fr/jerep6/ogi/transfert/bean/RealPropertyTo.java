@@ -1,5 +1,6 @@
 package fr.jerep6.ogi.transfert.bean;
 
+import java.util.List;
 import java.util.Set;
 
 import lombok.Getter;
@@ -31,4 +32,5 @@ public class RealPropertyTo {
 	private Set<RealPropertyDiagnosisTo>	diagnosis;
 	private CategoryTo						category;
 	private String							type;
+	private List<PhotoTo>					photos;
 }

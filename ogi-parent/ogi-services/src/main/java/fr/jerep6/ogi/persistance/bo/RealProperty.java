@@ -59,7 +59,7 @@ public abstract class RealProperty {
 	@JoinColumn(name = "ADD_ID")
 	private Address						address;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
 	private Set<Description>			descriptions;
 
 	@ManyToMany(cascade = CascadeType.PERSIST)
@@ -76,6 +76,9 @@ public abstract class RealProperty {
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "TYP_ID", nullable = false)
 	private Type						type;
+
+	@OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+	private Set<Photo>					photos;
 
 	@OneToMany(mappedBy = "pk.property", cascade = CascadeType.ALL)
 	private Set<RealPropertyDiagnosis>	diagnosisProperty;
