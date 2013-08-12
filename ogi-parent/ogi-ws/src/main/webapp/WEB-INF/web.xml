@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	id="WebApp_ID" version="3.0">
 	<display-name>ogi-ws</display-name>
 	<welcome-file-list>
@@ -12,7 +11,7 @@
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
-	
+
 	<resource-ref>
 		<description>SQL Datasource</description>
 		<res-ref-name>jdbc/ogi</res-ref-name>
@@ -41,7 +40,7 @@
 	</filter-mapping>
 
 	<servlet>
-		<servlet-name>jersey-serlvet</servlet-name>
+		<servlet-name>jersey-servlet</servlet-name>
 
 		<!-- Servlet for spring integration jersey -->
 		<servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
@@ -57,18 +56,30 @@
 			<param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
 			<param-value>true</param-value>
 		</init-param>
-		
+
 		<!-- Enable Cors support -->
 		<init-param>
-		    <param-name>com.sun.jersey.spi.container.ContainerResponseFilters</param-name>
-		    <param-value>fr.jerep6.ogi.filter.CrossDomainFilter</param-value>
+			<param-name>com.sun.jersey.spi.container.ContainerResponseFilters</param-name>
+			<param-value>fr.jerep6.ogi.filter.CrossDomainFilter</param-value>
 		</init-param>
 
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
+	<servlet>
+		<display-name>Photos</display-name>
+		<servlet-name>Photos</servlet-name>
+		<servlet-class>fr.jerep6.ogi.servlet.Photos</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
 	<servlet-mapping>
-		<servlet-name>jersey-serlvet</servlet-name>
+		<servlet-name>jersey-servlet</servlet-name>
 		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>Photos</servlet-name>
+		<url-pattern>/photos/*</url-pattern>
 	</servlet-mapping>
 </web-app>
