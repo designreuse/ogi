@@ -33,7 +33,8 @@ INSERT INTO TA_PROPERTY_LIVABLE (PRL_HEATING, PRL_HOT_WATER, PRL_NB_BATHROOM, PR
 INSERT INTO TA_DESCRIPTION(DSC_ID, PRO_ID, DSC_TYPE, DSC_LABEL) VALUES
 (1, 1, 'VITRINE', 'Ferme située dans un endroit calme (vitrine)'),
 (2, 1, 'WEBSITE_PERSO', 'Ferme située dans un endroit calme (site)'),
-(3, 1, 'ETAT', 'Quelques travaux à prévoir : toiture et cloture');
+(3, 1, 'ETAT', 'Quelques travaux à prévoir : toiture et cloture'),
+(50, 1, 'APP', 'Ferme description OGIGrand favori du concours de perche, le champion olympique a été battu par l''espoir allemand Raphael Holzdeppe. Mots-clés : Athlétisme, Renaud Lavillenie. PARTAGER. RÉAGIR0 · Abonnez-vous au. Nouvel Observateur. Renaud Lavillenie aux Mondiaux ...');
 
 
 INSERT INTO TJ_PRP_EQP (PRO_ID, EQP_ID) VALUES
