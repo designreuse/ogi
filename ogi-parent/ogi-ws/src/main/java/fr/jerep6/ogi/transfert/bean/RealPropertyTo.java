@@ -33,4 +33,5 @@ public class RealPropertyTo {
 	private CategoryTo						category;
 	private String							type;
 	private List<PhotoTo>					photos;
+	private SaleTo							sale;
 }

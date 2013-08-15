@@ -17,6 +17,7 @@ import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyDiagnosis;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 import fr.jerep6.ogi.persistance.bo.Room;
+import fr.jerep6.ogi.persistance.bo.Sale;
 import fr.jerep6.ogi.transfert.bean.AddressTo;
 import fr.jerep6.ogi.transfert.bean.CategoryTo;
 import fr.jerep6.ogi.transfert.bean.DescriptionTo;
@@ -24,8 +25,10 @@ import fr.jerep6.ogi.transfert.bean.RealPropertyDiagnosisTo;
 import fr.jerep6.ogi.transfert.bean.RealPropertyLivableTo;
 import fr.jerep6.ogi.transfert.bean.RealPropertyTo;
 import fr.jerep6.ogi.transfert.bean.RoomTo;
+import fr.jerep6.ogi.transfert.bean.SaleTo;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumCategory;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumDescriptionType;
+import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumMandateType;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumOrientation;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterPhoto;
 
@@ -57,6 +60,7 @@ public class OrikaMapper extends ConfigurableMapper {
 		converterFactory.registerConverter(new ConverterEnumCategory());
 		converterFactory.registerConverter(new ConverterEnumDescriptionType());
 		converterFactory.registerConverter(new ConverterEnumOrientation());
+		converterFactory.registerConverter(new ConverterEnumMandateType());
 		converterFactory.registerConverter(converterPhoto);
 
 		// Specifics factory (create object)
@@ -70,6 +74,7 @@ public class OrikaMapper extends ConfigurableMapper {
 		factory.classMap(RealPropertyDiagnosis.class, RealPropertyDiagnosisTo.class)
 				.field("diagnosis.label", "diagnosis").byDefault().register();
 		factory.classMap(Room.class, RoomTo.class).byDefault().register();
+		factory.classMap(Sale.class, SaleTo.class).byDefault().register();
 
 		factory.classMap(RealPropertyLivable.class, RealPropertyLivableTo.class)
 				.field("equipments{label}", "equipments{}")//

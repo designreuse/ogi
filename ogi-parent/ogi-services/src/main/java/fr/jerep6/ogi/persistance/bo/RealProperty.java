@@ -56,9 +56,11 @@ public abstract class RealProperty {
 	@Column(name = "PRO_HOUSING_ESTATE")
 	private Boolean						housingEstate;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "ADD_ID")
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "property")
 	private Address						address;
+
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "property")
+	private Sale						sale;
 
 	@OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
 	private Set<Description>			descriptions;
