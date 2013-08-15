@@ -1,6 +1,3 @@
-INSERT INTO TA_ADDRESS(ADD_ID, ADD_NUMBER, ADD_STREET, ADD_ADDITIONAL, ADD_POSTALCODE, ADD_CITY, ADD_CEDEX, ADD_LATITUDE, ADD_LONGITUDE)
-VALUES(1, '27bis', 'Avenue Nationale', NULL, '40230', 'Saint Vincent de Tyrosse', NULL, NULL, NULL);
-
 INSERT INTO TR_CATEGORY (CAT_ID, CAT_CODE, CAT_LABEL) VALUES
 (1, 'HSE', 'Maison'),
 (2, 'APT', 'Appartement'),
@@ -18,10 +15,11 @@ INSERT INTO TR_EQUIPMENT (EQP_ID, EQP_LABEL, CAT_ID) VALUES
 (2, 'Climatisation', 1);
 
 INSERT INTO TR_DIAGNOSIS(DIA_ID, DIA_LABEL)
-VALUE('Termite', 'Electrique');
+VALUE(1, 'Termite'),
+(2, 'Electrique');
 
-INSERT INTO TA_PROPERTY (PRO_ID, PRO_REFERENCE, PRO_COS, PRO_HOUSING_ESTATE, PRO_LAND_AREA, PRO_MODIFICATION_DATE, PRO_VERSION, ADD_ID, CAT_ID, TYP_ID) 
-VALUES (1, 'ref1', 2.8, 0, 2700, '2013-04-01 15:32:35', 1, 1, 1, 1);
+INSERT INTO TA_PROPERTY (PRO_ID, PRO_REFERENCE, PRO_COS, PRO_HOUSING_ESTATE, PRO_LAND_AREA, PRO_MODIFICATION_DATE, PRO_VERSION, CAT_ID, TYP_ID) 
+VALUES (1, 'ref1', 2.8, 0, 2700, '2013-04-01 15:32:35', 1, 1, 1);
 
 INSERT INTO TA_PROPERTY_BUILT (PRB_AREA, PRB_BUILD_DATE, PRB_DPE_CLASS_GES, PRB_DPE_CLASS_KWH, PRB_DPE_GES, PRB_DPE_KWH, PRB_FLOOR_LEVEL, PRB_NB_FLOOR, PRB_ORIENTATION, PRB_PARKING, PRO_ID) VALUES
 (178, '1960-07-19', NULL, NULL, NULL, NULL, NULL, NULL, 'S', NULL, 1);
@@ -36,6 +34,8 @@ INSERT INTO TA_DESCRIPTION(DSC_ID, PRO_ID, DSC_TYPE, DSC_LABEL) VALUES
 (3, 1, 'ETAT', 'Quelques travaux à prévoir : toiture et cloture'),
 (50, 1, 'APP', 'Ferme description OGIGrand favori du concours de perche, le champion olympique a été battu par l''espoir allemand Raphael Holzdeppe. Mots-clés : Athlétisme, Renaud Lavillenie. PARTAGER. RÉAGIR0 · Abonnez-vous au. Nouvel Observateur. Renaud Lavillenie aux Mondiaux ...');
 
+INSERT INTO TA_ADDRESS(PRO_ID, ADD_ID, ADD_NUMBER, ADD_STREET, ADD_ADDITIONAL, ADD_POSTALCODE, ADD_CITY, ADD_CEDEX, ADD_LATITUDE, ADD_LONGITUDE)
+VALUES(1,1, '27bis', 'Avenue Nationale', NULL, '40230', 'Saint Vincent de Tyrosse', NULL, NULL, NULL);
 
 INSERT INTO TJ_PRP_EQP (PRO_ID, EQP_ID) VALUES
 (1, 1),
@@ -45,10 +45,26 @@ INSERT INTO TA_ROOM(ROO_ID, PRO_ID, ROO_AREA, ROO_CARREZ, ROO_DESCRIPTION, ROO_F
 (1, 1, 11, 1, 'Chambre secondaire', 'Moquette', 1, 1, 1, 'N', 'chambre', null, 'Tapisserie'),
 (2, 1, 23, 1, 'Salon ouvert sur la cuisine', 'Carrelage', 1, 1, null, 'SE', 'Salon', null, null);
 
-INSERT INTO TJ_PRP_DIA(PRP_ID, DIA_ID, DIA_DATE)
+INSERT INTO TJ_PRP_DIA(PRP_ID, DIA_ID, DRP_DATE)
 VALUES(1, 1, STR_TO_DATE('2013-06-08', '%Y-%m-%j'));
 
 INSERT INTO TA_PHOTO(PHO_ID, PHO_PATH, PHO_ORDER, PRO_ID)
-VALUES (1, 'CHEMIN 1', '1', 1),
-(2, 'CHEMIN 2', '2', 1)
-;
+VALUES (1, 'ref1/maison1.jpg', '3', 1),
+(2, 'ref1/maison2.jpg', '2', 1),
+(3, 'ref1/maison3.jpg', '1', 1);
+
+INSERT INTO ta_sale
+(`SAL_ID`,`SAL_COMMISSION`,`SAL_ESTI_DATE`,`SAL_ESTI_PRICE`,`SAL_MAND_END`,`SAL_MAND_REFERENCE`,`SAL_MAND_START`,`SAL_MAND_TYPE`,`SAL_PRICE`,`PRO_ID`)
+VALUES
+(
+1,
+8000,
+STR_TO_DATE('2013-07-01', '%Y-%m-%j'),
+250000,
+NULL,
+'m231B',
+STR_TO_DATE('2013-08-15', '%Y-%m-%j'),
+'EX',
+315000,
+1
+);
