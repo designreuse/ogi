@@ -1,0 +1,63 @@
+<div class="btn-group">
+    <button class="btn btn-info">Actions</button>
+    <button class="btn btn-info dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
+    <ul class="dropdown-menu">
+        <li><a href="#"><i class="icon-pencil"></i> Modifier</a></li>
+        <li><a href="#infos" data-toggle="modal"><i class="icon-trash"></i> Supprimer</a></li>
+        <li><a href="#"><i class="icon-print"></i> Imprimer</a></li>
+        <li class="divider"></li>
+        <li><a href="#"><i class="icon-upload"></i> Synchroniser sur Acimflo</a></li>
+        <li><a href="#"><i class="icon-upload"></i> Synchroniser sur Diaporama</a></li>
+    </ul>
+</div>
+
+<table style="width:800px" class="liste table table-striped table-condensed">
+    <thead>
+    <tr>
+        <th></th>
+        <th>Référence</th>
+        <th>Type</th>
+        <th>Ville</th>
+        <th>Prix</th>
+        <th>Surface</th>
+        <th>Photo</th>
+    </tr>
+    </thead>
+    <tr ng-repeat="prp in properties">
+        <td><input type="checkbox" value="{{prp.reference}}" ng-model="prp.checked" /></td>
+        <td>{{prp.reference}}</td>
+        <td>{{prp.category.label}}</td>
+        <td>{{prp.address.city}}</td>
+        <td>{{prp.sale.price}} €</td>
+        <td>
+            <span ng-switch on="type(prp)">
+                <span ng-switch-when="HSE">{{prp.area}} m²</span>
+                <span ng-switch-when="PLT">{{prp.landArea}} m²</span>
+                <span ng-switch-default></span>
+            </span>
+
+
+        </td>
+        <td><img ng-src="{{prp.photos[0].url | img:'thumb'}}" /></td>
+    </tr>
+
+</table>
+
+
+<div class="modal hide" id="infos">
+    <div class="modal-header"> <a class="close" data-dismiss="modal">×</a>
+        <h3>Suppression</h3>
+    </div>
+    <div class="modal-body">
+        <p>Confirmez-vous la suppression de :
+            <ul>
+                <li ng-repeat="prp in selectedProperties()">{{prp.reference}} -- {{prp.address.city}}</li>
+            </ul>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a class="btn" data-dismiss="modal">Fermer</a>
+        <a class="btn btn-warning" data-dismiss="modal" ng-click="supprimer()">Valider <span class="icon-trash"></span></a>
+    </div>
+
+</div>
