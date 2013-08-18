@@ -1,8 +1,8 @@
-function Ctrl($scope, $http, Page, ServiceObjectChecked, ServiceAlert) {
+function Ctrl($scope, $http, Page, ServiceObjectChecked, ServiceAlert, ServiceConfiguration) {
     Page.setTitle("Liste des biens");
 
     $scope.properties = [];
-    $http.get('http://localhost:8080/ogi-ws/rest/property/').success(function (data) {
+    $http.get(ServiceConfiguration.API_URL+"/rest/property/").success(function (data) {
         $scope.properties = ServiceObjectChecked.addChecked(data, false);
     });
 
@@ -17,7 +17,7 @@ function Ctrl($scope, $http, Page, ServiceObjectChecked, ServiceAlert) {
             refs.push(o.reference);
         }, refs);
 
-        $http.delete('http://localhost:8080/ogi-ws/rest/property/',
+        $http.delete(ServiceConfiguration.API_URL+"/rest/property/",
             {"params": {
                 "ref": refs
             }

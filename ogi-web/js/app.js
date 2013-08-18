@@ -1,5 +1,14 @@
-var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap']);
+/** Module for configuration. Provide ServiceConfiguration */
+var moduleConf = angular.module('ModuleConfiguration', [])//
+    .factory('ServiceConfiguration', function() {
+    return {
+        API_URL: "http://localhost:8080/ogi-ws"
+    }
+});
 
+var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ModuleConfiguration']);
+
+// Config $http for CORS
 myApp.config(['$httpProvider', function($httpProvider) {
     // Just setting useXDomain to true is not enough. AJAX request are also send with the X-Requested-With header, which
     // indicate them as being AJAX. Removing the header is necessary, so the server is not rejecting the incoming request.
@@ -7,64 +16,12 @@ myApp.config(['$httpProvider', function($httpProvider) {
 
     // X-Requested-With 	mainly used to identify Ajax requests. Most JavaScript frameworks send this header with value of XMLHttpRequest
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
-}
-]);
+}]);
 
+// Config routes
 myApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.
         when('/biens', {templateUrl: 'js/views/prpList.html', controller: Ctrl}).
         when('/biens/:prpId', {templateUrl: 'js/views/prpDetail.html', controller: DetailCtrl}).
         otherwise({redirectTo: '/biens'});
 }]);
-
-myApp.factory('Page', function(){
-    var pageTitle = "Untitled";
-    return {
-        title:function(){
-            return pageTitle;
-        },
-        setTitle:function(newTitle){
-            pageTitle = newTitle;
-        }
-    }
-});
-
-myApp.factory('ServiceObjectChecked', function(){
-    var pageTitle = "Untitled";
-    return {
-        addChecked:function(objects, value){
-            angular.forEach(objects, function (o, key) {
-                o.checked = value;
-            });
-            return objects;
-        },
-        getChecked:function(objects){
-            return objects.filter(function (o) {
-                return o.checked;
-            });
-        }
-    }
-});
-
-
-myApp.factory('ServiceAlert', function(){
-    var alerts = [ ];
-    return {
-        addSuccess:function(msg){
-            this.addAlert({ type: 'success', msg: msg});
-        },
-        addError:function(msg){
-            this.addAlert({ type: 'error', msg: msg});
-        },
-        addAlert:function(obj){
-            obj.date = new Date();
-            alerts.push(obj);
-        },
-        closeAlert:function(index) {
-            alerts.splice(index, 1);
-        },
-        getAlerts:function(){
-           return alerts;
-        }
-    }
-});
