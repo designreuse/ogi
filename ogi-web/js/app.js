@@ -1,4 +1,5 @@
-var myApp = angular.module('myApp', ['ngRoute']);
+var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap']);
+
 myApp.config(['$httpProvider', function($httpProvider) {
     // Just setting useXDomain to true is not enough. AJAX request are also send with the X-Requested-With header, which
     // indicate them as being AJAX. Removing the header is necessary, so the server is not rejecting the incoming request.
@@ -41,6 +42,29 @@ myApp.factory('ServiceObjectChecked', function(){
             return objects.filter(function (o) {
                 return o.checked;
             });
+        }
+    }
+});
+
+
+myApp.factory('ServiceAlert', function(){
+    var alerts = [ ];
+    return {
+        addSuccess:function(msg){
+            this.addAlert({ type: 'success', msg: msg});
+        },
+        addError:function(msg){
+            this.addAlert({ type: 'error', msg: msg});
+        },
+        addAlert:function(obj){
+            obj.date = new Date();
+            alerts.push(obj);
+        },
+        closeAlert:function(index) {
+            alerts.splice(index, 1);
+        },
+        getAlerts:function(){
+           return alerts;
         }
     }
 });
