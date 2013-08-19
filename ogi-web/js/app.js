@@ -21,7 +21,8 @@ myApp.config(['$httpProvider', function($httpProvider) {
 // Config routes
 myApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.
-        when('/biens', {templateUrl: 'js/views/prpList.html', controller: Ctrl}).
-        when('/biens/:prpId', {templateUrl: 'js/views/prpDetail.html', controller: DetailCtrl}).
+        when('/biens', {templateUrl: 'js/views/prpList.html', controller: ControllerList}).
+        when('/biens/modifier/:prpRef', {templateUrl: 'js/views/prpDetail.html', controller: DetailCtrl}).
+        when('/biens/ajouter/:type', {templateUrl: 'js/views/prpFormulaireAjout.html', controller: ControllerAjout}).
         otherwise({redirectTo: '/biens'});
 }]);

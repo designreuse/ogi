@@ -1,4 +1,4 @@
-function Ctrl($scope, $http, Page, ServiceObjectChecked, ServiceAlert, ServiceConfiguration) {
+function ControllerList($scope, $http, Page, ServiceObjectChecked, ServiceAlert, ServiceConfiguration) {
     Page.setTitle("Liste des biens");
 
     $scope.properties = [];
@@ -10,7 +10,7 @@ function Ctrl($scope, $http, Page, ServiceObjectChecked, ServiceAlert, ServiceCo
     $scope.type = function (property) {
         return property.category.code;
     }
-    $scope.supprimer = function () {
+    $scope.batchDelete = function () {
         // Extract reference to selected items
         var refs = [];
         angular.forEach($scope.selectedProperties(), function (o, key) {
@@ -20,6 +20,18 @@ function Ctrl($scope, $http, Page, ServiceObjectChecked, ServiceAlert, ServiceCo
         $http.delete(ServiceConfiguration.API_URL+"/rest/property/",
             {"params": {
                 "ref": refs
+            }
+            }).success(function (data) {
+                ServiceAlert.addSuccess("Les biens ont étés supprimés avec succès");
+            }).
+            error(function(data, status, headers, config) {
+                ServiceAlert.addError("Une erreur est survenue "+data.exception);
+            });
+    }
+    $scope.delete = function (e) {
+        $http.delete(ServiceConfiguration.API_URL+"/rest/property/",
+            {"params": {
+                "ref": $scope.properties[e].reference
             }
             }).success(function (data) {
                 ServiceAlert.addSuccess("Les biens ont étés supprimés avec succès");
@@ -39,25 +51,34 @@ function Ctrl($scope, $http, Page, ServiceObjectChecked, ServiceAlert, ServiceCo
 
 }
 
-var ModalCtrl = function ($scope, $dialog, ServiceObjectChecked) {
-    $scope.open = function () {
+function ControllerModalList ($scope, $dialog, ServiceObjectChecked) {
+    var opts = {
+        backdropFade: true,
+        dialogFade: true
+    };
+
+    $scope.optsDelete = opts;
+    $scope.openDelete = function () {
         // If no items selected => msg
         if (ServiceObjectChecked.getChecked($scope.properties).length == 0) {
             $dialog.messageBox("Information", "Merci de sélectionner des éléments", [
                 {result: 'ok', label: 'OK', cssClass: 'btn-primary'}
             ]).open();
         } else {
-            $scope.shouldBeOpen = true;
+            $scope.shouldBeOpenDelete = true;
         }
     };
-
-    $scope.close = function () {
-        $scope.shouldBeOpen = false;
+    $scope.closeDelete = function () {
+        $scope.shouldBeOpenDelete = false;
     };
 
-    $scope.opts = {
-        backdropFade: true,
-        dialogFade: true
+
+    $scope.optsAdd = opts;
+    $scope.openAdd = function () {
+        $scope.shouldBeOpenAdd = true;
+    };
+    $scope.closeAdd = function () {
+        $scope.shouldBeOpenAdd = false;
     };
 
 };

@@ -1,3 +1,7 @@
 .liste img {
     width: 75px;
 }
+
+.pointer {
+    cursor: pointer;
+}
