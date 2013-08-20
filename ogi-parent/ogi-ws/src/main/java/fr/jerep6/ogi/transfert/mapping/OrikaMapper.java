@@ -7,7 +7,7 @@ import ma.glasnost.orika.converter.ConverterFactory;
 import ma.glasnost.orika.impl.ConfigurableMapper;
 import ma.glasnost.orika.metadata.TypeFactory;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import fr.jerep6.ogi.persistance.bo.Address;
@@ -30,13 +30,13 @@ import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumCategory;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumDescriptionType;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumMandateType;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumOrientation;
+import fr.jerep6.ogi.transfert.mapping.converter.ConverterEquipment;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterPhoto;
 
 @Component("orikaMapper")
 public class OrikaMapper extends ConfigurableMapper {
-
-	@Autowired
-	private ConverterPhoto	converterPhoto;
+	@Value("${photos.url}")
+	private String			urlBasePhoto;
 
 	private MapperFactory	factory;
 
@@ -52,16 +52,15 @@ public class OrikaMapper extends ConfigurableMapper {
 	 */
 	@PostConstruct
 	private void init() {
-		super.configure(factory);
-
 		ConverterFactory converterFactory = factory.getConverterFactory();
 
-		// Specifics converter
+		// Specifics converter (instantiate and copy properties)
 		converterFactory.registerConverter(new ConverterEnumCategory());
 		converterFactory.registerConverter(new ConverterEnumDescriptionType());
 		converterFactory.registerConverter(new ConverterEnumOrientation());
 		converterFactory.registerConverter(new ConverterEnumMandateType());
-		converterFactory.registerConverter(converterPhoto);
+		converterFactory.registerConverter(new ConverterPhoto(urlBasePhoto));
+		converterFactory.registerConverter(new ConverterEquipment());
 
 		// Specifics factory (create object)
 		factory.registerObjectFactory(new FactoryRealPropertyTo(), TypeFactory.valueOf(RealPropertyTo.class));
