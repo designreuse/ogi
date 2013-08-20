@@ -1,6 +1,7 @@
 package fr.jerep6.ogi.service.impl;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -115,6 +116,14 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 		// Save real property into database
 		save(property);
 		return property;
+	}
+
+	@Override
+	public void delete(List<String> reference) {
+		for (String aReference : reference) {
+			RealProperty rp = readByReference(aReference);
+			daoProperty.remove(rp);
+		}
 	}
 
 	@Override

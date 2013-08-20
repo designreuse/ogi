@@ -1,5 +1,7 @@
 package fr.jerep6.ogi.persistance.dao.impl;
 
+import java.util.List;
+
 import javax.persistence.Query;
 
 import org.slf4j.Logger;
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import fr.jerep6.ogi.enumeration.EnumCategory;
 import fr.jerep6.ogi.framework.persistance.dao.impl.AbstractDao;
 import fr.jerep6.ogi.persistance.bo.Category;
+import fr.jerep6.ogi.persistance.bo.Equipment;
 import fr.jerep6.ogi.persistance.dao.DaoCategory;
 
 @Repository("daoCategory")
@@ -30,5 +33,19 @@ public class DaoCategoryImpl extends AbstractDao<Category, Integer> implements D
 		query.setParameter(PARAM_CODE, enumCategory);
 
 		return (Category) query.getSingleResult();
+	}
+
+	@Override
+	public List<Equipment> readEquipments(EnumCategory category) {
+		StringBuilder q = new StringBuilder();
+		q.append("SELECT e FROM " + Equipment.class.getName() + " e");
+		q.append(" WHERE e.category.code = :" + PARAM_CODE);
+
+		Query query = entityManager.createQuery(q.toString());
+		query.setParameter(PARAM_CODE, category);
+
+		@SuppressWarnings("unchecked")
+		List<Equipment> eqpts = query.getResultList();
+		return eqpts;
 	}
 }

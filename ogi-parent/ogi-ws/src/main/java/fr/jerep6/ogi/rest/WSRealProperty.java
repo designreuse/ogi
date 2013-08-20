@@ -1,16 +1,23 @@
 package fr.jerep6.ogi.rest;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+
+import com.google.common.base.Preconditions;
 
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.service.ServiceRealProperty;
@@ -37,6 +44,17 @@ public class WSRealProperty extends AbstractJaxRsWS {
 		property = serviceRealProperty.createFromBusinessFields(property);
 
 		return mapper.map(property, RealPropertyTo.class);
+	}
+
+	@DELETE
+	@Produces(APPLICATION_JSON_UTF8)
+	public void delete(@QueryParam("ref") List<String> reference) {
+		Preconditions.checkNotNull(reference);
+		System.out.println(reference);
+
+		if ("ref1".equals(reference.get(0))) { throw new WebApplicationException(Response.Status.PRECONDITION_FAILED); }
+
+		// serviceRealProperty.delete(reference);
 	}
 
 	@GET

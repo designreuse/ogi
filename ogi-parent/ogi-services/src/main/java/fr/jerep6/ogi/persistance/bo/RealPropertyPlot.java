@@ -22,6 +22,10 @@ public class RealPropertyPlot extends RealProperty {
 	@Column(name = "PRP_ZONE", length = 16)
 	private String	zone;
 
+	public RealPropertyPlot() {
+		super(null, null, null);
+	}
+
 	public RealPropertyPlot(String reference, Category category, Type type) {
 		super(reference, category, type);
 	}

@@ -7,4 +7,5 @@ import fr.jerep6.ogi.persistance.bo.Equipment;
 public interface DaoEquipment extends DaoCRUD<Equipment, Integer> {
 
 	Equipment readByLabel(String label, EnumCategory category);
+
 }

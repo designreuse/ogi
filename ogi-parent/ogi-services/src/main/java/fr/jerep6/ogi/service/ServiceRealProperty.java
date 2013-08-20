@@ -1,5 +1,7 @@
 package fr.jerep6.ogi.service;
 
+import java.util.List;
+
 import fr.jerep6.ogi.framework.service.TransactionalService;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 
@@ -21,5 +23,13 @@ public interface ServiceRealProperty extends TransactionalService<RealProperty, 
 	 * @return
 	 */
 	RealProperty createFromBusinessFields(RealProperty property);
+
+	/**
+	 * Delete properties
+	 * 
+	 * @param reference
+	 *            properties references to delete
+	 */
+	void delete(List<String> reference);
 
 }

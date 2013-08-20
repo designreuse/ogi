@@ -18,4 +18,9 @@ public interface DaoCRUD<T, PK extends Serializable> {
 	T update(T bo);
 
 	Collection<T> listAll();
+
+	void remove(T bo);
+
+	void remove(PK pk);
+
 }

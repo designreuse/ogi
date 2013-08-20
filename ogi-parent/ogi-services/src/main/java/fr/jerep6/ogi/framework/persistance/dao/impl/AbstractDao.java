@@ -40,6 +40,17 @@ public class AbstractDao<T, PK extends Serializable> implements DaoCRUD<T, PK> {
 	}
 
 	@Override
+	public void remove(PK pk) {
+		T bo = read(pk);
+		entityManager.remove(bo);
+	}
+
+	@Override
+	public void remove(T bo) {
+		entityManager.remove(bo);
+	}
+
+	@Override
 	public T save(T bo) {
 		entityManager.persist(bo);
 		return bo;
