@@ -15,7 +15,9 @@
 	<context:property-placeholder 
 		location="
 			classpath:properties/environnement.properties,
-          	classpath:properties/fonctionnel.properties" ignore-resource-not-found="true"/>
+			classpath:properties/environnement${environnement}.properties,
+          	classpath:properties/fonctionnel.properties" 
+        ignore-resource-not-found="true"/>
 
 	<context:annotation-config />
 	<context:component-scan 

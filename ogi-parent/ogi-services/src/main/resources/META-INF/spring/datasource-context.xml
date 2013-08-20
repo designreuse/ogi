@@ -9,7 +9,7 @@
 			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
 
 	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean" lazy-init="false">
-		<property name="jndiName" value="java:comp/env/jdbc/ogi" />
+		<property name="jndiName" value="${jdbc.jndi.datasource}" />
 	</bean>
 
 </beans>
