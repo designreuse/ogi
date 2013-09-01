@@ -5,3 +5,32 @@
 .pointer {
     cursor: pointer;
 }
+
+
+/*** FORMULAIRE ***/
+.form-horizontal .control-group {
+    margin-bottom: 10px;
+}
+
+fieldset {
+    padding-bottom : 20px;
+}
+
+legend + .control-group {
+    margin-top: 0px;
+}
+
+/* Commentaires : Site, Fiche Vitrine, ... */
+.nav-tabs {
+    margin-bottom : 0px;
+    border-bottom : none;
+    cursor : pointer;
+}
+
+/* Photos */
+.modal-body {
+    padding:0px;
+}
+
+/* bootstrap sets max-width on img to 100% and broke google maps controls */
+#map img { max-width:none;}

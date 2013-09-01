@@ -1,3 +1,121 @@
-<div>
-   Formulaire
+<div class="container-fluid" ng-controller="ControllerAjout">
+    <div class="row-fluid">
+        <div class="span2">
+            <!--Sidebar content-->
+        </div>
+        <div class="span10">
+            <!--Body content-->
+            <ul class="nav nav-pills">
+                <li><a href="#">Propriétaire</a></li>
+                <li class="active"><a href="#">Bien</a></li>
+                <li><a href="#">Descriptif</a></li>
+                <li><a href="#">Equipement</a></li>
+                <li><a href="#">Administratif</a></li>
+                <li><a href="#">Diagnostics immobiliers</a></li>
+                <li><a href="#">Détail des pièces</a></li>
+                <li><a href="#">Visites</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+
+            <form class="form-horizontal well">
+                <fieldset>
+                    <legend>Localisation</legend>
+                    <div class="row">
+                        <div class="span7">
+                            <div class="control-group">
+                                <label class="control-label">Adresse</label>
+                                <div class="controls">
+                                    <input class="input-xlarge" type="text" />
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Complément Adresse</label>
+                                <div class="controls">
+                                    <input class="input-xlarge" type="text" />
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Code Postal</label>
+                                <div class="controls">
+                                    <input class="input-small" type="number" />
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Ville</label>
+                                <div class="controls">
+                                    <input type="text" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="map" class="span5">
+                            <div id="map_canvas" ui-map="map"
+                                 style="height:300px;width:400px;border:2px solid #777777;margin:3px; border:1px solid"
+                                 ui-options="mapOptions"
+                                 ui-event="{'map-idle' : 'onMapIdle()', 'map-click': 'clickMap($event, $params)'}"
+                                 >
+                            </div>
+
+                            <button class="btn btn-primary" ng-click="findPositionByAddress()">Trouver la position</button>
+                            <button class="btn btn-danger" ng-click="resetMap()">RAZ map</button>
+
+                        </div>
+
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Commentaires</legend>
+                    <tabset>
+                        <tab heading="Site"><textarea class="input-xxlarge" rows="6">a</textarea></tab>
+                        <tab heading="Fiche Vitrine"><textarea class="input-xxlarge" rows="6">b</textarea></tab>
+                        <tab heading="Sites Immobiliers"><textarea class="input-xxlarge" rows="6">c</textarea></tab>
+                        <tab heading="Etat"><textarea class="input-xxlarge" rows="6">d</textarea></tab>
+                    </tabset>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Photos</legend>
+                    <div class="control-group">
+                        <!-- http://jasny.github.io/bootstrap/javascript.html#fileupload -->
+                        <label class="control-label">Ajouter des photos</label>
+                        <div class="controls">
+                            <input type="file" />
+                        </div>
+                    </div>
+
+                    <div class="modal-body">
+                        <ul class="unstyled inline">
+                            <li><img src="img/logoMaison.png" class="img-polaroid" /></li>
+                            <li><img src="img/logoAppartement.png" class="img-polaroid" /></li>
+                            <li><img src="img/logoTerrain.png" class="img-polaroid" /></li>
+                            <li><img src="img/logoCommercial.png" class="img-polaroid" /></li>
+                            <li><img src="img/logoGarage.png" class="img-polaroid" /></li>
+                        </ul>
+                    </div>
+                </fieldset>
+
+
+            </form>
+            <div class="center">
+                <button type="submit" class="btn btn-success">Enregistrer</button>
+                <button type="submit" class="btn btn-danger">Annuler</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal hide" modal="shouldBeOpenGeoloc" options="opts">
+        <div class="modal-header"><a class="close" ng-click="closeGeoloc()">×</a>
+            <h3>Adresses trouvées</h3>
+        </div>
+        <div class="modal-body">
+            <ul>
+                <li ng-repeat="place in places">
+                  {{place.formatted_address}} <a href="javascript:;" ng-click="usePlace($index)">Utiliser</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
 </div>

@@ -2,11 +2,13 @@
 var moduleConf = angular.module('ModuleConfiguration', [])//
     .factory('ServiceConfiguration', function() {
     return {
-        API_URL: "http://localhost:8080/ogi-ws"
+        API_URL: "http://localhost:8080/ogi-ws",
+        MAP_CENTER:  new google.maps.LatLng(43.65942731889631, -1.3027381896972656),
+        MAP_ZOOM:  12
     }
 });
 
-var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ModuleConfiguration']);
+var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ModuleConfiguration', 'ui.map']);
 
 // Config $http for CORS
 myApp.config(['$httpProvider', function($httpProvider) {
