@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -19,7 +20,18 @@ public final class ContextUtils {
 	}
 
 	public static String getMessage(String code) {
-		return applicationContext.getMessage(code, null, Locale.FRANCE);
+		return getMessage(code, null);
+	}
+
+	public static String getMessage(String code, Object... args) {
+		String msg = "";
+		try {
+			msg = applicationContext.getMessage(code, args, Locale.FRANCE);
+		}
+		catch (NoSuchMessageException nsme) {
+			// No message was found.
+		}
+		return msg;
 	}
 
 	public static String getProperty(String code) {
