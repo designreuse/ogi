@@ -40,7 +40,7 @@ function ControllerAjout($scope, Page, $routeParams, ServiceConfiguration, Servi
                 ServiceAlert.addError("Erreur de  geolocalisation : " + status);
             }
 
-            // google response is asynchronous so angulars don't know scope has changed
+            // google response is asynchronous so angularjs don't know scope has changed
             $scope.$apply();
         });
     }
@@ -70,6 +70,14 @@ function ControllerAjout($scope, Page, $routeParams, ServiceConfiguration, Servi
     // http://www.ramandv.com/blog/using-google-maps-with-angularjs/
 
 
+    // ##### SORTABLE #####
+    $scope.sortableOptions = {
+        update: function(e, ui) {
+            //var order = $('#list-photos').sortable('serialize');
+            console.log("update");
+        },
+        placeholder: 'highlight' // class of fantom item
+    };
 
 
     // ##### MODAL #####
@@ -94,10 +102,6 @@ function ControllerAjout($scope, Page, $routeParams, ServiceConfiguration, Servi
     };
 
 };
-
-
-
-
 
 
 

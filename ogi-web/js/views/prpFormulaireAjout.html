@@ -56,8 +56,8 @@
                                  >
                             </div>
 
-                            <button class="btn btn-primary" ng-click="findPositionByAddress()">Trouver la position</button>
-                            <button class="btn btn-danger" ng-click="resetMap()">RAZ map</button>
+                            <button class="btn" ng-click="findPositionByAddress()">Trouver la position</button>
+                            <button class="btn" ng-click="resetMap()">RAZ map</button>
 
                         </div>
 
@@ -85,12 +85,12 @@
                     </div>
 
                     <div class="modal-body">
-                        <ul class="unstyled inline">
-                            <li><img src="img/logoMaison.png" class="img-polaroid" /></li>
-                            <li><img src="img/logoAppartement.png" class="img-polaroid" /></li>
-                            <li><img src="img/logoTerrain.png" class="img-polaroid" /></li>
-                            <li><img src="img/logoCommercial.png" class="img-polaroid" /></li>
-                            <li><img src="img/logoGarage.png" class="img-polaroid" /></li>
+                        <ul  ui-sortable="sortableOptions" id="list-photos" class="unstyled inline">
+                            <li><img src="img/logoMaison.png"  /><br />IMG-45</li>
+                            <li><img src="img/logoAppartement.png" /><br />IMG-45</li>
+                            <li><img src="img/logoTerrain.png" /><br />IMG-45</li>
+                            <li><img src="img/logoCommercial.png" /><br />IMG-45</li>
+                            <li><img src="img/logoGarage.png" /><br />IMG-45</li>
                         </ul>
                     </div>
                 </fieldset>

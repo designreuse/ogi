@@ -8,7 +8,7 @@ var moduleConf = angular.module('ModuleConfiguration', [])//
     }
 });
 
-var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ModuleConfiguration', 'ui.map']);
+var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ModuleConfiguration', 'ui.map', 'ui.sortable']);
 
 // Config $http for CORS
 myApp.config(['$httpProvider', function($httpProvider) {
