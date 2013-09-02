@@ -1,5 +1,6 @@
-function ControllerAjout($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert) {
+function ControllerAjout($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http) {
     Page.setTitle("Ajouter un bien : "+$routeParams.type);
+    var tempReference = Math.random().toString(36).substring(7);
 
     $scope.markers = [];
     $scope.mapOptions = {
@@ -69,6 +70,21 @@ function ControllerAjout($scope, Page, $routeParams, ServiceConfiguration, Servi
 
     // http://www.ramandv.com/blog/using-google-maps-with-angularjs/
 
+    // ##### UPLOAD #####
+    $scope.options = {
+        url: ServiceConfiguration.API_URL+"/rest/photo/",
+        type : "POST", // The HTTP request method for the file uploads
+        dataType : "json", //The type of data that is expected back from the server.
+        limitMultiFileUploads : 2, //To limit the number of files uploaded with one XHR request, set the following option to an integer greater than 0
+        acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+        messages: {
+            maxNumberOfFiles: 'Nombre maximum de fichiers dépassé',
+            acceptFileTypes: 'Type du fichier incompatible avec des images',
+            maxFileSize: 'Fichier trop gros',
+            minFileSize: 'Fichier trop petit'
+        },
+        formData : [{ name: 'reference', value: tempReference}]
+    };
 
     // ##### SORTABLE #####
     $scope.sortableOptions = {
@@ -102,6 +118,35 @@ function ControllerAjout($scope, Page, $routeParams, ServiceConfiguration, Servi
     };
 
 };
+
+function FileDestroyController($scope, $http) {
+        var file = $scope.file,
+            state;
+        if (file.url) {
+            file.$state = function () {
+                return state;
+            };
+            file.$destroy = function () {
+                state = 'pending';
+                return $http({
+                    url: file.deleteUrl,
+                    method: file.deleteType
+                }).then(
+                    function () {
+                        state = 'resolved';
+                        $scope.clear(file);
+                    },
+                    function () {
+                        state = 'rejected';
+                    }
+                );
+            };
+        } else if (!file.$cancel && !file._index) {
+            file.$cancel = function () {
+                $scope.clear(file);
+            };
+        }
+    }
 
 
 

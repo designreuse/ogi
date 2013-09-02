@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <title ng-bind-template="{{page.title()}}">AngularJS</title>
-    <link rel="stylesheet" href="css/app.css">
 
     <script src="js/lib/jquery-2.0.3.js"></script>
     <script src="js/lib/jquery-ui-1.10.3.custom.js"></script>
@@ -15,6 +14,17 @@
     <script src="js/lib/ui-sortable.js"></script>
     <script src="http://maps.googleapis.com/maps/api/js?sensor=false&language=fr&region=FR&v=3"></script>
 
+    <!-- File upload -->
+    <script src="js/lib/upload/vendor/jquery.ui.widget.js"></script>
+    <script src="http://blueimp.github.io/JavaScript-Load-Image/js/load-image.min.js"></script>
+    <script src="js/lib/upload/jquery.fileupload.js"></script>
+    <script src="js/lib/upload/jquery.fileupload-process.js"></script>
+    <script src="js/lib/upload/jquery.fileupload-image.js"></script>
+    <script src="js/lib/upload/jquery.fileupload-validate.js"></script>
+    <script src="js/lib/upload/jquery.fileupload-angular.js"></script>
+
+
+    <!-- OGI -->
     <script src="js/app.js"></script>
 
     <script src="js/service/services.js"></script>
@@ -28,6 +38,8 @@
 
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
+    <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+    <link rel="stylesheet" href="css/jquery.fileupload-ui.css">
 </head>
 <body>
 

@@ -8,7 +8,7 @@ var moduleConf = angular.module('ModuleConfiguration', [])//
     }
 });
 
-var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ModuleConfiguration', 'ui.map', 'ui.sortable']);
+var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ModuleConfiguration', 'ui.map', 'ui.sortable', 'blueimp.fileupload']);
 
 // Config $http for CORS
 myApp.config(['$httpProvider', function($httpProvider) {
