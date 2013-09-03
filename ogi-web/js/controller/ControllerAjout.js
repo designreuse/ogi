@@ -1,6 +1,10 @@
-function ControllerAjout($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http) {
+function ControllerAjout($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log) {
     Page.setTitle("Ajouter un bien : "+$routeParams.type);
     var tempReference = Math.random().toString(36).substring(7);
+    $log.log("tempReference="+tempReference);
+
+    $scope.prp = {};
+    $scope.prp.address = {};
 
     $scope.markers = [];
     $scope.mapOptions = {
@@ -24,7 +28,7 @@ function ControllerAjout($scope, Page, $routeParams, ServiceConfiguration, Servi
     };
 
     $scope.findPositionByAddress = function () {
-        var address = "17 avenue Georges Pompidou";
+        var address = $scope.prp.address.street;
         new google.maps.Geocoder().geocode( { 'address': address}, function(results, status) {
             console.log(results);
             $scope.setPlaces(results);

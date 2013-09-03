@@ -125,6 +125,8 @@
                             data.dataType.indexOf('json') === data.dataType.length - 4) {
                         try {
                             data.result = angular.fromJson(data.jqXHR.responseText);
+                            // jerep6
+                            data.errorThrown =  data.result.exception;
                         } catch (ignore) {}
                     }
                     data.scope().$apply(function () {
