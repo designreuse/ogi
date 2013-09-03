@@ -17,45 +17,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.jerep6.ogi.framework.utils.ContextUtils;
+import fr.jerep6.ogi.obj.PhotoDimension;
 
 public class Photos extends HttpServlet {
-	private static class Dimension {
-		private final Integer	width;
-		private final Integer	height;
-
-		public Dimension(Integer width, Integer height) {
-			super();
-			this.width = width;
-			this.height = height;
-		}
-
-		public Integer getHeight() {
-			return height;
-		}
-
-		public Integer getWidth() {
-			return width;
-		}
-
-	}
-
-	private static final Dimension	THUMB	= new Dimension(150, 100);
-	private static final Dimension	MEDIUM	= new Dimension(800, 600);
-	private static final Dimension	BIG		= new Dimension(2000, 1000);
+	private static final long	serialVersionUID	= -8348693134869320794L;
 
 	/** War context path */
-	private String					contextPath;
+	private String				contextPath;
 
-	private String					photosDir;
+	private String				photosDir;
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setHeader("Content-Type", "image/jpeg");
 
 		Path p = getRealPhotoPath(request);
-		Dimension d = getDimension(request.getParameter("size"));
+		PhotoDimension d = getDimension(request.getParameter("size"));
 
-		// response.getOutputStream().write(Files.readAllBytes(p));
 		// Dimension is defined => resize
 		if (d != null) {
 			// Read image
@@ -76,20 +54,18 @@ public class Photos extends HttpServlet {
 	 * @param parameter
 	 * @return
 	 */
-	private Dimension getDimension(String parameter) {
+	private PhotoDimension getDimension(String parameter) {
 		if (parameter == null) { return null; }
 
-		Dimension d = null;
-		switch (parameter) {
-			case "thumb":
-				d = THUMB;
-				break;
-			case "medium":
-				d = MEDIUM;
-				break;
-			case "big":
-				d = BIG;
-				break;
+		PhotoDimension d = null;
+		if (PhotoDimension.THUMB.getName().equals(parameter)) {
+			d = PhotoDimension.THUMB;
+		}
+		else if (PhotoDimension.MEDIUM.getName().equals(parameter)) {
+			d = PhotoDimension.MEDIUM;
+		}
+		else if (PhotoDimension.BIG.getName().equals(parameter)) {
+			d = PhotoDimension.BIG;
 		}
 		return d;
 	}
@@ -115,7 +91,7 @@ public class Photos extends HttpServlet {
 		photosDir = ContextUtils.getProperty("photos.dir");
 	}
 
-	private BufferedImage resizeImage(BufferedImage originalImage, Dimension d) {
+	private BufferedImage resizeImage(BufferedImage originalImage, PhotoDimension d) {
 		// Original
 		Integer ow = originalImage.getWidth();
 		Integer oh = originalImage.getHeight();

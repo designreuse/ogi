@@ -3,7 +3,9 @@ package fr.jerep6.ogi.rest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -41,13 +43,16 @@ public class WSPhotos extends AbstractJaxRsWS {
 	 */
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public List<FileUpload> uploadFile( //
+	public Map<String, List<FileUpload>> uploadFile( //
 			@FormDataParam("file[]") InputStream uploadedInputStream,//
 			@FormDataParam("file[]") FormDataContentDisposition fileDetail, //
 			@FormDataParam("reference") String reference) throws IOException {
 
 		// Copy uploaded file into photo directory
 		FileUpload f = servicePhoto.copyToPhotosDirectory(uploadedInputStream, fileDetail.getFileName(), reference);
-		return Arrays.asList(f);
+
+		Map<String, List<FileUpload>> m = new HashMap<>();
+		m.put("files", Arrays.asList(f));
+		return m;
 	}
 }

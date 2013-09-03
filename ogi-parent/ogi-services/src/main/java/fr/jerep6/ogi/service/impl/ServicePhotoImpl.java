@@ -22,21 +22,23 @@ import com.google.common.base.Strings;
 
 import fr.jerep6.ogi.exception.business.FileAlreadyExist;
 import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
+import fr.jerep6.ogi.obj.PhotoDimension;
 import fr.jerep6.ogi.persistance.bo.Photo;
 import fr.jerep6.ogi.persistance.dao.DaoPhoto;
 import fr.jerep6.ogi.service.ServicePhoto;
 import fr.jerep6.ogi.transfert.FileUpload;
+import fr.jerep6.ogi.utils.UrlPhotoUtils;
 
 @Service("servicePhoto")
 @Transactional(propagation = Propagation.REQUIRED)
 public class ServicePhotoImpl extends AbstractTransactionalService<Photo, Integer> implements ServicePhoto {
-	Logger				LOGGER	= LoggerFactory.getLogger(ServicePhotoImpl.class);
+	private final Logger	LOGGER	= LoggerFactory.getLogger(ServicePhotoImpl.class);
 
 	@Value("${photos.dir}")
-	private String		photosDir;
+	private String			photosDir;
 
 	@Autowired
-	private DaoPhoto	daoPhoto;
+	private DaoPhoto		daoPhoto;
 
 	@Override
 	public FileUpload copyToPhotosDirectory(InputStream is, String fileName, String reference) throws IOException {
@@ -49,7 +51,7 @@ public class ServicePhotoImpl extends AbstractTransactionalService<Photo, Intege
 
 		// Create temps directory if not exist
 		if (!Files.isDirectory(root)) {
-			LOGGER.info("Create directory {}", root.resolve(reference));
+			LOGGER.info("Create directory {}", root);
 			Files.createDirectories(root);
 		}
 
@@ -64,9 +66,10 @@ public class ServicePhotoImpl extends AbstractTransactionalService<Photo, Intege
 		FileUpload f = new FileUpload.Builder() //
 				.name(fileName) //
 				.size(Files.size(photo)) //
-				.url("http://example.org/files/picture1.jpg") //
-				.thumbnailUrl("http://example.org/files/picture1.jpg") //
-				.deleteUrl("http://example.org/files/picture1.jpg") //
+				.type(Files.probeContentType(photo)) //
+				.url(UrlPhotoUtils.buildUrl(photo)) //
+				.thumbnailUrl(UrlPhotoUtils.buildUrl(photo, PhotoDimension.THUMB)) //
+				.deleteUrl(UrlPhotoUtils.buildUrl(photo)) //
 				.deleteType("DELETE") //
 				.build();
 

@@ -24,7 +24,8 @@
 		base-package="
 		fr.jerep6.ogi.persistance.dao,
 		fr.jerep6.ogi.service,
-		fr.jerep6.ogi.framework.utils" />
+		fr.jerep6.ogi.framework.utils,
+		fr.jerep6.ogi.utils" />
 	<aop:aspectj-autoproxy />
 
 </beans>

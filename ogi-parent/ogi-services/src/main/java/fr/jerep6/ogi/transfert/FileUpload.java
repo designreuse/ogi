@@ -14,13 +14,22 @@ public class FileUpload {
 	public static class Builder {
 		private String	name;
 		private Long	size;
+		private String	type;
 		private String	url;
 		private String	thumbnailUrl;
 		private String	deleteUrl;
 		private String	deleteType;
 
 		public FileUpload build() {
-			return new FileUpload(this);
+			FileUpload fileUpload = new FileUpload();
+			fileUpload.name = name;
+			fileUpload.size = size;
+			fileUpload.type = type;
+			fileUpload.url = url;
+			fileUpload.thumbnailUrl = thumbnailUrl;
+			fileUpload.deleteUrl = deleteUrl;
+			fileUpload.deleteType = deleteType;
+			return fileUpload;
 		}
 
 		public Builder deleteType(String deleteType) {
@@ -48,27 +57,25 @@ public class FileUpload {
 			return this;
 		}
 
+		public Builder type(String type) {
+			this.type = type;
+			return this;
+		}
+
 		public Builder url(String url) {
 			this.url = url;
 			return this;
 		}
 	}
 
-	private final String	name;
-	private final Long		size;
-	private final String	url;
-	private final String	thumbnailUrl;
-	private final String	deleteUrl;
+	private String	name;
+	private Long	size;
+	/** Mime type */
+	private String	type;
+	private String	url;
+	private String	thumbnailUrl;
+	private String	deleteUrl;
 
 	/** Type of HTTP method to delete file (DELETE, GET, POST ....) */
-	private final String	deleteType;
-
-	private FileUpload(Builder builder) {
-		name = builder.name;
-		size = builder.size;
-		url = builder.url;
-		thumbnailUrl = builder.thumbnailUrl;
-		deleteUrl = builder.deleteUrl;
-		deleteType = builder.deleteType;
-	}
+	private String	deleteType;
 }
