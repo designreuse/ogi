@@ -3,8 +3,10 @@ function ControllerAjout($scope, Page, $routeParams, ServiceConfiguration, Servi
     var tempReference = Math.random().toString(36).substring(7);
     $log.log("tempReference="+tempReference);
 
-    $scope.prp = {};
-    $scope.prp.address = {};
+    $scope.prp = {
+        address : Object.create(address),
+        photos : []
+    };
 
     $scope.markers = [];
     $scope.mapOptions = {
@@ -28,10 +30,14 @@ function ControllerAjout($scope, Page, $routeParams, ServiceConfiguration, Servi
     };
 
     $scope.findPositionByAddress = function () {
-        var address = $scope.prp.address.street;
+        // If no element of address was enter => exit
+        if($scope.prp.address.isEmpty()) { return;};
+
+        var address = $scope.prp.address.street + " " + ($scope.prp.address.postalCode || "") + " " + ($scope.prp.address.city || "");
+        $log.log("Lookup for "+address);
+
         new google.maps.Geocoder().geocode( { 'address': address}, function(results, status) {
-            console.log(results);
-            $scope.setPlaces(results);
+            $log.log(results);
 
             if (status == google.maps.GeocoderStatus.OK) {
                 if(results.length == 1) {
@@ -75,6 +81,7 @@ function ControllerAjout($scope, Page, $routeParams, ServiceConfiguration, Servi
     // http://www.ramandv.com/blog/using-google-maps-with-angularjs/
 
     // ##### UPLOAD #####
+    // http://blueimp.github.io/jQuery-File-Upload/angularjs.html
     $scope.options = {
         url: ServiceConfiguration.API_URL+"/rest/photo/",
         type : "POST", // The HTTP request method for the file uploads
@@ -89,6 +96,29 @@ function ControllerAjout($scope, Page, $routeParams, ServiceConfiguration, Servi
         },
         formData : [{ name: 'reference', value: tempReference}]
     };
+
+    // Listen to fileuploaddone event
+    $scope.$on('fileuploaddone', function(e, data){
+
+        // Add photo to property
+        var file = data._response.result.files[0];
+        console.log(file);
+        $scope.prp.photos.push({
+            url : file.thumbnailUrl,
+            name : file.name,
+            order : $scope.prp.photos.length
+        });
+
+        // Search index of just upload file to remove it to queue
+        var index = -1;
+        for (var i = 0; i < $scope.queue.length;  i++) {
+            if($scope.queue[i].name == file.name) {
+                index = i;
+                break;
+            }
+        }
+        $scope.queue.splice(index, 1);
+    });
 
     // ##### SORTABLE #####
     $scope.sortableOptions = {
@@ -122,6 +152,7 @@ function ControllerAjout($scope, Page, $routeParams, ServiceConfiguration, Servi
     };
 
 };
+
 
 function FileDestroyController($scope, $http) {
         var file = $scope.file,

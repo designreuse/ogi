@@ -31,19 +31,19 @@
                             <div class="control-group">
                                 <label class="control-label">Complément Adresse</label>
                                 <div class="controls">
-                                    <input class="input-xlarge" type="text" />
+                                    <input class="input-xlarge" type="text" ng-model="prp.address.additional" />
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">Code Postal</label>
                                 <div class="controls">
-                                    <input class="input-small" type="number" />
+                                    <input class="input-small" type="number" ng-model="prp.address.postalCode"/>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">Ville</label>
                                 <div class="controls">
-                                    <input type="text" />
+                                    <input class="input-xlarge" type="text" ng-model="prp.address.city" />
                                 </div>
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                     </tabset>
                 </fieldset>
 
-                <fieldset data-file-upload="options" data-ng-class="{'fileupload-processing': processing() || loadingFiles}">
+                <fieldset file-upload="options" ng-class="{'fileupload-processing': processing() || loadingFiles}">
                     <legend>Photos</legend>
 
                     <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
@@ -88,12 +88,13 @@
                             </span>
                             <button type="button" class="btn btn-primary start" data-ng-click="submit()">
                                 <i class="glyphicon glyphicon-upload"></i>
-                                <span>Start upload</span>
+                                <span>Envoyer</span>
                             </button>
+                            <!--
                             <button type="button" class="btn btn-warning cancel" data-ng-click="cancel()">
                                 <i class="glyphicon glyphicon-ban-circle"></i>
                                 <span>Cancel upload</span>
-                            </button>
+                            </button>-->
                             <!-- The loading indicator is shown during file processing -->
                             <div class="fileupload-loading"></div>
                         </div>
@@ -133,7 +134,7 @@
                             <td>
                                 <button type="button" class="btn btn-warning cancel" data-ng-click="file.$cancel()" data-ng-hide="!file.$cancel">
                                     <i class="glyphicon glyphicon-ban-circle"></i>
-                                    <span>Cancel</span>
+                                    <span>Supprimer</span>
                                 </button>
                                 <button data-ng-controller="FileDestroyController" type="button" class="btn btn-danger destroy" data-ng-click="file.$destroy()" data-ng-hide="!file.$destroy">
                                     <i class="glyphicon glyphicon-trash"></i>
@@ -144,12 +145,10 @@
                     </table>
 
                     <div class="modal-body">
-                        <ul  ui-sortable="sortableOptions" id="list-photos" class="unstyled inline">
-                            <li><img src="img/logoMaison.png"  /><br />IMG-45</li>
-                            <li><img src="img/logoAppartement.png" /><br />IMG-45</li>
-                            <li><img src="img/logoTerrain.png" /><br />IMG-45</li>
-                            <li><img src="img/logoCommercial.png" /><br />IMG-45</li>
-                            <li><img src="img/logoGarage.png" /><br />IMG-45</li>
+                        <ul ui-sortable="sortableOptions" id="list-photos" class="unstyled inline">
+                            <li ng-repeat="photo in prp.photos">
+                                <img ng-src="{{photo.url}}" /><br />{{photo.name}}
+                            </li>
                         </ul>
                     </div>
                 </fieldset>
