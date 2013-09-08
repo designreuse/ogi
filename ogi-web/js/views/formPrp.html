@@ -1,59 +1,63 @@
 <!--BEGIN DIV GENERAL -->
 <div ng-controller="ControllerAjout">
-    <fieldset>
-        <legend>Localisation</legend>
-        <div class="row-fluid">
-            <div class="span7">
-                <div class="control-group">
-                    <label class="control-label">Adresse</label>
-                    <div class="controls">
-                        <input class="input-xlarge" type="text" ng-model="prp.address.street" />
+    <div class="row-fluid">
+        <div class="span7">
+            <fieldset>
+                <legend>Localisation</legend>
+                <div class="row-fluid">
+                    <div class="span7">
+                        <div class="control-group">
+                            <label class="control-label">Adresse</label>
+                            <div class="controls">
+                                <input class="input-xlarge" type="text" ng-model="prp.address.street" />
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Complément Adresse</label>
+                            <div class="controls">
+                                <input class="input-xlarge" type="text" ng-model="prp.address.additional" />
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Code Postal</label>
+                            <div class="controls">
+                                <input class="input-small" type="number" ng-model="prp.address.postalCode"/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Ville</label>
+                            <div class="controls">
+                                <input class="input-xlarge" type="text" ng-model="prp.address.city" />
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label">Complément Adresse</label>
-                    <div class="controls">
-                        <input class="input-xlarge" type="text" ng-model="prp.address.additional" />
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label">Code Postal</label>
-                    <div class="controls">
-                        <input class="input-small" type="number" ng-model="prp.address.postalCode"/>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label">Ville</label>
-                    <div class="controls">
-                        <input class="input-xlarge" type="text" ng-model="prp.address.city" />
-                    </div>
-                </div>
-            </div>
 
-            <div id="map" class="span5">
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Commentaires</legend>
+                <tabset>
+                    <tab heading="Site"><textarea class="input-xxlarge" rows="6">a</textarea></tab>
+                    <tab heading="Fiche Vitrine"><textarea class="input-xxlarge" rows="6">b</textarea></tab>
+                    <tab heading="Sites Immobiliers"><textarea class="input-xxlarge" rows="6">c</textarea></tab>
+                    <tab heading="Etat"><textarea class="input-xxlarge" rows="6">d</textarea></tab>
+                </tabset>
+            </fieldset>
+        </div>
+        <div id="map" class="span5">
+            <div id="map_canvas" ui-map="map"
+                 style="height:500px;width:400px;border:2px solid #777777;margin:3px; border:1px solid"
+                 ui-options="mapOptions"
+                 ui-event="{'map-idle' : 'onMapIdle()', 'map-click': 'clickMap($event, $params)'}"
+                    >
+            </div>
+            <div class="center">
                 <button class="btn" ng-click="findPositionByAddress()">Trouver la position</button>
                 <button class="btn" ng-click="resetMap()">RAZ map</button>
-
-                <div id="map_canvas" ui-map="map"
-                     style="height:300px;width:400px;border:2px solid #777777;margin:3px; border:1px solid"
-                     ui-options="mapOptions"
-                     ui-event="{'map-idle' : 'onMapIdle()', 'map-click': 'clickMap($event, $params)'}"
-                        >
-                </div>
             </div>
-
         </div>
-    </fieldset>
-
-    <fieldset>
-        <legend>Commentaires</legend>
-        <tabset>
-            <tab heading="Site"><textarea class="input-xxlarge" rows="6">a</textarea></tab>
-            <tab heading="Fiche Vitrine"><textarea class="input-xxlarge" rows="6">b</textarea></tab>
-            <tab heading="Sites Immobiliers"><textarea class="input-xxlarge" rows="6">c</textarea></tab>
-            <tab heading="Etat"><textarea class="input-xxlarge" rows="6">d</textarea></tab>
-        </tabset>
-    </fieldset>
+    </div>
 
     <fieldset file-upload="options" ng-class="{'fileupload-processing': processing() || loadingFiles}">
         <legend>Photos</legend>
