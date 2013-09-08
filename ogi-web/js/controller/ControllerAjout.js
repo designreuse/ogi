@@ -124,6 +124,7 @@ function ControllerAjout($scope, Page, $routeParams, ServiceConfiguration, Servi
             //var order = $('#list-photos').sortable('serialize');
             console.log("update");
         },
+        axis: "x",
         placeholder: 'highlight' // class of fantom item
     };
 

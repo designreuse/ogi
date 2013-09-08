@@ -41,10 +41,7 @@ function ControllerPrp($scope, Page, $routeParams, ServiceConfiguration, Service
     $scope.tempReference = Math.random().toString(36).substring(7);
     $log.log("tempReference="+ $scope.tempReference);
 
-    $scope.prp = {
-        address : Object.create(address),
-        photos : []
-    };
+    $scope.prp = Object.create(prp);
 }
 
 
