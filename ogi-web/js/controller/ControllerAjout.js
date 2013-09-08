@@ -1,13 +1,6 @@
 function ControllerAjout($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log) {
-    Page.setTitle("Ajouter un bien : "+$routeParams.type);
-    var tempReference = Math.random().toString(36).substring(7);
-    $log.log("tempReference="+tempReference);
 
-    $scope.prp = {
-        address : Object.create(address),
-        photos : []
-    };
-
+    // ##### MAP #####
     $scope.markers = [];
     $scope.mapOptions = {
         center: ServiceConfiguration.MAP_CENTER,
@@ -37,7 +30,7 @@ function ControllerAjout($scope, Page, $routeParams, ServiceConfiguration, Servi
         $log.log("Lookup for "+address);
 
         new google.maps.Geocoder().geocode( { 'address': address}, function(results, status) {
-            $log.log(results);
+            $scope.places = results;
 
             if (status == google.maps.GeocoderStatus.OK) {
                 if(results.length == 1) {
@@ -70,11 +63,16 @@ function ControllerAjout($scope, Page, $routeParams, ServiceConfiguration, Servi
         else {
             $scope.markers[0].setPosition(latLng);
         }
+        $scope.map.setCenter(latLng);
     };
 
     $scope.usePlace = function (index) {
-        $scope.map.setCenter($scope.places[index].geometry.location);
-        addOrMoveMarker($scope.places[index].geometry.location);
+        var location = $scope.places[index].geometry.location;
+
+        $scope.prp.address.latitude = location.lat();
+        $scope.prp.address.longitude = location.lng();
+        addOrMoveMarker(location);
+
         $scope.closeGeoloc();
     }
 
@@ -94,7 +92,7 @@ function ControllerAjout($scope, Page, $routeParams, ServiceConfiguration, Servi
             maxFileSize: 'Fichier trop gros',
             minFileSize: 'Fichier trop petit'
         },
-        formData : [{ name: 'reference', value: tempReference}]
+        formData : [{ name: 'reference', value:  $scope.tempReference}]
     };
 
     // Listen to fileuploaddone event
@@ -133,10 +131,6 @@ function ControllerAjout($scope, Page, $routeParams, ServiceConfiguration, Servi
     // ##### MODAL #####
     $scope.places = [];
     $scope.shouldBeOpenGeoloc = false;
-    // It's impossible to reaffect or modify variable in sons controller
-    $scope.setPlaces = function (p) {
-        $scope.places = p;
-    }
 
     var opts = {
         backdropFade: true,
@@ -151,6 +145,14 @@ function ControllerAjout($scope, Page, $routeParams, ServiceConfiguration, Servi
         $scope.shouldBeOpenGeoloc = false;
     };
 
+
+    // Init according to object property
+    $scope.onMapIdle = function() {
+        // If latitude and longitude => add marker on Map
+        if($scope.prp.address != null && !$scope.prp.address.isLatLngEmpty()) {
+            addOrMoveMarker(new google.maps.LatLng($scope.prp.address.latitude, $scope.prp.address.longitude));
+        }
+    }
 };
 
 
@@ -182,6 +184,3 @@ function FileDestroyController($scope, $http) {
             };
         }
     }
-
-
-

@@ -5,7 +5,9 @@
 .pointer {
     cursor: pointer;
 }
-
+.center {
+    text-align:center;
+}
 
 /*** FORMULAIRE ***/
 .form-horizontal .control-group {
@@ -57,4 +59,17 @@ ul#list-photos li img {
 ul#list-photos li.highlight{
     background:#f2f2f2;
     border:1px dashed #212326;
+}
+
+
+
+.mybtn-add {
+    width: 25px;
+    height: 25px;
+
+}
+
+.mybtn-add > * {
+    display: block;
+    margin: 0 auto;
 }
