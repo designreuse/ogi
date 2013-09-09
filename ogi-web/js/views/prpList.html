@@ -1,0 +1,89 @@
+<div ng-controller="ControllerModalList as modal">
+    <div class="btn-group">
+        <button class="btn btn-info">Actions</button>
+        <button class="btn btn-info dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+        <ul class="dropdown-menu">
+            <li><a href="#"><i class="icon-pencil"></i> Modifier</a></li>
+            <li><a href="javascript:;" ng-click="openDelete()"><i class="icon-trash"></i> Supprimer</a></li>
+            <li><a href="#"><i class="icon-print"></i> Imprimer</a></li>
+            <li class="divider"></li>
+            <li><a href="#"><i class="icon-upload"></i> Synchroniser sur Acimflo</a></li>
+            <li><a href="#"><i class="icon-upload"></i> Synchroniser sur Diaporama</a></li>
+        </ul>
+    </div>
+
+    <button class="btn btn-primary" ng-click="openAdd()">Ajouter</button>
+
+    <table style="width:800px" class="liste table table-striped table-condensed">
+        <thead>
+        <tr>
+            <th></th>
+            <th>Référence</th>
+            <th>Type</th>
+            <th>Ville</th>
+            <th>Prix</th>
+            <th>Surface</th>
+            <th>Photo</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="prp in properties">
+                <td><input type="checkbox" value="{{prp.reference}}" ng-model="prp.checked"/></td>
+                <td data-title="'reference'" sortable="reference">{{prp.reference}}</td>
+                <td>{{prp.category.label}}</td>
+                <td>{{prp.address.city}}</td>
+                <td>{{prp.sale.price}} €</td>
+                <td>
+                    <span ng-switch on="type(prp)">
+                        <span ng-switch-when="HSE">{{prp.area}} m²</span>
+                        <span ng-switch-when="PLT">{{prp.landArea}} m²</span>
+                        <span ng-switch-default></span>
+                    </span>
+                </td>
+                <td><img ng-src="{{prp.photos[0].url | img:'thumb'}}"/></td>
+                <td style="vertical-align:middle">
+                    <div class="btn-group">
+                        <a href="#/biens/modifier/{{prp.reference}}" class="btn"><i class="icon-pencil"></i></a>
+                        <button class="btn" ng-click="delete($index)"><i class="icon-trash"></i></button>
+                        <button class="btn"><i class="icon-print"></i></button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <div modal="shouldBeOpenDelete" options="optsDelete">
+        <div class="modal-header"><a class="close" ng-click="closeDelete()">×</a>
+            <h3>Suppression</h3>
+        </div>
+        <div class="modal-body">
+            <p>Confirmez-vous la suppression de :
+            <ul>
+                <li ng-repeat="prp in selectedProperties()">{{prp.reference}} -- {{prp.address.city}}</li>
+            </ul>
+            </p>
+        </div>
+        <div class="modal-footer">
+            <a class="btn" ng-click="closeDelete()">Fermer</a>
+            <a class="btn btn-warning" ng-click="batchDelete();closeDelete()">Valider <span class="icon-trash"></span></a>
+        </div>
+
+    </div>
+
+    <div class="modal hide" modal="shouldBeOpenAdd" options="opts">
+        <div class="modal-header"><a class="close" ng-click="closeAdd()">×</a>
+            <h3>Ajouter un bien</h3>
+        </div>
+        <div class="modal-body">
+            <ul style="text-align:center" class="unstyled inline">
+                <li><a href="#/biens/ajouter/maison" ng-click="closeAdd()" class="btn btn-block"><img src="img/logoMaison.png" /></a>Maison</li>
+                <li><a href="#/biens/ajouter/appartement" ng-click="closeAdd()" class="btn btn-block"><img src="img/logoAppartement.png" /></a>Appartement</li>
+                <li><a href="#/biens/ajouter/terrain" ng-click="closeAdd()" class="btn btn-block"><img src="img/logoTerrain.png" /></a>Terrain</li>
+                <li><a href="#/biens/ajouter/commercial" ng-click="closeAdd()" class="btn btn-block"><img src="img/logoCommercial.png" /></a>Local Commercial</li>
+                <li><a href="#/biens/ajouter/garage" ng-click="closeAdd()" class="btn btn-block"><img src="img/logoGarage.png" /></a>Garage</li>
+            </ul>
+        </div>
+    </div>
+</div>
