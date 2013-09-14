@@ -68,8 +68,8 @@
 
 	<servlet>
 		<display-name>Photos</display-name>
-		<servlet-name>Photos</servlet-name>
-		<servlet-class>fr.jerep6.ogi.servlet.Photos</servlet-class>
+		<servlet-name>ServletPhotos</servlet-name>
+		<servlet-class>fr.jerep6.ogi.servlet.ServletPhotos</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
@@ -79,7 +79,7 @@
 	</servlet-mapping>
 	
 	<servlet-mapping>
-		<servlet-name>Photos</servlet-name>
+		<servlet-name>ServletPhotos</servlet-name>
 		<url-pattern>/photos/*</url-pattern>
 	</servlet-mapping>
 </web-app>

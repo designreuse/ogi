@@ -34,7 +34,7 @@ import fr.jerep6.ogi.utils.UrlPhotoUtils;
 public class ServicePhotoImpl extends AbstractTransactionalService<Photo, Integer> implements ServicePhoto {
 	private final Logger	LOGGER	= LoggerFactory.getLogger(ServicePhotoImpl.class);
 
-	@Value("${photos.dir}")
+	@Value("${photos.storage.dir}")
 	private String			photosDir;
 
 	@Autowired

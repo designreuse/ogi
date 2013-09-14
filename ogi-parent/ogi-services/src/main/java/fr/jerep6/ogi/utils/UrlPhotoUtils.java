@@ -37,7 +37,7 @@ public class UrlPhotoUtils {
 		pathDir = Paths.get(photoDir);
 	}
 
-	@Value("${photos.dir}")
+	@Value("${photos.storage.dir}")
 	public void setPhotoDir(String photoDir) {
 		UrlPhotoUtils.photoDir = photoDir;
 	}

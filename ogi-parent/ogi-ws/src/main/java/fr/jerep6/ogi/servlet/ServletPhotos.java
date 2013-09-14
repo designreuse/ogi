@@ -4,7 +4,10 @@ import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,34 +19,44 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Strings;
+
 import fr.jerep6.ogi.framework.utils.ContextUtils;
 import fr.jerep6.ogi.obj.PhotoDimension;
 
-public class Photos extends HttpServlet {
+public class ServletPhotos extends HttpServlet {
 	private static final long	serialVersionUID	= -8348693134869320794L;
+	private final Logger		LOGGER				= LoggerFactory.getLogger(ServletPhotos.class);
 
 	/** War context path */
 	private String				contextPath;
 
-	private String				photosDir;
+	private String				photosStorageDir;
+	private String				photosStorageUrl;
+
+	private String				photosProtocol;
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setHeader("Content-Type", "image/jpeg");
 
-		Path p = getRealPhotoPath(request);
-		PhotoDimension d = getDimension(request.getParameter("size"));
+		// Read photo
+		InputStream is = getInputStream(request);
 
-		// Dimension is defined => resize
-		if (d != null) {
+		// If dimension defined => resize else serve original photo
+		if (!Strings.isNullOrEmpty(request.getParameter("size"))) {
+			PhotoDimension d = getDimension(request.getParameter("size"));
+
 			// Read image
-			BufferedImage originalImage = ImageIO.read(p.toFile());
+			BufferedImage originalImage = ImageIO.read(is);
 			BufferedImage resized = resizeImage(originalImage, d);
 			ImageIO.write(resized, "jpeg", response.getOutputStream());
 		}
-		// Serve original image
-		else {
-			response.getOutputStream().write(Files.readAllBytes(p));
+		else { // Serve original image
+			response.getOutputStream().write(toByteArray(is));
 		}
 
 	}
@@ -55,9 +68,8 @@ public class Photos extends HttpServlet {
 	 * @return
 	 */
 	private PhotoDimension getDimension(String parameter) {
-		if (parameter == null) { return null; }
-
 		PhotoDimension d = null;
+
 		if (PhotoDimension.THUMB.getName().equals(parameter)) {
 			d = PhotoDimension.THUMB;
 		}
@@ -70,6 +82,26 @@ public class Photos extends HttpServlet {
 		return d;
 	}
 
+	private InputStream getInputStream(HttpServletRequest request) throws IOException {
+		InputStream is = null;
+
+		switch (photosProtocol) {
+			case "file":
+				is = Files.newInputStream(Paths.get(photosStorageDir).resolve(getRelativePhotoPath(request)));
+				break;
+
+			case "http":
+				URL u = new URL(photosStorageUrl + getRelativePhotoPath(request).toString().replace("\\", "/"));
+				is = u.openStream();
+				break;
+
+			default:
+				LOGGER.info("Photo protocol unknow {}", photosProtocol);
+				break;
+		}
+		return is;
+	}
+
 	/**
 	 * Get photo path into url <br />
 	 * Exemple : http://localhost:8080/ogi-ws/photos/ref1/a?size=thumb return ref1/a
@@ -77,18 +109,20 @@ public class Photos extends HttpServlet {
 	 * @param request
 	 * @return
 	 */
-	private Path getRealPhotoPath(HttpServletRequest request) {
+	private Path getRelativePhotoPath(HttpServletRequest request) {
 		String begin = contextPath + request.getServletPath() + "/";
 		String relativePath = request.getRequestURI().replaceFirst(begin, "");
 
-		return Paths.get(photosDir, relativePath);
+		return Paths.get(relativePath);
 	}
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		contextPath = config.getServletContext().getContextPath();
-		photosDir = ContextUtils.getProperty("photos.dir");
+		photosStorageDir = ContextUtils.getProperty("photos.storage.dir");
+		photosStorageUrl = ContextUtils.getProperty("photos.storage.url");
+		photosProtocol = ContextUtils.getProperty("photos.protocol");
 	}
 
 	private BufferedImage resizeImage(BufferedImage originalImage, PhotoDimension d) {
@@ -126,5 +160,18 @@ public class Photos extends HttpServlet {
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		return resizedImage;
+	}
+
+	public byte[] toByteArray(InputStream input) throws IOException {
+		ByteArrayOutputStream output = new ByteArrayOutputStream();
+
+		byte[] buffer = new byte[1024 * 4];
+		int n = 0;
+		while (-1 != (n = input.read(buffer))) {
+			output.write(buffer, 0, n);
+
+		}
+		return output.toByteArray();
+
 	}
 }
