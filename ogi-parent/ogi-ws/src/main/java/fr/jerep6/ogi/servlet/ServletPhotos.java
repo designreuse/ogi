@@ -43,20 +43,23 @@ public class ServletPhotos extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setHeader("Content-Type", "image/jpeg");
 
-		// Read photo
-		InputStream is = getInputStream(request);
+		try {
+			// Read photo
+			InputStream is = getInputStream(request);
 
-		// If dimension defined => resize else serve original photo
-		if (!Strings.isNullOrEmpty(request.getParameter("size"))) {
-			PhotoDimension d = getDimension(request.getParameter("size"));
-
-			// Read image
-			BufferedImage originalImage = ImageIO.read(is);
-			BufferedImage resized = resizeImage(originalImage, d);
-			ImageIO.write(resized, "jpeg", response.getOutputStream());
+			// If dimension defined => resize else serve original photo
+			if (!Strings.isNullOrEmpty(request.getParameter("size"))) {
+				serveResizedImg(request, response, is);
+			}
+			else { // Serve original image
+				response.getOutputStream().write(toByteArray(is));
+			}
 		}
-		else { // Serve original image
-			response.getOutputStream().write(toByteArray(is));
+		catch (Exception e) {
+			LOGGER.warn("Error for serving image " + request.getRequestURI(), e);
+
+			// Serve error image
+			serveResizedImg(request, response, Files.newInputStream(Paths.get(photosStorageDir, "error.jpg")));
 		}
 
 	}
@@ -160,6 +163,15 @@ public class ServletPhotos extends HttpServlet {
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		return resizedImage;
+	}
+
+	private void serveResizedImg(HttpServletRequest request, HttpServletResponse response, InputStream is)
+			throws IOException {
+		PhotoDimension d = getDimension(request.getParameter("size"));
+
+		// Read image
+		BufferedImage resized = resizeImage(ImageIO.read(is), d);
+		ImageIO.write(resized, "jpeg", response.getOutputStream());
 	}
 
 	public byte[] toByteArray(InputStream input) throws IOException {

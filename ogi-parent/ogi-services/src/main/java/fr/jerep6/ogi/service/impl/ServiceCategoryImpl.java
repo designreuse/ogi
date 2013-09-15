@@ -17,6 +17,7 @@ import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.Equipment;
 import fr.jerep6.ogi.persistance.dao.DaoCategory;
 import fr.jerep6.ogi.service.ServiceCategory;
+import fr.jerep6.ogi.service.ServiceType;
 
 @Service("serviceCategory")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -24,6 +25,9 @@ public class ServiceCategoryImpl extends AbstractTransactionalService<Category, 
 
 	@Autowired
 	private DaoCategory	daoCategory;
+
+	@Autowired
+	private ServiceType	serviceType;
 
 	@Override
 	@PostConstruct
@@ -44,4 +48,5 @@ public class ServiceCategoryImpl extends AbstractTransactionalService<Category, 
 
 		return daoCategory.readEquipments(category);
 	}
+
 }

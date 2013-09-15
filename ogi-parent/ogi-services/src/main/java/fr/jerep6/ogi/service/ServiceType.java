@@ -1,5 +1,8 @@
 package fr.jerep6.ogi.service;
 
+import java.util.List;
+
+import fr.jerep6.ogi.enumeration.EnumCategory;
 import fr.jerep6.ogi.framework.service.TransactionalService;
 import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.Type;
@@ -23,4 +26,6 @@ public interface ServiceType extends TransactionalService<Type, Integer> {
 	 * @return never null. Always a type
 	 */
 	Type readOrInsert(String label, Category category);
+
+	List<Type> readByCategory(EnumCategory category);
 }

@@ -6,6 +6,7 @@ import fr.jerep6.ogi.enumeration.EnumCategory;
 import fr.jerep6.ogi.framework.service.TransactionalService;
 import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.Equipment;
+import fr.jerep6.ogi.persistance.bo.Type;
 
 public interface ServiceCategory extends TransactionalService<Category, Integer> {
 	/**
@@ -22,4 +23,5 @@ public interface ServiceCategory extends TransactionalService<Category, Integer>
 	 * @return
 	 */
 	List<Equipment> readEquipments(EnumCategory category);
+
 }

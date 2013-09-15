@@ -37,7 +37,6 @@ public class Type {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer		techid;
 
-	/** Le libelle sera récupéré dans des properties en fonction de la langue */
 	@Column(name = "TYP_LABEL", nullable = false)
 	private String		label;
 

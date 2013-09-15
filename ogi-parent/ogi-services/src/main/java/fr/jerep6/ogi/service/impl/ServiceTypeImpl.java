@@ -1,5 +1,7 @@
 package fr.jerep6.ogi.service.impl;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
+import fr.jerep6.ogi.enumeration.EnumCategory;
 import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
 import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.Type;
@@ -27,6 +30,12 @@ public class ServiceTypeImpl extends AbstractTransactionalService<Type, Integer>
 	@PostConstruct
 	protected void init() {
 		super.setDao(daoType);
+	}
+
+	@Override
+	public List<Type> readByCategory(EnumCategory category) {
+		Preconditions.checkNotNull(category);
+		return daoType.readByCategory(category);
 	}
 
 	@Override

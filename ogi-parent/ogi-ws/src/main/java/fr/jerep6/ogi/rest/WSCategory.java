@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -16,7 +17,9 @@ import org.springframework.stereotype.Controller;
 import fr.jerep6.ogi.enumeration.EnumCategory;
 import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.Equipment;
+import fr.jerep6.ogi.persistance.bo.Type;
 import fr.jerep6.ogi.service.ServiceCategory;
+import fr.jerep6.ogi.service.ServiceType;
 import fr.jerep6.ogi.transfert.bean.CategoryTo;
 import fr.jerep6.ogi.transfert.mapping.OrikaMapper;
 
@@ -31,6 +34,8 @@ public class WSCategory extends AbstractJaxRsWS {
 
 	@Autowired
 	private ServiceCategory	serviceCategory;
+	@Autowired
+	private ServiceType		serviceType;
 
 	@Autowired
 	private OrikaMapper		mapper;
@@ -47,19 +52,6 @@ public class WSCategory extends AbstractJaxRsWS {
 		return categoriesTo;
 	}
 
-	/** @return all equipments from a category */
-	@GET
-	@Path("/{code}/equipments")
-	@Produces(APPLICATION_JSON_UTF8)
-	public List<String> readByCategory(@PathParam("code") String code) {
-		List<Equipment> eqpts = serviceCategory.readEquipments(EnumCategory.valueOfByCode(code));
-
-		// https://groups.google.com/forum/#!topic/orika-discuss/s5tsPHZvFEA
-		List<String> mapAsList = mapper.mapAsList(eqpts, TypeFactory.valueOf(Equipment.class),
-				TypeFactory.valueOf(String.class));
-		return mapAsList;
-	}
-
 	/**
 	 * @param code
 	 *            category code
@@ -73,5 +65,46 @@ public class WSCategory extends AbstractJaxRsWS {
 
 		CategoryTo categoryTo = mapper.map(categoryBo, CategoryTo.class);
 		return categoryTo;
+	}
+
+	/** @return all equipments from a category */
+	@GET
+	@Path("/{code}/equipments")
+	@Produces(APPLICATION_JSON_UTF8)
+	public List<String> readEquipements(@PathParam("code") String code) {
+		List<Equipment> eqpts = serviceCategory.readEquipments(EnumCategory.valueOfByCode(code));
+
+		// https://groups.google.com/forum/#!topic/orika-discuss/s5tsPHZvFEA
+		List<String> mapAsList = mapper.mapAsList(eqpts, TypeFactory.valueOf(Equipment.class),
+				TypeFactory.valueOf(String.class));
+		return mapAsList;
+	}
+
+	/** @return add types from a category */
+	@PUT
+	@Path("/{code}/types/{label}")
+	@Produces(APPLICATION_JSON_UTF8)
+	public String typeAdd( //
+			@PathParam("code") String categoryCode, //
+			@PathParam("label") String typeLabel) {
+
+		// Insert
+		Category category = serviceCategory.readByCode(EnumCategory.valueOfByCode(categoryCode));
+		Type type = serviceType.readOrInsert(typeLabel, category);
+
+		return type.getLabel();
+	}
+
+	/** @return all types from a category */
+	@GET
+	@Path("/{code}/types")
+	@Produces(APPLICATION_JSON_UTF8)
+	public List<String> typesRead(@PathParam("code") String code) {
+		List<Type> types = serviceType.readByCategory(EnumCategory.valueOfByCode(code));
+
+		// https://groups.google.com/forum/#!topic/orika-discuss/s5tsPHZvFEA
+		List<String> mapAsList = mapper.mapAsList(types, TypeFactory.valueOf(Type.class),
+				TypeFactory.valueOf(String.class));
+		return mapAsList;
 	}
 }

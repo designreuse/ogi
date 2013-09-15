@@ -1,6 +1,7 @@
 package fr.jerep6.ogi.transfert.bean;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import lombok.Getter;
@@ -28,7 +29,7 @@ public class RealPropertyTo {
 	private Float							cos;
 	private Boolean							housingEstate;
 	private AddressTo						address;
-	private Set<DescriptionTo>				descriptions;
+	private Map<String, DescriptionTo>		descriptions;
 	private Set<RealPropertyDiagnosisTo>	diagnosis;
 	private CategoryTo						category;
 	private String							type;
