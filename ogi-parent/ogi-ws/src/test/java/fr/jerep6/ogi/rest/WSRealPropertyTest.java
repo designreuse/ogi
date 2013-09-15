@@ -45,7 +45,7 @@ public class WSRealPropertyTest extends AbstractTest {
 		DescriptionTo d1 = new DescriptionTo();
 		d1.setType(d.getType().getCode());
 		d1.setLabel(d.getLabel());
-		assertThat(read.getDescriptions()).contains(d1);
+		assertThat(read.getDescriptions()).containsValue(d1);
 
 		// Address
 		Address a = Data.getAddressTyrosse();
