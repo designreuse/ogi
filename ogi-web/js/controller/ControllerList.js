@@ -1,4 +1,4 @@
-function ControllerList($scope, $http, Page, ServiceObjectChecked, ServiceAlert, ServiceConfiguration) {
+function ControllerList($scope, $http, Page, ServiceObjectChecked, ServiceAlert, ServiceConfiguration, $modal, $log) {
     Page.setTitle("Liste des biens");
 
     $scope.properties = [];
@@ -9,24 +9,6 @@ function ControllerList($scope, $http, Page, ServiceObjectChecked, ServiceAlert,
 
     $scope.type = function (property) {
         return property.category.code;
-    }
-    $scope.batchDelete = function () {
-        // Extract reference to selected items
-        var refs = [];
-        angular.forEach($scope.selectedProperties(), function (o, key) {
-            refs.push(o.reference);
-        }, refs);
-
-        $http.delete(ServiceConfiguration.API_URL+"/rest/property/",
-            {"params": {
-                "ref": refs
-            }
-            }).success(function (data) {
-                ServiceAlert.addSuccess("Les biens ont étés supprimés avec succès");
-            }).
-            error(function(data, status, headers, config) {
-                ServiceAlert.addError("Une erreur est survenue "+data.exception);
-            });
     }
     $scope.delete = function (e) {
         $http.delete(ServiceConfiguration.API_URL+"/rest/property/",
@@ -49,36 +31,65 @@ function ControllerList($scope, $http, Page, ServiceObjectChecked, ServiceAlert,
         return ServiceObjectChecked.getChecked($scope.properties);
     }
 
-}
+    // ##### MODAL DELETE #####
+    $scope.openModalDelete = function () {
+        var selected = ServiceObjectChecked.getChecked($scope.properties);
 
-function ControllerModalList ($scope, $dialog, ServiceObjectChecked) {
-    var opts = {
-        backdropFade: true,
-        dialogFade: true
-    };
-
-    $scope.optsDelete = opts;
-    $scope.openDelete = function () {
         // If no items selected => msg
-        if (ServiceObjectChecked.getChecked($scope.properties).length == 0) {
-            $dialog.messageBox("Information", "Merci de sélectionner des éléments", [
-                {result: 'ok', label: 'OK', cssClass: 'btn-primary'}
-            ]).open();
+        if (selected.length == 0) {
+            console.log("Merci de sélectionner des éléments");
+            /*
+             $dialog.messageBox("Information", "Merci de sélectionner des éléments", [
+             {result: 'ok', label: 'OK', cssClass: 'btn-primary'}
+             ]).open();*/
         } else {
-            $scope.shouldBeOpenDelete = true;
+            var modalInstance = $modal.open({
+                templateUrl: 'modalPrpDelete.html',
+                controller: ControllerModalDeleteInstance,
+                resolve: {
+                    selectedProperties: function () {
+                        return selected;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function () {
+                $log.info('Modal closed');
+            }, function () {
+                $log.info('Modal dismissed');
+            });
         }
     };
-    $scope.closeDelete = function () {
-        $scope.shouldBeOpenDelete = false;
+
+    // ##### MODAL ADD PRP #####
+    $scope.openModalAddPrp = function () {
+        var modalInstance = $modal.open({templateUrl: 'modalPrpAdd.html'});
     };
 
+}
 
-    $scope.optsAdd = opts;
-    $scope.openAdd = function () {
-        $scope.shouldBeOpenAdd = true;
-    };
-    $scope.closeAdd = function () {
-        $scope.shouldBeOpenAdd = false;
-    };
+/** Controller for delete modal. Expose selected properties and delete it */
+function ControllerModalDeleteInstance($scope, $modalInstance, ServiceConfiguration, ServiceAlert, $http, $log, selectedProperties) {
+    $scope.selectedProperties = selectedProperties;
+    $scope.delete = function() {
+        // Extract reference to selected items
+        var refs = [];
+        angular.forEach($scope.selectedProperties, function (value, key) {
+            refs.push(value.reference);
+        }, refs);
 
-};
+        $http.delete(ServiceConfiguration.API_URL+"/rest/property/",
+            {"params": {
+                "ref": refs
+            }
+            }).success(function (data) {
+                ServiceAlert.addSuccess("Les biens ont étés supprimés avec succès");
+            }).
+            error(function(data, status, headers, config) {
+                ServiceAlert.addError("Une erreur est survenue "+data.exception);
+            });
+
+        $modalInstance.close();
+    }
+
+}

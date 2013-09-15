@@ -2,7 +2,7 @@
 var moduleConf = angular.module('ModuleConfiguration', [])//
     .factory('ServiceConfiguration', function() {
     return {
-        API_URL: "http://localhost:8080/ogi-ws",
+        API_URL: "http://ogi.jerep6.eu.cloudbees.net",
         MAP_CENTER:  new google.maps.LatLng(43.65942731889631, -1.3027381896972656),
         MAP_ZOOM:  12
     }
