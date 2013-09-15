@@ -1,4 +1,4 @@
-function ControllerAjout($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log) {
+function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log) {
 
     // ##### MAP #####
     $scope.markers = [];
@@ -54,11 +54,16 @@ function ControllerAjout($scope, Page, $routeParams, ServiceConfiguration, Servi
     function addOrMoveMarker(latLng) {
         // Only add 1 marker which can drag
         if($scope.markers.length == 0) {
-            $scope.markers.push(new google.maps.Marker({
+            var m = new google.maps.Marker({
                 map: $scope.map,
                 position: latLng,
                 draggable : true
-            }));
+            });
+            m.addListener("dragend", function() {
+                $scope.prp.address.latitude = this.getPosition().lat();
+                $scope.prp.address.longitude = this.getPosition().lng();
+            });
+            $scope.markers.push(m);
         }
         else {
             $scope.markers[0].setPosition(latLng);

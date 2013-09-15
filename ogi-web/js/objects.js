@@ -13,7 +13,25 @@ var address = {
     }
 };
 
-var prp = {
+
+
+function PropertyJS(prpFromAPI) {
+    // Init object from parameter
+    for(var key in prpFromAPI){
+        this[key] = prpFromAPI[key];
+    }
+    this.descriptionsSimple = [];
+    this.init();
+}
+
+PropertyJS.prototype = {
     address : Object.create(address),
-    photos : []
-};
+    descriptions: [],
+    photos : [],
+    init : function () {
+        // Create array of descriptions
+        angular.forEach(this.descriptions, function(value, key) {
+            this.descriptionsSimple[key] = value;
+        });
+    }
+}

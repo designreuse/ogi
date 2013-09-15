@@ -4,13 +4,13 @@ function ControllerPrp($scope, Page, $routeParams, ServiceConfiguration, Service
     // Top menu for active item
     $scope.addMenu = {
         "items" : [
-            { "name" : "owner", "active" : false, "url" : "js/views/formPrp.html"},
-            { "name" : "prp", "active" : false, "url" : "js/views/formPrp.html"},
-            { "name" : "desc", "active" : false, "url" : "js/views/formDesc.html"},
-            { "name" : "equipment", "active" : false, "url" : "js/views/formPrp.html"},
-            { "name" : "adminis", "active" : false, "url" : "js/views/formPrp.html"},
-            { "name" : "diagnosis", "active" : false, "url" : "js/views/formPrp.html"},
-            { "name" : "room", "active" : false, "url" : "js/views/formPrp.html"}
+            { "name" : "owner", "active" : false, "url" : "js/views/formPrpTabGeneral.html"},
+            { "name" : "prp", "active" : false, "url" : "js/views/formPrpTabGeneral.html"},
+            { "name" : "desc", "active" : false, "url" : "js/views/formPrpTabDesc.html"},
+            { "name" : "equipment", "active" : false, "url" : "js/views/formPrpTabGeneral.html"},
+            { "name" : "adminis", "active" : false, "url" : "js/views/formPrpTabGeneral.html"},
+            { "name" : "diagnosis", "active" : false, "url" : "js/views/formPrpTabGeneral.html"},
+            { "name" : "room", "active" : false, "url" : "js/views/formPrpTabGeneral.html"}
         ],
 
         clean : function () {
@@ -37,11 +37,11 @@ function ControllerPrp($scope, Page, $routeParams, ServiceConfiguration, Service
         }
     };
 
-    $scope.addMenu.select("prp");
+    $scope.addMenu.select("desc");
     $scope.tempReference = Math.random().toString(36).substring(7);
     $log.log("tempReference="+ $scope.tempReference);
 
-    $scope.prp = Object.create(prp);
+    $scope.prp = new PropertyJS({});
 }
 
 

@@ -1,5 +1,5 @@
 <!--BEGIN DIV GENERAL -->
-<div ng-controller="ControllerAjout">
+<div ng-controller="ControllerPrpTabGeneral">
     <div class="row-fluid">
         <div class="span7">
             <fieldset>
@@ -38,10 +38,11 @@
             <fieldset>
                 <legend>Commentaires</legend>
                 <tabset>
-                    <tab heading="Site"><textarea class="input-xxlarge" rows="6">a</textarea></tab>
-                    <tab heading="Fiche Vitrine"><textarea class="input-xxlarge" rows="6">b</textarea></tab>
-                    <tab heading="Sites Immobiliers"><textarea class="input-xxlarge" rows="6">c</textarea></tab>
-                    <tab heading="Etat"><textarea class="input-xxlarge" rows="6">d</textarea></tab>
+                    <tab heading="OGI"><textarea class="input-xxlarge" rows="6" ng-model="prp.descriptionsSimple['APP']"></textarea></tab>
+                    <tab heading="Fiche Vitrine"><textarea class="input-xxlarge" rows="6" ng-model="prp.descriptionsSimple['VITRINE']"></textarea></tab>
+                    <tab heading="Sites Immobiliers"><textarea class="input-xxlarge" rows="6" ng-model="prp.descriptionsSimple['WEBSITE_AUTRE']"></textarea></tab>
+                    <tab heading="Acimflo"><textarea class="input-xxlarge" rows="6" ng-model="prp.descriptionsSimple['WEBSITE_PERSO']"></textarea></tab>
+                    <tab heading="Etat"><textarea class="input-xxlarge" rows="6" ng-model="prp.descriptionsSimple['AUTRE']"></textarea></tab>
                 </tabset>
             </fieldset>
         </div>
@@ -137,7 +138,7 @@
             <!-- Add a li outside ng-repeat else drag&drop bug : https://github.com/angular-ui/ui-sortable/issues/29 -->
             <li></li>
             <li ng-repeat="photo in prp.photos">
-                <img ng-src="{{photo.url}}" />
+                <img ng-src="{{photo.url}}" />{{photo.name}}
             </li>
         </ul>
     </fieldset>
