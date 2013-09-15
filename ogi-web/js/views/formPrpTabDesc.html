@@ -41,11 +41,11 @@
         </div>
 
         <div class="span6">
-            <fieldset>
+            <fieldset id="pieces">
                 <legend>Nombre de pièces</legend>
                 <div class="control-group input-prepend input-append">
                     <label class="control-label">Pièces</label>
-                    <div class="controls">
+                    <div class="controls" plus="10">
                         <span class="add-on"><i class="icon-minus"></i></span>
                         <input class="input-mini" type="number" />
                         <span class="add-on"><i class="icon-plus"></i></span>
@@ -118,46 +118,42 @@
 
             <div class="control-group">
                 <label class="control-label">Toiture</label>
-                <div class="controls form-inline">
+                <div class="controls">
                     <select>
                         <option>Toit Terasse</option>
                         <option>Toit en pente</option>
                     </select>
-                    <button class="btn btn-info mybtn-add"><i class="icon-white icon-plus"></i></button>
                 </div>
             </div>
 
             <div class="control-group">
                 <label class="control-label">Murs extérieurs</label>
-                <div class="controls form-inline">
+                <div class="controls">
                     <select>
                         <option>Peinture</option>
                         <option>Crépi</option>
                         <option>Brique</option>
                     </select>
-                    <button class="btn btn-info mybtn-add"><i class="icon-white icon-plus"></i></button>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Isolation</label>
-                <div class="controls form-inline">
+                <div class="controls">
                     <select>
                         <option>Double-vitrage</option>
                         <option>Option2</option>
                     </select>
-                    <button class="btn btn-info mybtn-add"><i class="icon-white icon-plus"></i></button>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Stationnement</label>
-                <div class="controls form-inline">
+                <div class="controls">
                     <select>
                         <option>Garage</option>
                         <option>Abri voiture</option>
                         <option>Parking</option>
                         <option>Autre</option>
                     </select>
-                    <button class="btn btn-info mybtn-add"><i class="icon-white icon-plus"></i></button>
                 </div>
             </div>
         </fieldset>
@@ -169,19 +165,14 @@
             <h3>Ajouter un type de bien</h3>
         </div>
         <div class="modal-body">
-            <div class="control-group">
-                <label class="control-label">Nouveau type de bien</label>
-                <div class="controls">
-                    <input class="input" type="text" ng-model="newType.label"/>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn" ng-click="$dismiss()">Fermer</button>
-            <button class="btn btn-warning" ng-click="ok()">
-                <i class="icon-white icon-plus"></i>
-                <span>Ajouter</span>
-            </button>
+            <form class="form-inline center">
+                <input class="input" type="text" ng-model="newType.label" placeholder="Entrer un nouveau type"/>
+                <button class="btn btn-success" ng-click="ok()">
+                    <i class="icon-white icon-plus"></i>
+                    <span>Ajouter</span>
+                </button>
+                <button class="btn btn-danger" ng-click="$dismiss()">Annuler</button>
+            </form>
         </div>
     </script>
 </div>

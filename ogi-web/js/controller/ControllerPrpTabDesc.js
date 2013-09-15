@@ -1,11 +1,14 @@
 function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log ,$modal) {
 
-    // Get type of current category
+    // Get type of current category. Run query only if promise of current type is resolved
     $scope.types = [];
-    $http.get(ServiceConfiguration.API_URL+"/rest/category/HSE/types").success(function (data) {
-        $scope.types = data;
-        $scope.types.push("Autre");
+    $scope.httpGetCurrentType.success(function() {
+        $http.get(ServiceConfiguration.API_URL+"/rest/category/"+$scope.currentType.code+"/types").success(function (data) {
+            $scope.types = data;
+            $scope.types.push("Autre");
+        });
     });
+
 
     $scope.typeChange = function () {
         if($scope.prp.jsType == "Autre") {
@@ -34,6 +37,7 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
             $scope.prp.jsType = "";
         });
     };
+
 }
 
 var ModalInstanceCtrl = function ($scope, $modalInstance, ServiceConfiguration, $http, currentCategory) {

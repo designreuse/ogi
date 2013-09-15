@@ -2,52 +2,39 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e867116-9053-4894-bee5-087a926bbbcb" name="Default" comment="webapp initial commit">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/controller/ControllerPrpTabDesc.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/views/formPrpTabDesc.html" />
-      <change type="DELETED" beforePath="C:\Users\jerep6\Documents\workspace\ogi\ogi-web\js\lib\ui-bootstrap-tpls-0.5.0.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\jerep6\Documents\workspace\ogi\ogi-web\js\lib\ui-bootstrap-tpls-0.5.0.min.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\jerep6\Documents\workspace\ogi\ogi-web\js\views\formDesc.html" afterPath="" />
-      <change type="MOVED" beforePath="C:\Users\jerep6\Documents\workspace\ogi\ogi-web\js\controller\ControllerAjout.js" afterPath="$PROJECT_DIR$/js/controller/ControllerPrpTabGeneral.js" />
-      <change type="MOVED" beforePath="C:\Users\jerep6\Documents\workspace\ogi\ogi-web\js\lib\ui-bootstrap-tpls-0.5.0.js" afterPath="$PROJECT_DIR$/js/lib/ui-bootstrap-tpls-0.6.0.js" />
-      <change type="MOVED" beforePath="C:\Users\jerep6\Documents\workspace\ogi\ogi-web\js\views\formPrp.html" afterPath="$PROJECT_DIR$/js/views/formPrpTabGeneral.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/controller/ControllerList.js" afterPath="$PROJECT_DIR$/js/controller/ControllerList.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/directive/directives.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/controller/ControllerPrp.js" afterPath="$PROJECT_DIR$/js/controller/ControllerPrp.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ogi-parent/ogi-services/src/main/java/fr/jerep6/ogi/persistance/dao/DaoType.java" afterPath="$PROJECT_DIR$/../ogi-parent/ogi-services/src/main/java/fr/jerep6/ogi/persistance/dao/DaoType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ogi-parent/ogi-services/src/main/java/fr/jerep6/ogi/persistance/dao/impl/DaoTypeImpl.java" afterPath="$PROJECT_DIR$/../ogi-parent/ogi-services/src/main/java/fr/jerep6/ogi/persistance/dao/impl/DaoTypeImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ogi-parent/ogi-ws/src/main/java/fr/jerep6/ogi/transfert/mapping/OrikaMapper.java" afterPath="$PROJECT_DIR$/../ogi-parent/ogi-ws/src/main/java/fr/jerep6/ogi/transfert/mapping/OrikaMapper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ogi-parent/ogi-ws/src/main/java/fr/jerep6/ogi/transfert/bean/RealPropertyTo.java" afterPath="$PROJECT_DIR$/../ogi-parent/ogi-ws/src/main/java/fr/jerep6/ogi/transfert/bean/RealPropertyTo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ogi-parent/ogi-services/src/main/java/fr/jerep6/ogi/service/ServiceCategory.java" afterPath="$PROJECT_DIR$/../ogi-parent/ogi-services/src/main/java/fr/jerep6/ogi/service/ServiceCategory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ogi-parent/ogi-services/src/main/java/fr/jerep6/ogi/service/impl/ServiceCategoryImpl.java" afterPath="$PROJECT_DIR$/../ogi-parent/ogi-services/src/main/java/fr/jerep6/ogi/service/impl/ServiceCategoryImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ogi-parent/ogi-services/src/main/java/fr/jerep6/ogi/service/ServiceType.java" afterPath="$PROJECT_DIR$/../ogi-parent/ogi-services/src/main/java/fr/jerep6/ogi/service/ServiceType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ogi-parent/ogi-services/src/main/java/fr/jerep6/ogi/service/impl/ServiceTypeImpl.java" afterPath="$PROJECT_DIR$/../ogi-parent/ogi-services/src/main/java/fr/jerep6/ogi/service/impl/ServiceTypeImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ogi-parent/ogi-services/src/main/java/fr/jerep6/ogi/persistance/bo/Type.java" afterPath="$PROJECT_DIR$/../ogi-parent/ogi-services/src/main/java/fr/jerep6/ogi/persistance/bo/Type.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ogi-parent/ogi-ws/src/main/java/fr/jerep6/ogi/rest/WSCategory.java" afterPath="$PROJECT_DIR$/../ogi-parent/ogi-ws/src/main/java/fr/jerep6/ogi/rest/WSCategory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ogi-parent/ogi-services/src/main/resources/properties/environnement.properties" afterPath="$PROJECT_DIR$/../ogi-parent/ogi-services/src/main/resources/properties/environnement.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/controller/ControllerPrpTabDesc.js" afterPath="$PROJECT_DIR$/js/controller/ControllerPrpTabDesc.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/views/formPrpTabDesc.html" afterPath="$PROJECT_DIR$/js/views/formPrpTabDesc.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/views/formPrpTabGeneral.html" afterPath="$PROJECT_DIR$/js/views/formPrpTabGeneral.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/objects.js" afterPath="$PROJECT_DIR$/js/objects.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/views/prpFormulaireAjout.html" afterPath="$PROJECT_DIR$/js/views/prpFormulaireAjout.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/views/prpList.html" afterPath="$PROJECT_DIR$/js/views/prpList.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/style.css" afterPath="$PROJECT_DIR$/css/style.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ogi-web.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379183066964" ignored="false" />
-    <file path="/index.html" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379237614263" ignored="false" />
+    <file path="/Dummy.txt" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379276537102" ignored="false" />
+    <file path="/index.html" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379273862195" ignored="false" />
     <file path="/controler.js" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1375826703347" ignored="false" />
     <file path="/controller.js" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1376683996964" ignored="false" />
     <file path="/filters.js" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1376341176019" ignored="false" />
     <file path="/app.js" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379237332845" ignored="false" />
     <file path="/prpDetail.html" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1376393370245" ignored="false" />
-    <file path="/prpList.html" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379250783277" ignored="false" />
-    <file path="/style.css" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379174522589" ignored="false" />
+    <file path="/prpList.html" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379276350455" ignored="false" />
+    <file path="/style.css" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379274865871" ignored="false" />
     <file path="/ControllerList.js" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379250593151" ignored="false" />
     <file path="/formPrp.html" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379183200934" ignored="false" />
     <file path="/objects.js" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379173647403" ignored="false" />
-    <file path="/ControllerPrp.js" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379173698851" ignored="false" />
+    <file path="/ControllerPrp.js" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379267649924" ignored="false" />
     <file path="/ControllerAjout.js" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379178943632" ignored="false" />
     <file path="/a.dummy" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379183142137" ignored="false" />
-    <file path="/formPrpTabDesc.html" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379246229723" ignored="false" />
-    <file path="/ControllerPrpTabDesc.js" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379245613233" ignored="false" />
+    <file path="/formPrpTabDesc.html" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379272591279" ignored="false" />
+    <file path="/ControllerPrpTabDesc.js" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379267695576" ignored="false" />
     <file path="/ControllerPrpTabGeneral.js" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379238195270" ignored="false" />
+    <file path="/formPrpTabGeneral.html" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379272782108" ignored="false" />
+    <file path="/prpFormulaireAjout.html" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379274165451" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,32 +54,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="prpList.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/views/prpList.html">
+      <file leaf-file-name="formPrpTabGeneral.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/views/formPrpTabGeneral.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="80" column="84" selection-start="3369" selection-end="3369" vertical-scroll-proportion="-12.269231">
-              <folding>
-                <element signature="n#style#0;n#table#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#td#7;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#ul#0;n#div#1;n#script#1;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ControllerList.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/js/controller/ControllerList.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="25" selection-start="1621" selection-end="1621" vertical-scroll-proportion="0.3424408">
+            <state line="37" column="21" selection-start="1781" selection-end="1781" vertical-scroll-proportion="-0.65384614">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ControllerPrpTabDesc.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/controller/ControllerPrpTabDesc.js">
+      <file leaf-file-name="style.css" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/css/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="46" column="30" selection-start="1599" selection-end="1640" vertical-scroll-proportion="0.0">
+            <state line="26" column="4" selection-start="367" selection-end="367" vertical-scroll-proportion="0.39145908">
               <folding />
             </state>
           </provider>
@@ -122,22 +96,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/js/lib/angular-route.js" />
-        <option value="$PROJECT_DIR$/css/bootstrap.css" />
-        <option value="$PROJECT_DIR$/js/controller/ControllerAlert.js" />
         <option value="$PROJECT_DIR$/js/service/services.js" />
         <option value="$PROJECT_DIR$/js/objects.js" />
-        <option value="$PROJECT_DIR$/css/style.css" />
         <option value="$PROJECT_DIR$/js/controller/ControllerAjout.js" />
         <option value="$PROJECT_DIR$/js/views/formPrp.html" />
         <option value="$PROJECT_DIR$/js/app.js" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/controller/ControllerPrpTabGeneral.js" />
-        <option value="$PROJECT_DIR$/js/controller/ControllerPrp.js" />
-        <option value="$PROJECT_DIR$/js/controller/ControllerPrpTabDesc.js" />
-        <option value="$PROJECT_DIR$/js/views/formPrpTabDesc.html" />
-        <option value="$PROJECT_DIR$/js/views/prpList.html" />
         <option value="$PROJECT_DIR$/js/controller/ControllerList.js" />
+        <option value="$PROJECT_DIR$/js/controller/ControllerPrp.js" />
+        <option value="$PROJECT_DIR$/js/directive/directives.js" />
+        <option value="$PROJECT_DIR$/js/controller/ControllerPrpTabDesc.js" />
+        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/js/views/prpFormulaireAjout.html" />
+        <option value="$PROJECT_DIR$/js/views/prpList.html" />
+        <option value="$PROJECT_DIR$/js/views/formPrpTabDesc.html" />
+        <option value="$PROJECT_DIR$/js/views/formPrpTabGeneral.html" />
+        <option value="$PROJECT_DIR$/css/style.css" />
       </list>
     </option>
   </component>
@@ -174,6 +148,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -238,7 +213,43 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="service" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ogi-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ogi-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ogi-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ogi-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="directive" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -260,9 +271,22 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ogi-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ogi-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="css" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -271,17 +295,17 @@
     <property name="options.lastSelected" value="vcs.Git" />
     <property name="FullScreen" value="false" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
-    <property name="options.splitter.details.proportions" value="0.2" />
-    <property name="options.searchVisible" value="true" />
     <property name="GoToClass.includeJavaFiles" value="false" />
+    <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\jerep6\Documents\workspace\ogi\ogi-web\js\directive" />
       <recent name="C:\Users\jerep6\Documents\workspace\ogi\ogi-web\js\controller" />
       <recent name="C:\Users\jerep6\Documents\workspace\ogi\ogi-web\css" />
       <recent name="C:\Users\jerep6\Documents\workspace\ogi\ogi-web\js\views" />
       <recent name="C:\Users\jerep6\Documents\workspace\ogi\ogi-web\js" />
-      <recent name="C:\Users\jerep6\Documents\workspace\ogi\ogi-web\js\filter" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\jerep6\Documents\workspace\ogi\ogi-web\js\lib" />
@@ -358,10 +382,9 @@
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32935154" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32993197" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32993197" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27954546" sideWeight="0.670068" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2840909" sideWeight="0.670068" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
@@ -370,6 +393,7 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32993197" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32993197" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -439,7 +463,21 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/js/utils.js">
+    <entry file="file://$PROJECT_DIR$/js/controller/ControllerPrpTabGeneral.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="156" column="33" selection-start="5106" selection-end="5106" vertical-scroll-proportion="0.38069215">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/controller/ControllerPrp.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="4" selection-start="1684" selection-end="1709" vertical-scroll-proportion="0.6830601">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/service/services.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
@@ -448,113 +486,96 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="83" selection-start="256" selection-end="318" vertical-scroll-proportion="0.0">
+        <state line="13" column="5" selection-start="515" selection-end="520" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/controller/ControllerPrp.js">
+    <entry file="file://$PROJECT_DIR$/js/directive/directives.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="27" selection-start="1654" selection-end="1654" vertical-scroll-proportion="0.54626334">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/views/prpFormulaireAjout.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="47" selection-start="1567" selection-end="1603" vertical-scroll-proportion="0.6826004">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/controller/ControllerDetails.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/controller/ControllerMain.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/views/formPrpTabGeneral.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="54" selection-start="3926" selection-end="3926" vertical-scroll-proportion="0.44933078">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="51" selection-start="386" selection-end="386" vertical-scroll-proportion="0.3575526">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/lib/ui-bootstrap-tpls-0.6.0.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="0" column="56" selection-start="56" selection-end="56" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/lib/ui-event.js">
       <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="53" selection-start="1010" selection-end="1010" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/phpstorm.jar!/resources/html5-schema/web-forms.rnc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="521" column="23" selection-start="11343" selection-end="11343" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/controller/ControllerAlert.js">
+      <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/lib/ui-sortable.js">
+    <entry file="file://$PROJECT_DIR$/css/bootstrap.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/views/formPrpTabDesc.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="185" column="13" selection-start="7443" selection-end="8224" vertical-scroll-proportion="0.7779851">
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#3;n#fieldset#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/controller/ControllerPrpTabGeneral.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="156" column="33" selection-start="5106" selection-end="5106" vertical-scroll-proportion="0.38069215">
+        <state line="11" column="11" selection-start="248" selection-end="248" vertical-scroll-proportion="0.3406193">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/controller/ControllerPrpTabDesc.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="30" selection-start="1599" selection-end="1640" vertical-scroll-proportion="0.0">
+        <state line="36" column="27" selection-start="1254" selection-end="1254" vertical-scroll-proportion="0.4335155">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="6" selection-start="1061" selection-end="1061" vertical-scroll-proportion="15.192307">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/views/prpFormulaireAjout.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="6" selection-start="1648" selection-end="1648" vertical-scroll-proportion="0.8451243">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/views/prpList.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="80" column="84" selection-start="3369" selection-end="3369" vertical-scroll-proportion="-12.269231">
+        <state line="56" column="7" selection-start="2745" selection-end="2745" vertical-scroll-proportion="0.3250478">
           <folding>
-            <element signature="n#style#0;n#table#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#7;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#ul#0;n#div#1;n#script#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#7;n#tr#0;n#tbody#0;n#table#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#ul#0;n#div#1;n#script#1;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/controller/ControllerList.js">
+    <entry file="file://$PROJECT_DIR$/js/views/formPrpTabDesc.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="25" selection-start="1621" selection-end="1621" vertical-scroll-proportion="0.3424408">
+        <state line="158" column="19" selection-start="6980" selection-end="6980" vertical-scroll-proportion="0.9365672">
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#3;n#fieldset#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/views/formPrpTabGeneral.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="21" selection-start="1781" selection-end="1781" vertical-scroll-proportion="-0.65384614">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="4" selection-start="367" selection-end="367" vertical-scroll-proportion="0.39145908">
           <folding />
         </state>
       </provider>

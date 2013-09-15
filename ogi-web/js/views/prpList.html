@@ -1,87 +1,91 @@
-<div class="btn-group">
-    <button class="btn btn-info">Actions</button>
-    <button class="btn btn-info dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-    <ul class="dropdown-menu">
-        <li><a href="#"><i class="icon-pencil"></i> Modifier</a></li>
-        <li><a href="javascript:;" ng-click="openModalDelete()"><i class="icon-trash"></i> Supprimer</a></li>
-        <li><a href="#"><i class="icon-print"></i> Imprimer</a></li>
-        <li class="divider"></li>
-        <li><a href="#"><i class="icon-upload"></i> Synchroniser sur Acimflo</a></li>
-        <li><a href="#"><i class="icon-upload"></i> Synchroniser sur Diaporama</a></li>
-    </ul>
+<div id="prpList">
+    <div class="row-fluid">
+        <div class="btn-group">
+            <button class="btn btn-info">Actions</button>
+            <button class="btn btn-info dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li><a href="#"><i class="icon-pencil"></i> Modifier</a></li>
+                <li><a href="javascript:;" ng-click="openModalDelete()"><i class="icon-trash"></i> Supprimer</a></li>
+                <li><a href="#"><i class="icon-print"></i> Imprimer</a></li>
+                <li class="divider"></li>
+                <li><a href="#"><i class="icon-upload"></i> Synchroniser sur Acimflo</a></li>
+                <li><a href="#"><i class="icon-upload"></i> Synchroniser sur Diaporama</a></li>
+            </ul>
+        </div>
+
+        <button class="btn btn-primary" ng-click="openModalAddPrp()">Ajouter</button>
+    </div>
+    <div class="row-fluid">
+        <table class="liste table table-striped table-condensed">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Référence</th>
+                <th>Type</th>
+                <th>Ville</th>
+                <th>Prix</th>
+                <th>Surface</th>
+                <th>Photo</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="prp in properties">
+                    <td><input type="checkbox" value="{{prp.reference}}" ng-model="prp.checked"/></td>
+                    <td data-title="'reference'" sortable="reference">{{prp.reference}}</td>
+                    <td>{{prp.category.label}}</td>
+                    <td>{{prp.address.city}}</td>
+                    <td>{{prp.sale.price}} €</td>
+                    <td>
+                        <span ng-switch on="type(prp)">
+                            <span ng-switch-when="HSE">{{prp.area}} m²</span>
+                            <span ng-switch-when="PLT">{{prp.landArea}} m²</span>
+                            <span ng-switch-default></span>
+                        </span>
+                    </td>
+                    <td><img ng-src="{{prp.photos[0].url | img:'thumb'}}"/></td>
+                    <td style="vertical-align:middle">
+                        <div class="btn-group">
+                            <a href="#/biens/modifier/{{prp.reference}}" class="btn"><i class="icon-pencil"></i></a>
+                            <button class="btn" ng-click="delete($index)"><i class="icon-trash"></i></button>
+                            <button class="btn"><i class="icon-print"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script type="text/ng-template" id="modalPrpDelete.html">
+        <div class="modal-header"><a class="close" ng-click="$dismiss()">×</a>
+            <h3>Suppression</h3>
+        </div>
+        <div class="modal-body">
+            <p>Confirmez-vous la suppression de :
+            <ul>
+                <li ng-repeat="prp in selectedProperties">{{prp.reference}} -- {{prp.address.city}}</li>
+            </ul>
+            </p>
+        </div>
+        <div class="modal-footer">
+            <a class="btn" ng-click="$dismiss()">Fermer</a>
+            <a class="btn btn-warning" ng-click="delete()"><span class="icon-trash"></span>Supprimer</a>
+        </div>
+    </script>
+
+
+    <script type="text/ng-template" id="modalPrpAdd.html">
+        <div class="modal-header"><a class="close" ng-click="$dismiss()">×</a>
+            <h3>Ajouter un bien</h3>
+        </div>
+        <div class="modal-body">
+            <ul style="text-align:center" class="unstyled inline">
+                <li><a href="#/biens/ajouter/HSE" ng-click="$dismiss()" class="btn btn-block"><img src="img/logoMaison.png" /></a>Maison</li>
+                <li><a href="#/biens/ajouter/APT" ng-click="$dismiss()" class="btn btn-block"><img src="img/logoAppartement.png" /></a>Appartement</li>
+                <li><a href="#/biens/ajouter/PLT" ng-click="$dismiss()" class="btn btn-block"><img src="img/logoTerrain.png" /></a>Terrain</li>
+                <li><a href="#/biens/ajouter/BSN" ng-click="$dismiss()" class="btn btn-block"><img src="img/logoCommercial.png" /></a>Local Commercial</li>
+                <li><a href="#/biens/ajouter/GRG" ng-click="$dismiss()" class="btn btn-block"><img src="img/logoGarage.png" /></a>Garage</li>
+            </ul>
+        </div>
+    </script>
 </div>
-
-<button class="btn btn-primary" ng-click="openModalAddPrp()">Ajouter</button>
-
-<table style="width:800px" class="liste table table-striped table-condensed">
-    <thead>
-    <tr>
-        <th></th>
-        <th>Référence</th>
-        <th>Type</th>
-        <th>Ville</th>
-        <th>Prix</th>
-        <th>Surface</th>
-        <th>Photo</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="prp in properties">
-            <td><input type="checkbox" value="{{prp.reference}}" ng-model="prp.checked"/></td>
-            <td data-title="'reference'" sortable="reference">{{prp.reference}}</td>
-            <td>{{prp.category.label}}</td>
-            <td>{{prp.address.city}}</td>
-            <td>{{prp.sale.price}} €</td>
-            <td>
-                <span ng-switch on="type(prp)">
-                    <span ng-switch-when="HSE">{{prp.area}} m²</span>
-                    <span ng-switch-when="PLT">{{prp.landArea}} m²</span>
-                    <span ng-switch-default></span>
-                </span>
-            </td>
-            <td><img ng-src="{{prp.photos[0].url | img:'thumb'}}"/></td>
-            <td style="vertical-align:middle">
-                <div class="btn-group">
-                    <a href="#/biens/modifier/{{prp.reference}}" class="btn"><i class="icon-pencil"></i></a>
-                    <button class="btn" ng-click="delete($index)"><i class="icon-trash"></i></button>
-                    <button class="btn"><i class="icon-print"></i></button>
-                </div>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
-
-<script type="text/ng-template" id="modalPrpDelete.html">
-    <div class="modal-header"><a class="close" ng-click="$dismiss()">×</a>
-        <h3>Suppression</h3>
-    </div>
-    <div class="modal-body">
-        <p>Confirmez-vous la suppression de :
-        <ul>
-            <li ng-repeat="prp in selectedProperties">{{prp.reference}} -- {{prp.address.city}}</li>
-        </ul>
-        </p>
-    </div>
-    <div class="modal-footer">
-        <a class="btn" ng-click="$dismiss()">Fermer</a>
-        <a class="btn btn-warning" ng-click="delete()"><span class="icon-trash"></span>Supprimer</a>
-    </div>
-</script>
-
-
-<script type="text/ng-template" id="modalPrpAdd.html">
-    <div class="modal-header"><a class="close" ng-click="$dismiss()">×</a>
-        <h3>Ajouter un bien</h3>
-    </div>
-    <div class="modal-body">
-        <ul style="text-align:center" class="unstyled inline">
-            <li><a href="#/biens/ajouter/maison" ng-click="$dismiss()" class="btn btn-block"><img src="img/logoMaison.png" /></a>Maison</li>
-            <li><a href="#/biens/ajouter/appartement" ng-click="$dismiss()" class="btn btn-block"><img src="img/logoAppartement.png" /></a>Appartement</li>
-            <li><a href="#/biens/ajouter/terrain" ng-click="$dismiss()" class="btn btn-block"><img src="img/logoTerrain.png" /></a>Terrain</li>
-            <li><a href="#/biens/ajouter/commercial" ng-click="$dismiss()" class="btn btn-block"><img src="img/logoCommercial.png" /></a>Local Commercial</li>
-            <li><a href="#/biens/ajouter/garage" ng-click="$dismiss()" class="btn btn-block"><img src="img/logoGarage.png" /></a>Garage</li>
-        </ul>
-    </div>
-</script>

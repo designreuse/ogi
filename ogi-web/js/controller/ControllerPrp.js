@@ -1,6 +1,4 @@
 function ControllerPrp($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log) {
-    Page.setTitle("Ajouter un bien : "+$routeParams.type);
-
     // Top menu for active item
     $scope.addMenu = {
         "items" : [
@@ -36,6 +34,14 @@ function ControllerPrp($scope, Page, $routeParams, ServiceConfiguration, Service
             return itemActive;
         }
     };
+
+    // Current type to add (code + label)
+    $scope.currentType = {};
+    // Get information about current type
+    $scope.httpGetCurrentType = $http.get(ServiceConfiguration.API_URL+"/rest/category/"+$routeParams.type).success(function (data) {
+        $scope.currentType = data;
+        Page.setTitle("Ajouter un bien : "+data.label);
+    });
 
     $scope.addMenu.select("desc");
     $scope.tempReference = Math.random().toString(36).substring(7);

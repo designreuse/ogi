@@ -33,6 +33,8 @@
 
     <script src="js/service/services.js"></script>
 
+    <script src="/js/directive/directives.js"></script>
+
     <script src="js/controller/ControllerAlert.js"></script>
     <script src="js/controller/ControllerMain.js"></script>
     <script src="js/controller/ControllerDetails.js"></script>
@@ -50,12 +52,21 @@
 </head>
 <body>
 
-<div ng-controller="AlertCtrl">
-    <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.date | date:"HH'h 'mm'min 'ss'sec'"}} : {{alert.msg}}</alert>
+
+<div class="container-fluid" >
+    <div class="row-fluid">
+        <div class="span2">
+            <!--Sidebar content-->
+        </div>
+        <div class="span10">
+            <div ng-controller="AlertCtrl">
+                <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.date | date:"HH'h 'mm'min 'ss'sec'"}} : {{alert.msg}}</alert>
+            </div>
+
+            <div ng-view></div>
+        </div>
+    </div>
 </div>
-
-
-<div ng-view></div>
 
 </body>
 </html>

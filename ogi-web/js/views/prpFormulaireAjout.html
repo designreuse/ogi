@@ -1,36 +1,27 @@
-<div class="container-fluid" >
+<div id="prpFormManage">
+    <ul class="nav nav-pills">
+        <li ng-class="{active: addMenu.getActive().name == 'owner'}"><a ng-click="addMenu.select('owner')" href="javascript:;">Propriétaire</a></li>
+        <li ng-class="{active: addMenu.getActive().name == 'prp'}"><a ng-click="addMenu.select('prp')" href="javascript:;">Bien</a></li>
+        <li ng-class="{active: addMenu.getActive().name == 'desc'}"><a ng-click="addMenu.select('desc')" href="javascript:;">Descriptif</a></li>
+
+        <li ng-class="{active: addMenu['equipment']}"><a ng-click="addMenu.select('equipment')" href="javascript:;">Equipement</a></li>
+        <li ng-class="{active: addMenu['adminis']}"><a ng-click="addMenu.select('adminis')" href="javascript:;">Administratif</a></li>
+        <li ng-class="{active: addMenu['diagnosis']}"><a ng-click="addMenu.select('diagnosis')" href="javascript:;">Diagnostics immobiliers</a></li>
+        <li ng-class="{active: addMenu['room']}"><a ng-click="addMenu.select('room')" href="javascript:;">Détail des pièces</a></li>
+        <li ng-class="{active: addMenu['prp']}"><a ng-click="addMenu.select('prp')" href="javascript:;">Visites</a></li>
+        <li ng-class="{active: addMenu['prp']}"><a ng-click="addMenu.select('prp')" href="javascript:;">Contact</a></li>
+    </ul>
+
+
+    <form class="form-horizontal well">
+        <div ng-include="addMenu.getActive().url"></div>
+    </form>
+
+
     <div class="row-fluid">
-        <div class="span2">
-            <!--Sidebar content-->
-        </div>
-        <div class="span10">
-            <!--Body content-->
-            <ul class="nav nav-pills">
-                <li ng-class="{active: addMenu.getActive().name == 'owner'}"><a ng-click="addMenu.select('owner')" href="javascript:;">Propriétaire</a></li>
-                <li ng-class="{active: addMenu.getActive().name == 'prp'}"><a ng-click="addMenu.select('prp')" href="javascript:;">Bien</a></li>
-                <li ng-class="{active: addMenu.getActive().name == 'desc'}"><a ng-click="addMenu.select('desc')" href="javascript:;">Descriptif</a></li>
-
-                <li ng-class="{active: addMenu['equipment']}"><a ng-click="addMenu.select('equipment')" href="javascript:;">Equipement</a></li>
-                <li ng-class="{active: addMenu['adminis']}"><a ng-click="addMenu.select('adminis')" href="javascript:;">Administratif</a></li>
-                <li ng-class="{active: addMenu['diagnosis']}"><a ng-click="addMenu.select('diagnosis')" href="javascript:;">Diagnostics immobiliers</a></li>
-                <li ng-class="{active: addMenu['room']}"><a ng-click="addMenu.select('room')" href="javascript:;">Détail des pièces</a></li>
-                <li ng-class="{active: addMenu['prp']}"><a ng-click="addMenu.select('prp')" href="javascript:;">Visites</a></li>
-                <li ng-class="{active: addMenu['prp']}"><a ng-click="addMenu.select('prp')" href="javascript:;">Contact</a></li>
-            </ul>
-
-
-            <form class="form-horizontal well">
-                <div ng-include="addMenu.getActive().url"></div>
-            </form>
-
-
-            <div class="row-fluid">
-                <div class="center">
-                    <button type="submit" class="btn btn-success">Enregistrer</button>
-                    <button type="submit" class="btn btn-danger">Annuler</button>
-                </div>
-            </div>
+        <div class="center">
+            <button type="submit" class="btn btn-success">Enregistrer</button>
+            <button type="submit" class="btn btn-danger">Annuler</button>
         </div>
     </div>
-
 </div>
