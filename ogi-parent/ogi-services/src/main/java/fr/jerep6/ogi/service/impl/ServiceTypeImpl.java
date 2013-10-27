@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -22,9 +24,10 @@ import fr.jerep6.ogi.service.ServiceType;
 @Service("serviceType")
 @Transactional(propagation = Propagation.REQUIRED)
 public class ServiceTypeImpl extends AbstractTransactionalService<Type, Integer> implements ServiceType {
+	private final Logger	LOGGER	= LoggerFactory.getLogger(ServiceTypeImpl.class);
 
 	@Autowired
-	private DaoType	daoType;
+	private DaoType			daoType;
 
 	@Override
 	@PostConstruct

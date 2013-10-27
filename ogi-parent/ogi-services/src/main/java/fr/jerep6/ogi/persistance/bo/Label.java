@@ -2,8 +2,11 @@ package fr.jerep6.ogi.persistance.bo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -17,7 +20,9 @@ import com.google.common.base.Objects;
 import fr.jerep6.ogi.enumeration.EnumLabelType;
 
 @Entity
-@Table(name = "TA_LABEL")
+@Table(name = "TA_LABEL", //
+uniqueConstraints = { @UniqueConstraint(columnNames = { "LAB_TYPE", "LAB_LABEL" }) }//
+)
 // Lombok
 @Getter
 @Setter
@@ -25,6 +30,7 @@ import fr.jerep6.ogi.enumeration.EnumLabelType;
 public class Label {
 	@Id
 	@Column(name = "LAB_ID", unique = true, nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer			techid;
 
 	@Column(name = "LAB_TYPE", nullable = false, length = 16)

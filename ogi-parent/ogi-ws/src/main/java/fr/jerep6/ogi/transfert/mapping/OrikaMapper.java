@@ -13,19 +13,24 @@ import org.springframework.stereotype.Component;
 import fr.jerep6.ogi.persistance.bo.Address;
 import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.Description;
+import fr.jerep6.ogi.persistance.bo.Label;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyDiagnosis;
 import fr.jerep6.ogi.persistance.bo.Room;
 import fr.jerep6.ogi.persistance.bo.Sale;
+import fr.jerep6.ogi.persistance.bo.State;
 import fr.jerep6.ogi.transfert.bean.AddressTo;
 import fr.jerep6.ogi.transfert.bean.CategoryTo;
 import fr.jerep6.ogi.transfert.bean.DescriptionTo;
+import fr.jerep6.ogi.transfert.bean.LabelTo;
 import fr.jerep6.ogi.transfert.bean.RealPropertyDiagnosisTo;
 import fr.jerep6.ogi.transfert.bean.RealPropertyTo;
 import fr.jerep6.ogi.transfert.bean.RoomTo;
 import fr.jerep6.ogi.transfert.bean.SaleTo;
+import fr.jerep6.ogi.transfert.bean.StateTo;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumCategory;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumDescriptionType;
+import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumLabelType;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumMandateType;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumOrientation;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEquipment;
@@ -58,6 +63,7 @@ public class OrikaMapper extends ConfigurableMapper {
 		converterFactory.registerConverter(new ConverterEnumDescriptionType());
 		converterFactory.registerConverter(new ConverterEnumOrientation());
 		converterFactory.registerConverter(new ConverterEnumMandateType());
+		converterFactory.registerConverter(new ConverterEnumLabelType());
 		converterFactory.registerConverter(new ConverterPhoto(urlBasePhoto));
 		converterFactory.registerConverter(new ConverterEquipment());
 		converterFactory.registerConverter(new ConverterType());
@@ -74,6 +80,8 @@ public class OrikaMapper extends ConfigurableMapper {
 				.field("diagnosis.label", "diagnosis").byDefault().register();
 		factory.classMap(Room.class, RoomTo.class).byDefault().register();
 		factory.classMap(Sale.class, SaleTo.class).byDefault().register();
+		factory.classMap(Label.class, LabelTo.class).byDefault().register();
+		factory.classMap(State.class, StateTo.class).byDefault().register();
 
 		factory.classMap(RealProperty.class, RealPropertyTo.class).field("equipments{label}", "equipments{}")//
 				.field("type.label", "type") //

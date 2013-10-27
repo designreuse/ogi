@@ -9,17 +9,22 @@ public enum EnumLabelType {
 	HEATING("HEATING"), //
 	HOTWATER("HOTWATER"), //
 	ROOMTYPE("ROOMTYPE"), //
+	ROOF("ROOF"), //
+	WALL("WALL"), //
+	INSULATION("INSULATION"), //
 	PARKING("PARKING");
 
 	/**
-	 * Get the enumeration from this code
+	 * Get the enumeration from this code. No case sensitive
 	 * 
 	 * @param code
 	 * @return
 	 */
 	public static EnumLabelType valueOfByCode(String code) {
 		for (EnumLabelType oneEnum : EnumLabelType.values()) {
-			if (oneEnum.getCode().equals(code)) { return oneEnum; }
+			if (oneEnum.getCode().equalsIgnoreCase(code)) {
+				return oneEnum;
+			}
 		}
 
 		throw new IllegalArgumentException("No " + EnumLabelType.class.getSimpleName() + " for " + code);

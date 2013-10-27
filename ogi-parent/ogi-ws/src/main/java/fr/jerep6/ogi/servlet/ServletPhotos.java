@@ -50,12 +50,10 @@ public class ServletPhotos extends HttpServlet {
 			// If dimension defined => resize else serve original photo
 			if (!Strings.isNullOrEmpty(request.getParameter("size"))) {
 				serveResizedImg(request, response, is);
-			}
-			else { // Serve original image
+			} else { // Serve original image
 				response.getOutputStream().write(toByteArray(is));
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			LOGGER.warn("Error for serving image " + request.getRequestURI(), e);
 
 			// Serve error image
@@ -75,11 +73,9 @@ public class ServletPhotos extends HttpServlet {
 
 		if (PhotoDimension.THUMB.getName().equals(parameter)) {
 			d = PhotoDimension.THUMB;
-		}
-		else if (PhotoDimension.MEDIUM.getName().equals(parameter)) {
+		} else if (PhotoDimension.MEDIUM.getName().equals(parameter)) {
 			d = PhotoDimension.MEDIUM;
-		}
-		else if (PhotoDimension.BIG.getName().equals(parameter)) {
+		} else if (PhotoDimension.BIG.getName().equals(parameter)) {
 			d = PhotoDimension.BIG;
 		}
 		return d;
