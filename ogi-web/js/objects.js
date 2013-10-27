@@ -35,3 +35,10 @@ PropertyJS.prototype = {
         });
     }
 }
+
+
+var labelOther = {
+    "techid": -1,
+    "type": "NOTYPE",
+    "label": "Autre"
+}

@@ -15,25 +15,22 @@
                 <div class="control-group input-append">
                     <label class="control-label">Surface Habitable</label>
                     <div class="controls">
-                        <input class="input-mini" type="number" />
+                        <input class="input-mini" type="number" ng-model="prp.area" />
                         <span class="add-on">m²</span>
                     </div>
                 </div>
                 <div class="control-group input-append">
                     <label class="control-label">Surface Terrain</label>
                     <div class="controls">
-                        <input class="input-mini" type="number" />
+                        <input class="input-mini" type="number" ng-model="prp.landArea" />
                         <span class="add-on">m²</span>
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">Etat</label>
                     <div class="controls">
-                        <div class="progress">
-                            <div style="width:130px" class="bar bar-warning"> </div>
-                            <div class="bar bar-success"> </div>
-                            <div class="bar bar-danger"> </div>
-                        </div>
+                        <div ui-slider min="1" max="4" ng-model="stateOrder"></div>
+                        <div class="center">{{states[stateOrder]}}</div>
                     </div>
                 </div>
             </fieldset>
@@ -45,41 +42,41 @@
                 <legend>Nombre de pièces</legend>
                 <div class="control-group input-prepend input-append">
                     <label class="control-label">Pièces</label>
-                    <div class="controls" plus="10">
+                    <div class="controls" minus-plus>
                         <span class="add-on"><i class="icon-minus"></i></span>
-                        <input class="input-mini" type="number" />
+                        <input class="input-mini" type="number" ng-model="prp.nbRoom" />
                         <span class="add-on"><i class="icon-plus"></i></span>
                     </div>
                 </div>
                 <div class="control-group input-prepend input-append">
                     <label class="control-label">Chambres</label>
-                    <div class="controls">
+                    <div class="controls" minus-plus>
                         <span class="add-on"><i class="icon-minus"></i></span>
-                        <input class="input-mini" type="number" />
+                        <input class="input-mini" type="number" ng-model="prp.nbBedRoom" />
                         <span class="add-on"><i class="icon-plus"></i></span>
                     </div>
                 </div>
                 <div class="control-group input-prepend input-append">
                     <label class="control-label">Salles de bains</label>
-                    <div class="controls">
+                    <div class="controls" minus-plus>
                         <span class="add-on"><i class="icon-minus"></i></span>
-                        <input class="input-mini" type="number" />
+                        <input class="input-mini" type="number" ng-model="prp.nbBathRoom" />
                         <span class="add-on"><i class="icon-plus"></i></span>
                     </div>
                 </div>
                 <div class="control-group input-prepend input-append">
                     <label class="control-label">Salles d'eau</label>
-                    <div class="controls">
+                    <div class="controls" minus-plus>
                         <span class="add-on"><i class="icon-minus"></i></span>
-                        <input class="input-mini" type="number" />
+                        <input class="input-mini" type="number" ng-model="prp.nbShowerRoom" />
                         <span class="add-on"><i class="icon-plus"></i></span>
                     </div>
                 </div>
                 <div class="control-group input-prepend input-append">
                     <label class="control-label">WC</label>
-                    <div class="controls">
+                    <div class="controls" minus-plus>
                         <span class="add-on"><i class="icon-minus"></i></span>
-                        <input class="input-mini" type="number" />
+                        <input class="input-mini" type="number" ng-model="prp.nbWC" />
                         <span class="add-on"><i class="icon-plus"></i></span>
                     </div>
                 </div>
@@ -93,25 +90,31 @@
             <div class="control-group">
                 <label class="control-label">Année construction</label>
                 <div class="controls">
-                    <input class="input-mini" type="number" />
+                    <input class="input-mini" type="number" ng-model="prp.buildDate" />
                 </div>
             </div>
             <div class="control-group input-append">
                 <label class="control-label">Étage</label>
                 <div class="controls">
-                    <input class="input-mini" type="number" />
+                    <input class="input-mini" type="text" ng-model="prp.floorLevel" />
                     <span class="add-on">/</span>
-                    <input class="input-mini" type="number" />
+                    <input class="input-mini" type="number" ng-model="prp.nbFloor" />
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Exposition</label>
-                <div class="controls">
-                    <select>
-                        <option>Nord</option>
-                        <option>Sud</option>
-                        <option>Est</option>
-                        <option>Ouest</option>
+                <div class="controls" >
+                    <select ng-model="prp.orientation">
+                        <option value="">--- Sélectionner une orientation ---</option>
+                        <option value="N">Nord</option>
+                        <option value="S">Sud</option>
+                        <option value="S">Est</option>
+                        <option value="O">Ouest</option>
+
+                        <option value="NE">Nord-Est</option>
+                        <option value="NW">Nord-Ouest</option>
+                        <option value="SE">Sud-Est</option>
+                        <option value="SW">Sud-Ouest</option>
                     </select>
                 </div>
             </div>
@@ -119,9 +122,8 @@
             <div class="control-group">
                 <label class="control-label">Toiture</label>
                 <div class="controls">
-                    <select>
-                        <option>Toit Terasse</option>
-                        <option>Toit en pente</option>
+                    <select ng-model="prp.jsRoof" ng-options="l.label for l in roofs" ng-change="roofChange()">
+                        <option value="">--- Sélectionner une toiture ---</option>
                     </select>
                 </div>
             </div>
@@ -129,30 +131,24 @@
             <div class="control-group">
                 <label class="control-label">Murs extérieurs</label>
                 <div class="controls">
-                    <select>
-                        <option>Peinture</option>
-                        <option>Crépi</option>
-                        <option>Brique</option>
+                    <select ng-model="prp.jsWall" ng-options="l.label for l in walls" ng-change="wallChange()">
+                        <option value="">--- Sélectionner un mur ---</option>
                     </select>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Isolation</label>
                 <div class="controls">
-                    <select>
-                        <option>Double-vitrage</option>
-                        <option>Option2</option>
+                    <select ng-model="prp.jsInsulation" ng-options="l.label for l in insulations" ng-change="insulationChange()">
+                        <option value="">--- Sélectionner une isolation ---</option>
                     </select>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Stationnement</label>
                 <div class="controls">
-                    <select>
-                        <option>Garage</option>
-                        <option>Abri voiture</option>
-                        <option>Parking</option>
-                        <option>Autre</option>
+                    <select ng-model="prp.jsParking" ng-options="l.label for l in parkings" ng-change="parkingChange()">
+                        <option value="">--- Sélectionner un stationnement ---</option>
                     </select>
                 </div>
             </div>
@@ -162,11 +158,11 @@
 
     <script type="text/ng-template" id="modalAddType.html">
         <div class="modal-header">
-            <h3>Ajouter un type de bien</h3>
+            <h3>{{labels.title}}</h3>
         </div>
         <div class="modal-body">
             <form class="form-inline center">
-                <input class="input" type="text" ng-model="newType.label" placeholder="Entrer un nouveau type"/>
+                <input class="input" type="text" ng-model="newType.label" placeholder="{{labels.placeholder}}"/>
                 <button class="btn btn-success" ng-click="ok()">
                     <i class="icon-white icon-plus"></i>
                     <span>Ajouter</span>

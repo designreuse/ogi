@@ -35,6 +35,11 @@ function ControllerPrp($scope, Page, $routeParams, ServiceConfiguration, Service
         }
     };
 
+
+    $scope.update = function() {
+        console.log($scope.prp);
+    }
+
     // Current type to add (code + label)
     $scope.currentType = {};
     // Get information about current type

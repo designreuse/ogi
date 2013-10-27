@@ -60,3 +60,7 @@ legend + .control-group {
     #pieces .add-on {
         cursor : pointer;
     }
+
+.ui-slider-handle {
+    cursor:pointer !important;
+}
