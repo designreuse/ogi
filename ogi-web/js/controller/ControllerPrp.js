@@ -37,7 +37,7 @@ function ControllerPrp($scope, Page, $routeParams, ServiceConfiguration, Service
 
 
     $scope.update = function() {
-        console.log($scope.prp);
+        console.log($scope.prp.wall.label);
     }
 
     // Current type to add (code + label)
@@ -53,6 +53,9 @@ function ControllerPrp($scope, Page, $routeParams, ServiceConfiguration, Service
     $log.log("tempReference="+ $scope.tempReference);
 
     $scope.prp = new PropertyJS({});
+
+    // Data to save between children controller
+    $scope.saveData = {stateOrder: 0};
 }
 
 

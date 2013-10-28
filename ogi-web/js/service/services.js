@@ -48,3 +48,24 @@ myApp.factory('ServiceAlert', function(){
         }
     }
 });
+
+
+myApp.factory('ServiceLabel', function(Utils){
+    return {
+        /**
+         * Return array's element corresponding to label to find. It's for keep same pointer
+         * @param array array into find element
+         * @param labelToFind label to find. Comparison will be compute according to "techid"
+         * @returns {*}
+         */
+        getObject:function(array, labelToFind){
+            if(Utils.isUndefinedOrNull(array) || Utils.isUndefinedOrNull(labelToFind)) {
+                return null;
+            }
+            var arrayEqual =  array.filter(function (o) {
+                return o.techid == labelToFind.techid;
+            });
+            return Utils.isEmpty(arrayEqual) ? null : arrayEqual[0];
+        }
+    }
+});

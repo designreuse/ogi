@@ -6,7 +6,7 @@
                 <div class="control-group">
                     <label class="control-label">Type de bien</label>
                     <div class="controls">
-                        <select ng-model="prp.jsType" ng-options="t for t in types" ng-change="typeChange()">
+                        <select ng-model="prp.type" ng-options="t for t in types" ng-change="typeChange()">
                             <option value="">--- Sélectionner un type ---</option>
                         </select>
                     </div>
@@ -29,8 +29,8 @@
                 <div class="control-group">
                     <label class="control-label">Etat</label>
                     <div class="controls">
-                        <div ui-slider min="1" max="4" ng-model="stateOrder"></div>
-                        <div class="center">{{states[stateOrder]}}</div>
+                        <div ui-slider min="0" max="4" ng-model="saveData.stateOrder"></div>
+                        <div class="center">{{states[saveData.stateOrder].label}}</div>
                     </div>
                 </div>
             </fieldset>
@@ -108,7 +108,7 @@
                         <option value="">--- Sélectionner une orientation ---</option>
                         <option value="N">Nord</option>
                         <option value="S">Sud</option>
-                        <option value="S">Est</option>
+                        <option value="E">Est</option>
                         <option value="O">Ouest</option>
 
                         <option value="NE">Nord-Est</option>
@@ -122,7 +122,7 @@
             <div class="control-group">
                 <label class="control-label">Toiture</label>
                 <div class="controls">
-                    <select ng-model="prp.jsRoof" ng-options="l.label for l in roofs" ng-change="roofChange()">
+                    <select ng-model="prp.roof" ng-options="l.label for l in roofs" ng-change="roofChange()">
                         <option value="">--- Sélectionner une toiture ---</option>
                     </select>
                 </div>
@@ -131,7 +131,7 @@
             <div class="control-group">
                 <label class="control-label">Murs extérieurs</label>
                 <div class="controls">
-                    <select ng-model="prp.jsWall" ng-options="l.label for l in walls" ng-change="wallChange()">
+                    <select ng-model="prp.wall" ng-options="l.label for l in walls" ng-change="wallChange()">
                         <option value="">--- Sélectionner un mur ---</option>
                     </select>
                 </div>
@@ -139,7 +139,7 @@
             <div class="control-group">
                 <label class="control-label">Isolation</label>
                 <div class="controls">
-                    <select ng-model="prp.jsInsulation" ng-options="l.label for l in insulations" ng-change="insulationChange()">
+                    <select ng-model="prp.insulation" ng-options="l.label for l in insulations" ng-change="insulationChange()">
                         <option value="">--- Sélectionner une isolation ---</option>
                     </select>
                 </div>
@@ -147,7 +147,7 @@
             <div class="control-group">
                 <label class="control-label">Stationnement</label>
                 <div class="controls">
-                    <select ng-model="prp.jsParking" ng-options="l.label for l in parkings" ng-change="parkingChange()">
+                    <select ng-model="prp.parking" ng-options="l.label for l in parkings" ng-change="parkingChange()">
                         <option value="">--- Sélectionner un stationnement ---</option>
                     </select>
                 </div>

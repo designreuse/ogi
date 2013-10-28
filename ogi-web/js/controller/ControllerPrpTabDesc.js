@@ -1,6 +1,5 @@
-function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log ,$modal) {
+function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, ServiceLabel, ServiceAlert, $http, $log ,$modal) {
 
-    $scope.prp.orientation = "";
     // Get type of current category. Run query only if promise of current type is resolved
     $scope.types = [];
     $scope.httpGetCurrentType.success(function() {
@@ -16,6 +15,9 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
         $http.get(ServiceConfiguration.API_URL+"/rest/label/ROOF").success(function (data) {
             $scope.roofs = data;
             $scope.roofs.push(labelOther);
+
+            // to select the pointer must be identical
+            $scope.prp.roof = ServiceLabel.getObject(data, $scope.prp.roof);
         });
     });
 
@@ -25,6 +27,9 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
         $http.get(ServiceConfiguration.API_URL+"/rest/label/WALL").success(function (data) {
             $scope.walls = data;
             $scope.walls.push(labelOther);
+
+            // to select the pointer must be identical
+            $scope.prp.wall = ServiceLabel.getObject(data, $scope.prp.wall);
         });
     });
 
@@ -34,6 +39,9 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
         $http.get(ServiceConfiguration.API_URL+"/rest/label/INSULATION").success(function (data) {
             $scope.insulations = data;
             $scope.insulations.push(labelOther);
+
+            // to select the pointer must be identical
+            $scope.prp.insulation = ServiceLabel.getObject(data, $scope.prp.insulation);
         });
     });
 
@@ -43,45 +51,48 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
         $http.get(ServiceConfiguration.API_URL+"/rest/label/PARKING").success(function (data) {
             $scope.parkings = data;
             $scope.parkings.push(labelOther);
+
+            // to select the pointer must be identical
+            $scope.prp.parking = ServiceLabel.getObject(data, $scope.prp.parking);
         });
     });
 
     // Get all states
     $scope.states = [];
+    $scope.states[0] = null;
+    // First state is a NON state
     $scope.httpGetCurrentType.success(function() {
         $http.get(ServiceConfiguration.API_URL+"/rest/state/").success(function (data) {
             // Create array index by order
             for(var i = 0; i < data.length ; i++) {
-                $scope.states[data[i].order] = data[i].label;
+                $scope.states[data[i].order] = data[i];
             }
-            console.log($scope.states);
         });
     });
 
 
-
     $scope.typeChange = function () {
-        if($scope.prp.jsType == "Autre") {
+        if($scope.prp.type == "Autre") {
             $scope.openModalType();
         }
     }
     $scope.roofChange = function () {
-        if($scope.prp.jsRoof.label == "Autre") {
+        if($scope.prp.roof != null && $scope.prp.roof.label == "Autre") {
             $scope.openModalRoof();
         }
     }
     $scope.wallChange = function () {
-        if($scope.prp.jsWall.label == "Autre") {
+        if($scope.prp.wall != null && $scope.prp.wall.label == "Autre") {
             $scope.openModalWall();
         }
     }
     $scope.insulationChange = function () {
-        if($scope.prp.jsInsulation.label == "Autre") {
+        if($scope.prp.insulation.label == "Autre") {
             $scope.openModalInsulation();
         }
     }
     $scope.parkingChange = function () {
-        if($scope.prp.jsParking.label == "Autre") {
+        if($scope.prp.parking.label == "Autre") {
             $scope.openModalParking();
         }
     }
@@ -107,10 +118,10 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
         modalInstance.result.then(function (param) {
             $log.info('Modal closed');
             $scope.types.push(param);
-            $scope.prp.jsType = param;
+            $scope.prp.type = param;
         }, function () {
             $log.info('Modal dismissed');
-            $scope.prp.jsType = "";
+            $scope.prp.type = "";
         });
     };
 
@@ -135,10 +146,11 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
         modalInstance.result.then(function (param) {
             $log.info('Modal closed');
             $scope.roofs.push(param);
-            $scope.prp.jsRoof = param;
+            $scope.prp.roof = param;
         }, function () {
             $log.info('Modal dismissed');
-            $scope.prp.jsRoof = "";
+            $scope.prp.roof = null;
+
         });
     };
 
@@ -163,10 +175,10 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
         modalInstance.result.then(function (param) {
             $log.info('Modal closed');
             $scope.walls.push(param);
-            $scope.prp.jsWall = param;
+            $scope.prp.wall = param;
         }, function () {
             $log.info('Modal dismissed');
-            $scope.prp.jsWall = "";
+            $scope.prp.wall = "";
         });
     };
 
@@ -191,10 +203,10 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
         modalInstance.result.then(function (param) {
             $log.info('Modal closed');
             $scope.insulations.push(param);
-            $scope.prp.jsInsulation = param;
+            $scope.prp.insulation = param;
         }, function () {
             $log.info('Modal dismissed');
-            $scope.prp.jsInsulation = "";
+            $scope.prp.insulation = "";
         });
     };
 
@@ -219,12 +231,13 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
         modalInstance.result.then(function (param) {
             $log.info('Modal closed');
             $scope.parkings.push(param);
-            $scope.prp.jsParking = param;
+            $scope.prp.parking = param;
         }, function () {
             $log.info('Modal dismissed');
-            $scope.prp.jsParking = "";
+            $scope.prp.parking = "";
         });
     };
+
 }
 
 var ModalInstanceCtrl = function ($scope, $modalInstance, ServiceConfiguration, $http, currentElt, labels) {
@@ -235,7 +248,6 @@ var ModalInstanceCtrl = function ($scope, $modalInstance, ServiceConfiguration, 
         var label = $scope.newType.label;
 
         $http.put(ServiceConfiguration.API_URL+"/rest/category/"+currentElt+"/types/"+label).success(function (data) {
-            console.log(data);
             $modalInstance.close(label);
         })
         .error(function(data) {
@@ -256,7 +268,6 @@ var ModalLabelInstanceCtrl = function ($scope, $modalInstance, ServiceConfigurat
         }
 
         $http.post(ServiceConfiguration.API_URL+"/rest/label/", label).success(function (data) {
-            console.log(data);
             $modalInstance.close(label);
         }).error(function(data) {
             console.log("ERROR"+data);
