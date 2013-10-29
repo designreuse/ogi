@@ -24,8 +24,11 @@ public class Photo {
 	@Column(name = "PHO_ID", unique = true, nullable = false)
 	private Integer			techid;
 
-	@Column(name = "PHO_PATH", nullable = false)
+	@Column(name = "PHO_PATH", nullable = false, length = 1024)
 	private String			path;
+
+	@Column(name = "PHO_NAME", nullable = false, length = 255)
+	private String			name;
 
 	@Column(name = "PHO_ORDER", nullable = false)
 	private Integer			order;

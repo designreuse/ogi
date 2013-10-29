@@ -37,6 +37,12 @@ public class RealPropertyLivable extends RealPropertyBuilt {
 	@Column(name = "PRL_HOT_WATER")
 	private String	hotWater;
 
+	@Column(name = "PRL_WALL", length = 255)
+	private String	wall;
+
+	@Column(name = "PRL_ROOF", length = 255)
+	private String	roof;
+
 	public RealPropertyLivable() {
 		super(null, null, null);
 	}

@@ -17,6 +17,7 @@ public class ConverterPhoto extends CustomConverter<Photo, PhotoTo> {
 	public PhotoTo convert(Photo source, Type<? extends PhotoTo> destinationType) {
 		PhotoTo i = new PhotoTo();
 		i.setTechid(source.getTechid());
+		i.setName(source.getName());
 		i.setOrder(source.getOrder());
 		i.setUrl(urlBasePhoto + source.getPath());
 		return i;

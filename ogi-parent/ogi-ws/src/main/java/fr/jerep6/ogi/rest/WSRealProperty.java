@@ -38,12 +38,14 @@ public class WSRealProperty extends AbstractJaxRsWS {
 	@Consumes(APPLICATION_JSON_UTF8)
 	@Produces(APPLICATION_JSON_UTF8)
 	public RealPropertyTo create(RealPropertyTo rp) {
+
 		// Map into business object. Fulfill only business field. I.E technical field will be retrieve on database
 		// before record. I should have proceed with a another dto but afterwards
 		RealProperty property = mapper.map(rp, RealProperty.class);
 		property = serviceRealProperty.createFromBusinessFields(property);
 
-		return mapper.map(property, RealPropertyTo.class);
+		// return mapper.map(property, RealPropertyTo.class);
+		return rp;
 	}
 
 	@DELETE
@@ -52,7 +54,9 @@ public class WSRealProperty extends AbstractJaxRsWS {
 		Preconditions.checkNotNull(reference);
 		System.out.println(reference);
 
-		if ("ref1".equals(reference.get(0))) { throw new WebApplicationException(Response.Status.PRECONDITION_FAILED); }
+		if ("ref1".equals(reference.get(0))) {
+			throw new WebApplicationException(Response.Status.PRECONDITION_FAILED);
+		}
 
 		// serviceRealProperty.delete(reference);
 	}

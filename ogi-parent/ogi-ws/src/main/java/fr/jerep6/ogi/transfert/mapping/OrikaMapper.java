@@ -33,7 +33,6 @@ import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumDescriptionType;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumLabelType;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumMandateType;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumOrientation;
-import fr.jerep6.ogi.transfert.mapping.converter.ConverterEquipment;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterPhoto;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterType;
 
@@ -65,7 +64,6 @@ public class OrikaMapper extends ConfigurableMapper {
 		converterFactory.registerConverter(new ConverterEnumMandateType());
 		converterFactory.registerConverter(new ConverterEnumLabelType());
 		converterFactory.registerConverter(new ConverterPhoto(urlBasePhoto));
-		converterFactory.registerConverter(new ConverterEquipment());
 		converterFactory.registerConverter(new ConverterType());
 
 		// Specifics factory (create object)
@@ -83,13 +81,15 @@ public class OrikaMapper extends ConfigurableMapper {
 		factory.classMap(Label.class, LabelTo.class).byDefault().register();
 		factory.classMap(State.class, StateTo.class).byDefault().register();
 
-		factory.classMap(RealProperty.class, RealPropertyTo.class).field("equipments{label}", "equipments{}")//
+		factory.classMap(RealProperty.class, RealPropertyTo.class)//
+				.field("equipments{label}", "equipments{}")//
 				.field("type.label", "type") //
 				.field("diagnosisProperty", "diagnosis")//
 				// must exclude the field else classcast exception. It doesn't detected that description is mapped as
 				// map bellow
 				.exclude("descriptions").field("descriptions{type}", "descriptions{key}")//
 				.field("descriptions{}", "descriptions{value}")//
-				.byDefault().register();
+				.byDefault()//
+				.register();
 	}
 }

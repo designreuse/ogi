@@ -10,8 +10,7 @@ public enum EnumDescriptionType {
 	WEBSITE_OWN("WEBSITE_PERSO"), //
 	WEBSITE_AD("WEBSITE_AUTRE"), //
 	APP("APP"), //
-	STATE("ETAT"), //
-	WORK("TRAVAUX");
+	STATE("ETAT"); //
 
 	/**
 	 * Get the enumeration from this code
@@ -21,7 +20,9 @@ public enum EnumDescriptionType {
 	 */
 	public static EnumDescriptionType valueOfByCode(String code) {
 		for (EnumDescriptionType oneEnum : EnumDescriptionType.values()) {
-			if (oneEnum.getCode().equals(code)) { return oneEnum; }
+			if (oneEnum.getCode().equals(code)) {
+				return oneEnum;
+			}
 		}
 
 		throw new IllegalArgumentException("No " + EnumDescriptionType.class.getSimpleName() + " for " + code);

@@ -13,5 +13,9 @@ public class RealPropertyLivableTo extends RealPropertyBuiltTo {
 	private Integer	nbWC;
 	private String	heating;
 	private String	hotWater;
+	private String	wall;
+	private String	roof;
+
+	public RealPropertyLivableTo() {}
 
 }

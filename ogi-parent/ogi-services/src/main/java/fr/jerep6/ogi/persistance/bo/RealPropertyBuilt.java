@@ -60,6 +60,9 @@ public abstract class RealPropertyBuilt extends RealProperty {
 	@Column(name = "PRB_PARKING", length = 255)
 	private String			parking;
 
+	@Column(name = "PRB_INSULATION", length = 255)
+	private String			insulation;
+
 	// The mappedBy attribute of @OneToMany annotation behaves the same as inverse = true in the xml file. I.E the many
 	// side is the owner; the one side is the inverse
 	// Pour que RealPropertyBuilt soit maitre de la relation, il ne faut pas définir le mappedBy et donc indiquer la
@@ -67,9 +70,6 @@ public abstract class RealPropertyBuilt extends RealProperty {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "PRO_ID")
 	private Set<Room>		rooms;
-
-	@Column(name = "PRB_INSULATION", length = 255)
-	private String			insulation;
 
 	// The @Embedded annotation is used to specify a persistent field or property of an entity whose value is an
 	// instance of an embeddable class. By default, column definitions specified in the @Embeddable class apply to the

@@ -1,6 +1,7 @@
 package fr.jerep6.ogi.persistance.bo;
 
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -37,7 +38,11 @@ import com.google.common.base.Objects;
 @Getter
 @Setter
 @EqualsAndHashCode(of = { "reference" })
-public abstract class RealProperty {
+/**
+ * Classe non abstraite pour orika. Sinon, il faudrait déclarer un mapping pour chaque classe concrete
+ * @author jerep6
+ */
+public class RealProperty {
 	@Id
 	@Column(name = "PRO_ID", unique = true, nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,14 +68,14 @@ public abstract class RealProperty {
 	private Sale						sale;
 
 	@OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
-	private Set<Description>			descriptions;
+	private Set<Description>			descriptions		= new HashSet<>(0);
 
 	@ManyToMany(cascade = CascadeType.PERSIST)
 	@JoinTable(name = "TJ_PRP_EQP", //
 	joinColumns = @JoinColumn(name = "PRO_ID"), //
 	inverseJoinColumns = @JoinColumn(name = "EQP_ID")//
 	)
-	private Set<Equipment>				equipments;
+	private Set<Equipment>				equipments			= new HashSet<>(0);
 
 	@ManyToOne
 	@JoinColumn(name = "CAT_ID", nullable = false)
@@ -82,10 +87,10 @@ public abstract class RealProperty {
 
 	@OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
 	@OrderBy("order ASC")
-	private Set<Photo>					photos;
+	private Set<Photo>					photos				= new HashSet<>(0);
 
 	@OneToMany(mappedBy = "pk.property", cascade = CascadeType.ALL)
-	private Set<RealPropertyDiagnosis>	diagnosisProperty;
+	private Set<RealPropertyDiagnosis>	diagnosisProperty	= new HashSet<>(0);
 
 	// ##### Technical field #####
 	// Il faut obligatoirement spécifier l'attribut columnDefinition sinon mysql crée un champ date time

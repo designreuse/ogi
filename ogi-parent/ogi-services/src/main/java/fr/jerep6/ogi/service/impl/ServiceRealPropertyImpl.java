@@ -1,5 +1,6 @@
 package fr.jerep6.ogi.service.impl;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,7 +14,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
+import com.google.common.collect.Collections2;
 
 import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
 import fr.jerep6.ogi.persistance.bo.Category;
@@ -63,7 +66,9 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 		// If property already exist return it
 		if (!Strings.isNullOrEmpty(prp.getReference())) {
 			RealProperty propertyFromDB = readByReference(prp.getReference());
-			if (propertyFromDB != null) { return propertyFromDB; }
+			if (propertyFromDB != null) {
+				return propertyFromDB;
+			}
 		}
 
 		// ###### COMMON ######
@@ -75,6 +80,7 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 		Type t = serviceType.readOrInsert(prp.getType().getLabel(), cat);
 		prp.setType(t);
 
+		// ###### Equipment ######
 		Set<Equipment> eqpts = new HashSet<>(prp.getEquipments().size());
 		for (Equipment anEqpt : prp.getEquipments()) {
 			// Read equipment from DB
@@ -90,27 +96,41 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 		}
 		prp.setEquipments(eqpts);
 
+		// ###### Diagnosis ######
 		for (RealPropertyDiagnosis dia : prp.getDiagnosisProperty()) {
 			// Read diagnosis corresponding to label
 			dia.setPk(new DiagnosisRealPropertyId(prp, serviceDiagnosis.readByLabel(dia.getDiagnosis().getLabel())));
 		}
 
+		// ###### Description ######
+		// If label is empty => ignore it
+		Collection<Description> filteredDescription = Collections2.filter(prp.getDescriptions(),
+				new Predicate<Description>() {
+					@Override
+					public boolean apply(Description p) {
+						return Strings.isNullOrEmpty(p.getLabel()) && p.getType() != null;
+					}
+				});
+
+		Set<Description> descs = new HashSet<>(filteredDescription.size());
+		for (Description aDescription : filteredDescription) {
+			aDescription.setProperty(prp);
+			descs.add(aDescription);
+		}
+		prp.setDescriptions(descs);
+
 		// ###### SPECIFIC ######
 		if (RealPropertyLivable.class.equals(prp.getClass())) {
 			RealPropertyLivable liveable = (RealPropertyLivable) prp;
 			// Room
-			for (Room aRoom : liveable.getRooms()) {
-				// techid to null to force insert
-				aRoom.setTechid(null);
-				aRoom.setProperty(liveable);
+			if (liveable.getRooms() != null) {
+				for (Room aRoom : liveable.getRooms()) {
+					// techid to null to force insert
+					aRoom.setTechid(null);
+					aRoom.setProperty(liveable);
+				}
 			}
 		}
-
-		// Description
-		for (Description aDescription : prp.getDescriptions()) {
-			aDescription.setProperty(prp);
-		}
-
 		// Nothing to do for address
 
 		// Save real property into database

@@ -12,10 +12,15 @@ import com.google.common.base.Objects;
 public class PhotoTo {
 	private Integer	techid;
 	private Integer	order;
+	private String	name;
 	private String	url;
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(this).add("techid", techid).add("order", order).add("url", url).toString();
+		return Objects.toStringHelper(this).//
+				add("techid", techid).//
+				add("order", order).//
+				add("name", name).//
+				add("url", url).toString();
 	}
 }
