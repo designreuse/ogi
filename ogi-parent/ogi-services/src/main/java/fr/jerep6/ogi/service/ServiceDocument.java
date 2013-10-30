@@ -2,6 +2,7 @@ package fr.jerep6.ogi.service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 
 import fr.jerep6.ogi.enumeration.EnumDocumentType;
 import fr.jerep6.ogi.framework.service.TransactionalService;
@@ -26,5 +27,15 @@ public interface ServiceDocument extends TransactionalService<Document, Integer>
 	 */
 	FileUpload copyToDirectory(InputStream is, String fileName, String reference, EnumDocumentType type)
 			throws IOException;
+
+	/**
+	 * Copy document from temp directory into property directory
+	 * 
+	 * @param documents
+	 *            list of document. Copy only documents stored into temp folder
+	 * @param reference
+	 *            reference of property
+	 */
+	void copyTempToDirectory(Collection<Document> documents, String reference);
 
 }

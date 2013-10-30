@@ -12,6 +12,7 @@ import ma.glasnost.orika.metadata.TypeFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import fr.jerep6.ogi.framework.utils.UrlUtils;
 import fr.jerep6.ogi.persistance.bo.Address;
 import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.Description;
@@ -41,7 +42,8 @@ import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumLabelType;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumMandateType;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumOrientation;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterType;
-import fr.jerep6.ogi.utils.UrlUtils;
+import fr.jerep6.ogi.utils.DocumentUtils;
+import fr.jerep6.ogi.utils.MyUrlUtils;
 
 @Component("orikaMapper")
 public class OrikaMapper extends ConfigurableMapper {
@@ -91,7 +93,13 @@ public class OrikaMapper extends ConfigurableMapper {
 				.customize(new CustomMapper<Document, DocumentTo>() {
 					@Override
 					public void mapAtoB(Document a, DocumentTo b, MappingContext context) {
-						b.setUrl(urlBasePhoto + UrlUtils.replace(a.getPath().toString()));
+						b.setUrl(urlBasePhoto + MyUrlUtils.replace(a.getPath().toString()));
+					}
+
+					@Override
+					public void mapBtoA(DocumentTo b, Document a, MappingContext context) {
+						String urlWithoutParam = UrlUtils.deleteQueryParams(b.getUrl());
+						a.setPath(DocumentUtils.relativePathFromUrl(urlWithoutParam).toString());
 					}
 				})//
 				.byDefault().register();
@@ -105,6 +113,10 @@ public class OrikaMapper extends ConfigurableMapper {
 				// map bellow
 				.exclude("descriptions").field("descriptions{type}", "descriptions{key}")//
 				.field("descriptions{}", "descriptions{value}")//
+				.fieldAToB("photos", "photos")//
+				.fieldBToA("photos", "documents")//
+				.mapNulls(false)//
+				.mapNullsInReverse(false)//
 				.byDefault()//
 				.register();
 	}

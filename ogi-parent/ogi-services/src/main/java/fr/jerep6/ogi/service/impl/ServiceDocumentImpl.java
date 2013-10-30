@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 
@@ -34,6 +37,42 @@ public class ServiceDocumentImpl extends AbstractTransactionalService<Document, 
 
 	@Autowired
 	private DaoDocument		daoDocument;
+
+	@Override
+	public void copyTempToDirectory(Collection<Document> documents, String reference) {
+		try {
+			// Determine absolute path of reference
+			Path root = DocumentUtils.getDirectory(reference);
+
+			// Create root directory if not exist
+			if (!Files.isDirectory(root)) {
+				LOGGER.info("Create directory {}", root);
+				Files.createDirectories(root);
+			}
+
+			for (Document aDoc : documents) {
+				Path relativeDocPath = Paths.get(aDoc.getPath());
+				// If document is in temp folder => move it into property document
+				if (relativeDocPath.startsWith(DocumentUtils.DIR_TMP)) {
+					Path absoluteDestinationFile = root.resolve(Paths.get(
+							DocumentUtils.getDirectoryName(aDoc.getType()), relativeDocPath.getFileName().toString()));
+
+					// Create parent directory of file (photo for example)
+					Files.createDirectories(absoluteDestinationFile.getParent());
+
+					// Copy because it may be replay if error
+					Files.copy(//
+							DocumentUtils.absolutize(relativeDocPath), //
+							absoluteDestinationFile, //
+							StandardCopyOption.REPLACE_EXISTING);
+				}
+
+			}
+		} catch (IOException ioe) {
+			LOGGER.error("Error coping temp file to prp directory", ioe);
+		}
+
+	}
 
 	@Override
 	public FileUpload copyToDirectory(InputStream is, String fileName, String reference, EnumDocumentType type)

@@ -11,11 +11,10 @@ import javax.persistence.Table;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
-
-import com.google.common.base.Objects;
 
 import fr.jerep6.ogi.enumeration.EnumDocumentType;
 
@@ -25,6 +24,7 @@ import fr.jerep6.ogi.enumeration.EnumDocumentType;
 @Getter
 @Setter
 @EqualsAndHashCode(of = { "path" })
+@ToString
 public class Document {
 	@Id
 	@Column(name = "DOC_ID", unique = true, nullable = false)
@@ -49,17 +49,16 @@ public class Document {
 	@ManyToMany(mappedBy = "documents")
 	private Set<RealProperty>	property;
 
+	public Document() {
+		super();
+	}
+
 	public Document(String path, String name, Integer order, EnumDocumentType type) {
 		super();
 		this.path = path;
 		this.name = name;
 		this.order = order;
 		this.type = type;
-	}
-
-	@Override
-	public String toString() {
-		return Objects.toStringHelper(this).add("techid", techid).add("order", order).toString();
 	}
 
 }

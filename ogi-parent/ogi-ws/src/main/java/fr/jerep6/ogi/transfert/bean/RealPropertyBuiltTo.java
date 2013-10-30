@@ -1,5 +1,6 @@
 package fr.jerep6.ogi.transfert.bean;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -27,6 +28,6 @@ public abstract class RealPropertyBuiltTo extends RealPropertyTo {
 	private StateTo			state;
 	private String			insulation;
 
-	private List<RoomTo>	rooms;
+	private List<RoomTo>	rooms	= new ArrayList<>(0);
 
 }

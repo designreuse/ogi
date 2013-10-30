@@ -31,6 +31,7 @@ import fr.jerep6.ogi.persistance.bo.id.DiagnosisRealPropertyId;
 import fr.jerep6.ogi.persistance.dao.DaoProperty;
 import fr.jerep6.ogi.service.ServiceCategory;
 import fr.jerep6.ogi.service.ServiceDiagnosis;
+import fr.jerep6.ogi.service.ServiceDocument;
 import fr.jerep6.ogi.service.ServiceEquipment;
 import fr.jerep6.ogi.service.ServiceRealProperty;
 import fr.jerep6.ogi.service.ServiceType;
@@ -55,6 +56,9 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 	@Autowired
 	private ServiceDiagnosis	serviceDiagnosis;
 
+	@Autowired
+	private ServiceDocument		serviceDocument;
+
 	@Value("${search.result.max}")
 	private Integer				searchMaxResult;
 
@@ -77,9 +81,10 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 		prp.setCategory(cat);
 
 		// Create type if needed
-		Type t = serviceType.readOrInsert(prp.getType().getLabel(), cat);
-		prp.setType(t);
-
+		if (prp.getType() != null) {
+			Type t = serviceType.readOrInsert(prp.getType().getLabel(), cat);
+			prp.setType(t);
+		}
 		// ###### Equipment ######
 		Set<Equipment> eqpts = new HashSet<>(prp.getEquipments().size());
 		for (Equipment anEqpt : prp.getEquipments()) {
@@ -132,6 +137,9 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 			}
 		}
 		// Nothing to do for address
+
+		// Documents
+		serviceDocument.copyTempToDirectory(prp.getDocuments(), prp.getReference());
 
 		// Save real property into database
 		save(property);

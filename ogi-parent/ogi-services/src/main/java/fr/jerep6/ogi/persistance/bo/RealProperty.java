@@ -29,11 +29,11 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import org.springframework.util.CollectionUtils;
+
 import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
 
 import fr.jerep6.ogi.enumeration.EnumDocumentType;
 
@@ -89,7 +89,7 @@ public class RealProperty {
 	private Category					category;
 
 	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "TYP_ID", nullable = false)
+	@JoinColumn(name = "TYP_ID", nullable = true)
 	private Type						type;
 
 	@ManyToMany(cascade = CascadeType.PERSIST)
@@ -121,7 +121,7 @@ public class RealProperty {
 
 	public List<Document> getPhotos() {
 		List<Document> photos;
-		if (!Iterables.isEmpty(documents)) {
+		if (!CollectionUtils.isEmpty(documents)) {
 			photos = new ArrayList<>(Collections2.filter(documents, new Predicate<Document>() {
 				@Override
 				public boolean apply(Document d) {
@@ -129,7 +129,7 @@ public class RealProperty {
 				}
 			}));
 		} else {
-			photos = ImmutableList.of();
+			photos = new ArrayList<>(0);
 		}
 
 		return photos;
