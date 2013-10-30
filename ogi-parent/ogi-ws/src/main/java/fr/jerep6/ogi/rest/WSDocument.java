@@ -17,19 +17,26 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.google.common.base.Preconditions;
 import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
 
-import fr.jerep6.ogi.service.ServicePhoto;
+import fr.jerep6.ogi.enumeration.EnumDocumentType;
+import fr.jerep6.ogi.service.ServiceDocument;
 import fr.jerep6.ogi.transfert.FileUpload;
+import fr.jerep6.ogi.transfert.bean.FileUploadTo;
+import fr.jerep6.ogi.transfert.mapping.OrikaMapper;
 
 @Controller
-@Path("/photo")
-public class WSPhotos extends AbstractJaxRsWS {
-	Logger					LOGGER	= LoggerFactory.getLogger(WSPhotos.class);
+@Path("/document")
+public class WSDocument extends AbstractJaxRsWS {
+	Logger					LOGGER	= LoggerFactory.getLogger(WSDocument.class);
 
 	@Autowired
-	private ServicePhoto	servicePhoto;
+	private ServiceDocument	serviceDocument;
+
+	@Autowired
+	private OrikaMapper		mapper;
 
 	/**
 	 * Note that the response should always be a JSON object containing a files array even if only one file is uploaded.
@@ -43,16 +50,22 @@ public class WSPhotos extends AbstractJaxRsWS {
 	 */
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Map<String, List<FileUpload>> uploadFile( //
+	public Map<String, List<FileUploadTo>> uploadFile( //
 			@FormDataParam("file[]") InputStream uploadedInputStream,//
 			@FormDataParam("file[]") FormDataContentDisposition fileDetail, //
-			@FormDataParam("reference") String reference) throws IOException {
+			@FormDataParam("reference") String reference,//
+			@FormDataParam("type") String type) throws IOException {
+		Preconditions.checkNotNull(reference);
+		Preconditions.checkNotNull(type);
+
+		EnumDocumentType enumType = EnumDocumentType.valueOfByCode(type);
 
 		// Copy uploaded file into photo directory
-		FileUpload f = servicePhoto.copyToPhotosDirectory(uploadedInputStream, fileDetail.getFileName(), reference);
+		FileUpload f = serviceDocument.copyToDirectory(uploadedInputStream, fileDetail.getFileName(), reference,
+				enumType);
 
-		Map<String, List<FileUpload>> m = new HashMap<>();
-		m.put("files", Arrays.asList(f));
+		Map<String, List<FileUploadTo>> m = new HashMap<>();
+		m.put("files", Arrays.asList(mapper.map(f, FileUploadTo.class)));
 		return m;
 	}
 }

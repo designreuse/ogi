@@ -9,11 +9,12 @@ import com.google.common.base.Objects;
 @Getter
 @Setter
 @EqualsAndHashCode(of = { "techid" })
-public class PhotoTo {
+public class DocumentTo {
 	private Integer	techid;
 	private Integer	order;
 	private String	name;
 	private String	url;
+	private String	type;
 
 	@Override
 	public String toString() {

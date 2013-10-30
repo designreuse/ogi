@@ -2,22 +2,13 @@ package fr.jerep6.ogi.service;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
+import fr.jerep6.ogi.enumeration.EnumDocumentType;
 import fr.jerep6.ogi.framework.service.TransactionalService;
-import fr.jerep6.ogi.persistance.bo.Photo;
+import fr.jerep6.ogi.persistance.bo.Document;
 import fr.jerep6.ogi.transfert.FileUpload;
 
-public interface ServicePhoto extends TransactionalService<Photo, Integer> {
-
-	/**
-	 * Get photos of property with reference as parameter
-	 * 
-	 * @param reference
-	 *            reference of property
-	 * @return
-	 */
-	List<Photo> getPhotos(String reference);
+public interface ServiceDocument extends TransactionalService<Document, Integer> {
 
 	/**
 	 * Copy inputstream into photo directory
@@ -28,9 +19,12 @@ public interface ServicePhoto extends TransactionalService<Photo, Integer> {
 	 *            name of photo
 	 * @param reference
 	 *            reference of property to create directory
+	 * @param type
+	 *            type of document (PHOTO, MISC ...)
 	 * @return
 	 * @throws IOException
 	 */
-	FileUpload copyToPhotosDirectory(InputStream is, String fileName, String reference) throws IOException;
+	FileUpload copyToDirectory(InputStream is, String fileName, String reference, EnumDocumentType type)
+			throws IOException;
 
 }

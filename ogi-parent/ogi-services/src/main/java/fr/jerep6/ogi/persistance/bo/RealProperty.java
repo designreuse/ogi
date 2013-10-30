@@ -1,7 +1,9 @@
 package fr.jerep6.ogi.persistance.bo;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -18,7 +20,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -29,6 +30,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
+
+import fr.jerep6.ogi.enumeration.EnumDocumentType;
 
 // Hibernate use the name of then entity to determine the table name. But the purpose of this name is to use in JPQL
 @Entity
@@ -85,9 +92,12 @@ public class RealProperty {
 	@JoinColumn(name = "TYP_ID", nullable = false)
 	private Type						type;
 
-	@OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
-	@OrderBy("order ASC")
-	private Set<Photo>					photos				= new HashSet<>(0);
+	@ManyToMany(cascade = CascadeType.PERSIST)
+	@JoinTable(name = "TJ_PRP_DOC",//
+	joinColumns = @JoinColumn(name = "PRO_ID"),//
+	inverseJoinColumns = @JoinColumn(name = "DOC_ID")//
+	)
+	private Set<Document>				documents;
 
 	@OneToMany(mappedBy = "pk.property", cascade = CascadeType.ALL)
 	private Set<RealPropertyDiagnosis>	diagnosisProperty	= new HashSet<>(0);
@@ -107,6 +117,22 @@ public class RealProperty {
 		this.reference = reference;
 		this.category = category;
 		this.type = type;
+	}
+
+	public List<Document> getPhotos() {
+		List<Document> photos;
+		if (!Iterables.isEmpty(documents)) {
+			photos = new ArrayList<>(Collections2.filter(documents, new Predicate<Document>() {
+				@Override
+				public boolean apply(Document d) {
+					return EnumDocumentType.PHOTO.equals(d.getType());
+				}
+			}));
+		} else {
+			photos = ImmutableList.of();
+		}
+
+		return photos;
 	}
 
 	@Override

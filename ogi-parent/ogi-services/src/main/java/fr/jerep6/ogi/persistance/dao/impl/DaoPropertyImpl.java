@@ -35,7 +35,7 @@ public class DaoPropertyImpl extends AbstractDao<RealProperty, Integer> implemen
 		q.append(" LEFT JOIN fetch r.category");
 		q.append(" LEFT JOIN fetch r.type");
 		q.append(" LEFT JOIN fetch r.descriptions");
-		q.append(" LEFT JOIN fetch r.photos");
+		q.append(" LEFT JOIN fetch r.documents");
 		q.append(" LEFT JOIN fetch r.rooms");
 		q.append(" LEFT JOIN fetch r.equipments");
 		q.append(" WHERE r.reference= :").append(PARAM_REFERENCE);

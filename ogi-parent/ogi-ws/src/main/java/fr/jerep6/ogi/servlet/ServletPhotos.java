@@ -119,7 +119,7 @@ public class ServletPhotos extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		contextPath = config.getServletContext().getContextPath();
-		photosStorageDir = ContextUtils.getProperty("photos.storage.dir");
+		photosStorageDir = ContextUtils.getProperty("document.storage.dir");
 		photosStorageUrl = ContextUtils.getProperty("photos.storage.url");
 		photosProtocol = ContextUtils.getProperty("photos.protocol");
 	}

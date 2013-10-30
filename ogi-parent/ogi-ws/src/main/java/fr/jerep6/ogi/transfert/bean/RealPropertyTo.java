@@ -39,7 +39,7 @@ public class RealPropertyTo {
 	private Set<RealPropertyDiagnosisTo>	diagnosis;
 	private CategoryTo						category;
 	private String							type;
-	private List<PhotoTo>					photos;
+	private List<DocumentTo>					photos;
 	private SaleTo							sale;
 
 }

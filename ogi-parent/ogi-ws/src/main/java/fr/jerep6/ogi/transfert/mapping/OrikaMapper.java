@@ -2,7 +2,9 @@ package fr.jerep6.ogi.transfert.mapping;
 
 import javax.annotation.PostConstruct;
 
+import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MapperFactory;
+import ma.glasnost.orika.MappingContext;
 import ma.glasnost.orika.converter.ConverterFactory;
 import ma.glasnost.orika.impl.ConfigurableMapper;
 import ma.glasnost.orika.metadata.TypeFactory;
@@ -13,15 +15,19 @@ import org.springframework.stereotype.Component;
 import fr.jerep6.ogi.persistance.bo.Address;
 import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.Description;
+import fr.jerep6.ogi.persistance.bo.Document;
 import fr.jerep6.ogi.persistance.bo.Label;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyDiagnosis;
 import fr.jerep6.ogi.persistance.bo.Room;
 import fr.jerep6.ogi.persistance.bo.Sale;
 import fr.jerep6.ogi.persistance.bo.State;
+import fr.jerep6.ogi.transfert.FileUpload;
 import fr.jerep6.ogi.transfert.bean.AddressTo;
 import fr.jerep6.ogi.transfert.bean.CategoryTo;
 import fr.jerep6.ogi.transfert.bean.DescriptionTo;
+import fr.jerep6.ogi.transfert.bean.DocumentTo;
+import fr.jerep6.ogi.transfert.bean.FileUploadTo;
 import fr.jerep6.ogi.transfert.bean.LabelTo;
 import fr.jerep6.ogi.transfert.bean.RealPropertyDiagnosisTo;
 import fr.jerep6.ogi.transfert.bean.RealPropertyTo;
@@ -30,11 +36,12 @@ import fr.jerep6.ogi.transfert.bean.SaleTo;
 import fr.jerep6.ogi.transfert.bean.StateTo;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumCategory;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumDescriptionType;
+import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumDocumentType;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumLabelType;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumMandateType;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumOrientation;
-import fr.jerep6.ogi.transfert.mapping.converter.ConverterPhoto;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterType;
+import fr.jerep6.ogi.utils.UrlUtils;
 
 @Component("orikaMapper")
 public class OrikaMapper extends ConfigurableMapper {
@@ -63,7 +70,7 @@ public class OrikaMapper extends ConfigurableMapper {
 		converterFactory.registerConverter(new ConverterEnumOrientation());
 		converterFactory.registerConverter(new ConverterEnumMandateType());
 		converterFactory.registerConverter(new ConverterEnumLabelType());
-		converterFactory.registerConverter(new ConverterPhoto(urlBasePhoto));
+		converterFactory.registerConverter(new ConverterEnumDocumentType());
 		converterFactory.registerConverter(new ConverterType());
 
 		// Specifics factory (create object)
@@ -80,6 +87,15 @@ public class OrikaMapper extends ConfigurableMapper {
 		factory.classMap(Sale.class, SaleTo.class).byDefault().register();
 		factory.classMap(Label.class, LabelTo.class).byDefault().register();
 		factory.classMap(State.class, StateTo.class).byDefault().register();
+		factory.classMap(Document.class, DocumentTo.class)//
+				.customize(new CustomMapper<Document, DocumentTo>() {
+					@Override
+					public void mapAtoB(Document a, DocumentTo b, MappingContext context) {
+						b.setUrl(urlBasePhoto + UrlUtils.replace(a.getPath().toString()));
+					}
+				})//
+				.byDefault().register();
+		factory.classMap(FileUpload.class, FileUploadTo.class).byDefault().register();
 
 		factory.classMap(RealProperty.class, RealPropertyTo.class)//
 				.field("equipments{label}", "equipments{}")//
