@@ -25,4 +25,8 @@ public interface TransactionalService<T, PK extends Serializable> extends Servic
 	 * @return all entity
 	 */
 	Collection<T> listAll();
+
+	void remove(Collection<T> c);
+
+	void remove(T bo);
 }

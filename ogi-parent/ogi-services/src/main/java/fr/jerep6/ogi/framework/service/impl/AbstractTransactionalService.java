@@ -46,6 +46,18 @@ public abstract class AbstractTransactionalService<T, PK extends Serializable> e
 	}
 
 	@Override
+	public void remove(Collection<T> c) {
+		for (T bo : c) {
+			this.dao.remove(bo);
+		}
+	}
+
+	@Override
+	public void remove(T bo) {
+		this.dao.remove(bo);
+	}
+
+	@Override
 	public T save(T bo) {
 		validate(bo);
 		return dao.save(bo);

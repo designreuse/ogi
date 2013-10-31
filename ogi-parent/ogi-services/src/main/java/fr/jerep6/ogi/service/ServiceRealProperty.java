@@ -22,7 +22,7 @@ public interface ServiceRealProperty extends TransactionalService<RealProperty, 
 	 * @param property
 	 * @return
 	 */
-	RealProperty createFromBusinessFields(RealProperty property);
+	RealProperty createOrUpdateFromBusinessFields(RealProperty property);
 
 	/**
 	 * Delete properties

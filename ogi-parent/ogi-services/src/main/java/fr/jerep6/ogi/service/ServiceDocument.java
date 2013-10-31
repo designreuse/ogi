@@ -2,7 +2,7 @@ package fr.jerep6.ogi.service;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collection;
+import java.util.Set;
 
 import fr.jerep6.ogi.enumeration.EnumDocumentType;
 import fr.jerep6.ogi.framework.service.TransactionalService;
@@ -36,6 +36,6 @@ public interface ServiceDocument extends TransactionalService<Document, Integer>
 	 * @param reference
 	 *            reference of property
 	 */
-	void copyTempToDirectory(Collection<Document> documents, String reference);
+	Set<Document> copyTempToDirectory(Set<Document> documents, String reference);
 
 }

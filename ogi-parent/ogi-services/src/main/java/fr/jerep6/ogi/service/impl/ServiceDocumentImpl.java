@@ -6,7 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -22,6 +23,7 @@ import com.google.common.base.Strings;
 
 import fr.jerep6.ogi.enumeration.EnumDocumentType;
 import fr.jerep6.ogi.exception.business.FileAlreadyExist;
+import fr.jerep6.ogi.framework.exception.TechnicalException;
 import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
 import fr.jerep6.ogi.obj.PhotoDimension;
 import fr.jerep6.ogi.persistance.bo.Document;
@@ -39,24 +41,34 @@ public class ServiceDocumentImpl extends AbstractTransactionalService<Document, 
 	private DaoDocument		daoDocument;
 
 	@Override
-	public void copyTempToDirectory(Collection<Document> documents, String reference) {
-		try {
-			// Determine absolute path of reference
-			Path root = DocumentUtils.getDirectory(reference);
+	public Set<Document> copyTempToDirectory(Set<Document> documents, String reference) {
+		Preconditions.checkNotNull(documents);
+		Preconditions.checkNotNull(reference);
 
-			// Create root directory if not exist
-			if (!Files.isDirectory(root)) {
+		Set<Document> documentOK = new HashSet<>(documents.size());
+
+		// Determine absolute path of reference
+		Path root = DocumentUtils.getDirectory(reference);
+
+		// Create root directory if not exist
+		if (!Files.isDirectory(root)) {
+			try {
 				LOGGER.info("Create directory {}", root);
 				Files.createDirectories(root);
+			} catch (IOException ioe) {
+				LOGGER.error("Error creating directory from property " + reference, ioe);
+				throw new TechnicalException();
 			}
+		}
 
-			for (Document aDoc : documents) {
-				Path relativeDocPath = Paths.get(aDoc.getPath());
-				// If document is in temp folder => move it into property document
-				if (relativeDocPath.startsWith(DocumentUtils.DIR_TMP)) {
-					Path absoluteDestinationFile = root.resolve(Paths.get(
-							DocumentUtils.getDirectoryName(aDoc.getType()), relativeDocPath.getFileName().toString()));
+		for (Document aDoc : documents) {
+			Path relativeDocPath = Paths.get(aDoc.getPath());
+			// If document is in temp folder => move it into property document
+			if (relativeDocPath.startsWith(DocumentUtils.DIR_TMP)) {
+				Path absoluteDestinationFile = root.resolve(Paths.get(DocumentUtils.getDirectoryName(aDoc.getType()),
+						relativeDocPath.getFileName().toString()));
 
+				try {
 					// Create parent directory of file (photo for example)
 					Files.createDirectories(absoluteDestinationFile.getParent());
 
@@ -65,12 +77,16 @@ public class ServiceDocumentImpl extends AbstractTransactionalService<Document, 
 							DocumentUtils.absolutize(relativeDocPath), //
 							absoluteDestinationFile, //
 							StandardCopyOption.REPLACE_EXISTING);
-				}
 
+					// Add current document to list success list
+					documentOK.add(aDoc);
+				} catch (IOException ioe) {
+					LOGGER.error("Error coping temp file to prp directory", ioe);
+				}
 			}
-		} catch (IOException ioe) {
-			LOGGER.error("Error coping temp file to prp directory", ioe);
+
 		}
+		return documentOK;
 
 	}
 
