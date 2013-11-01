@@ -1,5 +1,5 @@
 function ControllerPrpAdd($scope, Page, $injector, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log) {
-    $injector.invoke(ControllerPrpParent, this, {$scope: $scope, Page:Page, $log:$log});
+    $injector.invoke(ControllerPrpParent, this, {$scope: $scope, Page:Page, $log:$log, $http:$http, ServiceConfiguration:ServiceConfiguration});
 
     $scope.update = function() {
         $scope.prp.mappingType= "HSE";

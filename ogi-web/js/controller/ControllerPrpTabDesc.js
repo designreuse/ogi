@@ -9,53 +9,28 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
         });
     });
 
-    // Get roofs. Run query only if promise of current type is resolved
-    $scope.roofs = [];
-    $scope.httpGetCurrentType.success(function() {
-        $http.get(ServiceConfiguration.API_URL+"/rest/label/ROOF").success(function (data) {
-            $scope.roofs = data;
-            $scope.roofs.push(labelOther);
+    getLabels("ROOF","roofs" , "roof");
+    getLabels("WALL","walls" , "wall");
+    getLabels("INSULATION","insulations" , "insulation");
+    getLabels("PARKING","parkings" , "parking");
+    /**
+     * Get labels for a type and populate scope with them
+     * @param type type of label to get
+     * @param vScope name of scope variable into store list of labels
+     * @param vSaveData name of variable into store selection. It will be stored in $scope.saveData.<vSaveData>
+     */
+    function getLabels(type, vScope, vSaveData) {
+        $scope[vScope] = [];
+        $scope.httpGetCurrentType.success(function() {
+            $http.get(ServiceConfiguration.API_URL+"/rest/label/"+type).success(function (data) {
+                $scope[vScope] = data;
+                $scope[vScope].push(labelOther);
 
-            // to select the pointer must be identical
-            $scope.prp.roof = ServiceLabel.getObject(data, $scope.prp.roof);
+                // to select the pointer must be identical
+                $scope.saveData[vSaveData] = ServiceLabel.getObject(data, $scope.saveData[vSaveData]);
+            });
         });
-    });
-
-    // Get wall. Run query only if promise of current type is resolved
-    $scope.walls = [];
-    $scope.httpGetCurrentType.success(function() {
-        $http.get(ServiceConfiguration.API_URL+"/rest/label/WALL").success(function (data) {
-            $scope.walls = data;
-            $scope.walls.push(labelOther);
-
-            // to select the pointer must be identical
-            $scope.prp.wall = ServiceLabel.getObject(data, $scope.prp.wall);
-        });
-    });
-
-    // Get insulation. Run query only if promise of current type is resolved
-    $scope.insulations = [];
-    $scope.httpGetCurrentType.success(function() {
-        $http.get(ServiceConfiguration.API_URL+"/rest/label/INSULATION").success(function (data) {
-            $scope.insulations = data;
-            $scope.insulations.push(labelOther);
-
-            // to select the pointer must be identical
-            $scope.prp.insulation = ServiceLabel.getObject(data, $scope.prp.insulation);
-        });
-    });
-
-    // Get parkings. Run query only if promise of current type is resolved
-    $scope.parkings = [];
-    $scope.httpGetCurrentType.success(function() {
-        $http.get(ServiceConfiguration.API_URL+"/rest/label/PARKING").success(function (data) {
-            $scope.parkings = data;
-            $scope.parkings.push(labelOther);
-
-            // to select the pointer must be identical
-            $scope.prp.parking = ServiceLabel.getObject(data, $scope.prp.parking);
-        });
-    });
+    }
 
     // Get all states
     $scope.states = [];
@@ -76,24 +51,25 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
             $scope.openModalType();
         }
     }
-    $scope.roofChange = function () {
-        if($scope.prp.roof != null && $scope.prp.roof.label == "Autre") {
-            $scope.openModalRoof();
+
+
+
+    $scope.roofChange = function () { labelChange("roof", $scope.saveData.roof, $scope.openModalRoof); };
+    $scope.wallChange = function () { labelChange("wall", $scope.saveData.wall, $scope.openModalWall); };
+    $scope.insulationChange = function () { labelChange("insulation", $scope.saveData.insulation, $scope.openModalInsulation); };
+    $scope.parkingChange = function () { labelChange("parking", $scope.saveData.parking, $scope.openModalParking); };
+    /**
+     *
+     * @param vPrp name of variable in object realproperty into store the label
+     * @param vSaveData variable which contains selected label
+     * @param fOpenModal function to execute when "Autre" is selected
+     */
+    function labelChange(vPrp, vSaveData, fOpenModal) {
+        if(vSaveData != null && vSaveData.label == "Autre") {
+            fOpenModal();
         }
-    }
-    $scope.wallChange = function () {
-        if($scope.prp.wall != null && $scope.prp.wall.label == "Autre") {
-            $scope.openModalWall();
-        }
-    }
-    $scope.insulationChange = function () {
-        if($scope.prp.insulation.label == "Autre") {
-            $scope.openModalInsulation();
-        }
-    }
-    $scope.parkingChange = function () {
-        if($scope.prp.parking.label == "Autre") {
-            $scope.openModalParking();
+        else if(!$scope.utils.isUndefinedOrNull( $scope.saveData.roof)) {
+            $scope.prp[vPrp] = vSaveData.label;
         }
     }
 
@@ -125,119 +101,40 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
         });
     };
 
-    // ##### MODAL ROOF #####
-    $scope.openModalRoof = function () {
+    // ##### MODAL LABEL #####
+    $scope.openModalRoof = function () { openLabelOther("ROOF", { title:"Ajouter une toiture", placeholder:"Entrer une toiture" }, "roof"); }
+    $scope.openModalWall = function () { openLabelOther("WALL", { title:"Ajouter un mur", placeholder:"Entrer un type de mur" }, "wall"); }
+    $scope.openModalInsulation = function () { openLabelOther("INSULATION", { title:"Ajouter une isolation", placeholder:"Entrer un type d'isolation" }, "insulation"); }
+    $scope.openModalParking = function () { openLabelOther("PARKING", { title:"Ajouter un stationnement", placeholder:"Entrer un type de stationnement" }, "parking"); }
+    /**
+     * Open model to add a label
+     * @param labelType type of label
+     * @param labels labels to display on layer
+     * @param vScopeName name of variable into scope save data and real property representing the label
+     */
+    function openLabelOther(labelType, labels, vScopeName) {
         var modalInstance = $modal.open({
             templateUrl: 'modalAddType.html',
             controller: ModalLabelInstanceCtrl,
             resolve: {
                 labels: function(){
-                    return {
-                        title:"Ajouter une toiture",
-                        placeholder:"Entrer une toiture"
-                    };
+                    return labels;
                 },
                 currentElt: function () {
-                    return "ROOF";
+                    return labelType;
                 }
             }
         });
 
         modalInstance.result.then(function (param) {
-            $log.info('Modal closed');
-            $scope.roofs.push(param);
-            $scope.prp.roof = param;
+            $log.debug('Modal closed');
+            $scope[vScopeName].push(param);
+            $scope.saveData[vScopeName] = param;
         }, function () {
-            $log.info('Modal dismissed');
-            $scope.prp.roof = null;
-
+            $log.debug('Modal dismissed');
+            $scope.saveData[vScopeName] = null;
         });
-    };
-
-    // ##### MODAL WALL #####
-    $scope.openModalWall = function () {
-        var modalInstance = $modal.open({
-            templateUrl: 'modalAddType.html',
-            controller: ModalLabelInstanceCtrl,
-            resolve: {
-                labels: function(){
-                    return {
-                        title:"Ajouter un mur",
-                        placeholder:"Entrer un type de mur"
-                    };
-                },
-                currentElt: function () {
-                    return "WALL";
-                }
-            }
-        });
-
-        modalInstance.result.then(function (param) {
-            $log.info('Modal closed');
-            $scope.walls.push(param);
-            $scope.prp.wall = param;
-        }, function () {
-            $log.info('Modal dismissed');
-            $scope.prp.wall = "";
-        });
-    };
-
-    // ##### MODAL INSULATION #####
-    $scope.openModalInsulation = function () {
-        var modalInstance = $modal.open({
-            templateUrl: 'modalAddType.html',
-            controller: ModalLabelInstanceCtrl,
-            resolve: {
-                labels: function(){
-                    return {
-                        title:"Ajouter une isolation",
-                        placeholder:"Entrer un type d'isolation"
-                    };
-                },
-                currentElt: function () {
-                    return "INSULATION";
-                }
-            }
-        });
-
-        modalInstance.result.then(function (param) {
-            $log.info('Modal closed');
-            $scope.insulations.push(param);
-            $scope.prp.insulation = param;
-        }, function () {
-            $log.info('Modal dismissed');
-            $scope.prp.insulation = "";
-        });
-    };
-
-    // ##### MODAL PARKING #####
-    $scope.openModalParking = function () {
-        var modalInstance = $modal.open({
-            templateUrl: 'modalAddType.html',
-            controller: ModalLabelInstanceCtrl,
-            resolve: {
-                labels: function(){
-                    return {
-                        title:"Ajouter un stationnement",
-                        placeholder:"Entrer un type de stationnement"
-                    };
-                },
-                currentElt: function () {
-                    return "PARKING";
-                }
-            }
-        });
-
-        modalInstance.result.then(function (param) {
-            $log.info('Modal closed');
-            $scope.parkings.push(param);
-            $scope.prp.parking = param;
-        }, function () {
-            $log.info('Modal dismissed');
-            $scope.prp.parking = "";
-        });
-    };
-
+    }
 }
 
 var ModalInstanceCtrl = function ($scope, $modalInstance, ServiceConfiguration, $http, currentElt, labels) {

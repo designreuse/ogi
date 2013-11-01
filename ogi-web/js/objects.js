@@ -13,6 +13,14 @@ var address = {
     }
 };
 
+var description = {
+    ETAT : {"type": "ETAT", "label": ""},
+    APP : {"type": "APP", "label": ""},
+    VITRINE : {"type": "VITRINE", "label": ""},
+    WEBSITE_PERSO : {"type": "WEBSITE_PERSO", "label": ""},
+    WEBSITE_AUTRE : {"type": "WEBSITE_AUTRE", "label": ""}
+};
+
 
 
 function PropertyJS(prpFromAPI) {
@@ -21,22 +29,9 @@ function PropertyJS(prpFromAPI) {
         this[key] = prpFromAPI[key];
     }
 
+    this.description = Object.create(description);
     if(!utilsObject.isUndefinedOrNull(prpFromAPI.descriptions)) {
-        if(utilsObject.isUndefinedOrNull(prpFromAPI.descriptions.ETAT)) {
-            this.descriptions.ETAT = {"type": "ETAT", "label": ""};
-        }
-        if(utilsObject.isUndefinedOrNull(prpFromAPI.descriptions.APP)) {
-            this.descriptions.APP = {"type": "APP", "label": ""};
-        }
-        if(utilsObject.isUndefinedOrNull(prpFromAPI.descriptions.VITRINE)) {
-            this.descriptions.VITRINE = {"type": "VITRINE", "label": ""};
-        }
-        if(utilsObject.isUndefinedOrNull(prpFromAPI.descriptions.WEBSITE_PERSO)) {
-            this.descriptions.WEBSITE_PERSO = {"type": "WEBSITE_PERSO", "label": ""};
-        }
-        if(utilsObject.isUndefinedOrNull(prpFromAPI.descriptions.WEBSITE_AUTRE)) {
-            this.descriptions.WEBSITE_AUTRE = {"type": "WEBSITE_AUTRE", "label": ""};
-        }
+        angular.extend(this.description, prpFromAPI.description);
     }
 
     this.address = Object.create(address);
@@ -45,7 +40,6 @@ function PropertyJS(prpFromAPI) {
         angular.extend(this.address, prpFromAPI.address);
     }
 
-    // Override address only if not exist or empty
     // Override photo only if not exist or empty
     if(utilsObject.isEmpty(prpFromAPI.photos)) {
         this.photos = [];

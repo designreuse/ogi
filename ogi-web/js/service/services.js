@@ -63,7 +63,7 @@ myApp.factory('ServiceLabel', function(Utils){
                 return null;
             }
             var arrayEqual =  array.filter(function (o) {
-                return o.techid == labelToFind.techid;
+                return o.label == labelToFind.label && o.type ==labelToFind.type;
             });
             return Utils.isEmpty(arrayEqual) ? null : arrayEqual[0];
         }
