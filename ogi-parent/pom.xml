@@ -14,7 +14,7 @@
 		<hibernate.version>4.1.9.Final</hibernate.version>
 		<aspectj.version>1.7.2</aspectj.version>
 		<slf4j.version>1.7.5</slf4j.version>
-		<guava.version>14.0.1</guava.version>
+		<guava.version>15.0</guava.version>
 		<lombok.version>0.11.6</lombok.version>
 		<junit.version>4.11</junit.version>
 		<dbunit.version>2.4.9</dbunit.version>
@@ -22,6 +22,7 @@
 		<orika.version>1.4.3</orika.version>
 		<mockito.version>1.9.5</mockito.version>
 		<fest.version>2.0M10</fest.version>
+		<httpclient.version>4.3.1</httpclient.version>
 	</properties>
 
 	<modules>
@@ -188,8 +189,8 @@
 			</dependency>
 			<!-- File upload -->
 			<dependency>
-		    	<groupId>com.sun.jersey.contribs</groupId>
-		    	<artifactId>jersey-multipart</artifactId>
+				<groupId>com.sun.jersey.contribs</groupId>
+				<artifactId>jersey-multipart</artifactId>
 				<version>${jersey.version}</version>
 			</dependency>
 
@@ -235,6 +236,13 @@
 				<artifactId>servlet-api</artifactId>
 				<version>2.5</version>
 				<scope>provided</scope>
+			</dependency>
+
+			<!-- HTTPCLIENT -->
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>${httpclient.version}</version>
 			</dependency>
 
 		</dependencies>

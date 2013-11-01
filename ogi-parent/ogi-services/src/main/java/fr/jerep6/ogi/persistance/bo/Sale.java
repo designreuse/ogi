@@ -16,6 +16,7 @@ import javax.persistence.TemporalType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
@@ -27,6 +28,7 @@ import fr.jerep6.ogi.enumeration.EnumMandateType;
 // Lombok
 @Getter
 @Setter
+@ToString
 @EqualsAndHashCode(of = { "mandateReference" })
 public class Sale {
 	@Id

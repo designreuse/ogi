@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,7 +42,7 @@ public class ServiceDocumentImpl extends AbstractTransactionalService<Document, 
 	private DaoDocument		daoDocument;
 
 	@Override
-	public Set<Document> copyTempToDirectory(Set<Document> documents, String reference) {
+	public Set<Document> copyTempToDirectory(Collection<Document> documents, String reference) {
 		Preconditions.checkNotNull(documents);
 		Preconditions.checkNotNull(reference);
 

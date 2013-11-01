@@ -1,8 +1,8 @@
 INSERT INTO TR_CATEGORY (CAT_ID, CAT_CODE, CAT_LABEL) VALUES
-(1, 'HSE', 'Maison'),
-(2, 'APT', 'Appartement'),
-(3, 'PLT', 'Terrain'),
-(4, 'GRG', 'Garage');
+(1, 'HSE', 'Maison', 'M'),
+(2, 'APT', 'Appartement', 'A'),
+(3, 'PLT', 'Terrain', 'T'),
+(4, 'GRG', 'Garage', 'G');
 
 INSERT INTO TR_TYPE (TYP_ID, TYP_LABEL, CAT_ID) VALUES 
 (1, 'Ferme', 1),

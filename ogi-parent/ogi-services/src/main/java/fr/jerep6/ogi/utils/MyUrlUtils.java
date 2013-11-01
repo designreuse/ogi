@@ -22,7 +22,7 @@ public class MyUrlUtils {
 	 */
 	public static String replace(String s) {
 		String url = "";
-		if (Strings.isNullOrEmpty(s)) {
+		if (!Strings.isNullOrEmpty(s)) {
 			url = s.replace("\\", "/");
 		}
 		return url;

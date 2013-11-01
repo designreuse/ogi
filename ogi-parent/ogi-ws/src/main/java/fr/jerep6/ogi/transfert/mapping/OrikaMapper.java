@@ -20,6 +20,7 @@ import fr.jerep6.ogi.persistance.bo.Document;
 import fr.jerep6.ogi.persistance.bo.Label;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyDiagnosis;
+import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 import fr.jerep6.ogi.persistance.bo.Room;
 import fr.jerep6.ogi.persistance.bo.Sale;
 import fr.jerep6.ogi.persistance.bo.State;
@@ -31,6 +32,7 @@ import fr.jerep6.ogi.transfert.bean.DocumentTo;
 import fr.jerep6.ogi.transfert.bean.FileUploadTo;
 import fr.jerep6.ogi.transfert.bean.LabelTo;
 import fr.jerep6.ogi.transfert.bean.RealPropertyDiagnosisTo;
+import fr.jerep6.ogi.transfert.bean.RealPropertyLivableTo;
 import fr.jerep6.ogi.transfert.bean.RealPropertyTo;
 import fr.jerep6.ogi.transfert.bean.RoomTo;
 import fr.jerep6.ogi.transfert.bean.SaleTo;
@@ -117,6 +119,12 @@ public class OrikaMapper extends ConfigurableMapper {
 				.fieldBToA("photos", "documents")//
 				.mapNulls(false)//
 				.mapNullsInReverse(false)//
+				.byDefault()//
+				.register();
+
+		factory.classMap(RealPropertyLivable.class, RealPropertyLivableTo.class) //
+				.exclude("descriptions")//
+				.use(RealProperty.class, RealPropertyTo.class) //
 				.byDefault()//
 				.register();
 	}

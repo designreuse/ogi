@@ -48,6 +48,10 @@ public class Category {
 	@ManyToMany(mappedBy = "categories")
 	private Set<Diagnosis>	diagnosis;
 
+	/** Prefix for reference. A, M, B, G, T */
+	@Column(name = "CAT_PREFIX", nullable = false, unique = true, length = 1)
+	private String			prefixReference;
+
 	@Override
 	public String toString() {
 		return Objects.toStringHelper(this).add("techid", techid).add("code", code).toString();

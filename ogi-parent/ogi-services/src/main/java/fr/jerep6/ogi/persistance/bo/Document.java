@@ -1,5 +1,7 @@
 package fr.jerep6.ogi.persistance.bo;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -19,6 +21,7 @@ import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 
 import fr.jerep6.ogi.enumeration.EnumDocumentType;
+import fr.jerep6.ogi.utils.DocumentUtils;
 
 @Entity
 @Table(name = "TA_DOCUMENT")
@@ -62,6 +65,16 @@ public class Document {
 		this.name = name;
 		this.order = order;
 		this.type = type;
+	}
+
+	/**
+	 * Indicate if document is temporary (ie is store in folder temp)
+	 * 
+	 * @return
+	 */
+	public boolean isTemp() {
+		Path relativeDocPath = Paths.get(path);
+		return relativeDocPath.startsWith(DocumentUtils.DIR_TMP);
 	}
 
 }

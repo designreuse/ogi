@@ -8,7 +8,6 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +24,6 @@ import fr.jerep6.ogi.persistance.bo.Description;
 import fr.jerep6.ogi.persistance.bo.Document;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
-import fr.jerep6.ogi.persistance.bo.Room;
 import fr.jerep6.ogi.persistance.bo.Type;
 import fr.jerep6.ogi.persistance.dao.DaoProperty;
 import fr.jerep6.ogi.service.ServiceCategory;
@@ -35,6 +33,7 @@ import fr.jerep6.ogi.service.ServiceDocument;
 import fr.jerep6.ogi.service.ServiceEquipment;
 import fr.jerep6.ogi.service.ServiceRealProperty;
 import fr.jerep6.ogi.service.ServiceType;
+import fr.jerep6.ogi.transfert.mapping.OrikaMapperService;
 
 @Service("serviceRealProperty")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -62,8 +61,19 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 	@Autowired
 	private ServiceDescription	serviceDescription;
 
-	@Value("${search.result.max}")
-	private Integer				searchMaxResult;
+	@Autowired
+	private OrikaMapperService	mapper;
+
+	/**
+	 * Compute new reference for a property. Not thread safe
+	 * 
+	 * @param categ
+	 * @return
+	 */
+	private String computeReference(Category categ) {
+		Preconditions.checkNotNull(categ);
+		return categ.getPrefixReference() + (daoProperty.getMax() + 1);
+	}
 
 	/**
 	 * <ul>
@@ -77,6 +87,9 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 
 		RealProperty prp;
 
+		// It's impossible to create new category so only read from database given code
+		Category cat = serviceCategory.readByCode(propertyFromJson.getCategory().getCode());
+
 		boolean create;
 		if (!Strings.isNullOrEmpty(propertyFromJson.getReference())) {
 			prp = readByReference(propertyFromJson.getReference());
@@ -85,20 +98,21 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 				// TODO : change exception
 				throw new BusinessException();
 			}
+
+			mapper.map(propertyFromJson, prp);
+
 			// Update
 			create = false;
 		}
 		// No reference (ie create prp) => generate it
 		else {
 			prp = propertyFromJson;
-			prp.setReference("pouet1");
+			prp.setReference(computeReference(cat));
 
 			create = true;
 		}
 
 		// ###### COMMON ######
-		// It's impossible to create new category so only read from database given code
-		Category cat = serviceCategory.readByCode(propertyFromJson.getCategory().getCode());
 		prp.setCategory(cat);
 
 		// Create type if needed
@@ -160,6 +174,7 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 			if (indexDesc != -1) {
 				// Get existant description to avoid sql insert
 				d = descriptionsBDBackup.get(indexDesc);
+				mapper.map(aDescription, d);
 			} else {
 				d.setProperty(prp);
 			}
@@ -173,20 +188,29 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 		// ###### SPECIFIC ######
 		if (RealPropertyLivable.class.equals(prp.getClass())) {
 			RealPropertyLivable liveable = (RealPropertyLivable) prp;
-			// Room
-			if (liveable.getRooms() != null) {
-				for (Room aRoom : liveable.getRooms()) {
-					// techid to null to force insert
-					aRoom.setTechid(null);
-					aRoom.setProperty(liveable);
-				}
-			}
+			/*
+			 * // Room
+			 * if (liveable.getRooms() != null) {
+			 * for (Room aRoom : liveable.getRooms()) {
+			 * // techid to null to force insert
+			 * aRoom.setTechid(null);
+			 * aRoom.setProperty(liveable);
+			 * }
+			 * }
+			 */
 		}
-		// Nothing to do for address
 
 		// Documents
-		Set<Document> documentsSuccess = serviceDocument.copyTempToDirectory(prp.getDocuments(), prp.getReference());
-		prp.setDocuments(documentsSuccess);
+		// Extract temps documents
+		Collection<Document> tmpDoc = Collections2.filter(propertyFromJson.getDocuments(), new Predicate<Document>() {
+			@Override
+			public boolean apply(Document d) {
+				return d.isTemp();
+			}
+		});
+
+		Set<Document> documentsSuccess = serviceDocument.copyTempToDirectory(tmpDoc, prp.getReference());
+		propertyFromJson.getDocuments().addAll(documentsSuccess);
 
 		// Save real property into database
 		if (create) {
@@ -194,7 +218,7 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 		} else {
 			update(prp);
 		}
-		return propertyFromJson;
+		return prp;
 	}
 
 	@Override

@@ -22,7 +22,10 @@ public class JsonExceptionMapper implements ExceptionMapper<Exception> {
 	public Response toResponse(Exception exception) {
 		LOGGER.error("exception", exception);
 		String msg = exception.getMessage() == null ? "" : ExceptionUtils.i18n(exception);
-		return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("{\"exception\":\"" + msg + "\"}")
-				.type(AbstractJaxRsWS.APPLICATION_JSON_UTF8).build();
+		return Response//
+				.status(Response.Status.INTERNAL_SERVER_ERROR)//
+				.entity("{\"exception\":\"" + msg + "\"}")//
+				.type(AbstractJaxRsWS.APPLICATION_JSON_UTF8)//
+				.build();
 	}
 }

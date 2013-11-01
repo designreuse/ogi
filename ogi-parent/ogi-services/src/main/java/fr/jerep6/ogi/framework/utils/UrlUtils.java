@@ -84,7 +84,7 @@ public final class UrlUtils {
 		String u = "";
 		if (!Strings.isNullOrEmpty(urlWithParam)) {
 			int qpos = urlWithParam.indexOf('?');
-			u = urlWithParam.substring(0, qpos);
+			u = urlWithParam.substring(0, qpos != -1 ? qpos : urlWithParam.length());
 		}
 		return u;
 	}

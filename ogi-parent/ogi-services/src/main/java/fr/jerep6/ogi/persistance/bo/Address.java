@@ -12,12 +12,14 @@ import javax.persistence.Table;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "TA_ADDRESS")
 // Lombok
 @Getter
 @Setter
+@ToString
 @EqualsAndHashCode(of = { "number", "street", "postalCode", "city", "additional" })
 public class Address {
 	@Id

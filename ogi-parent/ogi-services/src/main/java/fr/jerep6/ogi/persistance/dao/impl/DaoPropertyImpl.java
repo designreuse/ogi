@@ -27,6 +27,17 @@ public class DaoPropertyImpl extends AbstractDao<RealProperty, Integer> implemen
 	private static final String	PARAM_REFERENCE	= "REFERENCE";
 
 	@Override
+	public Integer getMax() {
+		StringBuilder q = new StringBuilder();
+		q.append("SELECT max(techid) FROM ").append(RealProperty.class.getName());
+
+		TypedQuery<Integer> query = entityManager.createQuery(q.toString(), Integer.class);
+
+		return Iterables.getFirst(query.getResultList(), 0);
+
+	}
+
+	@Override
 	public RealProperty readByReference(String reference) {
 		StringBuilder q = new StringBuilder();
 		q.append("SELECT r ").append(" FROM ").append(RealProperty.class.getName()).append(" r ");
