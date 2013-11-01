@@ -7088,6 +7088,7 @@ function createHttpBackend($browser, XHR, $browserDefer, callbacks, rawDocument,
 
     function completeRequest(callback, status, response, headersString) {
       var protocol = locationProtocol || urlResolve(url).protocol;
+        var protocol = urlIsServerMatched(url) ? urlResolve(url).protocol : locationProtocol;
 
       // cancel timeout and subsequent timeout promise resolution
       timeoutId && $browserDefer.cancel(timeoutId);
@@ -7527,11 +7528,16 @@ function $LocaleProvider(){
     };
   };
 }
-
+var SERVER_MATCH = /^([^:]+):\/\/(\w+:{0,1}\w*@)?(\{?[\w\.-]*\}?)(:([0-9]+))?(\/[^\?#]*)?(\?([^#]*))?(#(.*))?$/;
 var PATH_MATCH = /^([^\?#]*)(\?([^#]*))?(#(.*))?$/,
     DEFAULT_PORTS = {'http': 80, 'https': 443, 'ftp': 21};
 var $locationMinErr = minErr('$location');
 
+    function urlIsServerMatched(url) {
+
+            return SERVER_MATCH.test(url);
+
+        }
 
 /**
  * Encode path using encodeUriSegment, ignoring forward slashes
