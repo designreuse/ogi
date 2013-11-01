@@ -86,7 +86,7 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
     // ##### UPLOAD #####
     // http://blueimp.github.io/jQuery-File-Upload/angularjs.html
     $scope.options = {
-        url: ServiceConfiguration.API_URL+"/rest/photo/",
+        url: ServiceConfiguration.API_URL+"/rest/document/",
         type : "POST", // The HTTP request method for the file uploads
         dataType : "json", //The type of data that is expected back from the server.
         limitMultiFileUploads : 2, //To limit the number of files uploaded with one XHR request, set the following option to an integer greater than 0
@@ -97,7 +97,7 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
             maxFileSize: 'Fichier trop gros',
             minFileSize: 'Fichier trop petit'
         },
-        formData : [{ name: 'reference', value:  $scope.tempReference}]
+        formData : [{ name: 'reference', value:  $scope.tempReference}, { name: 'type', value:  "PHOTO"}]
     };
 
     // Listen to fileuploaddone event
@@ -105,12 +105,10 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
 
         // Add photo to property
         var file = data._response.result.files[0];
-        console.log(file);
-        $scope.prp.photos.push({
-            url : file.thumbnailUrl,
-            name : file.name,
-            order : $scope.prp.photos.length
-        });
+        console.debug(file);
+        // Replace url with thumb url
+        file.document.url = file.thumbnailUrl;
+        $scope.prp.photos.push(file.document);
 
         // Search index of just upload file to remove it to queue
         var index = -1;
@@ -130,7 +128,8 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
             console.log("update");
         },
         axis: "x",
-        placeholder: 'highlight' // class of fantom item
+        placeholder: 'highlight', // class of fantom item
+        floating: true
     };
 
 

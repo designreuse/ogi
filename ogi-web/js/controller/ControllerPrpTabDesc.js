@@ -3,7 +3,7 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
     // Get type of current category. Run query only if promise of current type is resolved
     $scope.types = [];
     $scope.httpGetCurrentType.success(function() {
-        $http.get(ServiceConfiguration.API_URL+"/rest/category/"+$scope.currentType.code+"/types").success(function (data) {
+        $http.get(ServiceConfiguration.API_URL+"/rest/category/"+$scope.prp.category.code+"/types").success(function (data) {
             $scope.types = data;
             $scope.types.push("Autre");
         });

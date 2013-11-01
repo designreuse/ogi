@@ -1,4 +1,4 @@
-function ControllerPrp($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log) {
+function ControllerPrpParent($scope, Page, $log) {
     // Top menu for active item
     $scope.addMenu = {
         "items" : [
@@ -35,28 +35,21 @@ function ControllerPrp($scope, Page, $routeParams, ServiceConfiguration, Service
         }
     };
 
-
     $scope.update = function() {
-        console.log($scope.prp.wall.label);
+        $scope.prp.mappingType= "HSE";
+        $http.post(ServiceConfiguration.API_URL+"/rest/property/", $scope.prp)
+            .success(function (data) {
+                $scope.currentType = data;
+                Page.setTitle("Ajouter un bien : " + data.label);
+            });
     }
 
-    // Current type to add (code + label)
-    $scope.currentType = {};
-    // Get information about current type
-    $scope.httpGetCurrentType = $http.get(ServiceConfiguration.API_URL+"/rest/category/"+$routeParams.type).success(function (data) {
-        $scope.currentType = data;
-        Page.setTitle("Ajouter un bien : "+data.label);
-    });
-
-    $scope.addMenu.select("desc");
     $scope.tempReference = Math.random().toString(36).substring(7);
-    $log.log("tempReference="+ $scope.tempReference);
-
-    $scope.prp = new PropertyJS({});
+    $log.debug("tempReference="+ $scope.tempReference);
 
     // Data to save between children controller
     $scope.saveData = {stateOrder: 0};
+
+    $scope.addMenu.select("prp");
+
 }
-
-
-
