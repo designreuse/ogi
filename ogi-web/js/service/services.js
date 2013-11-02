@@ -49,21 +49,27 @@ myApp.factory('ServiceAlert', function(){
     }
 });
 
-
-myApp.factory('ServiceLabel', function(Utils){
+myApp.factory('ServiceObject', function(Utils){
     return {
         /**
          * Return array's element corresponding to label to find. It's for keep same pointer
          * @param array array into find element
-         * @param labelToFind label to find. Comparison will be compute according to "techid"
+         * @param objectToFind object to find in array. Comparison will be compute according to attr into array attrToCompare
+         * @param attrToCompare list of attributes on which comparison will be compute
          * @returns {*}
          */
-        getObject:function(array, labelToFind){
-            if(Utils.isUndefinedOrNull(array) || Utils.isUndefinedOrNull(labelToFind)) {
+        getObject:function(array, objectToFind, attrToCompare){
+            if(Utils.isUndefinedOrNull(array) || Utils.isUndefinedOrNull(objectToFind)) {
                 return null;
             }
             var arrayEqual =  array.filter(function (o) {
-                return o.label == labelToFind.label && o.type ==labelToFind.type;
+                var equals = true;
+                attrToCompare.forEach(function(element, index, array) {
+                    if(o[element] != objectToFind[element]) {
+                        equals = false;
+                    }
+                });
+                return equals;
             });
             return Utils.isEmpty(arrayEqual) ? null : arrayEqual[0];
         }

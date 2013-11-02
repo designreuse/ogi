@@ -1,11 +1,14 @@
-function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, ServiceLabel, ServiceAlert, $http, $log ,$modal) {
+function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, ServiceObject, ServiceAlert, $http, $log ,$modal) {
 
     // Get type of current category. Run query only if promise of current type is resolved
     $scope.types = [];
     $scope.httpGetCurrentType.success(function() {
         $http.get(ServiceConfiguration.API_URL+"/rest/category/"+$scope.prp.category.code+"/types").success(function (data) {
             $scope.types = data;
-            $scope.types.push("Autre");
+            $scope.types.push(typeOther);
+
+            // to select the pointer must be identical
+            $scope.saveData.type = ServiceObject.getObject(data, $scope.saveData.type, ["label"]);
         });
     });
 
@@ -27,7 +30,7 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
                 $scope[vScope].push(labelOther);
 
                 // to select the pointer must be identical
-                $scope.saveData[vSaveData] = ServiceLabel.getObject(data, $scope.saveData[vSaveData]);
+                $scope.saveData[vSaveData] = ServiceObject.getObject(data, $scope.saveData[vSaveData], ["label", "type"]);
             });
         });
     }
@@ -45,15 +48,28 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
         });
     });
 
+    $scope.$watch('saveData.stateOrder', function() {
+        $scope.prp.state = $scope.states[$scope.saveData.stateOrder];
+    });
+
+    $scope.$watch('saveData.buildDate', function() {
+        if(!$scope.utils.isUndefinedOrNull($scope.saveData.buildDate)) {
+            $scope.prp.buildDate = $scope.saveData.buildDate+"-01-01";
+        }
+    });
+    $scope.$watch('saveData.type', function() {
+        if(!$scope.utils.isUndefinedOrNull($scope.saveData.type)) {
+            $scope.prp.type = $scope.saveData.type.label;
+        }
+    });
+
+
 
     $scope.typeChange = function () {
-        if($scope.prp.type == "Autre") {
+        if($scope.saveData.type.label == "Autre") {
             $scope.openModalType();
         }
     }
-
-
-
     $scope.roofChange = function () { labelChange("roof", $scope.saveData.roof, $scope.openModalRoof); };
     $scope.wallChange = function () { labelChange("wall", $scope.saveData.wall, $scope.openModalWall); };
     $scope.insulationChange = function () { labelChange("insulation", $scope.saveData.insulation, $scope.openModalInsulation); };

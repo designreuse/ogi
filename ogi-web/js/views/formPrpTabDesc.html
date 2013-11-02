@@ -6,7 +6,7 @@
                 <div class="control-group">
                     <label class="control-label">Type de bien</label>
                     <div class="controls">
-                        <select ng-model="prp.type" ng-options="t for t in types" ng-change="typeChange()">
+                        <select ng-model="saveData.type" ng-options="t.label for t in types" ng-change="typeChange()">
                             <option value="">--- Sélectionner un type ---</option>
                         </select>
                     </div>
@@ -90,7 +90,7 @@
             <div class="control-group">
                 <label class="control-label">Année construction</label>
                 <div class="controls">
-                    <input class="input-mini" type="number" ng-model="prp.buildDate" />
+                    <input class="input-mini" type="date" ng-model="saveData.buildDate" />
                 </div>
             </div>
             <div class="control-group input-append">
@@ -109,7 +109,7 @@
                         <option value="N">Nord</option>
                         <option value="S">Sud</option>
                         <option value="E">Est</option>
-                        <option value="O">Ouest</option>
+                        <option value="W">Ouest</option>
 
                         <option value="NE">Nord-Est</option>
                         <option value="NW">Nord-Ouest</option>

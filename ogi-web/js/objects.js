@@ -29,14 +29,15 @@ function PropertyJS(prpFromAPI) {
         this[key] = prpFromAPI[key];
     }
 
-    this.description = Object.create(description);
+    this.descriptions = Object.create(description);
     if(!utilsObject.isUndefinedOrNull(prpFromAPI.descriptions)) {
-        angular.extend(this.description, prpFromAPI.description);
+        angular.extend(this.descriptions, prpFromAPI.descriptions);
     }
 
-    this.address = Object.create(address);
     // if address is defined copy attribute into object previously created
+    this.address = null;
     if(!utilsObject.isUndefinedOrNull(prpFromAPI.address)) {
+        this.address = Object.create(address);
         angular.extend(this.address, prpFromAPI.address);
     }
 
@@ -58,4 +59,13 @@ var labelOther = {
     "techid": -1,
     "type": "NOTYPE",
     "label": "Autre"
+}
+
+var typeOther = {
+    "label": "Autre",
+    "category": {
+        "code": "XXX",
+        "label": "XXX"
+    }
+
 }
