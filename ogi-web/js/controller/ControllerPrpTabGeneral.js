@@ -10,7 +10,7 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
 
 
     $scope.clickMap = function($event, $params) {
-        addOrMoveMarker($params[0].latLng);
+        addOrMoveMarker($params[0].latLng, false);
     };
 
     $scope.resetMap = function() {
@@ -51,7 +51,7 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
 
 
     // If no marker add one and move it if exist
-    function addOrMoveMarker(latLng) {
+    function addOrMoveMarker(latLng, center) {
         // Only add 1 marker which can drag
         if($scope.markers.length == 0) {
             var m = new google.maps.Marker({
@@ -68,7 +68,9 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
         else {
             $scope.markers[0].setPosition(latLng);
         }
-        $scope.map.setCenter(latLng);
+        if(center) {
+            $scope.map.setCenter(latLng);
+        }
     };
 
     $scope.usePlace = function (index) {
@@ -76,7 +78,7 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
 
         $scope.prp.address.latitude = location.lat();
         $scope.prp.address.longitude = location.lng();
-        addOrMoveMarker(location);
+        addOrMoveMarker(location, true);
 
         $scope.closeGeoloc();
     }
@@ -151,11 +153,15 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
     };
 
 
-    // Init according to object property
-    $scope.onMapIdle = function() {
-        // If latitude and longitude => add marker on Map
-        if($scope.prp.address != null && !$scope.prp.address.isLatLngEmpty()) {
-            addOrMoveMarker(new google.maps.LatLng($scope.prp.address.latitude, $scope.prp.address.longitude));
+    // Init according to object
+    var mapFirstLoad = true;
+    $scope.onMapIdle = function(param) {
+        if(mapFirstLoad) {
+            mapFirstLoad = false;
+            // If latitude and longitude => add marker on Map
+            if($scope.prp.address != null && !$scope.prp.address.isLatLngEmpty()) {
+                addOrMoveMarker(new google.maps.LatLng($scope.prp.address.latitude, $scope.prp.address.longitude), true);
+            }
         }
     }
 };
