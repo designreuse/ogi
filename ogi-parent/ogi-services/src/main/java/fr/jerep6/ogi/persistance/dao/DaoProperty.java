@@ -8,4 +8,11 @@ public interface DaoProperty extends DaoCRUD<RealProperty, Integer> {
 	RealProperty readByReference(String reference);
 
 	void test();
+
+	/**
+	 * Return maximum techid into database for property
+	 * 
+	 * @return
+	 */
+	Integer getMax();
 }

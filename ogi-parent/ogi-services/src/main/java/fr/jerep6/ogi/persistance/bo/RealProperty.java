@@ -88,11 +88,11 @@ public class RealProperty {
 	@JoinColumn(name = "CAT_ID", nullable = false)
 	private Category					category;
 
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne
 	@JoinColumn(name = "TYP_ID", nullable = true)
 	private Type						type;
 
-	@ManyToMany(cascade = CascadeType.PERSIST)
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "TJ_PRP_DOC",//
 	joinColumns = @JoinColumn(name = "PRO_ID"),//
 	inverseJoinColumns = @JoinColumn(name = "DOC_ID")//

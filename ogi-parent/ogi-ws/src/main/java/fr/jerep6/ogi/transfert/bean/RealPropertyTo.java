@@ -20,8 +20,8 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
 // Pour l'héritage, indique que lors de la serialisation, le flux json contiendra une propriété mappingType indiquant le
 // type de l'objet. @JsonSubTypes fait la correspondance entre les classes et les valeurs dans le json
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "mappingType")
-@JsonSubTypes({ @Type(name = "HSE", value = RealPropertyLivableTo.class),
-		@Type(name = "APT", value = RealPropertyLivableTo.class) })
+@JsonSubTypes({ @Type(name = "liveable", value = RealPropertyLivableTo.class),
+		@Type(name = "plot", value = RealPropertyPlotTo.class) })
 // lombok
 @Getter
 @Setter

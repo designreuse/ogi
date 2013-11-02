@@ -24,6 +24,7 @@ import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 import fr.jerep6.ogi.persistance.bo.Room;
 import fr.jerep6.ogi.persistance.bo.Sale;
 import fr.jerep6.ogi.persistance.bo.State;
+import fr.jerep6.ogi.persistance.bo.Type;
 import fr.jerep6.ogi.transfert.FileUpload;
 import fr.jerep6.ogi.transfert.bean.AddressTo;
 import fr.jerep6.ogi.transfert.bean.CategoryTo;
@@ -37,13 +38,13 @@ import fr.jerep6.ogi.transfert.bean.RealPropertyTo;
 import fr.jerep6.ogi.transfert.bean.RoomTo;
 import fr.jerep6.ogi.transfert.bean.SaleTo;
 import fr.jerep6.ogi.transfert.bean.StateTo;
+import fr.jerep6.ogi.transfert.bean.TypeTo;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumCategory;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumDescriptionType;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumDocumentType;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumLabelType;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumMandateType;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumOrientation;
-import fr.jerep6.ogi.transfert.mapping.converter.ConverterType;
 import fr.jerep6.ogi.utils.DocumentUtils;
 import fr.jerep6.ogi.utils.MyUrlUtils;
 
@@ -75,7 +76,6 @@ public class OrikaMapper extends ConfigurableMapper {
 		converterFactory.registerConverter(new ConverterEnumMandateType());
 		converterFactory.registerConverter(new ConverterEnumLabelType());
 		converterFactory.registerConverter(new ConverterEnumDocumentType());
-		converterFactory.registerConverter(new ConverterType());
 
 		// Specifics factory (create object)
 		factory.registerObjectFactory(new FactoryRealPropertyTo(), TypeFactory.valueOf(RealPropertyTo.class));
@@ -91,6 +91,7 @@ public class OrikaMapper extends ConfigurableMapper {
 		factory.classMap(Sale.class, SaleTo.class).byDefault().register();
 		factory.classMap(Label.class, LabelTo.class).byDefault().register();
 		factory.classMap(State.class, StateTo.class).byDefault().register();
+		factory.classMap(Type.class, TypeTo.class).byDefault().register();
 		factory.classMap(Document.class, DocumentTo.class)//
 				.customize(new CustomMapper<Document, DocumentTo>() {
 					@Override
@@ -108,8 +109,8 @@ public class OrikaMapper extends ConfigurableMapper {
 		factory.classMap(FileUpload.class, FileUploadTo.class).byDefault().register();
 
 		factory.classMap(RealProperty.class, RealPropertyTo.class)//
-				.field("equipments{label}", "equipments{}")//
 				.field("type.label", "type") //
+				.field("equipments{label}", "equipments{}")//
 				.field("diagnosisProperty", "diagnosis")//
 				// must exclude the field else classcast exception. It doesn't detected that description is mapped as
 				// map bellow
@@ -117,14 +118,13 @@ public class OrikaMapper extends ConfigurableMapper {
 				.field("descriptions{}", "descriptions{value}")//
 				.fieldAToB("photos", "photos")//
 				.fieldBToA("photos", "documents")//
-				.mapNulls(false)//
-				.mapNullsInReverse(false)//
 				.byDefault()//
 				.register();
 
 		factory.classMap(RealPropertyLivable.class, RealPropertyLivableTo.class) //
-				.exclude("descriptions")//
 				.use(RealProperty.class, RealPropertyTo.class) //
+				.exclude("descriptions")//
+				.exclude("type")// Need to exclude type because "byDefault" override parent behaviour
 				.byDefault()//
 				.register();
 	}

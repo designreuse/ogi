@@ -80,6 +80,7 @@ public class ServiceDocumentImpl extends AbstractTransactionalService<Document, 
 							StandardCopyOption.REPLACE_EXISTING);
 
 					// Add current document to list success list
+					aDoc.setPath(DocumentUtils.relativize(absoluteDestinationFile).toString());
 					documentOK.add(aDoc);
 				} catch (IOException ioe) {
 					LOGGER.error("Error coping temp file to prp directory", ioe);

@@ -21,6 +21,7 @@ import fr.jerep6.ogi.persistance.bo.Type;
 import fr.jerep6.ogi.service.ServiceCategory;
 import fr.jerep6.ogi.service.ServiceType;
 import fr.jerep6.ogi.transfert.bean.CategoryTo;
+import fr.jerep6.ogi.transfert.bean.TypeTo;
 import fr.jerep6.ogi.transfert.mapping.OrikaMapper;
 
 /**
@@ -99,12 +100,11 @@ public class WSCategory extends AbstractJaxRsWS {
 	@GET
 	@Path("/{code}/types")
 	@Produces(APPLICATION_JSON_UTF8)
-	public List<String> typesRead(@PathParam("code") String code) {
+	public List<TypeTo> typesRead(@PathParam("code") String code) {
 		List<Type> types = serviceType.readByCategory(EnumCategory.valueOfByCode(code));
 
 		// https://groups.google.com/forum/#!topic/orika-discuss/s5tsPHZvFEA
-		List<String> mapAsList = mapper.mapAsList(types, TypeFactory.valueOf(Type.class),
-				TypeFactory.valueOf(String.class));
+		List<TypeTo> mapAsList = mapper.mapAsList(types, TypeTo.class);
 		return mapAsList;
 	}
 }

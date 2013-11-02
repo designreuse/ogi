@@ -23,7 +23,9 @@ import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.Description;
 import fr.jerep6.ogi.persistance.bo.Document;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
+import fr.jerep6.ogi.persistance.bo.RealPropertyBuilt;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
+import fr.jerep6.ogi.persistance.bo.State;
 import fr.jerep6.ogi.persistance.bo.Type;
 import fr.jerep6.ogi.persistance.dao.DaoProperty;
 import fr.jerep6.ogi.service.ServiceCategory;
@@ -32,6 +34,7 @@ import fr.jerep6.ogi.service.ServiceDiagnosis;
 import fr.jerep6.ogi.service.ServiceDocument;
 import fr.jerep6.ogi.service.ServiceEquipment;
 import fr.jerep6.ogi.service.ServiceRealProperty;
+import fr.jerep6.ogi.service.ServiceState;
 import fr.jerep6.ogi.service.ServiceType;
 import fr.jerep6.ogi.transfert.mapping.OrikaMapperService;
 
@@ -60,6 +63,9 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 
 	@Autowired
 	private ServiceDescription	serviceDescription;
+
+	@Autowired
+	private ServiceState		serviceState;
 
 	@Autowired
 	private OrikaMapperService	mapper;
@@ -114,6 +120,10 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 
 		// ###### COMMON ######
 		prp.setCategory(cat);
+
+		if (propertyFromJson.getAddress() != null) {
+			prp.getAddress().setProperty(prp);
+		}
 
 		// Create type if needed
 		Type type = null;
@@ -186,8 +196,20 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 		serviceDescription.remove(descriptionsBDBackup);
 
 		// ###### SPECIFIC ######
-		if (RealPropertyLivable.class.equals(prp.getClass())) {
-			RealPropertyLivable liveable = (RealPropertyLivable) prp;
+		if (propertyFromJson instanceof RealPropertyBuilt) {
+			RealPropertyBuilt builtFromJson = (RealPropertyBuilt) propertyFromJson;
+			RealPropertyBuilt built = (RealPropertyBuilt) prp;
+
+			// State
+			State state = null;
+			if (builtFromJson.getState() != null) {
+				state = serviceState.read(builtFromJson.getState().getOrder());
+			}
+			built.setState(state);
+		}
+
+		if (propertyFromJson instanceof RealPropertyLivable) {
+			RealPropertyLivable liveable = (RealPropertyLivable) propertyFromJson;
 			/*
 			 * // Room
 			 * if (liveable.getRooms() != null) {
@@ -210,7 +232,7 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 		});
 
 		Set<Document> documentsSuccess = serviceDocument.copyTempToDirectory(tmpDoc, prp.getReference());
-		propertyFromJson.getDocuments().addAll(documentsSuccess);
+		prp.getDocuments().addAll(documentsSuccess);
 
 		// Save real property into database
 		if (create) {
