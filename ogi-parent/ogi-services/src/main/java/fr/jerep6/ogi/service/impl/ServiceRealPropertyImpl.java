@@ -2,6 +2,7 @@ package fr.jerep6.ogi.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -231,7 +232,43 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 			}
 		});
 
+		// Extract existing documents
+		Collection<Document> nonTmpDoc = Collections2.filter(propertyFromJson.getDocuments(),
+				new Predicate<Document>() {
+					@Override
+					public boolean apply(Document d) {
+						return !d.isTemp();
+					}
+				});
+
+		// Copy new documents into prp folder
 		Set<Document> documentsSuccess = serviceDocument.copyTempToDirectory(tmpDoc, prp.getReference());
+
+		// Delete old documents. Old document is a doc which is in database but not in json feed
+		Set<Document> documentToRemove = new HashSet<>(prp.getDocuments());
+		documentToRemove.removeAll(nonTmpDoc);
+		documentToRemove = serviceDocument.deleteDocuments(documentToRemove);
+		serviceDocument.remove(documentToRemove);
+
+		// Keep documents to reuse it (avoid insert)
+		List<Document> documentsBDBackup = new ArrayList<>(prp.getDocuments());
+		documentsBDBackup.removeAll(documentToRemove);
+
+		prp.getDocuments().clear();
+
+		// Modify existing document with data from JSON
+		for (Document aDoc : nonTmpDoc) {
+			Document d = aDoc;
+
+			int indexDesc = documentsBDBackup.indexOf(d);
+			if (indexDesc != -1) {
+				// Get existant document to avoid sql insert
+				d = documentsBDBackup.get(indexDesc);
+				mapper.map(aDoc, d);
+			}
+			prp.getDocuments().add(d);
+		}
+
 		prp.getDocuments().addAll(documentsSuccess);
 
 		// Save real property into database

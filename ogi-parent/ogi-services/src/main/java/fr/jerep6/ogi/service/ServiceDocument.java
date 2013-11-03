@@ -39,4 +39,12 @@ public interface ServiceDocument extends TransactionalService<Document, Integer>
 	 */
 	Set<Document> copyTempToDirectory(Collection<Document> documents, String reference);
 
+	/**
+	 * Delete documents and return success deletion
+	 * 
+	 * @param documents
+	 * @return
+	 */
+	Set<Document> deleteDocuments(Collection<Document> documents);
+
 }

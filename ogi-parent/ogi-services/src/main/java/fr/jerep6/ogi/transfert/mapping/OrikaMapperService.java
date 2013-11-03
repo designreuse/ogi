@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import fr.jerep6.ogi.persistance.bo.Address;
 import fr.jerep6.ogi.persistance.bo.Description;
+import fr.jerep6.ogi.persistance.bo.Document;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 
@@ -28,6 +29,7 @@ public class OrikaMapperService extends ConfigurableMapper {
 	 */
 	@PostConstruct
 	private void init() {
+		factory.classMap(Document.class, Document.class).exclude("techid").exclude("property").byDefault().register();
 		factory.classMap(Address.class, Address.class).exclude("techid").exclude("property").byDefault().register();
 		factory.classMap(Description.class, Description.class).exclude("techid").exclude("property").byDefault()
 				.register();

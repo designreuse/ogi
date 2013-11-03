@@ -134,6 +134,24 @@ public class ServiceDocumentImpl extends AbstractTransactionalService<Document, 
 	}
 
 	@Override
+	public Set<Document> deleteDocuments(Collection<Document> documents) {
+		Preconditions.checkNotNull(documents);
+
+		Set<Document> documentOK = new HashSet<>(documents.size());
+
+		for (Document aDoc : documents) {
+			try {
+				Files.delete(aDoc.getAbsolutePath());
+				documentOK.add(aDoc);
+			} catch (IOException ioe) {
+				LOGGER.error("Error deleting" + aDoc.getAbsolutePath(), ioe);
+			}
+		}
+
+		return documentOK;
+	}
+
+	@Override
 	@PostConstruct
 	protected void init() {
 		super.setDao(daoDocument);

@@ -67,14 +67,21 @@ public class Document {
 		this.type = type;
 	}
 
+	public Path getAbsolutePath() {
+		return DocumentUtils.absolutize(getRelativePath());
+	}
+
+	private Path getRelativePath() {
+		return Paths.get(path);
+	}
+
 	/**
 	 * Indicate if document is temporary (ie is store in folder temp)
 	 * 
 	 * @return
 	 */
 	public boolean isTemp() {
-		Path relativeDocPath = Paths.get(path);
-		return relativeDocPath.startsWith(DocumentUtils.DIR_TMP);
+		return getRelativePath().startsWith(DocumentUtils.DIR_TMP);
 	}
 
 }
