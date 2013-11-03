@@ -45,6 +45,9 @@ function PropertyJS(prpFromAPI) {
     if(utilsObject.isEmpty(prpFromAPI.photos)) {
         this.photos = [];
     }
+    this.photos.sort(function(a, b) {
+        return a.order - b.order;
+    });
 
     this.init();
 }

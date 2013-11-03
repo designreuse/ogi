@@ -136,7 +136,7 @@
 
         <ul ui-sortable="sortableOptions" id="list-photos" class="unstyled inline" ng-model="prp.photos">
             <li ng-repeat="photo in prp.photos">
-                <img ng-src="{{photo.url}}" />{{photo.name}}
+                <img ng-src="{{photo.url}}" />{{photo.name}} <button class="btn" ng-click="deletePhoto($index)"><i class="icon-trash"></i></button>
             </li>
         </ul>
     </fieldset>

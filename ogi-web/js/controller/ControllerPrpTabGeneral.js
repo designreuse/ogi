@@ -125,14 +125,22 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
 
     // ##### SORTABLE #####
     $scope.sortableOptions = {
-        update: function(e, ui) {
+        // This event is triggered when sorting has stopped.
+        stop: function(e, ui) {
             //var order = $('#list-photos').sortable('serialize');
             console.log("update");
+            $scope.prp.photos.forEach(function(element, index, array) {
+                element.order = index+1;
+            });
         },
         axis: "x",
         placeholder: 'highlight', // class of fantom item
         floating: true
     };
+
+    $scope.deletePhoto = function(index) {
+        $scope.prp.photos.splice(index, 1);
+    }
 
 
     // ##### MODAL #####

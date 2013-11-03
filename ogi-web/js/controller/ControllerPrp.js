@@ -77,6 +77,6 @@ function ControllerPrpParent($scope, Page, $log, $http, ServiceConfiguration) {
         address: Object.create(address)
     };
 
-    $scope.addMenu.select("desc");
+    $scope.addMenu.select("prp");
 
 }
