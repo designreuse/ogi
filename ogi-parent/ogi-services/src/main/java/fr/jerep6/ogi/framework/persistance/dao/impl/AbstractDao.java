@@ -35,6 +35,12 @@ public class AbstractDao<T, PK extends Serializable> implements DaoCRUD<T, PK> {
 	}
 
 	@Override
+	public T merge(T bo) {
+		entityManager.refresh(bo);
+		return bo;
+	}
+
+	@Override
 	public T read(PK id) {
 		return entityManager.find(persistentClass, id);
 	}

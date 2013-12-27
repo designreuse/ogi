@@ -2,12 +2,16 @@ package fr.jerep6.ogi.framework.service.impl;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.google.common.base.Preconditions;
 
 import fr.jerep6.ogi.framework.exception.BusinessException;
 import fr.jerep6.ogi.framework.persistance.dao.DaoCRUD;
@@ -36,6 +40,23 @@ public abstract class AbstractTransactionalService<T, PK extends Serializable> e
 	@Override
 	public Collection<T> listAll() {
 		return dao.listAll();
+	}
+
+	public List<T> merge(List<T> bos) {
+		Preconditions.checkNotNull(bos);
+
+		List<T> l = new ArrayList<>(bos.size());
+		for (T t : bos) {
+			l.add(merge(t));
+		}
+
+		return l;
+	}
+
+	@Override
+	public T merge(T bo) {
+		validate(bo);
+		return dao.merge(bo);
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import fr.jerep6.ogi.persistance.bo.Address;
 import fr.jerep6.ogi.persistance.bo.Description;
 import fr.jerep6.ogi.persistance.bo.Document;
+import fr.jerep6.ogi.persistance.bo.Owner;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 
@@ -30,9 +31,11 @@ public class OrikaMapperService extends ConfigurableMapper {
 	@PostConstruct
 	private void init() {
 		factory.classMap(Document.class, Document.class).exclude("techid").exclude("property").byDefault().register();
-		factory.classMap(Address.class, Address.class).exclude("techid").exclude("property").byDefault().register();
+		factory.classMap(Address.class, Address.class).exclude("techid").byDefault().register();
+		factory.classMap(Owner.class, Owner.class).exclude("techid").byDefault().register();
 		factory.classMap(Description.class, Description.class).exclude("techid").exclude("property").byDefault()
 				.register();
+
 		factory.classMap(RealProperty.class, RealProperty.class)//
 				.exclude("techid")//
 				.exclude("descriptions")//
@@ -44,6 +47,7 @@ public class OrikaMapperService extends ConfigurableMapper {
 				.exclude("sale")//
 				.exclude("documents")//
 				.exclude("type")//
+				.exclude("owners")// exclusion des propriétaires car ils sont traités ailleurs
 				.byDefault().register();
 
 		factory.classMap(RealPropertyLivable.class, RealPropertyLivable.class)//
@@ -59,6 +63,7 @@ public class OrikaMapperService extends ConfigurableMapper {
 				.exclude("sale")//
 				.exclude("documents")//
 				.exclude("type")//
+				.exclude("owners")//
 				.exclude("state")//
 				.byDefault().register();
 

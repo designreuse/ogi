@@ -16,6 +16,7 @@ public class AddressTo {
 	private String	postalCode;
 	private String	city;
 	private String	cedex;
+	private String	country;
 
 	private String	latitude;
 	private String	longitude;

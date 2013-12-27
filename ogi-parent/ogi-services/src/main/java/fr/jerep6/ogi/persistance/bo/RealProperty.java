@@ -68,7 +68,8 @@ public class RealProperty {
 	@Column(name = "PRO_HOUSING_ESTATE")
 	private Boolean						housingEstate;
 
-	@OneToOne(cascade = CascadeType.ALL, mappedBy = "property")
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "ADD_ID")
 	private Address						address;
 
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "property")
@@ -101,6 +102,13 @@ public class RealProperty {
 
 	@OneToMany(mappedBy = "pk.property", cascade = CascadeType.ALL)
 	private Set<RealPropertyDiagnosis>	diagnosisProperty	= new HashSet<>(0);
+
+	@ManyToMany
+	@JoinTable(name = "TJ_OWN_PRP",//
+	joinColumns = @JoinColumn(name = "PRO_ID"),//
+	inverseJoinColumns = @JoinColumn(name = "OWN_ID")//
+	)
+	private Set<Owner>					owners;
 
 	// ##### Technical field #####
 	// Il faut obligatoirement spécifier l'attribut columnDefinition sinon mysql crée un champ date time

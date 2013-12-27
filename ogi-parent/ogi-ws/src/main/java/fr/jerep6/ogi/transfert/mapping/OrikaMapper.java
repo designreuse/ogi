@@ -18,13 +18,13 @@ import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.Description;
 import fr.jerep6.ogi.persistance.bo.Document;
 import fr.jerep6.ogi.persistance.bo.Label;
+import fr.jerep6.ogi.persistance.bo.Owner;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyDiagnosis;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 import fr.jerep6.ogi.persistance.bo.Room;
 import fr.jerep6.ogi.persistance.bo.Sale;
 import fr.jerep6.ogi.persistance.bo.State;
-import fr.jerep6.ogi.persistance.bo.Type;
 import fr.jerep6.ogi.transfert.FileUpload;
 import fr.jerep6.ogi.transfert.bean.AddressTo;
 import fr.jerep6.ogi.transfert.bean.CategoryTo;
@@ -32,13 +32,14 @@ import fr.jerep6.ogi.transfert.bean.DescriptionTo;
 import fr.jerep6.ogi.transfert.bean.DocumentTo;
 import fr.jerep6.ogi.transfert.bean.FileUploadTo;
 import fr.jerep6.ogi.transfert.bean.LabelTo;
+import fr.jerep6.ogi.transfert.bean.OwnerTo;
 import fr.jerep6.ogi.transfert.bean.RealPropertyDiagnosisTo;
+import fr.jerep6.ogi.transfert.bean.RealPropertyLinkTo;
 import fr.jerep6.ogi.transfert.bean.RealPropertyLivableTo;
 import fr.jerep6.ogi.transfert.bean.RealPropertyTo;
 import fr.jerep6.ogi.transfert.bean.RoomTo;
 import fr.jerep6.ogi.transfert.bean.SaleTo;
 import fr.jerep6.ogi.transfert.bean.StateTo;
-import fr.jerep6.ogi.transfert.bean.TypeTo;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumCategory;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumDescriptionType;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumDocumentType;
@@ -91,7 +92,8 @@ public class OrikaMapper extends ConfigurableMapper {
 		factory.classMap(Sale.class, SaleTo.class).byDefault().register();
 		factory.classMap(Label.class, LabelTo.class).byDefault().register();
 		factory.classMap(State.class, StateTo.class).byDefault().register();
-		factory.classMap(Type.class, TypeTo.class).byDefault().register();
+		factory.classMap(Owner.class, OwnerTo.class).byDefault().register();
+		factory.classMap(RealProperty.class, RealPropertyLinkTo.class).fieldAToB("reference", "reference").register();
 		factory.classMap(Document.class, DocumentTo.class)//
 				.customize(new CustomMapper<Document, DocumentTo>() {
 					@Override

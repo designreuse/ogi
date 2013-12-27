@@ -21,6 +21,8 @@ public interface TransactionalService<T, PK extends Serializable> extends Servic
 	 */
 	T update(T bo);
 
+	T merge(T bo);
+
 	/**
 	 * @return all entity
 	 */

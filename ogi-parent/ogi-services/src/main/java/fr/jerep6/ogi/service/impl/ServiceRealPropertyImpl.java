@@ -72,7 +72,9 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 	private OrikaMapperService	mapper;
 
 	/**
-	 * Compute new reference for a property. Not thread safe
+	 * Compute new reference for a property.
+	 * 
+	 * WARNING : Not thread safe
 	 * 
 	 * @param categ
 	 * @return
@@ -98,6 +100,7 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 		Category cat = serviceCategory.readByCode(propertyFromJson.getCategory().getCode());
 
 		boolean create;
+		// If json reference is not null => try to read property into database
 		if (!Strings.isNullOrEmpty(propertyFromJson.getReference())) {
 			prp = readByReference(propertyFromJson.getReference());
 			// If reference is supply, prp must exist
@@ -106,13 +109,12 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 				throw new BusinessException();
 			}
 
+			// Convert json into business object.
 			mapper.map(propertyFromJson, prp);
 
 			// Update
 			create = false;
-		}
-		// No reference (ie create prp) => generate it
-		else {
+		} else { // No reference (ie create prp) => generate it
 			prp = propertyFromJson;
 			prp.setReference(computeReference(cat));
 
@@ -121,10 +123,6 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 
 		// ###### COMMON ######
 		prp.setCategory(cat);
-
-		if (propertyFromJson.getAddress() != null) {
-			prp.getAddress().setProperty(prp);
-		}
 
 		// Create type if needed
 		Type type = null;
