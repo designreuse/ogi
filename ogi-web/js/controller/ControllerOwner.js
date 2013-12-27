@@ -1,82 +1,36 @@
-function ControllerPrpParent($scope, Page, $log, $http, ServiceConfiguration) {
-    // Top menu for active item
-    $scope.addMenu = {
-        "items" : [
-            { "name" : "owner", "active" : false, "url" : "js/views/formPrpTabGeneral.html"},
-            { "name" : "prp", "active" : false, "url" : "js/views/formPrpTabGeneral.html"},
-            { "name" : "desc", "active" : false, "url" : "js/views/formPrpTabDesc.html"},
-            { "name" : "equipment", "active" : false, "url" : "js/views/formPrpTabGeneral.html"},
-            { "name" : "adminis", "active" : false, "url" : "js/views/formPrpTabGeneral.html"},
-            { "name" : "diagnosis", "active" : false, "url" : "js/views/formPrpTabGeneral.html"},
-            { "name" : "room", "active" : false, "url" : "js/views/formPrpTabGeneral.html"}
-        ],
+function ControllerOwner($scope, Page, $injector, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log) {
+    Page.setTitle("Propriétaire du bien : "+$scope.prp.reference);
 
-        clean : function () {
-            angular.forEach(this.items, function (value, key) {
-                value.active = false;
-            });
-        },
-        select : function (itemName) {
-            this.clean();
-            angular.forEach(this.items, function (value, key) {
-                if(value.name == itemName) {
-                    value.active = true;
+    $scope.setOwner({
+        gender: "MO",
+        addresses: [Object.create(address)]
+    });
+
+    // Lecture du propriétaire lié au bien
+    $http.get(ServiceConfiguration.API_URL+"/rest/owner/property/"+$routeParams.prpRef)
+        .success(function (data, status, headers) {
+            if(data.length > 0) {
+                $scope.setOwner(data[0]);
+
+                if(!$scope.utils.isUndefinedOrNull($scope.owner.addresses) && $scope.owner.addresses.length > 0) {
+                    angular.extend($scope.saveData.addressesOwner[0], $scope.owner.addresses[0]);
                 }
-            });
-        },
-        getActive : function() {
-            var itemActive = null;
-            angular.forEach(this.items, function (value, key) {
-                if(value.active === true) {
-                    itemActive = value;
-                }
-            });
-            return itemActive;
-        }
+            }
+        }).error(function (data, status, headers) {
+            ServiceAlert.addAlert(status + " : " +data)
+        });
+
+
+
+    $scope.openCalendar = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        $scope.opened = true;
     };
 
-    function getMappingType(categCode) {
-        var mt = {
-            "HSE":"liveable",
-            "APT":"liveable",
-            "PLT":"plot"
-        }
-        return mt[categCode];
-    }
-
-    $scope.update = function() {
-        $scope.prp.mappingType= getMappingType($scope.prp.category.code);
-        if($scope.saveData.address.isEmpty()) {
-            $scope.prp.address = null;
-        }
-        else {
-            $scope.prp.address = $scope.saveData.address;
-        }
-
-        $http.post(ServiceConfiguration.API_URL+"/rest/property/", $scope.prp)
-            .success(function (data, status) {
-                $scope.prp = new PropertyJS(data);
-            })
-            .error(function (data, status) {
-                console.error(data);
-            });
-    }
-
-    $scope.tempReference = Math.random().toString(36).substring(7);
-    $log.debug("tempReference="+ $scope.tempReference);
-
-    // Data to save between children controller
-    $scope.prp = new PropertyJS({});
-    $scope.saveData = {
-        stateOrder: 0,
-        roof: null,
-        wall:null,
-        insulation:null,
-        parking:null,
-        type:null,
-        address: Object.create(address)
+    $scope.dateOptions = {
+        'year-format': "'yyyy'",
+        'starting-day': 1
     };
-
-    $scope.addMenu.select("prp");
-
 }

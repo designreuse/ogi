@@ -3,6 +3,7 @@ var address = {
     "additional": null,
     "postalCode": null,
     "city": null,
+    "country": null,
     "latitude": null,
     "longitude": null,
     isEmpty : function() {

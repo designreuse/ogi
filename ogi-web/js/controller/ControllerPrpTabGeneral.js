@@ -24,9 +24,9 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
 
     $scope.findPositionByAddress = function () {
         // If no element of address was enter => exit
-        if($scope.prp.address.isEmpty()) { return;};
+        if($scope.saveData.address.isEmpty()) { return;};
 
-        var address = $scope.prp.address.street + " " + ($scope.prp.address.postalCode || "") + " " + ($scope.prp.address.city || "");
+        var address = $scope.saveData.address.street + " " + ($scope.saveData.address.postalCode || "") + " " + ($scope.saveData.address.city || "");
         $log.log("Lookup for "+address);
 
         new google.maps.Geocoder().geocode( { 'address': address}, function(results, status) {
@@ -76,8 +76,8 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
     $scope.usePlace = function (index) {
         var location = $scope.places[index].geometry.location;
 
-        $scope.prp.address.latitude = location.lat();
-        $scope.prp.address.longitude = location.lng();
+        $scope.saveData.address.latitude = location.lat();
+        $scope.saveData.address.longitude = location.lng();
         addOrMoveMarker(location, true);
 
         $scope.closeGeoloc();
