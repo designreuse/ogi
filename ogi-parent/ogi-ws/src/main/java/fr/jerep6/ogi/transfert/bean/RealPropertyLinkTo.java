@@ -11,6 +11,6 @@ import lombok.ToString;
 @EqualsAndHashCode(of = { "reference" })
 public class RealPropertyLinkTo {
 	private String	reference;
-	private String	link;
+	private String	url;
 
 }

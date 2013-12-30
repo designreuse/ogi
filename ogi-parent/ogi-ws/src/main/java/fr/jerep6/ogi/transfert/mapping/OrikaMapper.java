@@ -9,7 +9,7 @@ import ma.glasnost.orika.converter.ConverterFactory;
 import ma.glasnost.orika.impl.ConfigurableMapper;
 import ma.glasnost.orika.metadata.TypeFactory;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import fr.jerep6.ogi.framework.utils.UrlUtils;
@@ -25,6 +25,7 @@ import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 import fr.jerep6.ogi.persistance.bo.Room;
 import fr.jerep6.ogi.persistance.bo.Sale;
 import fr.jerep6.ogi.persistance.bo.State;
+import fr.jerep6.ogi.service.ServiceUrl;
 import fr.jerep6.ogi.transfert.FileUpload;
 import fr.jerep6.ogi.transfert.bean.AddressTo;
 import fr.jerep6.ogi.transfert.bean.CategoryTo;
@@ -47,12 +48,11 @@ import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumLabelType;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumMandateType;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumOrientation;
 import fr.jerep6.ogi.utils.DocumentUtils;
-import fr.jerep6.ogi.utils.MyUrlUtils;
 
 @Component("orikaMapper")
 public class OrikaMapper extends ConfigurableMapper {
-	@Value("${photos.url}")
-	private String			urlBasePhoto;
+	@Autowired
+	private ServiceUrl		serviceUrl;
 
 	private MapperFactory	factory;
 
@@ -93,12 +93,23 @@ public class OrikaMapper extends ConfigurableMapper {
 		factory.classMap(Label.class, LabelTo.class).byDefault().register();
 		factory.classMap(State.class, StateTo.class).byDefault().register();
 		factory.classMap(Owner.class, OwnerTo.class).byDefault().register();
-		factory.classMap(RealProperty.class, RealPropertyLinkTo.class).fieldAToB("reference", "reference").register();
+		factory.classMap(RealProperty.class, RealPropertyLinkTo.class)//
+				.customize(new CustomMapper<RealProperty, RealPropertyLinkTo>() {
+					@Override
+					public void mapAtoB(RealProperty a, RealPropertyLinkTo b, MappingContext context) {
+						b.setUrl(serviceUrl.urlProperty(a.getReference()));
+					}
+
+					@Override
+					public void mapBtoA(RealPropertyLinkTo b, RealProperty a, MappingContext context) {}
+				})//
+				.fieldAToB("reference", "reference").register();
+
 		factory.classMap(Document.class, DocumentTo.class)//
 				.customize(new CustomMapper<Document, DocumentTo>() {
 					@Override
 					public void mapAtoB(Document a, DocumentTo b, MappingContext context) {
-						b.setUrl(urlBasePhoto + MyUrlUtils.replace(a.getPath().toString()));
+						b.setUrl(serviceUrl.urlDocument(a.getPath()));
 					}
 
 					@Override

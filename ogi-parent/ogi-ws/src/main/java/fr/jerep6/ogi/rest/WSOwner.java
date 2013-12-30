@@ -1,5 +1,6 @@
 package fr.jerep6.ogi.rest;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -39,6 +40,24 @@ public class WSOwner extends AbstractJaxRsWS {
 		serviceOwner.createOrUpdate(ownersBo);
 		serviceOwner.associate(prpRef, ownersBo);
 		return owners;
+	}
+
+	@GET
+	@Produces(APPLICATION_JSON_UTF8)
+	public Collection<OwnerTo> listAll() {
+		Collection<Owner> owners = serviceOwner.listAll();
+
+		Collection<OwnerTo> ownersTo = mapper.mapAsList(owners, OwnerTo.class);
+		return ownersTo;
+	}
+
+	@GET
+	@Path("{techid}")
+	@Produces(APPLICATION_JSON_UTF8)
+	public OwnerTo read(@PathParam("techid") Integer techid) {
+		Owner owner = serviceOwner.read(techid);
+		OwnerTo ownerTo = mapper.map(owner, OwnerTo.class);
+		return ownerTo;
 	}
 
 	@GET
