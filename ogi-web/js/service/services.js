@@ -49,7 +49,7 @@ myApp.factory('ServiceAlert', function(){
     }
 });
 
-myApp.factory('ServiceObject', function(Utils){
+myApp.factory('ServiceObject', function(Utils) {
     return {
         /**
          * Return array's element corresponding to label to find. It's for keep same pointer
@@ -73,5 +73,18 @@ myApp.factory('ServiceObject', function(Utils){
             });
             return Utils.isEmpty(arrayEqual) ? null : arrayEqual[0];
         }
+    }
+});
+
+
+myApp.factory('ServiceUrl', function() {
+    var alerts = [ ];
+    return {
+        urlProperty : function(reference){
+            return "#/biens/modifier/"+reference;
+        },
+        urlOwner : function(techid){
+            return "#/proprietaires/modifier/"+techid;
+        },
     }
 });

@@ -1,4 +1,4 @@
-function ControllerPrpParent($scope, Page, $log, $http, ServiceConfiguration, Utils) {
+function ControllerPrpParent($scope, Page, $log, $http, ServiceConfiguration, Utils, ServiceAlert) {
     // Top menu for active item
     $scope.addMenu = {
         "items" : [
@@ -58,10 +58,12 @@ function ControllerPrpParent($scope, Page, $log, $http, ServiceConfiguration, Ut
         // Create or modify property
         $http.post(ServiceConfiguration.API_URL+"/rest/property/", $scope.prp)
             .success(function (data, status) {
+                ServiceAlert.addSuccess("Enregistrement du bien OK");
                 $scope.prp = new PropertyJS(data);
             })
             .error(function (data, status) {
                 console.error(data);
+                ServiceAlert.addError("Erreur lors de l'enregistrement du bien :"+data.message);
             });
 
         // If owner is defined => create / modify it
@@ -71,9 +73,10 @@ function ControllerPrpParent($scope, Page, $log, $http, ServiceConfiguration, Ut
             $http.put(ServiceConfiguration.API_URL+"/rest/owner/property/"+$scope.prp.reference, [$scope.owner])
                 .success(function (data, status) {
                     //$scope.owner = new PropertyJS(data);
+                    ServiceAlert.addSuccess("Enregistrement du propriétaire OK");
                 })
                 .error(function (data, status) {
-                    console.error(data);
+                    ServiceAlert.addError("Erreur lors de l'enregistrement du ptopriétaire :"+data.message);
                 });
         }
     }

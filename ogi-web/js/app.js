@@ -8,7 +8,9 @@ var moduleConf = angular.module('ModuleConfiguration', [])//
     }
 });
 
-var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ModuleConfiguration', 'ui.map', 'ui.sortable', 'blueimp.fileupload', 'ui.slider']);
+// 'ngSanitize' => for ng-bind-html
+var myApp = angular.module('myApp',
+    ['ngRoute', 'ui.bootstrap', 'ModuleConfiguration', 'ui.map', 'ui.sortable', 'blueimp.fileupload', 'ui.slider', 'ngSanitize']);
 
 // Config $http for CORS
 myApp.config(['$httpProvider', function($httpProvider) {
@@ -26,5 +28,9 @@ myApp.config(['$routeProvider', function($routeProvider) {
         when('/biens', {templateUrl: 'js/views/prpList.html', controller: ControllerList}).
         when('/biens/modifier/:prpRef', {templateUrl: 'js/views/prpFormulaireAjout.html', controller: ControllerPrpModify}).
         when('/biens/ajouter/:type', {templateUrl: 'js/views/prpFormulaireAjout.html', controller: ControllerPrpAdd}).
+
+        when('/proprietaires', {templateUrl: 'js/views/owner/ownerList.html', controller: ControllerOwnerList}).
+
+
         otherwise({redirectTo: '/biens'});
 }]);

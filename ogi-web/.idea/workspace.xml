@@ -1,40 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1e867116-9053-4894-bee5-087a926bbbcb" name="Default" comment="webapp initial commit">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/directive/directives.js" />
+    <list default="true" id="1e867116-9053-4894-bee5-087a926bbbcb" name="Default" comment="HTML and CSS clean up">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ogi-parent/database/diagram-mysqlworkbench.mwb.bak" afterPath="$PROJECT_DIR$/../ogi-parent/database/diagram-mysqlworkbench.mwb.bak" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ogi-parent/database/diagram-mysqlworkbench.mwb" afterPath="$PROJECT_DIR$/../ogi-parent/database/diagram-mysqlworkbench.mwb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/controller/ControllerPrp.js" afterPath="$PROJECT_DIR$/js/controller/ControllerPrp.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/controller/ControllerPrpTabDesc.js" afterPath="$PROJECT_DIR$/js/controller/ControllerPrpTabDesc.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/views/formPrpTabDesc.html" afterPath="$PROJECT_DIR$/js/views/formPrpTabDesc.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/views/formPrpTabGeneral.html" afterPath="$PROJECT_DIR$/js/views/formPrpTabGeneral.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/app.js" afterPath="$PROJECT_DIR$/js/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/filter/filters.js" afterPath="$PROJECT_DIR$/js/filter/filters.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/views/prpFormulaireAjout.html" afterPath="$PROJECT_DIR$/js/views/prpFormulaireAjout.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/views/prpList.html" afterPath="$PROJECT_DIR$/js/views/prpList.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/style.css" afterPath="$PROJECT_DIR$/css/style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ogi-parent/pom.xml" afterPath="$PROJECT_DIR$/../ogi-parent/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/service/services.js" afterPath="$PROJECT_DIR$/js/service/services.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ogi-web.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379276537102" ignored="false" />
-    <file path="/index.html" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379273862195" ignored="false" />
-    <file path="/controler.js" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1375826703347" ignored="false" />
-    <file path="/controller.js" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1376683996964" ignored="false" />
-    <file path="/filters.js" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1376341176019" ignored="false" />
-    <file path="/app.js" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379237332845" ignored="false" />
-    <file path="/prpDetail.html" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1376393370245" ignored="false" />
-    <file path="/prpList.html" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379276350455" ignored="false" />
-    <file path="/style.css" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379274865871" ignored="false" />
-    <file path="/ControllerList.js" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379250593151" ignored="false" />
-    <file path="/formPrp.html" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379183200934" ignored="false" />
-    <file path="/objects.js" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379173647403" ignored="false" />
-    <file path="/ControllerPrp.js" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379267649924" ignored="false" />
-    <file path="/ControllerAjout.js" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379178943632" ignored="false" />
-    <file path="/a.dummy" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379183142137" ignored="false" />
-    <file path="/formPrpTabDesc.html" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379272591279" ignored="false" />
-    <file path="/ControllerPrpTabDesc.js" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379267695576" ignored="false" />
-    <file path="/ControllerPrpTabGeneral.js" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379238195270" ignored="false" />
-    <file path="/formPrpTabGeneral.html" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379272782108" ignored="false" />
-    <file path="/prpFormulaireAjout.html" changelist="1e867116-9053-4894-bee5-087a926bbbcb" time="1379274165451" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,19 +33,39 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="formPrpTabGeneral.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/views/formPrpTabGeneral.html">
+      <file leaf-file-name="ControllerOwnerList.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/controller/owner/ControllerOwnerList.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="21" selection-start="1781" selection-end="1781" vertical-scroll-proportion="-0.65384614">
+            <state line="7" column="0" selection-start="296" selection-end="296" vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="1428">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="style.css" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/css/style.css">
+      <file leaf-file-name="ownerList.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/js/views/owner/ownerList.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="4" selection-start="367" selection-end="367" vertical-scroll-proportion="0.39145908">
+            <state line="28" column="72" selection-start="1142" selection-end="1142" vertical-scroll-proportion="0.30195382" vertical-offset="306" max-vertical-offset="1275">
+              <folding>
+                <element signature="n#style#0;n#td#5;n#tr#0;n#tbody#0;n#table#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <marker date="1388434224866" expanded="true" signature="1524:1616" placeholder="..." />
+                <marker date="1388434224866" expanded="true" signature="1649:1871" placeholder="..." />
+                <marker date="1388434224866" expanded="true" signature="1665:1712" placeholder="..." />
+                <marker date="1388434224866" expanded="true" signature="1716:1839" placeholder="..." />
+                <marker date="1388434224866" expanded="true" signature="1906:2086" placeholder="..." />
+                <marker date="1388434224866" expanded="true" signature="2196:2292" placeholder="..." />
+                <marker date="1388434224866" expanded="true" signature="2325:3161" placeholder="..." />
+                <marker date="1388434224866" expanded="false" signature="2350:2367" placeholder="..." />
+                <marker date="1388434224866" expanded="true" signature="2392:3146" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="filters.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/filter/filters.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="48" column="67" selection-start="1317" selection-end="1317" vertical-scroll-proportion="0.0" vertical-offset="350" max-vertical-offset="1020">
               <folding />
             </state>
           </provider>
@@ -96,31 +95,31 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/js/service/services.js" />
-        <option value="$PROJECT_DIR$/js/objects.js" />
-        <option value="$PROJECT_DIR$/js/controller/ControllerAjout.js" />
-        <option value="$PROJECT_DIR$/js/views/formPrp.html" />
-        <option value="$PROJECT_DIR$/js/app.js" />
-        <option value="$PROJECT_DIR$/js/controller/ControllerPrpTabGeneral.js" />
-        <option value="$PROJECT_DIR$/js/controller/ControllerList.js" />
-        <option value="$PROJECT_DIR$/js/controller/ControllerPrp.js" />
-        <option value="$PROJECT_DIR$/js/directive/directives.js" />
         <option value="$PROJECT_DIR$/js/controller/ControllerPrpTabDesc.js" />
-        <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/js/views/prpFormulaireAjout.html" />
-        <option value="$PROJECT_DIR$/js/views/prpList.html" />
-        <option value="$PROJECT_DIR$/js/views/formPrpTabDesc.html" />
         <option value="$PROJECT_DIR$/js/views/formPrpTabGeneral.html" />
-        <option value="$PROJECT_DIR$/css/style.css" />
+        <option value="$PROJECT_DIR$/js/views/formPrpTabDesc.html" />
+        <option value="$PROJECT_DIR$/js/controller/ControllerPrpModify.js" />
+        <option value="$PROJECT_DIR$/js/objects.js" />
+        <option value="$PROJECT_DIR$/js/controller/ControllerPrpTabGeneral.js" />
+        <option value="$PROJECT_DIR$/js/views/formOwner.html" />
+        <option value="$PROJECT_DIR$/js/controller/ControllerOwner.js" />
+        <option value="$PROJECT_DIR$/js/controller/ControllerPrp.js" />
+        <option value="$PROJECT_DIR$/js/controller/owner/ControllerList.js" />
+        <option value="$PROJECT_DIR$/js/controller/owner/ControllerOwnerList.js" />
+        <option value="$PROJECT_DIR$/js/app.js" />
+        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/js/filter/filters.js" />
+        <option value="$PROJECT_DIR$/js/service/services.js" />
+        <option value="$PROJECT_DIR$/js/views/owner/ownerList.html" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
+    <option name="x" value="54" />
     <option name="y" value="-8" />
-    <option name="width" value="1382" />
-    <option name="height" value="744" />
+    <option name="width" value="1320" />
+    <option name="height" value="784" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -148,7 +147,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -213,6 +211,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="owner" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ogi-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ogi-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="service" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -231,7 +251,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
+              <option name="myItemId" value="filter" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -281,42 +301,79 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="css" />
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controller" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="owner" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="162" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="162" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="options.lastSelected" value="vcs.Git" />
-    <property name="FullScreen" value="false" />
-    <property name="DefaultHtmlFileTemplate" value="Html5" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="169" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="162" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="844" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="837" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="165" />
     <property name="GoToClass.includeJavaFiles" value="false" />
-    <property name="options.searchVisible" value="true" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="158" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
+    <property name="FullScreen" value="false" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
+    <property name="options.lastSelected" value="editor.preferences.appearance" />
+    <property name="DefaultHtmlFileTemplate" value="Html5" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\jerep6\Documents\workspace\ogi\ogi-web\js\directive" />
+      <recent name="D:\Developpement\Master\Java7\workspace\ogi\ogi-web\js\controller\owner" />
+      <recent name="D:\Developpement\Master\Java7\workspace\ogi\ogi-web\js\views\owner" />
       <recent name="C:\Users\jerep6\Documents\workspace\ogi\ogi-web\js\controller" />
-      <recent name="C:\Users\jerep6\Documents\workspace\ogi\ogi-web\css" />
       <recent name="C:\Users\jerep6\Documents\workspace\ogi\ogi-web\js\views" />
-      <recent name="C:\Users\jerep6\Documents\workspace\ogi\ogi-web\js" />
+      <recent name="C:\Users\jerep6\Documents\workspace\ogi\ogi-web\js\service" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\jerep6\Documents\workspace\ogi\ogi-web\js\lib" />
+      <recent name="C:\Users\jerep6\Documents\workspace\ogi\ogi-web\css" />
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="JavascriptDebugSession" factoryName="Local" singleton="true">
-      <JSDebuggerConfigurationSettings>
-        <option name="engineId" value="embedded" />
-        <option name="fileUrl" />
-      </JSDebuggerConfigurationSettings>
+    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
+      <method />
+    </configuration>
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" working-dir="">
+      <browser start="false" url="" with-js-debugger="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
       <method />
     </configuration>
     <list size="0" />
@@ -337,6 +394,7 @@
     <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
     <option name="FORCE_UPDATE" value="false" />
     <option name="IGNORE_EXTERNALS" value="false" />
+    <configuration useDefault="true">C:\Users\jerep6\AppData\Roaming\Subversion</configuration>
     <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
   </component>
   <component name="TaskManager">
@@ -353,7 +411,51 @@
       <created>1376832559503</created>
       <updated>1376832559503</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="HTML and CSS clean up">
+      <created>1379276653622</created>
+      <updated>1379276653623</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Page description + directive + slider">
+      <created>1382896614127</created>
+      <updated>1382896614127</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Save and restore data across tab switch">
+      <created>1382983149898</created>
+      <updated>1382983149898</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Init screen for update">
+      <created>1383264557328</created>
+      <updated>1383264557328</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Factorisation de la gestion des labels dans l'onglet &quot;desc&quot;">
+      <created>1383342407215</created>
+      <updated>1383342407215</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Patch ui-sortable https://github.com/angular-ui/ui-sortable/pull/46">
+      <created>1383342498109</created>
+      <updated>1383342498109</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Patch angularJS 1.2.0 rc3 https://github.com/angular/angular.js/pull/4514">
+      <created>1383342550914</created>
+      <updated>1383342550914</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Create / update">
+      <created>1383410965851</created>
+      <updated>1383410965852</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Google map centering">
+      <created>1383431891212</created>
+      <updated>1383431891212</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Sort and delete photos">
+      <created>1383490072007</created>
+      <updated>1383490072007</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Owner">
+      <created>1388148629875</created>
+      <updated>1388148629875</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -377,206 +479,209 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="54" y="-8" width="1320" height="784" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32935154" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32993197" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32935154" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31751227" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32993197" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2840909" sideWeight="0.670068" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3282313" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25755167" sideWeight="0.68356377" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32961783" sideWeight="0.67197454" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289689" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32733223" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32993197" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32993197" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31643626" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32993197" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32935154" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31751227" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31643626" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32961783" sideWeight="0.67197454" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289689" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32733223" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32993197" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32993197" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25755167" sideWeight="0.68356377" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="myTodoPanelSettings">
-      <value>
-        <are-packages-shown value="false" />
-        <are-modules-shown value="false" />
-        <flatten-packages value="false" />
-        <is-autoscroll-to-source value="false" />
-      </value>
+      <TodoPanelSettings />
     </option>
-    <option name="PERFORM_UPDATE_IN_BACKGROUND" value="true" />
-    <option name="PERFORM_COMMIT_IN_BACKGROUND" value="true" />
-    <option name="PERFORM_EDIT_IN_BACKGROUND" value="true" />
-    <option name="PERFORM_CHECKOUT_IN_BACKGROUND" value="true" />
-    <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
-    <option name="PERFORM_ROLLBACK_IN_BACKGROUND" value="false" />
-    <option name="CHECK_LOCALLY_CHANGED_CONFLICTS_IN_BACKGROUND" value="false" />
-    <option name="CHANGED_ON_SERVER_INTERVAL" value="60" />
-    <option name="SHOW_ONLY_CHANGED_IN_SELECTION_DIFF" value="true" />
-    <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
-    <option name="DEFAULT_PATCH_EXTENSION" value="patch" />
-    <option name="SHORT_DIFF_HORIZONTALLY" value="true" />
-    <option name="SHORT_DIFF_EXTRA_LINES" value="2" />
-    <option name="SOFT_WRAPS_IN_SHORT_DIFF" value="true" />
-    <option name="INCLUDE_TEXT_INTO_PATCH" value="false" />
-    <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
-    <option name="SHOW_FILE_HISTORY_DETAILS" value="true" />
-    <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
-    <option name="SHOW_DIRTY_RECURSIVELY" value="false" />
-    <option name="LIMIT_HISTORY" value="true" />
-    <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
-    <option name="UPDATE_FILTER_SCOPE_NAME" />
-    <option name="USE_COMMIT_MESSAGE_MARGIN" value="false" />
-    <option name="COMMIT_MESSAGE_MARGIN_SIZE" value="72" />
-    <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
-    <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Using ui-bootstrap" />
-    <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
-    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
-    <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
-    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
-    <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
-    <option name="FILE_HISTORY_DIALOG_COMMENTS_SPLITTER_PROPORTION" value="0.8" />
-    <option name="FILE_HISTORY_DIALOG_SPLITTER_PROPORTION" value="0.5" />
-    <option name="ACTIVE_VCS_NAME" />
-    <option name="UPDATE_GROUP_BY_PACKAGES" value="false" />
-    <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
-    <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
-    <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
-    <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <MESSAGE value="webapp initial commit" />
     <MESSAGE value="Using ui-bootstrap" />
+    <MESSAGE value="HTML and CSS clean up" />
+    <MESSAGE value="Page description + directive + slider" />
+    <MESSAGE value="Save and restore data across tab switch" />
+    <MESSAGE value="Init screen for update" />
+    <MESSAGE value="Factorisation de la gestion des labels dans l'onglet &quot;desc&quot;" />
+    <MESSAGE value="Patch ui-sortable https://github.com/angular-ui/ui-sortable/pull/46" />
+    <MESSAGE value="Patch angularJS 1.2.0 rc3 https://github.com/angular/angular.js/pull/4514" />
+    <MESSAGE value="Create / update" />
+    <MESSAGE value="Google map centering" />
+    <MESSAGE value="Sort and delete photos" />
+    <MESSAGE value="Owner" />
+    <option name="LAST_COMMIT_MESSAGE" value="Owner" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="5" />
+    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/js/controller/ControllerPrpTabGeneral.js">
+    <entry file="file://$PROJECT_DIR$/js/controller/ControllerPrpTabDesc.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="156" column="33" selection-start="5106" selection-end="5106" vertical-scroll-proportion="0.38069215">
+        <state line="0" column="107" selection-start="95" selection-end="107" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3332" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/controller/ControllerPrpModify.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="12" selection-start="1075" selection-end="1285" vertical-scroll-proportion="0.36842105" vertical-offset="72" max-vertical-offset="663">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/controller/ControllerPrp.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="4" selection-start="1684" selection-end="1709" vertical-scroll-proportion="0.6830601">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/service/services.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="5" selection-start="515" selection-end="520" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/directive/directives.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="56" selection-start="56" selection-end="56" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/lib/ui-event.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="53" selection-start="1010" selection-end="1010" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/phpstorm.jar!/resources/html5-schema/web-forms.rnc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="521" column="23" selection-start="11343" selection-end="11343" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/controller/ControllerAlert.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/bootstrap.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="11" selection-start="248" selection-end="248" vertical-scroll-proportion="0.3406193">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/controller/ControllerPrpTabDesc.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="27" selection-start="1254" selection-end="1254" vertical-scroll-proportion="0.4335155">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="6" selection-start="1061" selection-end="1061" vertical-scroll-proportion="15.192307">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/views/prpFormulaireAjout.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="6" selection-start="1648" selection-end="1648" vertical-scroll-proportion="0.8451243">
+        <state line="63" column="44" selection-start="2562" selection-end="2562" vertical-scroll-proportion="0.33616298" vertical-offset="873" max-vertical-offset="1921">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/views/prpList.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="7" selection-start="2745" selection-end="2745" vertical-scroll-proportion="0.3250478">
+        <state line="12" column="17" selection-start="815" selection-end="815" vertical-scroll-proportion="-7.8461537" vertical-offset="0" max-vertical-offset="1632">
           <folding>
-            <element signature="n#style#0;n#td#7;n#tr#0;n#tbody#0;n#table#0;n#div#1;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#ul#0;n#div#1;n#script#1;n#div#0;n#!!top" expanded="true" />
+            <marker date="1379276350489" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1379276350489" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1379276350489" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1379276350489" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1379276350489" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1379276350489" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1379276350489" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1379276350489" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1379276350489" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/views/formPrpTabDesc.html">
+    <entry file="file://$PROJECT_DIR$/js/controller/ControllerOwner.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="158" column="19" selection-start="6980" selection-end="6980" vertical-scroll-proportion="0.9365672">
+        <state line="15" column="95" selection-start="750" selection-end="750" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="697">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/controller/ControllerList.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1717">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/lib/angular-route.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="14705">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="43" selection-start="382" selection-end="382" vertical-scroll-proportion="0.3321492" vertical-offset="0" max-vertical-offset="1547">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/utils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="1" selection-start="88" selection-end="88" vertical-scroll-proportion="0.056478404" vertical-offset="0" max-vertical-offset="602">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/service/ServiceUtils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="20" selection-start="15" selection-end="20" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="323">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/objects.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1360">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="49" selection-start="172" selection-end="172" vertical-scroll-proportion="0.057724956" vertical-offset="0" max-vertical-offset="714">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/service/services.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="86" column="35" selection-start="2558" selection-end="2558" vertical-scroll-proportion="0.811545" vertical-offset="984" max-vertical-offset="1632">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/filter/filters.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="48" column="67" selection-start="1317" selection-end="1317" vertical-scroll-proportion="0.0" vertical-offset="350" max-vertical-offset="1020">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/controller/owner/ControllerOwnerList.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="0" selection-start="296" selection-end="296" vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="1428">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/views/owner/ownerList.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="72" selection-start="1142" selection-end="1142" vertical-scroll-proportion="0.30195382" vertical-offset="306" max-vertical-offset="1275">
           <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#3;n#fieldset#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#5;n#tr#0;n#tbody#0;n#table#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <marker date="1388434224866" expanded="true" signature="1524:1616" placeholder="..." />
+            <marker date="1388434224866" expanded="true" signature="1649:1871" placeholder="..." />
+            <marker date="1388434224866" expanded="true" signature="1665:1712" placeholder="..." />
+            <marker date="1388434224866" expanded="true" signature="1716:1839" placeholder="..." />
+            <marker date="1388434224866" expanded="true" signature="1906:2086" placeholder="..." />
+            <marker date="1388434224866" expanded="true" signature="2196:2292" placeholder="..." />
+            <marker date="1388434224866" expanded="true" signature="2325:3161" placeholder="..." />
+            <marker date="1388434224866" expanded="false" signature="2350:2367" placeholder="..." />
+            <marker date="1388434224866" expanded="true" signature="2392:3146" placeholder="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/views/formPrpTabGeneral.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="21" selection-start="1781" selection-end="1781" vertical-scroll-proportion="-0.65384614">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="4" selection-start="367" selection-end="367" vertical-scroll-proportion="0.39145908">
-          <folding />
         </state>
       </provider>
     </entry>

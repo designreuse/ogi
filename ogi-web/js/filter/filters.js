@@ -20,3 +20,35 @@ myApp.filter('desc', function() {
     };
 });
 
+
+// Display essential of an address
+myApp.filter('address', function() {
+    return function(address) {
+        // If array empty return empty string
+        if(utilsObject.isUndefinedOrNull(address) || address.length == 0) {  return ""; }
+
+        // else return first address
+        var s = address[0].street || "";
+        s += " ";
+        s += address[0].postalCode || "";
+        s += " ";
+        s += address[0].city || "";
+
+        return s;
+    };
+});
+
+myApp.filter('prpLink', function(Utils, ServiceUrl) {
+    return function(properties) {
+        // If array empty return empty string
+        if(Utils.isUndefinedOrNull(properties) || properties.length == 0) {  return ""; }
+
+        // else return first address
+        var s = "";
+        properties.forEach(function(elt, index) {
+            s += "<a href=\""+ServiceUrl.urlProperty(elt.reference)+"\">"+elt.reference+"</a>";
+        });
+
+        return s;
+    };
+});
