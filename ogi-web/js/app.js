@@ -30,6 +30,7 @@ myApp.config(['$routeProvider', function($routeProvider) {
         when('/biens/ajouter/:type', {templateUrl: 'js/views/prpFormulaireAjout.html', controller: ControllerPrpAdd}).
 
         when('/proprietaires', {templateUrl: 'js/views/owner/ownerList.html', controller: ControllerOwnerList}).
+        when('/proprietaires/modifier/:techid', {templateUrl: 'js/views/owner/ownerFormAjout.html', controller: ControllerOwnerModify}).
 
 
         otherwise({redirectTo: '/biens'});

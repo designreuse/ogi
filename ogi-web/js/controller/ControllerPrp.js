@@ -2,7 +2,7 @@ function ControllerPrpParent($scope, Page, $log, $http, ServiceConfiguration, Ut
     // Top menu for active item
     $scope.addMenu = {
         "items" : [
-            { "name" : "owner", "active" : false, "url" : "js/views/formOwner.html"},
+            { "name" : "owner", "active" : false, "url" : "js/views/property/prpFormOwner.html"},
             { "name" : "prp", "active" : false, "url" : "js/views/formPrpTabGeneral.html"},
             { "name" : "desc", "active" : false, "url" : "js/views/formPrpTabDesc.html"},
             { "name" : "equipment", "active" : false, "url" : "js/views/formPrpTabGeneral.html"},
@@ -62,7 +62,6 @@ function ControllerPrpParent($scope, Page, $log, $http, ServiceConfiguration, Ut
                 $scope.prp = new PropertyJS(data);
             })
             .error(function (data, status) {
-                console.error(data);
                 ServiceAlert.addError("Erreur lors de l'enregistrement du bien :"+data.message);
             });
 
