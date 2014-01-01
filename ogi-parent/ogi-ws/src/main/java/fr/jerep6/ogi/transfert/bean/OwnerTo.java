@@ -1,5 +1,6 @@
 package fr.jerep6.ogi.transfert.bean;
 
+import java.util.Calendar;
 import java.util.List;
 
 import lombok.EqualsAndHashCode;
@@ -16,7 +17,7 @@ public class OwnerTo {
 	private String						firstname;
 	private String						gender;
 	private String						surname;
-	private String						birthDate;
+	private Calendar					birthDate;
 	private String						phoneHome;
 	private String						phoneWork;
 	private String						phoneMobile;

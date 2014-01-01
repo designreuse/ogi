@@ -53,72 +53,68 @@ public class RealProperty {
 	@Id
 	@Column(name = "PRO_ID", unique = true, nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer								techid;
+	private Integer						techid;
 
 	@Column(name = "PRO_REFERENCE", nullable = false, unique = true, length = 64)
-	private String								reference;
+	private String						reference;
 
 	@Column(name = "PRO_LAND_AREA")
-	private Integer								landArea;
+	private Integer						landArea;
 
 	@Column(name = "PRO_COS")
-	private Float								cos;
+	private Float						cos;
 
 	/** Lotissement */
 	@Column(name = "PRO_HOUSING_ESTATE")
-	private Boolean								housingEstate;
+	private Boolean						housingEstate;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "ADD_ID")
-	private Address								address;
+	private Address						address;
 
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "property")
-	private Sale								sale;
+	private Sale						sale;
 
 	@OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
-	private final Set<Description>				descriptions		= new HashSet<>(0);
+	private Set<Description>			descriptions		= new HashSet<>(0);
 
 	@ManyToMany(cascade = CascadeType.PERSIST)
 	@JoinTable(name = "TJ_PRP_EQP", //
 	joinColumns = @JoinColumn(name = "PRO_ID"), //
 	inverseJoinColumns = @JoinColumn(name = "EQP_ID")//
 	)
-	private final Set<Equipment>				equipments			= new HashSet<>(0);
+	private Set<Equipment>				equipments			= new HashSet<>(0);
 
 	@ManyToOne
 	@JoinColumn(name = "CAT_ID", nullable = false)
-	private Category							category;
+	private Category					category;
 
 	@ManyToOne
 	@JoinColumn(name = "TYP_ID", nullable = true)
-	private Type								type;
+	private Type						type;
 
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "TJ_PRP_DOC",//
 	joinColumns = @JoinColumn(name = "PRO_ID"),//
 	inverseJoinColumns = @JoinColumn(name = "DOC_ID")//
 	)
-	private Set<Document>						documents;
+	private Set<Document>				documents;
 
 	@OneToMany(mappedBy = "pk.property", cascade = CascadeType.ALL)
-	private final Set<RealPropertyDiagnosis>	diagnosisProperty	= new HashSet<>(0);
+	private Set<RealPropertyDiagnosis>	diagnosisProperty	= new HashSet<>(0);
 
-	@ManyToMany
-	@JoinTable(name = "TJ_OWN_PRP",//
-	joinColumns = @JoinColumn(name = "PRO_ID"),//
-	inverseJoinColumns = @JoinColumn(name = "OWN_ID")//
-	)
-	private Set<Owner>							owners;
+	@ManyToMany(mappedBy = "properties")
+	private Set<Owner>					owners;
 
 	// ##### Technical field #####
 	// Il faut obligatoirement spécifier l'attribut columnDefinition sinon mysql crée un champ date time
 	@Column(name = "PRO_MODIFICATION_DATE", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Calendar							modificationDate;
+	private Calendar					modificationDate;
 
 	@Version
 	@Column(name = "PRO_VERSION", nullable = false)
-	private Integer								version;
+	private Integer						version;
 
 	protected RealProperty(String reference, Category category, Type type) {
 		super();

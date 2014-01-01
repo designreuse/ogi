@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -12,6 +13,9 @@ import javax.ws.rs.Produces;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 
 import fr.jerep6.ogi.persistance.bo.Owner;
 import fr.jerep6.ogi.service.ServiceOwner;
@@ -32,14 +36,25 @@ public class WSOwner extends AbstractJaxRsWS {
 	private OrikaMapper		mapper;
 
 	@PUT
-	@Path("/property/{prpRef}")
+	@Path("{techid}/property/{prpRef}")
 	@Consumes(APPLICATION_JSON_UTF8)
 	@Produces(APPLICATION_JSON_UTF8)
-	public List<OwnerTo> associate(@PathParam("prpRef") String prpRef, List<OwnerTo> owners) {
-		List<Owner> ownersBo = mapper.mapAsList(owners, Owner.class);
-		serviceOwner.createOrUpdate(ownersBo);
-		serviceOwner.associate(prpRef, ownersBo);
-		return owners;
+	public void addLink(@PathParam("techid") Integer ownerTechid, @PathParam("prpRef") String prpRef) {
+		Preconditions.checkNotNull(ownerTechid);
+		Preconditions.checkArgument(!Strings.isNullOrEmpty(prpRef));
+
+		serviceOwner.addProperty(ownerTechid, prpRef);
+	}
+
+	@DELETE
+	@Path("{techid}/property/{prpRef}")
+	@Consumes(APPLICATION_JSON_UTF8)
+	@Produces(APPLICATION_JSON_UTF8)
+	public void deleteLink(@PathParam("techid") Integer ownerTechid, @PathParam("prpRef") String prpRef) {
+		Preconditions.checkNotNull(ownerTechid);
+		Preconditions.checkArgument(!Strings.isNullOrEmpty(prpRef));
+
+		serviceOwner.deleteProperty(ownerTechid, prpRef);
 	}
 
 	@GET
@@ -70,4 +85,16 @@ public class WSOwner extends AbstractJaxRsWS {
 		return ownersTo;
 	}
 
+	@PUT
+	@Path("/{techid}")
+	@Consumes(APPLICATION_JSON_UTF8)
+	@Produces(APPLICATION_JSON_UTF8)
+	public OwnerTo update(@PathParam("techid") Integer techid, OwnerTo owner) {
+		Preconditions.checkNotNull(owner);
+		Preconditions.checkArgument(techid.equals(owner.getTechid()));
+
+		Owner ownersBo = mapper.map(owner, Owner.class);
+		serviceOwner.update(ownersBo);
+		return owner;
+	}
 }

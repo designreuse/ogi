@@ -65,7 +65,11 @@ public class Owner {
 	@Column(name = "OWN_MAIL")
 	private String				mail;
 
-	@ManyToMany(mappedBy = "owners")
+	@ManyToMany
+	@JoinTable(name = "TJ_OWN_PRP",//
+	joinColumns = @JoinColumn(name = "OWN_ID"),//
+	inverseJoinColumns = @JoinColumn(name = "PRO_ID")//
+	)
 	private Set<RealProperty>	properties;
 
 	@ManyToMany(cascade = CascadeType.ALL)

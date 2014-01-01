@@ -1,6 +1,5 @@
 package fr.jerep6.ogi.service.impl;
 
-import java.util.HashSet;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -35,10 +34,11 @@ public class ServiceOwnerImpl extends AbstractTransactionalService<Owner, Intege
 	private OrikaMapperService	mapper;
 
 	@Override
-	public void associate(String prpRef, List<Owner> ownersBo) {
+	public void addProperty(Integer techid, String prpRef) {
 		RealProperty prp = serviceRealProperty.readByReference(prpRef);
 
-		prp.setOwners(new HashSet<>(ownersBo));
+		Owner owner = read(techid);
+		owner.getProperties().add(prp);
 	}
 
 	@Override
@@ -54,6 +54,14 @@ public class ServiceOwnerImpl extends AbstractTransactionalService<Owner, Intege
 		}
 
 		return ownersBo;
+	}
+
+	@Override
+	public void deleteProperty(Integer ownerTechid, String prpRef) {
+		RealProperty prp = serviceRealProperty.readByReference(prpRef);
+
+		Owner owner = read(ownerTechid);
+		owner.getProperties().remove(prp);
 	}
 
 	@Override

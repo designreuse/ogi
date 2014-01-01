@@ -9,20 +9,30 @@ public interface ServiceOwner extends TransactionalService<Owner, Integer> {
 	List<Owner> readByProperty(String prpRef);
 
 	/**
-	 * Associate the owners list to a property. <br />
-	 * Owners must contain techid
-	 * 
-	 * @param prpRef
-	 *            property reference
-	 * @param ownersBo
-	 */
-	void associate(String prpRef, List<Owner> ownersBo);
-
-	/**
 	 * Create or update owners. If techid exist => update. If techid doesn't exist => create
 	 * 
 	 * @param ownersBo
 	 * @return
 	 */
 	List<Owner> createOrUpdate(List<Owner> ownersBo);
+
+	/**
+	 * Add a property from an owner.
+	 * 
+	 * @param ownerTechid
+	 *            technical id of owner
+	 * @param prpRef
+	 *            fonctional reference of property
+	 */
+	void addProperty(Integer ownerTechid, String prpRef);
+
+	/**
+	 * Delete a property from an owner
+	 * 
+	 * @param ownerTechid
+	 *            technical id of owner
+	 * @param prpRef
+	 *            fonctional reference of property
+	 */
+	void deleteProperty(Integer ownerTechid, String prpRef);
 }
