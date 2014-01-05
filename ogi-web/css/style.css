@@ -9,6 +9,9 @@ legend + .control-group {
     margin-top: 0px;
 }
 
+.col-padding-30 {
+	padding-left: 30px;
+}
 
 
 /* ##### PAGE LISTE ##### */

@@ -25,12 +25,12 @@ myApp.config(['$httpProvider', function($httpProvider) {
 // Config routes
 myApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.
-        when('/biens', {templateUrl: 'js/views/prpList.html', controller: ControllerList}).
-        when('/biens/modifier/:prpRef', {templateUrl: 'js/views/prpFormulaireAjout.html', controller: ControllerPrpModify}).
-        when('/biens/ajouter/:type', {templateUrl: 'js/views/prpFormulaireAjout.html', controller: ControllerPrpAdd}).
+        when('/biens', {templateUrl: 'js/views/property/prpList.html', controller: ControllerList}).
+        when('/biens/modifier/:prpRef', {templateUrl: 'js/views/property/prpFormGlobal.html', controller: ControllerPrpModify}).
+        when('/biens/ajouter/:type', {templateUrl: 'js/views/property/prpFormGlobal.html', controller: ControllerPrpAdd}).
 
         when('/proprietaires', {templateUrl: 'js/views/owner/ownerList.html', controller: ControllerOwnerList}).
-        when('/proprietaires/modifier/:techid', {templateUrl: 'js/views/owner/ownerFormAjout.html', controller: ControllerOwnerModify}).
+        when('/proprietaires/modifier/:techid', {templateUrl: 'js/views/owner/ownerFormAdd.html', controller: ControllerOwnerModify}).
 
 
         otherwise({redirectTo: '/biens'});

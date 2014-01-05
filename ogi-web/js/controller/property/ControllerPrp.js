@@ -3,8 +3,8 @@ function ControllerPrpParent($scope, Page, $log, $http, ServiceConfiguration, Ut
     $scope.addMenu = {
         "items" : [
             { "name" : "owner", "active" : false, "url" : "js/views/property/prpFormOwner.html"},
-            { "name" : "prp", "active" : false, "url" : "js/views/formPrpTabGeneral.html"},
-            { "name" : "desc", "active" : false, "url" : "js/views/formPrpTabDesc.html"},
+            { "name" : "prp", "active" : false, "url" : "js/views/property/prpFormTabGeneral.html"},
+            { "name" : "desc", "active" : false, "url" : "js/views/property/prpFormTabDesc.html"},
             { "name" : "equipment", "active" : false, "url" : "js/views/formPrpTabGeneral.html"},
             { "name" : "adminis", "active" : false, "url" : "js/views/formPrpTabGeneral.html"},
             { "name" : "diagnosis", "active" : false, "url" : "js/views/formPrpTabGeneral.html"},
@@ -34,7 +34,7 @@ function ControllerPrpParent($scope, Page, $log, $http, ServiceConfiguration, Ut
             return itemActive;
         }
     };
-    $scope.addMenu.select("owner");
+    $scope.addMenu.select("desc");
 
     /**
      * Le flux json doit contenir le type du bien car en java, il y a un héritage. Il faut donc connaitre la classe

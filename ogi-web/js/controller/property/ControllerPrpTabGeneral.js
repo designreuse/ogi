@@ -108,8 +108,6 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
         // Add photo to property
         var file = data._response.result.files[0];
         console.debug(file);
-        // Replace url with thumb url
-        file.document.url = file.thumbnailUrl;
         $scope.prp.photos.push(file.document);
 
         // Search index of just upload file to remove it to queue
