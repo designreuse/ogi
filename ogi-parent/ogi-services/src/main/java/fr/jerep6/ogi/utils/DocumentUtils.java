@@ -30,6 +30,10 @@ public class DocumentUtils {
 	private static String							urlBaseDocuments;
 	private static Path								documentStorageDir;
 
+	/**
+	 * Chaque type de document est stocké dans un répertoire. Map de correspondance entre le type du document
+	 * et le répertoire dans lequel il est stocké
+	 */
 	private static Map<EnumDocumentType, String>	dirNamesByType	= new HashMap<>(2);
 	static {
 		// populate map
@@ -56,7 +60,11 @@ public class DocumentUtils {
 		if (dimension != null) {
 			size = "?size=" + dimension.getName();
 		}
-		return urlBaseDocuments + documentStorageDir.relativize(absolutePath).toString().replace("\\", "/") + size;
+		StringBuilder sb = new StringBuilder();
+		sb.append(urlBaseDocuments).append("/");
+		sb.append(documentStorageDir.relativize(absolutePath).toString().replace("\\", "/"));
+		sb.append(size);
+		return sb.toString();
 	}
 
 	/**

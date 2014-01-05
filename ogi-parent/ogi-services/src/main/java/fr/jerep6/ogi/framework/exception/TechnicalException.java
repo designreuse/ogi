@@ -30,7 +30,7 @@ public class TechnicalException extends AbstractException {
 	 * @param message
 	 *            exception message
 	 * @param cause
-	 *            : mother causse of exception
+	 *            : mother cause of exception
 	 */
 	public TechnicalException(final String message, Throwable cause) {
 		super(message, cause);

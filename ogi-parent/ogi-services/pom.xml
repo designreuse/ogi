@@ -109,5 +109,76 @@
 			<artifactId>mockito-all</artifactId>
 			<scope>compile</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+		</dependency>
 	</dependencies>
+	
+	
+	<build>
+		<resources>
+	      <resource>
+	        <directory>src/main/resources</directory>
+	      </resource>
+	      <!-- 
+	      <resource>
+	        <directory>${project.build.directory}/jasper</directory>
+	      </resource>
+	      -->
+	    </resources>
+	    
+	    <plugins>
+	        <plugin>
+	            <groupId>com.alexnederlof</groupId>
+	            <artifactId>jasperreports-plugin</artifactId>
+	            <version>1.6</version>
+	            <executions>
+	                <execution>
+	                    <phase>process-sources</phase>
+	                    <goals>
+                       		<goal>jasper</goal>
+	                    </goals>
+	                </execution>
+	            </executions>
+	            <configuration>
+	                <compiler>net.sf.jasperreports.engine.design.JRJdtCompiler</compiler>
+	                <sourceDirectory>src/main/jasperreports</sourceDirectory>
+	                <outputDirectory>${project.build.directory}/jasper</outputDirectory>
+	                <outputFileExt>.jasper</outputFileExt>
+	                <xmlValidation>true</xmlValidation>
+	                <verbose>false</verbose>
+	                <numberOfThreads>4</numberOfThreads>
+	            </configuration>
+	        </plugin>
+			
+			<!-- 
+			<plugin>
+		        <groupId>org.codehaus.mojo</groupId>
+		        <artifactId>build-helper-maven-plugin</artifactId>
+		        <version>1.8</version>
+		        <executions>
+		          <execution>
+		            <id>add-resource</id>
+		            <phase>generate-resources</phase>
+		            <goals>
+		              <goal>add-resource</goal>
+		            </goals>
+		            <configuration>
+		              <resources>
+		                <resource>
+		                  <directory>${project.build.directory}/jasper</directory>
+		                  <targetPath>jasper</targetPath>
+		                </resource>
+		              </resources>
+		            </configuration>
+		          </execution>
+		        </executions>
+		      </plugin>
+       -->
+      
+	    </plugins>
+	</build>
+	
 </project>

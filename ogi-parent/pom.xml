@@ -23,6 +23,7 @@
 		<mockito.version>1.9.5</mockito.version>
 		<fest.version>2.0M10</fest.version>
 		<httpclient.version>4.3.1</httpclient.version>
+		<jasperReport.version>5.5.0</jasperReport.version>
 	</properties>
 
 	<modules>
@@ -244,7 +245,14 @@
 				<artifactId>httpclient</artifactId>
 				<version>${httpclient.version}</version>
 			</dependency>
-
+			
+			<!-- Jasper report -->
+			<dependency>
+				<groupId>net.sf.jasperreports</groupId>
+				<artifactId>jasperreports</artifactId>
+				<version>${jasperReport.version}</version>
+			</dependency>
+	
 		</dependencies>
 
 	</dependencyManagement>
