@@ -1,69 +1,57 @@
 /* ##### GENERAL ##### */
 .pointer {
-    cursor: pointer;
+  cursor: pointer;
 }
 .center {
-    text-align:center;
+  text-align: center;
 }
 legend + .control-group {
-    margin-top: 0px;
+  margin-top: 0px;
 }
-
-.col-padding-30 {
-	padding-left: 30px;
-}
-
-
 /* ##### PAGE LISTE ##### */
 #prpList .liste img {
-    width: 75px;
+  width: 75px;
 }
-
-
-
 /* ##### PAGE PRP MANAGEMENT ##### */
 #prpFormManage .form-horizontal .control-group {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
-
-    /* ## TAB GENERAL ## */
-    .nav-tabs {
-        margin-bottom : 0px;
-        border-bottom : none;
-        cursor : pointer;
-    }
-
-    /* bootstrap sets max-width on img to 100% and broke google maps controls */
-    #map img { max-width:none;}
-
-    /* style des éléments de la liste */
-    ul#list-photos li{
-        border:1px solid #ddd;
-        padding:10px;
-        cursor:move;
-        height:150px;
-        width:130px;
-        float:left;
-        margin-right:10px;
-        background:#fff;
-        color:#212326;
-        -moz-box-shadow:2px 2px 5px #ccc;
-        text-align: center;
-    }
-    ul#list-photos li img {
-        margin-bottom: 10px;
-    }
-    /* style de l'élément fantome, qui apparait losque que l'on bouge un élément */
-    ul#list-photos li.highlight{
-        background:#f2f2f2;
-        border:1px dashed #212326;
-    }
-
-    /* ## TAB DESC ## */
-    #pieces .add-on {
-        cursor : pointer;
-    }
-
+/* ## TAB GENERAL ## */
+.nav-tabs {
+  margin-bottom: 0px;
+  border-bottom: none;
+  cursor: pointer;
+}
+/* bootstrap sets max-width on img to 100% and broke google maps controls */
+#map img {
+  max-width: none;
+}
+/* style des éléments de la liste */
+ul#list-photos li {
+  border: 1px solid #ddd;
+  padding: 10px;
+  cursor: move;
+  height: 150px;
+  width: 130px;
+  float: left;
+  margin-right: 10px;
+  background: #fff;
+  color: #212326;
+  -moz-box-shadow: 2px 2px 5px #ccc;
+  text-align: center;
+}
+ul#list-photos li img {
+  margin-bottom: 10px;
+}
+/* style de l'élément fantome, qui apparait losque que l'on bouge un élément */
+ul#list-photos li.highlight {
+  background: #f2f2f2;
+  border: 1px dashed #212326;
+}
+/* ## TAB DESC ## */
+#pieces .add-on {
+  cursor: pointer;
+}
 .ui-slider-handle {
-    cursor:pointer !important;
+  cursor: pointer !important;
 }
