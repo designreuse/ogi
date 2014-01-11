@@ -8,6 +8,9 @@
 legend + .control-group {
   margin-top: 0px;
 }
+.normal {
+  font-weight: normal;
+}
 /* ##### PAGE LISTE ##### */
 #prpList .liste img {
   width: 75px;

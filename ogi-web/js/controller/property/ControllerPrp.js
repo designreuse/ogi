@@ -2,12 +2,12 @@ function ControllerPrpParent($scope, Page, $log, $http, ServiceConfiguration, Ut
     // Top menu for active item
     $scope.addMenu = {
         "items" : [
-            { "name" : "owner", "active" : false, "url" : "js/views/property/prpFormOwner.html"},
+            { "name" : "owner", "active" : false, "url" : "js/views/property/prpFormTabOwner.html"},
             { "name" : "prp", "active" : false, "url" : "js/views/property/prpFormTabGeneral.html"},
             { "name" : "desc", "active" : false, "url" : "js/views/property/prpFormTabDesc.html"},
-            { "name" : "doc", "active" : false, "url" : "js/views/property/prpFormDocuments.html"},
+            { "name" : "doc", "active" : false, "url" : "js/views/property/prpFormTabDocuments.html"},
+            { "name" : "adminis", "active" : false, "url" : "js/views/property/prpFormTabAdministratif.html"},
             { "name" : "equipment", "active" : false, "url" : "js/views/formPrpTabGeneral.html"},
-            { "name" : "adminis", "active" : false, "url" : "js/views/formPrpTabGeneral.html"},
             { "name" : "diagnosis", "active" : false, "url" : "js/views/formPrpTabGeneral.html"},
             { "name" : "room", "active" : false, "url" : "js/views/formPrpTabGeneral.html"}
         ],
@@ -35,7 +35,7 @@ function ControllerPrpParent($scope, Page, $log, $http, ServiceConfiguration, Ut
             return itemActive;
         }
     };
-    $scope.addMenu.select("doc");
+    $scope.addMenu.select("adminis");
 
     /**
      * Le flux json doit contenir le type du bien car en java, il y a un héritage. Il faut donc connaitre la classe

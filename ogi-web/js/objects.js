@@ -50,6 +50,11 @@ function PropertyJS(prpFromAPI) {
         return a.order - b.order;
     });
 
+    this.sale = Object.create(sale);
+    if(!utilsObject.isUndefinedOrNull(prpFromAPI.sale)) {
+        angular.extend(this.sale, prpFromAPI.sale);
+    }
+
     this.init();
 }
 
@@ -71,5 +76,8 @@ var typeOther = {
         "code": "XXX",
         "label": "XXX"
     }
+}
 
+var sale = {
+    "mandateType": "S"
 }

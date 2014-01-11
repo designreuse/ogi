@@ -6,7 +6,7 @@
         <li ng-class="{active: addMenu.getActive().name == 'doc'}"><a ng-click="addMenu.select('doc')" href="javascript:;">Documents</a></li>
 
         <li ng-class="{active: addMenu['equipment']}"><a ng-click="addMenu.select('equipment')" href="javascript:;">Equipement</a></li>
-        <li ng-class="{active: addMenu['adminis']}"><a ng-click="addMenu.select('adminis')" href="javascript:;">Administratif</a></li>
+        <li ng-class="{active: addMenu.getActive().name == 'adminis'}"><a ng-click="addMenu.select('adminis')" href="javascript:;">Administratif</a></li>
         <li ng-class="{active: addMenu['diagnosis']}"><a ng-click="addMenu.select('diagnosis')" href="javascript:;">Diagnostics immobiliers</a></li>
         <li ng-class="{active: addMenu['room']}"><a ng-click="addMenu.select('room')" href="javascript:;">Détail des pièces</a></li>
         <li ng-class="{active: addMenu['prp']}"><a ng-click="addMenu.select('prp')" href="javascript:;">Visites</a></li>
