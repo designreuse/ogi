@@ -48,7 +48,7 @@
 		<!-- Package to scan -->
 		<init-param>
 			<param-name>com.sun.jersey.config.property.packages</param-name>
-			<param-value>fr.jerep6.ogi.rest</param-value>
+			<param-value>fr.jerep6.ogi.rest, fr.jerep6.ogi.rest.provider</param-value>
 		</init-param>
 
 		<!-- To produce json -->

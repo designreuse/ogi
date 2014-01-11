@@ -12,6 +12,11 @@ import ma.glasnost.orika.metadata.TypeFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import fr.jerep6.ogi.framework.exception.BusinessException;
+import fr.jerep6.ogi.framework.exception.MultipleBusinessException;
+import fr.jerep6.ogi.framework.transfert.ErrorTo;
+import fr.jerep6.ogi.framework.transfert.ExceptionTo;
+import fr.jerep6.ogi.framework.utils.ExceptionUtils;
 import fr.jerep6.ogi.framework.utils.UrlUtils;
 import fr.jerep6.ogi.persistance.bo.Address;
 import fr.jerep6.ogi.persistance.bo.Category;
@@ -63,11 +68,62 @@ public class OrikaMapper extends ConfigurableMapper {
 	}
 
 	/**
+	 * Mapping for exception
+	 */
+	private void exceptionMapping() {
+		factory.classMap(BusinessException.class, ErrorTo.class)//
+				.customize(new CustomMapper<BusinessException, ErrorTo>() {
+					@Override
+					public void mapAtoB(BusinessException a, ErrorTo b, MappingContext context) {
+						String msg = a.getMessage() == null ? "" : ExceptionUtils.i18n(a);
+						b.setMessage(msg);
+					}
+
+					@Override
+					public void mapBtoA(ErrorTo b, BusinessException a, MappingContext context) {}
+				})//
+				.byDefault().register();
+
+		factory.classMap(Exception.class, ErrorTo.class)//
+				.customize(new CustomMapper<Exception, ErrorTo>() {
+					@Override
+					public void mapAtoB(Exception a, ErrorTo b, MappingContext context) {
+						String msg = a.getMessage() == null ? "" : ExceptionUtils.i18n(a);
+						b.setMessage(msg);
+
+						// Exception other than business exception don't have code
+						b.setCode("TECH");
+					}
+
+					@Override
+					public void mapBtoA(ErrorTo b, Exception a, MappingContext context) {}
+				})//
+				.byDefault().register();
+
+		factory.classMap(Exception.class, ExceptionTo.class)//
+				.customize(new CustomMapper<Exception, ExceptionTo>() {
+
+					@Override
+					public void mapAtoB(Exception a, ExceptionTo b, MappingContext context) {
+						b.add(map(a, ErrorTo.class));
+					}
+
+					@Override
+					public void mapBtoA(ExceptionTo b, Exception a, MappingContext context) {}
+				})//
+				.register();
+
+		factory.classMap(MultipleBusinessException.class, ExceptionTo.class)//
+				.field("exceptions", "errors")//
+				.register();
+	}
+
+	/**
 	 * La méthode configure est appelée lors de la construction de l'objet et les injections spring ne sont pas encore
 	 * réalisées
 	 */
 	@PostConstruct
-	private void init() {
+	private void postConstruct() {
 		ConverterFactory converterFactory = factory.getConverterFactory();
 
 		// Specifics converter (instantiate and copy properties)
@@ -77,6 +133,8 @@ public class OrikaMapper extends ConfigurableMapper {
 		converterFactory.registerConverter(new ConverterEnumMandateType());
 		converterFactory.registerConverter(new ConverterEnumLabelType());
 		converterFactory.registerConverter(new ConverterEnumDocumentType());
+
+		exceptionMapping();
 
 		// Specifics factory (create object)
 		factory.registerObjectFactory(new FactoryRealPropertyTo(), TypeFactory.valueOf(RealPropertyTo.class));
@@ -127,7 +185,8 @@ public class OrikaMapper extends ConfigurableMapper {
 				.field("diagnosisProperty", "diagnosis")//
 				// must exclude the field else classcast exception. It doesn't detected that description is mapped as
 				// map bellow
-				.exclude("descriptions").field("descriptions{type}", "descriptions{key}")//
+				.exclude("descriptions")//
+				.field("descriptions{type}", "descriptions{key}")//
 				.field("descriptions{}", "descriptions{value}")//
 				.fieldAToB("photos", "photos")//
 				.fieldBToA("photos", "documents")//

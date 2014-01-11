@@ -6,10 +6,10 @@ import fr.jerep6.ogi.persistance.bo.Label;
 public class EntityAlreadyExist extends BusinessException {
 	private static final long	serialVersionUID	= -2932063299390151842L;
 
-	private final Label			existantLabel;
+	private Label				existantLabel;
 
 	public EntityAlreadyExist(Label existantLabel, Object... args) {
-		super("Le label existe déjà", args);
+		super("EAE01", "Le label existe déjà", args);
 		this.existantLabel = existantLabel;
 	}
 

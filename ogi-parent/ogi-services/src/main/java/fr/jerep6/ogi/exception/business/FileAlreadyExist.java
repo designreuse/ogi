@@ -10,7 +10,7 @@ public class FileAlreadyExist extends BusinessException {
 	}
 
 	public FileAlreadyExist(Object... args) {
-		super("File already exist", args);
+		super("FAE01", "File already exist", args);
 	}
 
 }
