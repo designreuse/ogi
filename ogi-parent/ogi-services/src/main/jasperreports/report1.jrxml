@@ -4,56 +4,64 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<subDataset name="dataset1" uuid="cf76163f-1bb4-4800-aaba-ca80cffda3cf"/>
-	<parameter name="criteres" class="java.lang.String"/>
+	<parameter name="reference" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["D:\\Developpement\\Master\\Java7\\workspace\\ogi\\ogi-parent\\ogi-services\\src\\main\\jasperreports\\"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="ROOT_DIR" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[]]>
+		<![CDATA[SELECT
+     ta_property.`PRO_REFERENCE` AS PRO_REFERENCE,
+     ta_address.`ADD_CITY` AS ADD_CITY
+ FROM
+ `ta_property` ta_property
+ LEFT JOIN `ta_address` ta_address ON ta_address.`ADD_ID` = ta_property.`ADD_ID`
+
+WHERE ta_property.`PRO_REFERENCE` = $P{reference}]]>
 	</queryString>
-	<field name="area" class="java.lang.Integer"/>
-	<field name="category.code.code" class="java.lang.String"/>
-	<field name="descriptions" class="java.util.Collection"/>
+	<field name="PRO_REFERENCE" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ADD_CITY" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch"/>
+		<band height="80" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="200" height="80" uuid="b75a065c-a50a-4c1d-997d-82402290cff2"/>
+				<imageExpression><![CDATA[$P{ROOT_DIR}+"/img/logo.png"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="418" y="60" width="137" height="20" uuid="643dd695-8730-4a89-856f-2631b2bb3bd2"/>
+				<textFieldExpression><![CDATA["Référence : " + $F{PRO_REFERENCE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="418" y="40" width="137" height="20" uuid="20163923-2480-4efd-aea6-090af66e8a34"/>
+				<textFieldExpression><![CDATA["Mandat : " + $F{PRO_REFERENCE}]]></textFieldExpression>
+			</textField>
+		</band>
 	</title>
-	<pageHeader>
-		<band height="35" splitType="Stretch"/>
-	</pageHeader>
-	<columnHeader>
-		<band height="61" splitType="Stretch"/>
-	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch">
-			<staticText>
-				<reportElement x="0" y="0" width="100" height="20" uuid="772f0e69-77b2-4574-a68f-0c6b5cff0a57"/>
-				<text><![CDATA[Static text pouet 5]]></text>
-			</staticText>
+		<band height="496" splitType="Stretch">
 			<textField>
-				<reportElement x="100" y="0" width="100" height="20" uuid="3755d4b1-7930-4285-bd56-02ab35baa84c"/>
-				<textFieldExpression><![CDATA[$P{criteres}]]></textFieldExpression>
+				<reportElement x="122" y="122" width="217" height="20" uuid="3755d4b1-7930-4285-bd56-02ab35baa84c"/>
+				<textFieldExpression><![CDATA[$F{PRO_REFERENCE}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="200" y="0" width="133" height="20" uuid="bc558f4b-ca68-4934-817a-2d248f123e17"/>
-				<textFieldExpression><![CDATA[$F{category.code.code}]]></textFieldExpression>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="122" y="29" width="311" height="58" forecolor="#990099" uuid="85e24f5c-1421-4301-92b6-9718f73206c7"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="36"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ADD_CITY}]]></textFieldExpression>
 			</textField>
-			<subreport>
-				<reportElement x="100" y="40" width="385" height="68" uuid="431723c7-dc13-4a23-9859-ca54dbbf0216"/>
-				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{descriptions})]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "report1_subreport1.jasper"]]></subreportExpression>
-			</subreport>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="45" splitType="Stretch"/>
-	</columnFooter>
-	<pageFooter>
-		<band height="54" splitType="Stretch"/>
-	</pageFooter>
-	<summary>
-		<band height="42" splitType="Stretch"/>
-	</summary>
+	<lastPageFooter>
+		<band height="50"/>
+	</lastPageFooter>
 </jasperReport>
