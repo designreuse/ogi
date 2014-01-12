@@ -79,5 +79,4 @@ var typeOther = {
 }
 
 var sale = {
-    "mandateType": "S"
 }

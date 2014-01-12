@@ -61,9 +61,6 @@ function ControllerPrpParent($scope, Page, $log, $http, ServiceConfiguration, Ut
             .success(function (data, status) {
                 ServiceAlert.addSuccess("Enregistrement du bien OK");
                 $scope.prp = new PropertyJS(data);
-            })
-            .error(function (data, status) {
-                ServiceAlert.addError("Erreur lors de l'enregistrement du bien :"+data.message);
             });
 
         // If owner is defined => create / modify it
@@ -74,9 +71,6 @@ function ControllerPrpParent($scope, Page, $log, $http, ServiceConfiguration, Ut
                 .success(function (data, status) {
                     //$scope.owner = new PropertyJS(data);
                     ServiceAlert.addSuccess("Enregistrement du propriétaire OK");
-                })
-                .error(function (data, status) {
-                    ServiceAlert.addError("Erreur lors de l'enregistrement du ptopriétaire :"+data.message);
                 });
         }
     }

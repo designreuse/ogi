@@ -28,15 +28,19 @@ myApp.factory('ServiceObjectChecked', function(){
 
 
 myApp.factory('ServiceAlert', function(){
+    var NB_ALERT_MAX = 3;
     var alerts = [ ];
     return {
         addSuccess:function(msg){
             this.addAlert({ type: 'success', msg: msg});
         },
         addError:function(msg){
-            this.addAlert({ type: 'error', msg: msg});
+            this.addAlert({ type: 'danger', msg: msg});
         },
         addAlert:function(obj){
+            // Keep only NB_ALERT_MAX alerts
+            if(alerts.length >= NB_ALERT_MAX ) { this.closeAlert(0); }
+
             obj.date = new Date();
             alerts.push(obj);
         },
@@ -45,6 +49,15 @@ myApp.factory('ServiceAlert', function(){
         },
         getAlerts:function(){
             return alerts;
+        },
+        formatMessage: function(response) {
+            var msg = "";
+            for(var i = 0; i < response.data.errors.length; i++) {
+                msg += response.data.errors[0].message;
+                msg += "\n";
+            }
+            msg += "[HTTP:"+response.status+"]";
+            return msg;
         }
     }
 });

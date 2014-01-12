@@ -24,8 +24,6 @@ function ControllerPrpModify($scope, Page, $injector, $routeParams, ServiceConfi
 
 
             Page.setTitle("Modifier le bien : "+$scope.prp.reference);
-        }).error(function (data, status, headers) {
-           console.error("-->"+data);
         });
 }
 

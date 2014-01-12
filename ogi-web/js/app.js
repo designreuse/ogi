@@ -22,7 +22,27 @@ myApp.config(['$httpProvider', function($httpProvider) {
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
 }]);
 
-// Config routes
+/** Interceptor for http response KO. Log with ServiceAlert */
+myApp.config(function ($provide, $httpProvider) {
+    // Intercept http calls.
+    $provide.factory('HttpInterceptorLog', function ($q, ServiceAlert) {
+        return {
+            // On response failure
+            responseError: function (rejection) {
+                ServiceAlert.addError(ServiceAlert.formatMessage(rejection));
+                // Return the promise rejection.
+                return $q.reject(rejection);
+            }
+        };
+    });
+
+    // Add the interceptor to the $httpProvider.
+    $httpProvider.interceptors.push('HttpInterceptorLog');
+});
+
+
+
+// ###### ROUTES ######
 myApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.
         when('/biens', {templateUrl: 'js/views/property/prpList.html', controller: ControllerList}).
@@ -31,7 +51,6 @@ myApp.config(['$routeProvider', function($routeProvider) {
 
         when('/proprietaires', {templateUrl: 'js/views/owner/ownerList.html', controller: ControllerOwnerList}).
         when('/proprietaires/modifier/:techid', {templateUrl: 'js/views/owner/ownerFormAdd.html', controller: ControllerOwnerModify}).
-
 
         otherwise({redirectTo: '/biens'});
 }]);
