@@ -32,21 +32,24 @@ public class ServiceSaleImpl extends AbstractTransactionalService<Sale, Integer>
 	}
 
 	@Override
-	public Sale merge(String prpReference, Sale saleModif) {
+	public Sale merge(Sale saleOriginalBD, Sale saleModif) {
 		// control the consistency of the object
 		validate(saleModif);
 
 		Sale saleMapping = null;
 
-		// Read sale from database according to property reference
-		Sale saleBd = daoSale.readFromPropertyReference(prpReference);
-
-		// Map field only if sale found
-		if (saleBd != null) {
-			saleMapping = saleBd;
+		// Map field only if sale found and saleModif (ihm) is not null
+		if (saleOriginalBD != null && saleModif != null) {
+			saleMapping = saleOriginalBD;
 			mapper.map(saleModif, saleMapping);
-		} else { // no sale in database so create
+		}
+		// no sale in database and ihm is not null
+		else if (saleOriginalBD == null && saleModif != null) {
 			saleMapping = saleModif;
+		}
+		// ihm null and database contain sale => remove sale in database
+		else if (saleOriginalBD != null && saleModif == null) {
+			remove(saleOriginalBD);
 		}
 
 		return saleMapping;

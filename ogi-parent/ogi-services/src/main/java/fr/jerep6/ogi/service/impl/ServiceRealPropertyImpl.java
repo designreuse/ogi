@@ -139,9 +139,12 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 		prp.setType(type);
 
 		// ###### SALE ######
-		Sale saleModif = serviceSale.merge(prp.getReference(), propertyFromJson.getSale());
-		saleModif.setProperty(prp);
+		// Map modification into object.
+		Sale saleModif = serviceSale.merge(prp.getSale(), propertyFromJson.getSale());
 		prp.setSale(saleModif);
+		if (saleModif != null) {
+			saleModif.setProperty(prp);
+		}
 
 		// ###### Equipment ######
 		/*

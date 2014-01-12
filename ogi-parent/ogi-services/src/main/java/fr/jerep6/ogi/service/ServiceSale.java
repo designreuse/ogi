@@ -5,6 +5,6 @@ import fr.jerep6.ogi.persistance.bo.Sale;
 
 public interface ServiceSale extends TransactionalService<Sale, Integer> {
 
-	Sale merge(String prpReference, Sale saleModif);
+	Sale merge(Sale saleOriginalBD, Sale saleModif);
 
 }
