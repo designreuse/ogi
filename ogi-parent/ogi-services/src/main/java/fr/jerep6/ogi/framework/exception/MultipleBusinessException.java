@@ -6,7 +6,11 @@ import java.util.List;
 
 import com.google.common.base.Preconditions;
 
-public class MultipleBusinessException extends AbstractException implements Iterable<BusinessException> {
+/**
+ * 
+ * @author jerep6 11 janv. 2014
+ */
+public class MultipleBusinessException extends BusinessException implements Iterable<BusinessException> {
 	private static final long		serialVersionUID	= 1L;
 
 	private List<BusinessException>	exceptions			= new ArrayList<>();

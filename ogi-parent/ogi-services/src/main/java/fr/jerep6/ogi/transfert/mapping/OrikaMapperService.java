@@ -13,6 +13,7 @@ import fr.jerep6.ogi.persistance.bo.Document;
 import fr.jerep6.ogi.persistance.bo.Owner;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
+import fr.jerep6.ogi.persistance.bo.Sale;
 
 @Component("orikaMapperService")
 public class OrikaMapperService extends ConfigurableMapper {
@@ -33,9 +34,12 @@ public class OrikaMapperService extends ConfigurableMapper {
 		factory.classMap(Document.class, Document.class).exclude("techid").exclude("property").byDefault().register();
 		factory.classMap(Address.class, Address.class).exclude("techid").byDefault().register();
 		factory.classMap(Owner.class, Owner.class).exclude("techid").byDefault().register();
+		factory.classMap(Sale.class, Sale.class).exclude("techid").byDefault().register();
+
 		factory.classMap(Description.class, Description.class).exclude("techid").exclude("property").byDefault()
 				.register();
 
+		// Map only basic type (string, integer ...)
 		factory.classMap(RealProperty.class, RealProperty.class)//
 				.exclude("techid")//
 				.exclude("descriptions")//

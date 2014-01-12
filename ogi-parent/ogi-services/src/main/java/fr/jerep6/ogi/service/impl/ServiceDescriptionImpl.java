@@ -18,7 +18,7 @@ import fr.jerep6.ogi.service.ServiceDescription;
 @Transactional(propagation = Propagation.REQUIRED)
 public class ServiceDescriptionImpl extends AbstractTransactionalService<Description, Integer> implements
 		ServiceDescription {
-	private final Logger	LOGGER	= LoggerFactory.getLogger(ServiceDescriptionImpl.class);
+	private static Logger	LOGGER	= LoggerFactory.getLogger(ServiceDescriptionImpl.class);
 
 	@Autowired
 	private DaoDescription	daoDescription;

@@ -27,7 +27,9 @@ public class SaleTo {
 	private Calendar	mandateEndDate;
 	private String		mandateType;
 	private Float		price;
+	private Float		priceFinal;
 	private Float		commission;
+	private Float		commissionPercent;
 	private Float		estimationPrice;
 	@JsonSerialize(using = JsonCalendarSerializer.class)
 	@JsonDeserialize(using = JsonCalendarDeserializer.class)

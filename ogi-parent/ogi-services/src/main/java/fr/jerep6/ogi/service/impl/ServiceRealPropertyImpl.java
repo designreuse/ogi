@@ -8,6 +8,8 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -18,7 +20,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.Collections2;
 
-import fr.jerep6.ogi.framework.exception.BusinessException;
+import fr.jerep6.ogi.exception.business.RealPropertyNotFoundBusinessException;
 import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
 import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.Description;
@@ -26,6 +28,7 @@ import fr.jerep6.ogi.persistance.bo.Document;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyBuilt;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
+import fr.jerep6.ogi.persistance.bo.Sale;
 import fr.jerep6.ogi.persistance.bo.State;
 import fr.jerep6.ogi.persistance.bo.Type;
 import fr.jerep6.ogi.persistance.dao.DaoProperty;
@@ -35,6 +38,7 @@ import fr.jerep6.ogi.service.ServiceDiagnosis;
 import fr.jerep6.ogi.service.ServiceDocument;
 import fr.jerep6.ogi.service.ServiceEquipment;
 import fr.jerep6.ogi.service.ServiceRealProperty;
+import fr.jerep6.ogi.service.ServiceSale;
 import fr.jerep6.ogi.service.ServiceState;
 import fr.jerep6.ogi.service.ServiceType;
 import fr.jerep6.ogi.transfert.mapping.OrikaMapperService;
@@ -43,6 +47,7 @@ import fr.jerep6.ogi.transfert.mapping.OrikaMapperService;
 @Transactional(propagation = Propagation.REQUIRED)
 public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealProperty, Integer> implements
 		ServiceRealProperty {
+	private static Logger		LOGGER	= LoggerFactory.getLogger(ServiceRealPropertyImpl.class);
 
 	@Autowired
 	private DaoProperty			daoProperty;
@@ -64,6 +69,9 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 
 	@Autowired
 	private ServiceDescription	serviceDescription;
+
+	@Autowired
+	private ServiceSale			serviceSale;
 
 	@Autowired
 	private ServiceState		serviceState;
@@ -105,11 +113,10 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 			prp = readByReference(propertyFromJson.getReference());
 			// If reference is supply, prp must exist
 			if (prp == null) {
-				// TODO : change exception
-				throw new BusinessException();
+				throw new RealPropertyNotFoundBusinessException(propertyFromJson.getReference());
 			}
 
-			// Convert json into business object.
+			// Map into object read from BD simples fields
 			mapper.map(propertyFromJson, prp);
 
 			// Update
@@ -130,6 +137,11 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 			type = serviceType.readOrInsert(propertyFromJson.getType().getLabel(), cat);
 		}
 		prp.setType(type);
+
+		// ###### SALE ######
+		Sale saleModif = serviceSale.merge(prp.getReference(), propertyFromJson.getSale());
+		saleModif.setProperty(prp);
+		prp.setSale(saleModif);
 
 		// ###### Equipment ######
 		/*
@@ -299,5 +311,4 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 		RealProperty r = daoProperty.readByReference(reference);
 		return r;
 	}
-
 }

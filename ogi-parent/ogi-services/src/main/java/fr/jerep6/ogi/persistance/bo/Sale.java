@@ -22,6 +22,7 @@ import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 
 import fr.jerep6.ogi.enumeration.EnumMandateType;
+import fr.jerep6.ogi.utils.VenteUtils;
 
 @Entity
 @Table(name = "TA_SALE")
@@ -36,7 +37,7 @@ public class Sale {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer			techid;
 
-	@Column(name = "SAL_MAND_REFERENCE", nullable = false, unique = true, length = 64)
+	@Column(name = "SAL_MAND_REFERENCE", unique = true, length = 64)
 	private String			mandateReference;
 
 	@Column(name = "SAL_MAND_START")
@@ -71,4 +72,20 @@ public class Sale {
 	@JoinColumn(name = "PRO_ID", nullable = false)
 	private RealProperty	property;
 
+	public Float getCommissionPercent() {
+		if (commission != null && price != null) {
+			return VenteUtils.roundPrice(commission / price * 100);
+		}
+		return null;
+	}
+
+	public Float getPriceFinal() {
+		if (commission != null || price != null) {
+			Float c = commission == null ? 0 : commission;
+			Float p = price == null ? 0 : price;
+			return p + c;
+		} else {
+			return null;
+		}
+	}
 }
