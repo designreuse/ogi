@@ -1,0 +1,124 @@
+<div ng-controller="ControllerPrpTabAdministratif">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Vente</h3>
+        </div>
+        <div class="panel-body">
+
+            <!-- mandate row -->
+            <div class="row">
+
+                <!-- left -->
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Numéro de mandat</label>
+                        <input class="form-control" type="text" ng-model="prp.sale.mandateReference" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Prix de la vente (sans honoraire)</label>
+                        <div class="input-group">
+                            <input class="form-control" type="text" ng-model="prp.sale.price" ng-change="computePriceFinal()" />
+                            <span class="input-group-addon">€</span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Honoraires</label>
+                        <div class="input-group">
+                            <input class="form-control" type="text" ng-model="prp.sale.commission" ng-change="computePriceFinal()" />
+                            <span class="input-group-addon">€</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Pourcentage des honoraires</label>
+                        <div class="input-group" minus-plus>
+                            <span class="input-group-addon glyphicon glyphicon-minus"></span>
+                            <input style="width:100px" class="form-control" type="number" ng-model="prp.sale.commissionPercent" ng-change="computeCommision()" />
+                            <span class="input-group-addon glyphicon glyphicon-plus"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- right -->
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Type de mandat</label>
+                        <ul class="list-inline list-unstyled">
+                            <li>
+                               <label class="normal"><input type="radio" name="optionsRadios" value="SI" ng-model="prp.sale.mandateType"> Simple</label>
+                            </li>
+                            <li>
+                                <label class="normal"><input type="radio" name="optionsRadios" value="EX" ng-model="prp.sale.mandateType"> Exclusif</label>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Début mandat</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="prp.sale.mandateStartDate"
+                                   datepicker-popup="dd/MM/yyyy" show-weeks="false" is-open="open['mandateStartDate']"
+                                   datepicker-options="dateOptions" show-button-bar="false"
+                                   close-text="Close" />
+                            <span class="input-group-addon glyphicon glyphicon-calendar" ng-click="openCalendar($event, 'mandateStartDate')"></span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Fin mandat</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="prp.sale.mandateEndDate"
+                                   datepicker-popup="dd/MM/yyyy" show-weeks="false" is-open="open['mandateEndDate']"
+                                   datepicker-options="dateOptions" show-button-bar="false"
+                                   close-text="Close" />
+                            <span class="input-group-addon glyphicon glyphicon-calendar" ng-click="openCalendar($event, 'mandateEndDate')"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <span style="font-size: 30px">{{prp.sale.priceFinal | currency}}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Estimation row -->
+            <div class="row">
+                <div class="col-xs-6 form-group">
+                    <label>Prix estimation </label>
+                    <div class="input-group">
+                        <input class="form-control" type="text" ng-model="prp.sale.estimationPrice" />
+                        <span class="input-group-addon">€</span>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 form-group">
+                    <label>Date estimation</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="prp.sale.estimationDate"
+                               datepicker-popup="dd/MM/yyyy" show-weeks="false" is-open="open['estimationDate']"
+                               datepicker-options="dateOptions" show-button-bar="false"
+                               close-text="Close" />
+                        <span class="input-group-addon glyphicon glyphicon-calendar" ng-click="openCalendar($event, 'estimationDate')"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Location</h3>
+        </div>
+        <div class="panel-body">
+            A venir
+        </div>
+    </div>
+
+</div>
+

@@ -1,0 +1,70 @@
+<div id="prpList">
+    <div class="row-fluid">
+        <button class="btn btn-primary" ng-click="openModalAddPrp()">Ajouter</button>
+    </div>
+    <div class="row-fluid">
+        <table class="liste table table-striped table-condensed">
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Téléphones</th>
+                <th>Mail</th>
+                <th>Addresse</th>
+                <th>Biens</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="o in owners">
+                    <td>{{o.firstname}} {{o.surname}}</td>
+                    <td>
+                        Portable : {{o.phoneMobile}}<br />
+                        Domicile : {{o.phoneHome}}
+                    </td>
+                    <td>{{o.mail}}</td>
+                    <td>{{o.addresses | address}}</td>
+                    <td><span ng-bind-html="o.properties | prpLink"></span></td>
+                    <td style="vertical-align:middle">
+                        <div class="btn-group">
+                            <a href="#/proprietaires/modifier/{{o.techid}}" class="btn"><i class="icon-pencil"></i></a>
+                            <button class="btn" ng-click="delete($index)"><i class="icon-trash"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script type="text/ng-template" id="modalPrpDelete.html">
+        <div class="modal-header"><a class="close" ng-click="$dismiss()">×</a>
+            <h3>Suppression</h3>
+        </div>
+        <div class="modal-body">
+            <p>Confirmez-vous la suppression de :
+            <ul>
+                <li ng-repeat="prp in selectedProperties">{{prp.reference}} -- {{prp.address.city}}</li>
+            </ul>
+            </p>
+        </div>
+        <div class="modal-footer">
+            <a class="btn" ng-click="$dismiss()">Fermer</a>
+            <a class="btn btn-warning" ng-click="delete()"><span class="icon-trash"></span>Supprimer</a>
+        </div>
+    </script>
+
+
+    <script type="text/ng-template" id="modalPrpAdd.html">
+        <div class="modal-header"><a class="close" ng-click="$dismiss()">×</a>
+            <h3>Ajouter un bien</h3>
+        </div>
+        <div class="modal-body">
+            <ul style="text-align:center" class="unstyled inline">
+                <li><a href="#/biens/ajouter/HSE" ng-click="$dismiss()" class="btn btn-block"><img src="img/logoMaison.png" /></a>Maison</li>
+                <li><a href="#/biens/ajouter/APT" ng-click="$dismiss()" class="btn btn-block"><img src="img/logoAppartement.png" /></a>Appartement</li>
+                <li><a href="#/biens/ajouter/PLT" ng-click="$dismiss()" class="btn btn-block"><img src="img/logoTerrain.png" /></a>Terrain</li>
+                <li><a href="#/biens/ajouter/BSN" ng-click="$dismiss()" class="btn btn-block"><img src="img/logoCommercial.png" /></a>Local Commercial</li>
+                <li><a href="#/biens/ajouter/GRG" ng-click="$dismiss()" class="btn btn-block"><img src="img/logoGarage.png" /></a>Garage</li>
+            </ul>
+        </div>
+    </script>
+</div>

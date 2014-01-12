@@ -1,0 +1,112 @@
+<form class="well">
+    <div class="row">
+        <fieldset class="col-xs-6">
+            <legend>Propriétaire</legend>
+
+            <div class="form-group">
+                <label>Civilité</label>
+                <select class="form-control" ng-model="owner.gender">
+                    <option value="MA">Madame</option>
+                    <option value="MO">Monsieur</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Nom</label>
+                <input class="form-control" type="text" ng-model="owner.surname" />
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Prénom</label>
+                <input class="form-control" type="text" ng-model="owner.firstname" />
+            </div>
+
+            <div class="form-group">
+                <label>Date de naissance</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="owner.birthDate"
+                           datepicker-popup="dd/MM/yyyy" show-weeks="false" is-open="opened"
+                           datepicker-options="dateOptions" show-button-bar="false"
+                           close-text="Close" />
+                    <span class="input-group-addon glyphicon glyphicon-calendar" ng-click="openCalendar($event)"></span>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset class="col-xs-6">
+            <legend>Adresse</legend>
+             <div class="form-group">
+                <label>Adresse</label>
+                <input class="form-control" type="text" ng-model="saveData.addressesOwner[0].street" />
+            </div>
+
+            <div class="form-group">
+                <label>Complément Adresse</label>
+                <input class="form-control" type="text" ng-model="saveData.addressesOwner[0].additional" />
+            </div>
+
+            <div class="form-group">
+                <label>Code Postal</label>
+                <input class="form-control" type="text" ng-model="saveData.addressesOwner[0].postalCode" />
+            </div>
+
+            <div class="form-group">
+                <label>Ville</label>
+                <input class="form-control" type="text" ng-model="saveData.addressesOwner[0].city" />
+            </div>
+
+            <div class="form-group">
+                <label>Pays</label>
+                <input class="form-control" type="text" ng-model="saveData.addressesOwner[0].country" />
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="row">
+        <fieldset class="col-xs-12">
+            <legend>Contact</legend>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Tél. domicile</label>
+                        <input class="form-control" type="tel" ng-model="owner.phoneHome" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tél. travail</label>
+                        <input class="form-control" type="tel" ng-model="owner.phoneWork" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tél. portable</label>
+                        <input class="form-control" type="tel" ng-model="owner.phoneMobile" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tél. portable conjoint</label>
+                        <input class="form-control" type="tel" ng-model="owner.phoneConjoint" />
+                    </div>
+                </div>
+
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Télécopie</label>
+                        <input class="form-control" type="tel" ng-model="owner.fax" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input class="form-control" type="email" ng-model="owner.mail" />
+                    </div>
+
+                </div>
+        </fieldset>
+    </div>
+
+    <div class="row">
+        <div class="center">
+            <button type="submit" class="btn btn-success" ng-click="update()">Enregistrer</button>
+            <button type="submit" class="btn btn-danger">Annuler</button>
+        </div>
+    </div>
+
+</form>
