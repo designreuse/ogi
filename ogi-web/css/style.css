@@ -1,3 +1,8 @@
+/* ##### OVERRIDE ##### */
+.alert {
+  margin-bottom: 5px;
+  padding: 5px;
+}
 /* ##### GENERAL ##### */
 .pointer {
   cursor: pointer;

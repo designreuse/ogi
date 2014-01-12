@@ -2,9 +2,10 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
+            <span class="pull-right pointer glyphicon" ng-class="{'glyphicon-remove': panel['sale'], 'glyphicon-chevron-down': !panel['sale']}" ng-click="panelShowHide('sale')"></span>
             <h3 class="panel-title">Vente</h3>
         </div>
-        <div class="panel-body">
+        <div class="panel-body" ng-if="panel['sale']">
 
             <!-- mandate row -->
             <div class="row">
@@ -113,9 +114,10 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
+            <span class="pull-right pointer glyphicon" ng-class="{'glyphicon-remove': panel['rent'], 'glyphicon-chevron-down': !panel['rent']}" ng-click="panelShowHide('rent')"></span>
             <h3 class="panel-title">Location</h3>
         </div>
-        <div class="panel-body">
+        <div class="panel-body" ng-if="panel['rent']">
             A venir
         </div>
     </div>

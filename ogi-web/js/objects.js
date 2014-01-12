@@ -50,8 +50,8 @@ function PropertyJS(prpFromAPI) {
         return a.order - b.order;
     });
 
-    this.sale = Object.create(sale);
     if(!utilsObject.isUndefinedOrNull(prpFromAPI.sale)) {
+        this.sale = Object.create(sale);
         angular.extend(this.sale, prpFromAPI.sale);
     }
 
@@ -79,4 +79,7 @@ var typeOther = {
 }
 
 var sale = {
+}
+
+var rent = {
 }

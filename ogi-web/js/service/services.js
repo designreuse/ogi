@@ -27,7 +27,7 @@ myApp.factory('ServiceObjectChecked', function(){
 });
 
 
-myApp.factory('ServiceAlert', function(){
+myApp.factory('ServiceAlert', function(Utils){
     var NB_ALERT_MAX = 3;
     var alerts = [ ];
     return {
@@ -52,9 +52,11 @@ myApp.factory('ServiceAlert', function(){
         },
         formatMessage: function(response) {
             var msg = "";
-            for(var i = 0; i < response.data.errors.length; i++) {
-                msg += response.data.errors[0].message;
-                msg += "\n";
+            if(!Utils.isUndefinedOrNull(response.data.errors)) {
+                for(var i = 0; i < response.data.errors.length; i++) {
+                    msg += response.data.errors[0].message;
+                    msg += "\n";
+                }
             }
             msg += "[HTTP:"+response.status+"]";
             return msg;
@@ -98,6 +100,6 @@ myApp.factory('ServiceUrl', function() {
         },
         urlOwner : function(techid){
             return "#/proprietaires/modifier/"+techid;
-        },
+        }
     }
 });
