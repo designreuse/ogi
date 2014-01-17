@@ -14,8 +14,8 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
 
     getLabels("ROOF","roofs" , "roof");
     getLabels("WALL","walls" , "wall");
-    getLabels("INSULATION","insulations" , "insulation");
-    getLabels("PARKING","parkings" , "parking");
+    getLabels("INSULATION", "insulations" , "insulation");
+    getLabels("PARKING", "parkings" , "parking");
     /**
      * Get labels for a type and populate scope with them
      * @param type type of label to get

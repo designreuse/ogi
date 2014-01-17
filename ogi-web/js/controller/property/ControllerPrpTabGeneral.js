@@ -108,6 +108,8 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
         // Add photo to property
         var file = data._response.result.files[0];
         console.debug(file);
+        // Set order to table length
+        file.document.order = $scope.prp.photos.length+1;
         $scope.prp.photos.push(file.document);
 
         // Search index of just upload file to remove it to queue
@@ -125,8 +127,6 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
     $scope.sortableOptions = {
         // This event is triggered when sorting has stopped.
         stop: function(e, ui) {
-            //var order = $('#list-photos').sortable('serialize');
-            console.log("update");
             $scope.prp.photos.forEach(function(element, index, array) {
                 element.order = index+1;
             });
