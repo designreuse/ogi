@@ -3,11 +3,14 @@ package fr.jerep6.ogi.service.impl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -20,7 +23,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
+import com.google.common.collect.Collections2;
 
 import fr.jerep6.ogi.enumeration.EnumDocumentType;
 import fr.jerep6.ogi.exception.business.FileAlreadyExist;
@@ -31,15 +36,19 @@ import fr.jerep6.ogi.persistance.bo.Document;
 import fr.jerep6.ogi.persistance.dao.DaoDocument;
 import fr.jerep6.ogi.service.ServiceDocument;
 import fr.jerep6.ogi.transfert.FileUpload;
+import fr.jerep6.ogi.transfert.mapping.OrikaMapperService;
 import fr.jerep6.ogi.utils.DocumentUtils;
 
 @Service("serviceDocument")
 @Transactional(propagation = Propagation.REQUIRED)
 public class ServiceDocumentImpl extends AbstractTransactionalService<Document, Integer> implements ServiceDocument {
-	private final Logger	LOGGER	= LoggerFactory.getLogger(ServiceDocumentImpl.class);
+	private final Logger		LOGGER	= LoggerFactory.getLogger(ServiceDocumentImpl.class);
 
 	@Autowired
-	private DaoDocument		daoDocument;
+	private DaoDocument			daoDocument;
+
+	@Autowired
+	private OrikaMapperService	mapper;
 
 	@Override
 	public Set<Document> copyTempToDirectory(Collection<Document> documents, String reference) {
@@ -65,7 +74,7 @@ public class ServiceDocumentImpl extends AbstractTransactionalService<Document, 
 		for (Document aDoc : documents) {
 			Path relativeDocPath = Paths.get(aDoc.getPath());
 			// If document is in temp folder => move it into property document
-			if (relativeDocPath.startsWith(DocumentUtils.DIR_TMP)) {
+			if (aDoc.isTemp()) {
 				Path absoluteDestinationFile = root.resolve(Paths.get(DocumentUtils.getDirectoryName(aDoc.getType()),
 						relativeDocPath.getFileName().toString()));
 
@@ -141,11 +150,15 @@ public class ServiceDocumentImpl extends AbstractTransactionalService<Document, 
 
 		for (Document aDoc : documents) {
 			try {
-				Files.delete(aDoc.getAbsolutePath());
+				try {
+					Files.delete(aDoc.getAbsolutePath());
+				} catch (NoSuchFileException nsfe) {}
+				remove(aDoc);
 				documentOK.add(aDoc);
 			} catch (IOException ioe) {
 				LOGGER.error("Error deleting" + aDoc.getAbsolutePath(), ioe);
 			}
+
 		}
 
 		return documentOK;
@@ -156,6 +169,53 @@ public class ServiceDocumentImpl extends AbstractTransactionalService<Document, 
 	protected void init() {
 		super.setDao(daoDocument);
 
+	}
+
+	@Override
+	public Set<Document> merge(String prpReference, Set<Document> documentsBD, Set<Document> documentsModif) {
+		// Extract temps documents
+		Collection<Document> tmpDoc = Collections2.filter(documentsModif, new Predicate<Document>() {
+			@Override
+			public boolean apply(Document d) {
+				return d.isTemp();
+			}
+		});
+
+		// Extract existing documents
+		Collection<Document> nonTmpDoc = Collections2.filter(documentsModif, new Predicate<Document>() {
+			@Override
+			public boolean apply(Document d) {
+				return !d.isTemp();
+			}
+		});
+
+		// Delete old documents. Old document is a doc which is in database but not in json feed
+		Set<Document> documentToRemove = new HashSet<>(documentsBD);
+		documentToRemove.removeAll(nonTmpDoc); // keep json documents
+		documentToRemove = deleteDocuments(documentToRemove);
+
+		// Keep documents to reuse it (avoid insert)
+		List<Document> documentsBDBackup = new ArrayList<>(documentsBD);
+
+		// Modify existing document with data from JSON
+		documentsBD.clear();
+		for (Document aDoc : nonTmpDoc) {
+			Document d = aDoc;
+
+			int indexDesc = documentsBDBackup.indexOf(d);
+			if (indexDesc != -1) {
+				// Get existant document to avoid sql insert
+				d = documentsBDBackup.get(indexDesc);
+				mapper.map(aDoc, d);
+			}
+			documentsBD.add(d);
+		}
+
+		// Copy new documents into prp folder
+		Set<Document> documentsSuccess = copyTempToDirectory(tmpDoc, prpReference);
+		documentsBD.addAll(documentsSuccess);
+
+		return documentsBD;
 	}
 
 }

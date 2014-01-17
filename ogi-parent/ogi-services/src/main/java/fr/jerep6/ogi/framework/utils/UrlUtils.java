@@ -80,6 +80,12 @@ public final class UrlUtils {
 		return url;
 	}
 
+	/**
+	 * Delete all query param from URL. Query param are located after ?
+	 * 
+	 * @param urlWithParam
+	 * @return
+	 */
 	public static String deleteQueryParams(String urlWithParam) {
 		String u = "";
 		if (!Strings.isNullOrEmpty(urlWithParam)) {

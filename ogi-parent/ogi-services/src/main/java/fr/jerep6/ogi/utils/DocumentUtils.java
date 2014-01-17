@@ -61,7 +61,7 @@ public class DocumentUtils {
 			size = "?size=" + dimension.getName();
 		}
 		StringBuilder sb = new StringBuilder();
-		sb.append(urlBaseDocuments).append("/");
+		sb.append(urlBaseDocuments);
 		sb.append(documentStorageDir.relativize(absolutePath).toString().replace("\\", "/"));
 		sb.append(size);
 		return sb.toString();

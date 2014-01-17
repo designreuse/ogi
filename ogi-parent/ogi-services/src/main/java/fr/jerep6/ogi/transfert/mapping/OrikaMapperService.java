@@ -31,7 +31,8 @@ public class OrikaMapperService extends ConfigurableMapper {
 	 */
 	@PostConstruct
 	private void postConstruct() {
-		factory.classMap(Document.class, Document.class).exclude("techid").exclude("property").byDefault().register();
+		factory.classMap(Document.class, Document.class).exclude("techid").exclude("property").exclude("absolutePath")
+				.byDefault().register();
 		factory.classMap(Address.class, Address.class).exclude("techid").byDefault().register();
 		factory.classMap(Owner.class, Owner.class).exclude("techid").byDefault().register();
 		factory.classMap(Sale.class, Sale.class).exclude("techid").byDefault().register();

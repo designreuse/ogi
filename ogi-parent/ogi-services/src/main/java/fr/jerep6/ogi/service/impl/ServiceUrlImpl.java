@@ -29,7 +29,7 @@ public class ServiceUrlImpl extends AbstractService implements ServiceUrl {
 		Preconditions.checkArgument(!Strings.isNullOrEmpty(p));
 
 		StringBuilder sb = new StringBuilder();
-		sb.append(urlBasePhoto).append("/");
+		sb.append(urlBasePhoto);
 		sb.append(MyUrlUtils.replace(p.toString()));
 		return sb.toString();
 	}

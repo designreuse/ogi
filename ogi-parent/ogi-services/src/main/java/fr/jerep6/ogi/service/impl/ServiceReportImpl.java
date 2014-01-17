@@ -41,6 +41,9 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 	@Value("${jasper.directory.root}")
 	private String			jasperRootDirectory;
 
+	@Value("${document.storage.dir}")
+	private String			jasperDocumentDirectory;
+
 	private ByteArrayOutputStream generate(JasperPrint print, String format) throws JRException {
 		Preconditions.checkArgument(!Strings.isNullOrEmpty(format));
 
@@ -72,6 +75,7 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("ROOT_DIR", jasperRootDirectory);
+			parameters.put("DOC_DIR", jasperDocumentDirectory);
 			parameters.put("reference", prpReference);
 
 			JasperPrint print = JasperFillManager.fillReport(report, parameters, dataSource.getConnection());

@@ -48,4 +48,6 @@ public interface ServiceDocument extends TransactionalService<Document, Integer>
 	 */
 	Set<Document> deleteDocuments(Collection<Document> documents);
 
+	Set<Document> merge(String prpReference, Set<Document> documentsBD, Set<Document> documentsModif);
+
 }
