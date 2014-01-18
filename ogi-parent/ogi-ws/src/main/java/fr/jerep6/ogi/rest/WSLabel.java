@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import fr.jerep6.ogi.enumeration.EnumLabelType;
+import fr.jerep6.ogi.exception.business.EntityAlreadyExist;
 import fr.jerep6.ogi.persistance.bo.Label;
 import fr.jerep6.ogi.service.ServiceLabel;
 import fr.jerep6.ogi.transfert.bean.LabelTo;
@@ -35,8 +36,14 @@ public class WSLabel extends AbstractJaxRsWS {
 	@Consumes(APPLICATION_JSON_UTF8)
 	@Produces(APPLICATION_JSON_UTF8)
 	public LabelTo labelAdd(LabelTo label) {
+		Label l = null;
 		Label bo = mapper.map(label, Label.class);
-		Label l = serviceLabel.add(bo);
+		try {
+			l = serviceLabel.add(bo);
+		} catch (EntityAlreadyExist eae) {
+			l = serviceLabel.read(bo.getType(), bo.getLabel());
+		}
+
 		return mapper.map(l, LabelTo.class);
 	}
 

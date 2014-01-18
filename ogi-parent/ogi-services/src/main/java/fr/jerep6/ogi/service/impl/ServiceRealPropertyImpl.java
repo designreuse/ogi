@@ -1,7 +1,5 @@
 package fr.jerep6.ogi.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -15,9 +13,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Preconditions;
-import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
-import com.google.common.collect.Collections2;
 
 import fr.jerep6.ogi.exception.business.RealPropertyNotFoundBusinessException;
 import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
@@ -171,42 +167,13 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 		 * }
 		 */
 
-		// ###### Description ######
-		// If label is empty => ignore it
-		// New descriptions
-		Collection<Description> descriptionsNew = Collections2.filter(propertyFromJson.getDescriptions(),
-				new Predicate<Description>() {
-					@Override
-					public boolean apply(Description p) {
-						return !Strings.isNullOrEmpty(p.getLabel()) && p.getType() != null;
-					}
-				});
-
-		// Keep description to reuse it (avoid insert)
-		List<Description> descriptionsBDBackup = new ArrayList<>(prp.getDescriptions());
-
-		// descriptions in database
-		Collection<Description> descriptionsPresents = prp.getDescriptions();
-		descriptionsPresents.clear();
-
-		// Add descriptions to manage object
-		for (Description aDescription : descriptionsNew) {
-			Description d = aDescription;
-
-			int indexDesc = descriptionsBDBackup.indexOf(d);
-			if (indexDesc != -1) {
-				// Get existant description to avoid sql insert
-				d = descriptionsBDBackup.get(indexDesc);
-				mapper.map(aDescription, d);
-			} else {
-				d.setProperty(prp);
-			}
-			descriptionsPresents.add(d);
+		// ###### Descriptions ######
+		Set<Description> descriptions = serviceDescription.merge(prp.getDescriptions(),
+				propertyFromJson.getDescriptions());
+		for (Description description : descriptions) {
+			description.setProperty(prp);
 		}
-
-		// Delete descriptions
-		descriptionsBDBackup.removeAll(new ArrayList<>(descriptionsNew));
-		serviceDescription.remove(descriptionsBDBackup);
+		prp.setDescriptions(descriptions);
 
 		// ###### SPECIFIC ######
 		if (propertyFromJson instanceof RealPropertyBuilt) {

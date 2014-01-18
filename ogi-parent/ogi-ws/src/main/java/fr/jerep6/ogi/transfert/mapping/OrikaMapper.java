@@ -27,6 +27,7 @@ import fr.jerep6.ogi.persistance.bo.Owner;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyDiagnosis;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
+import fr.jerep6.ogi.persistance.bo.RealPropertyPlot;
 import fr.jerep6.ogi.persistance.bo.Room;
 import fr.jerep6.ogi.persistance.bo.Sale;
 import fr.jerep6.ogi.persistance.bo.State;
@@ -42,6 +43,7 @@ import fr.jerep6.ogi.transfert.bean.OwnerTo;
 import fr.jerep6.ogi.transfert.bean.RealPropertyDiagnosisTo;
 import fr.jerep6.ogi.transfert.bean.RealPropertyLinkTo;
 import fr.jerep6.ogi.transfert.bean.RealPropertyLivableTo;
+import fr.jerep6.ogi.transfert.bean.RealPropertyPlotTo;
 import fr.jerep6.ogi.transfert.bean.RealPropertyTo;
 import fr.jerep6.ogi.transfert.bean.RoomTo;
 import fr.jerep6.ogi.transfert.bean.SaleTo;
@@ -198,6 +200,12 @@ public class OrikaMapper extends ConfigurableMapper {
 				.exclude("descriptions")//
 				.exclude("type")// Need to exclude type because "byDefault" override parent behaviour
 				.byDefault()//
+				.register();
+
+		factory.classMap(RealPropertyPlot.class, RealPropertyPlotTo.class) //
+				.use(RealProperty.class, RealPropertyTo.class) //
+				.exclude("descriptions")//
+				.exclude("type").byDefault()//
 				.register();
 	}
 }
