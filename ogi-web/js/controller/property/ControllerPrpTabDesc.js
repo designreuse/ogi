@@ -84,7 +84,7 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
         if(vSaveData != null && vSaveData.label == "Autre") {
             fOpenModal();
         }
-        else if(!$scope.utils.isUndefinedOrNull( $scope.saveData.roof)) {
+        else if(!$scope.utils.isUndefinedOrNull( $scope.saveData[vPrp])) {
             $scope.prp[vPrp] = vSaveData.label;
         }
     }
@@ -118,17 +118,18 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
     };
 
     // ##### MODAL LABEL #####
-    $scope.openModalRoof = function () { openLabelOther("ROOF", { title:"Ajouter une toiture", placeholder:"Entrer une toiture" }, "roof"); }
-    $scope.openModalWall = function () { openLabelOther("WALL", { title:"Ajouter un mur", placeholder:"Entrer un type de mur" }, "wall"); }
-    $scope.openModalInsulation = function () { openLabelOther("INSULATION", { title:"Ajouter une isolation", placeholder:"Entrer un type d'isolation" }, "insulation"); }
-    $scope.openModalParking = function () { openLabelOther("PARKING", { title:"Ajouter un stationnement", placeholder:"Entrer un type de stationnement" }, "parking"); }
+    $scope.openModalRoof = function () { openLabelOther("ROOF", { title:"Ajouter une toiture", placeholder:"Entrer une toiture" }, "roofs", "roof"); }
+    $scope.openModalWall = function () { openLabelOther("WALL", { title:"Ajouter un mur", placeholder:"Entrer un type de mur" }, "walls", "wall"); }
+    $scope.openModalInsulation = function () { openLabelOther("INSULATION", { title:"Ajouter une isolation", placeholder:"Entrer un type d'isolation" }, "insulations", "insulation"); }
+    $scope.openModalParking = function () { openLabelOther("PARKING", { title:"Ajouter un stationnement", placeholder:"Entrer un type de stationnement" }, "parkings", "parking"); }
     /**
      * Open model to add a label
      * @param labelType type of label
      * @param labels labels to display on layer
-     * @param vScopeName name of variable into scope save data and real property representing the label
+     * @param vScopeName name of array variable into scope (generally ending with "s")
+     * @param vPrpName name of variable into scope save data and real property representing the label
      */
-    function openLabelOther(labelType, labels, vScopeName) {
+    function openLabelOther(labelType, labels, vScopeName, vPrpName) {
         var modalInstance = $modal.open({
             templateUrl: 'modalAddType.html',
             controller: ModalLabelInstanceCtrl,
@@ -145,10 +146,10 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
         modalInstance.result.then(function (param) {
             $log.debug('Modal closed');
             $scope[vScopeName].push(param);
-            $scope.saveData[vScopeName] = param;
+            $scope.saveData[vPrpName] = param;
         }, function () {
             $log.debug('Modal dismissed');
-            $scope.saveData[vScopeName] = null;
+            $scope.saveData[vPrpName] = null;
         });
     }
 }
@@ -162,9 +163,6 @@ var ModalInstanceCtrl = function ($scope, $modalInstance, ServiceConfiguration, 
 
         $http.put(ServiceConfiguration.API_URL+"/rest/category/"+currentElt+"/types/"+label).success(function (data) {
             $modalInstance.close(label);
-        })
-        .error(function(data) {
-            console.log("ERROR"+data);
         });
     };
 };
@@ -181,9 +179,7 @@ var ModalLabelInstanceCtrl = function ($scope, $modalInstance, ServiceConfigurat
         }
 
         $http.post(ServiceConfiguration.API_URL+"/rest/label/", label).success(function (data) {
-            $modalInstance.close(label);
-        }).error(function(data) {
-            console.log("ERROR"+data);
+            $modalInstance.close(data);
         });
     };
 };
