@@ -11,8 +11,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,7 +39,7 @@ public class WSRealProperty extends AbstractJaxRsWS {
 		// Map into business object. Fulfill only business field. I.E technical field will be retrieve on database
 		// before record. I should have proceed with a another dto but afterwards
 		RealProperty property = mapper.map(rp, RealProperty.class);
-		property = serviceRealProperty.createOrUpdateFromBusinessFields(property);
+		// property = serviceRealProperty.createOrUpdateFromBusinessFields(property);
 
 		// return mapper.map(property, RealPropertyTo.class);
 		return rp;
@@ -51,11 +49,6 @@ public class WSRealProperty extends AbstractJaxRsWS {
 	@Produces(APPLICATION_JSON_UTF8)
 	public void delete(@QueryParam("ref") List<String> reference) {
 		Preconditions.checkNotNull(reference);
-		System.out.println(reference);
-
-		if ("ref1".equals(reference.get(0))) {
-			throw new WebApplicationException(Response.Status.PRECONDITION_FAILED);
-		}
 
 		// serviceRealProperty.delete(reference);
 	}
