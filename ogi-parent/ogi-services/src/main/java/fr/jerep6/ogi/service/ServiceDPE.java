@@ -8,6 +8,8 @@ import fr.jerep6.ogi.persistance.bo.DPE;
 
 public interface ServiceDPE extends TransactionalService<DPE, Integer> {
 
-	BufferedImage generateDPEkWhImage(DPE d, Integer width) throws TechnicalException;
+	BufferedImage generateDPEkWhImage(Integer dpe, Integer width) throws TechnicalException;
+
+	BufferedImage generateDPEGesImage(Integer dpe, Integer width) throws TechnicalException;
 
 }

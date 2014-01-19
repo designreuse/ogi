@@ -5,7 +5,9 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
@@ -31,61 +33,109 @@ import fr.jerep6.ogi.service.ServiceDPE;
 @Service("serviceDPE")
 @Transactional(propagation = Propagation.REQUIRED)
 public class ServiceDPEImpl extends AbstractTransactionalService<DPE, Integer> implements ServiceDPE {
-	private final Logger			LOGGER		= LoggerFactory.getLogger(ServiceDPEImpl.class);
-	private static final int		DPE_MAX		= 500;
+	private final Logger			LOGGER			= LoggerFactory.getLogger(ServiceDPEImpl.class);
+	private static final int		DPE_KWH_MAX		= 500;
+	private static final int		DPE_GES_MAX		= 90;
 
-	private static List<DPEStep>	DPE_STEPS	= Arrays.asList(new DPEStep(1, 0, 50),//
-														new DPEStep(2, 51, 39),//
-														new DPEStep(3, 91, 59),//
-														new DPEStep(4, 151, 79),//
-														new DPEStep(5, 231, 99),//
-														new DPEStep(6, 331, 119),//
-														new DPEStep(7, 451, 100));
+	private static List<DPEStep>	DPE_KWH_STEPS	= Arrays.asList(new DPEStep(1, 0, 50),//
+															new DPEStep(2, 51, 39),//
+															new DPEStep(3, 91, 59),//
+															new DPEStep(4, 151, 79),//
+															new DPEStep(5, 231, 99),//
+															new DPEStep(6, 331, 119),//
+															new DPEStep(7, 451, 100));
+	private static List<DPEStep>	DPE_GES_STEPS	= Arrays.asList(new DPEStep(1, 0, 5),//
+															new DPEStep(2, 6, 4),//
+															new DPEStep(3, 11, 9),//
+															new DPEStep(4, 21, 14),//
+															new DPEStep(5, 36, 19),//
+															new DPEStep(6, 56, 24),//
+															new DPEStep(7, 81, 20));
 
 	@Autowired
 	private DaoDPE					daoDpe;
 
 	@Override
-	public BufferedImage generateDPEkWhImage(DPE d, Integer width) throws TechnicalException {
-		Integer w = Objects.firstNonNull(width, 250);
+	public BufferedImage generateDPEGesImage(Integer dpe, Integer width) throws TechnicalException {
+		// If width not provided => 260px
+		Integer w = Objects.firstNonNull(width, 500);
+
 		try {
 			// Init according to images templates
-			Integer pxStep = 63;
-			Integer pxStepGap = 8;
+			Map<String, Integer> conf = new HashMap<String, Integer>();
+			Integer pxStepGap = 6;
+			conf.put("pxStep", 62); // Taille en px d'un step de DPE (A, B, ...)
+			conf.put("pxStepGap", pxStepGap);
+			conf.put("pxMin", 35 - pxStepGap);
+			conf.put("pxMiddleArrow", 31); // nbre de px à partir du haut de l'image ou se trouve le milieu de la flèche
+			conf.put("widthPasteArrow", 383);
+			conf.put("pxTxtWidth", 65);
+			conf.put("pxTxtHeight", 42);
+			conf.put("txtFontSize", 30);
 
-			Integer pxMin = 49 - pxStepGap;
-			Integer pxMiddleArrow = 32; // nbre de px à partir du haut de l'image ou se trouve le milieu de la flèche
-										// (dpe_value.png)
-
-			Integer dpe = d.getKWh();
-
-			DPEStep currentStep = DPE_STEPS.get(0);
-			for (DPEStep aStep : DPE_STEPS) {
-				if (dpe >= aStep.getMin()) {
-					currentStep = aStep;
+			DPEStep step;
+			String sDpe;
+			if (dpe != null) {
+				// Search dpe step
+				sDpe = dpe.toString();
+				step = DPE_GES_STEPS.get(0);
+				for (DPEStep aStep : DPE_GES_STEPS) {
+					if (dpe >= aStep.getMin()) {
+						step = aStep;
+					}
 				}
+			} else { // No dpe given => arrow in middle width no text
+				step = DPE_GES_STEPS.get(3);
+				dpe = 35;
+				sDpe = "";
 			}
 
-			BufferedImage dpeTemplate = ImageIO.read(new ClassPathResource("img/dpe_template.png").getInputStream());
-			BufferedImage dpeValue = ImageIO.read(new ClassPathResource("img/dpe_value.png").getInputStream());
+			return writeDpeImg(step, sDpe, dpe, DPE_GES_MAX, "img/dpe-ges_template.png", "img/dpe-ges_value.png", conf,
+					w);
 
-			Integer pxBoundMin = pxMin + (currentStep.getNum() - 1) * pxStep + currentStep.getNum() * pxStepGap;
-			Integer pxDpe = pxBoundMin + ((dpe > DPE_MAX ? DPE_MAX : dpe) - currentStep.getMin()) * pxStep
-					/ currentStep.getPlage() - pxMiddleArrow;
+		} catch (IOException ioe) {
+			throw new TechnicalException();
+		}
+	}
 
-			Graphics graphicsDpeValue = dpeValue.getGraphics();
-			graphicsDpeValue.setFont(new Font("TimesRoman", Font.PLAIN, 30));
-			graphicsDpeValue.drawString(dpe.toString(), 50, 42);
+	@Override
+	public BufferedImage generateDPEkWhImage(Integer dpe, Integer width) throws TechnicalException {
+		// If width not provided => 250px
+		Integer w = Objects.firstNonNull(width, 250);
 
-			BufferedImage combined = new BufferedImage(dpeTemplate.getWidth(), dpeTemplate.getHeight(),
-					BufferedImage.TYPE_INT_ARGB);
+		try {
+			// Init according to images templates
+			Map<String, Integer> conf = new HashMap<String, Integer>();
+			Integer pxStepGap = 3;
+			conf.put("pxStep", 47); // Taille en px d'un step de DPE (A, B, ...)
+			conf.put("pxStepGap", pxStepGap);
+			conf.put("pxMin", 31 - pxStepGap);
+			conf.put("pxMiddleArrow", 23); // nbre de px à partir du haut de l'image ou se trouve le milieu de la
+											// flèche
+			conf.put("widthPasteArrow", 305);
+			conf.put("pxTxtWidth", 40);
+			conf.put("pxTxtHeight", 33);
+			conf.put("txtFontSize", 25);
 
-			Graphics g = combined.getGraphics();
-			g.drawImage(dpeTemplate, 0, 0, null);
-			g.drawImage(dpeValue, 520, pxDpe, null);
+			DPEStep step;
+			String sDpe;
+			if (dpe != null) {
+				// Search dpe step
+				sDpe = dpe.toString();
+				step = DPE_KWH_STEPS.get(0);
+				for (DPEStep aStep : DPE_KWH_STEPS) {
+					if (dpe >= aStep.getMin()) {
+						step = aStep;
+					}
+				}
+			} else { // No dpe given => arrow in middle width no text
+				step = DPE_KWH_STEPS.get(3);
+				dpe = 230;
+				sDpe = "";
+			}
 
-			combined = Scalr.resize(combined, w);
-			return combined;
+			return writeDpeImg(step, sDpe, dpe, DPE_KWH_MAX, "img/dpe-kwh_template.png", "img/dpe-kwh_value.png", conf,
+					w);
 
 		} catch (IOException ioe) {
 			throw new TechnicalException();
@@ -96,6 +146,58 @@ public class ServiceDPEImpl extends AbstractTransactionalService<DPE, Integer> i
 	@PostConstruct
 	protected void init() {
 		super.setDao(daoDpe);
+	}
+
+	/**
+	 * 
+	 * @param step
+	 *            step du DPE (A, B, C ...)
+	 * @param sDpe
+	 *            texte à afficher dans la flèche noire
+	 * @param dpe
+	 *            valeur du dpe pour faire les calculs de positionnement
+	 * @param pathTemplate
+	 *            chemin de l'image template du dpe
+	 * @param pathValue
+	 *            chemin de l'image contenant la flèche noire du dpe
+	 * @param width
+	 *            taille de l'image à générer
+	 * @param conf
+	 *            Map conportant obligatoirement les paramètres suivants :
+	 *            pxMin : hauteur dans l'image (px) ayant la valeur 0 du dpe
+	 *            pxStep : hauteur d'un step en px
+	 *            pxStepGap : hauteur entre deux strep en px
+	 *            pxMiddleArrow : hauteur d'un step en px
+	 *            pxStep : hauteur dans l'image du milieu de ma flèche
+	 *            pxTxtWidth : nbre de pixel à partir duquel écrire la valeur du DPE (horizontal) dans la flèche
+	 *            pxTxtHeight : nbre de pixel à partir duquel écrire la valeur du DPE (vertical) dans la flèche
+	 *            txtFontSize : taille de la police d'écriture dans la flèche
+	 * @return
+	 * @throws IOException
+	 */
+	private BufferedImage writeDpeImg(DPEStep step, String sDpe, Integer dpe, Integer dpeMax, String pathTemplate,
+			String pathValue, Map<String, Integer> conf, Integer width) throws IOException {
+		BufferedImage dpeTemplate = ImageIO.read(new ClassPathResource(pathTemplate).getInputStream());
+		BufferedImage dpeValue = ImageIO.read(new ClassPathResource(pathValue).getInputStream());
+
+		Integer pxBoundMin = conf.get("pxMin") + (step.getNum() - 1) * conf.get("pxStep") + step.getNum()
+				* conf.get("pxStepGap");
+		Integer pxDpe = pxBoundMin + ((dpe > dpeMax ? dpeMax : dpe) - step.getMin()) * conf.get("pxStep")
+				/ step.getPlage() - conf.get("pxMiddleArrow");
+
+		Graphics graphicsDpeValue = dpeValue.getGraphics();
+		graphicsDpeValue.setFont(new Font("TimesRoman", Font.PLAIN, conf.get("txtFontSize")));
+		graphicsDpeValue.drawString(sDpe, conf.get("pxTxtWidth"), conf.get("pxTxtHeight"));
+
+		BufferedImage combined = new BufferedImage(dpeTemplate.getWidth(), dpeTemplate.getHeight(),
+				BufferedImage.TYPE_INT_ARGB);
+
+		Graphics g = combined.getGraphics();
+		g.drawImage(dpeTemplate, 0, 0, null);
+		g.drawImage(dpeValue, conf.get("widthPasteArrow"), pxDpe, null);
+
+		combined = Scalr.resize(combined, width);
+		return combined;
 	}
 
 }

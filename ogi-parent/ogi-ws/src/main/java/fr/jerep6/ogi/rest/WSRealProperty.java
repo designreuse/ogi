@@ -39,7 +39,7 @@ public class WSRealProperty extends AbstractJaxRsWS {
 		// Map into business object. Fulfill only business field. I.E technical field will be retrieve on database
 		// before record. I should have proceed with a another dto but afterwards
 		RealProperty property = mapper.map(rp, RealProperty.class);
-		// property = serviceRealProperty.createOrUpdateFromBusinessFields(property);
+		property = serviceRealProperty.createOrUpdateFromBusinessFields(property);
 
 		// return mapper.map(property, RealPropertyTo.class);
 		return rp;

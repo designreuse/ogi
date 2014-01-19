@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
@@ -13,7 +12,6 @@ import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import fr.jerep6.ogi.persistance.bo.DPE;
 import fr.jerep6.ogi.service.ServiceDPE;
 import fr.jerep6.ogi.service.ServiceRealProperty;
 import fr.jerep6.ogi.transfert.mapping.OrikaMapper;
@@ -34,23 +32,23 @@ public class WSDPE extends AbstractJaxRsWS {
 	@Autowired
 	private OrikaMapper			mapper;
 
-	/**
-	 * @param code
-	 *            category code
-	 * @return
-	 * @throws IOException
-	 */
 	@GET
-	@Path("/kwh/{ref}")
+	@Path("/ges")
 	@Produces("image/png")
-	public Response readbyCode(@PathParam("ref") String prpReference, @QueryParam("witdh") Integer width)
+	public Response generateImgGes(@QueryParam("dpe") Integer dpeValue, @QueryParam("width") Integer width)
 			throws IOException {
-		serviceRealProperty.readByReference(prpReference);
 
-		DPE d = new DPE();
-		d.setKWh(267);
-		BufferedImage generateDPEkWhImage = serviceDPE.generateDPEkWhImage(d, width);
+		BufferedImage generateDPEGesImage = serviceDPE.generateDPEGesImage(dpeValue, width);
+		return Response.ok(toByte(generateDPEGesImage, "png")).build();
+	}
 
+	@GET
+	@Path("/kwh")
+	@Produces("image/png")
+	public Response generateImgKwh(@QueryParam("dpe") Integer dpeValue, @QueryParam("width") Integer width)
+			throws IOException {
+
+		BufferedImage generateDPEkWhImage = serviceDPE.generateDPEkWhImage(dpeValue, width);
 		return Response.ok(toByte(generateDPEkWhImage, "png")).build();
 	}
 

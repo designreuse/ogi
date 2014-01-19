@@ -20,6 +20,7 @@ import fr.jerep6.ogi.framework.utils.ExceptionUtils;
 import fr.jerep6.ogi.framework.utils.UrlUtils;
 import fr.jerep6.ogi.persistance.bo.Address;
 import fr.jerep6.ogi.persistance.bo.Category;
+import fr.jerep6.ogi.persistance.bo.DPE;
 import fr.jerep6.ogi.persistance.bo.Description;
 import fr.jerep6.ogi.persistance.bo.Document;
 import fr.jerep6.ogi.persistance.bo.Label;
@@ -35,6 +36,7 @@ import fr.jerep6.ogi.service.ServiceUrl;
 import fr.jerep6.ogi.transfert.FileUpload;
 import fr.jerep6.ogi.transfert.bean.AddressTo;
 import fr.jerep6.ogi.transfert.bean.CategoryTo;
+import fr.jerep6.ogi.transfert.bean.DPETo;
 import fr.jerep6.ogi.transfert.bean.DescriptionTo;
 import fr.jerep6.ogi.transfert.bean.DocumentTo;
 import fr.jerep6.ogi.transfert.bean.FileUploadTo;
@@ -69,9 +71,7 @@ public class OrikaMapper extends ConfigurableMapper {
 		this.factory = factory;
 	}
 
-	/**
-	 * Mapping for exception
-	 */
+	/** Mapping for exception */
 	private void exceptionMapping() {
 		factory.classMap(BusinessException.class, ErrorTo.class)//
 				.customize(new CustomMapper<BusinessException, ErrorTo>() {
@@ -153,6 +153,7 @@ public class OrikaMapper extends ConfigurableMapper {
 		factory.classMap(Label.class, LabelTo.class).byDefault().register();
 		factory.classMap(State.class, StateTo.class).byDefault().register();
 		factory.classMap(Owner.class, OwnerTo.class).byDefault().register();
+		factory.classMap(DPE.class, DPETo.class).byDefault().register();
 		factory.classMap(RealProperty.class, RealPropertyLinkTo.class)//
 				.customize(new CustomMapper<RealProperty, RealPropertyLinkTo>() {
 					@Override
