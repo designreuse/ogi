@@ -1,0 +1,26 @@
+<div ng-controller="ControllerPrpTabDiagnosis">
+    <fieldset>
+        <legend>DPE</legend>
+        <div class="row">
+            <div class="form-group col-xs-4">
+                <label>KwH</label>
+                <div class="input-group">
+                    <input class="form-control" type="number" ng-model="prp.dpe.kwh" />
+                    <span class="input-group-addon">{{prp.dpe.classificationKWh}}</span>
+                </div>
+                <label>Ges</label>
+                <div class="input-group">
+                    <input class="form-control" type="number" ng-model="prp.dpe.ges" />
+                    <span class="input-group-addon">{{prp.dpe.classificationGes}}</span>
+                </div>
+            </div>
+
+            <div class="form-group col-xs-4">
+                <img ng-if="prp.dpe.kwh" ng-src="http://localhost:8080/ogi-ws/rest/dpe/kwh?dpe={{prp.dpe.kwh}}" />
+            </div>
+
+            <div class="form-group col-xs-4">
+            </div>
+        </div>
+    </fieldset>
+</div>

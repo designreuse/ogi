@@ -22,6 +22,13 @@ var description = {
     WEBSITE_AUTRE : {"type": "WEBSITE_AUTRE", "label": ""}
 };
 
+var dpe = {
+    "kwh" : null,
+    "classificationKWh" : null,
+    "ges" : null,
+    "classificationGes" : null
+};
+
 
 
 function PropertyJS(prpFromAPI) {
@@ -29,6 +36,9 @@ function PropertyJS(prpFromAPI) {
     for(var key in prpFromAPI){
         this[key] = prpFromAPI[key];
     }
+
+    this.dpe = Object.create(dpe);
+    angular.extend(this.dpe, prpFromAPI.dpe);
 
     this.descriptions = Object.create(description);
     if(!utilsObject.isUndefinedOrNull(prpFromAPI.descriptions)) {
