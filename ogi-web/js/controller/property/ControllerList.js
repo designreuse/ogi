@@ -1,27 +1,26 @@
-function ControllerList($scope, $http, Page, ServiceObjectChecked, ServiceAlert, ServiceConfiguration, $modal, $log) {
+function ControllerList($scope, $http, Page, ServiceObjectChecked, ServiceAlert, ServiceConfiguration, $modal, $log, $dialogs) {
     Page.setTitle("Liste des biens");
+
+    $scope.confirmDeletion = function(index) {
+        $dialogs.confirm('Confirmation','Voulez-vous supprimer le bien ?')
+            .result.then(function(btn){
+                $http.delete(ServiceConfiguration.API_URL+"/rest/property/",
+                    {"params": {
+                        "ref": $scope.properties[index].reference
+                    }
+                    }).success(function (data) {
+                        ServiceAlert.addSuccess("Le bien a été supprimé avec succès");
+                        $scope.properties.splice(index, 1);
+                    });
+            });
+    }
+
 
     $scope.properties = [];
     $http.get(ServiceConfiguration.API_URL+"/rest/property/").success(function (data) {
         $scope.properties = ServiceObjectChecked.addChecked(data, false);
     });
 
-
-    $scope.type = function (property) {
-        return property.category.code;
-    }
-    $scope.delete = function (e) {
-        $http.delete(ServiceConfiguration.API_URL+"/rest/property/",
-            {"params": {
-                "ref": $scope.properties[e].reference
-            }
-            }).success(function (data) {
-                ServiceAlert.addSuccess("Les biens ont étés supprimés avec succès");
-            }).
-            error(function(data, status, headers, config) {
-                ServiceAlert.addError("Une erreur est survenue "+data.exception);
-            });
-    }
 
     /**
      * Return selected properties

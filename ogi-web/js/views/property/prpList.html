@@ -35,11 +35,12 @@
                     <td data-title="'reference'" sortable="reference">{{prp.reference}}</td>
                     <td>{{prp.category.label}}</td>
                     <td>{{prp.address.city}}</td>
-                    <td>{{prp.sale.price}} €</td>
+                    <td>{{prp.sale.price | currency}}</td>
                     <td>
-                        <span ng-switch on="type(prp)">
-                            <span ng-switch-when="HSE">{{prp.area}} m²</span>
-                            <span ng-switch-when="PLT">{{prp.landArea}} m²</span>
+                        <span ng-switch on="prp.category.code">
+                            <span ng-switch-when="HSE">{{prp.area | area}}</span>
+                            <span ng-switch-when="APT">{{prp.area | area}}</span>
+                            <span ng-switch-when="PLT">{{prp.landArea | area}}</span>
                             <span ng-switch-default></span>
                         </span>
                     </td>
@@ -47,7 +48,7 @@
                     <td style="vertical-align:middle">
                         <div class="btn-group">
                             <a type="button" class="btn btn-default" href="#/biens/modifier/{{prp.reference}}"><span class="glyphicon glyphicon-pencil"></span></a>
-                            <button type="button" class="btn btn-default" ng-click="delete($index)"><span class="glyphicon glyphicon-trash"></span></button>
+                            <button type="button" class="btn btn-default" ng-click="confirmDeletion($index)"><span class="glyphicon glyphicon-trash"></span></button>
                             <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-print"></span></button>
                         </div>
                     </td>

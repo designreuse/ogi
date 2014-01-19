@@ -5,7 +5,3 @@ function AlertCtrl($scope, ServiceAlert) {
     };
 
 }
-
-
-
-

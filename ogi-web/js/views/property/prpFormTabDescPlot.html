@@ -1,0 +1,62 @@
+<div ng-controller="ControllerPrpTabDesc">
+    <div class="row">
+        <fieldset class="col-xs-6">
+            <div class="form-group">
+                <label class="control-label">Type de bien</label>
+                <select class="form-control" ng-model="saveData.type" ng-options="t.label for t in types" ng-change="typeChange()">
+                    <option value="">--- Sélectionner un type ---</option>
+                </select>
+            </div>
+
+            <div class="form-group input-append">
+                <label class="control-label">Surface Terrain</label>
+                <div class="input-group">
+                    <input class="form-control" type="number" ng-model="prp.landArea" />
+                    <span class="input-group-addon">m²</span>
+                </div>
+            </div>
+
+            <div class="form-group input-append">
+                <label class="control-label">COS</label>
+                <div class="input-group">
+                    <input class="form-control" type="number" ng-model="prp.cos" />
+                    <span class="input-group-addon">%</span>
+                </div>
+            </div>
+
+        </fieldset>
+
+        <fieldset class="col-xs-6">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="true" ng-model="prp.housingEstate"> Lotissement
+                </label>
+            </div>
+
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="true" ng-model="prp.building"> Constructible
+                </label>
+            </div>
+        </fieldset>
+    </div>
+
+
+    <script type="text/ng-template" id="modalAddType.html">
+        <div class="modal-header">
+            <h3>{{labels.title}}</h3>
+        </div>
+        <div class="modal-body">
+            <form class="form-inline center">
+                <div class="form-group" style="width: 300px">
+                    <input class="form-control" type="text" ng-model="newType.label" placeholder="{{labels.placeholder}}"/>
+                </div>
+                <button class="btn btn-success" ng-click="ok()">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>Ajouter</span>
+                </button>
+                <button class="btn btn-danger" ng-click="$dismiss()">Annuler</button>
+            </form>
+        </div>
+    </script>
+</div>

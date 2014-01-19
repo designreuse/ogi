@@ -35,7 +35,7 @@ function ControllerPrpParent($scope, Page, $log, $http, ServiceConfiguration, Ut
             return itemActive;
         }
     };
-    $scope.addMenu.select("desc");
+    $scope.addMenu.select("prp");
 
     /**
      * Le flux json doit contenir le type du bien car en java, il y a un héritage. Il faut donc connaitre la classe
@@ -62,17 +62,6 @@ function ControllerPrpParent($scope, Page, $log, $http, ServiceConfiguration, Ut
                 ServiceAlert.addSuccess("Enregistrement du bien OK");
                 $scope.prp = new PropertyJS(data);
             });
-
-        // If owner is defined => create / modify it
-        if(!Utils.isUndefinedOrNull($scope.owner)) {
-            // Il ne faut pas envoyer une adresse vide sinon les contraintes d'intégrités ne sont pas respectées
-            $scope.owner.addresses = $scope.saveData.addressesOwner.length == 0 || $scope.saveData.addressesOwner[0].isEmpty() ? [] : $scope.saveData.addressesOwner;
-            $http.put(ServiceConfiguration.API_URL+"/rest/owner/property/"+$scope.prp.reference, [$scope.owner])
-                .success(function (data, status) {
-                    //$scope.owner = new PropertyJS(data);
-                    ServiceAlert.addSuccess("Enregistrement du propriétaire OK");
-                });
-        }
     }
 
     // Generating temp reference for property (necessary for store uploaded files)

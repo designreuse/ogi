@@ -1,4 +1,4 @@
-function ControllerPrpTabOwner($scope, Page, $injector, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log, ServiceObject) {
+function ControllerPrpTabOwner($scope, Page, $injector, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log, ServiceObject, Utils) {
     Page.setTitle("Propriétaire du bien : "+$routeParams.prpRef);
 
     $scope.owners = [];         // All owners
@@ -10,12 +10,13 @@ function ControllerPrpTabOwner($scope, Page, $injector, $routeParams, ServiceCon
         $scope.owners = data;
     });
 
-    // Read owners link to current property
-    $http.get(ServiceConfiguration.API_URL+"/rest/owner/property/"+$routeParams.prpRef)
-        .success(function (data, status, headers) {
-            $scope.ownersProperty = data;
-    });
-
+    // Read owners link to current property. Only if property reference exist
+    if(!Utils.isUndefinedOrNull($scope.prp.reference)) {
+        $http.get(ServiceConfiguration.API_URL+"/rest/owner/property/"+$scope.prp.reference)
+            .success(function (data, status, headers) {
+                $scope.ownersProperty = data;
+        });
+    }
 
     /**
      * Associate an owner with a property

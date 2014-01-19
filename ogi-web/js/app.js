@@ -10,7 +10,10 @@ var moduleConf = angular.module('ModuleConfiguration', [])//
 
 // 'ngSanitize' => for ng-bind-html
 var myApp = angular.module('myApp',
-    ['ngRoute', 'ui.bootstrap', 'ModuleConfiguration', 'ui.map', 'ui.sortable', 'blueimp.fileupload', 'ui.slider', 'ngSanitize']);
+    ['ngRoute', 'ui.bootstrap', 'ModuleConfiguration', 'ui.map',
+        'ui.sortable', 'blueimp.fileupload', 'ui.slider', 'ngSanitize',
+        'dialogs'
+    ]);
 
 // Config $http for CORS
 myApp.config(['$httpProvider', function($httpProvider) {

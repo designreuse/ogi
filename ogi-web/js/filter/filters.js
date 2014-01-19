@@ -52,3 +52,13 @@ myApp.filter('prpLink', function(Utils, ServiceUrl) {
         return s;
     };
 });
+
+/** Filter to display area. Add m² to end */
+myApp.filter('area', function(Utils) {
+    return function(area) {
+         if(!Utils.isUndefinedOrNull(area)) {
+             return area + " m²";
+         }
+        return "";
+    };
+});
