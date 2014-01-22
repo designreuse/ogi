@@ -26,7 +26,7 @@ import org.springframework.stereotype.Service;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
-import fr.jerep6.ogi.exception.technical.JasperException;
+import fr.jerep6.ogi.exception.technical.JasperTechnicalException;
 import fr.jerep6.ogi.framework.exception.TechnicalException;
 import fr.jerep6.ogi.framework.service.impl.AbstractService;
 import fr.jerep6.ogi.service.ServiceReport;
@@ -83,7 +83,7 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 			return generate(print, format);
 		} catch (Exception e) {
 			LOGGER.error("Error generating report for property " + prpReference, e);
-			throw new JasperException(e.getMessage(), e);
+			throw new JasperTechnicalException(e.getMessage(), e);
 		}
 	}
 }

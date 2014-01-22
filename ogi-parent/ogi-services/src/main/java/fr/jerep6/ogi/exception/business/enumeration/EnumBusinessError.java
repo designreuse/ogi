@@ -2,13 +2,13 @@ package fr.jerep6.ogi.exception.business.enumeration;
 
 import fr.jerep6.ogi.framework.exception.ErrorCode;
 
-public enum EnumError implements ErrorCode {
+public enum EnumBusinessError implements ErrorCode {
 	SALE_MANDAT_DATE("SAL_01", "Wrong  mandate dates");
 
 	private String	code;
 	private String	message;
 
-	EnumError(String code, String message) {
+	EnumBusinessError(String code, String message) {
 		this.code = code;
 		this.message = message;
 	}

@@ -3,7 +3,12 @@ package fr.jerep6.ogi.service.impl;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -22,43 +27,51 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 
+import fr.jerep6.ogi.exception.technical.enumeration.EnumTechnicalError;
 import fr.jerep6.ogi.framework.exception.TechnicalException;
 import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
 import fr.jerep6.ogi.obj.DPEStep;
 import fr.jerep6.ogi.persistance.bo.DPE;
 import fr.jerep6.ogi.persistance.dao.DaoDPE;
 import fr.jerep6.ogi.service.ServiceDPE;
+import fr.jerep6.ogi.utils.DocumentUtils;
 
 @Service("serviceDPE")
 @Transactional(propagation = Propagation.REQUIRED)
 public class ServiceDPEImpl extends AbstractTransactionalService<DPE, Integer> implements ServiceDPE {
-	private final Logger			LOGGER			= LoggerFactory.getLogger(ServiceDPEImpl.class);
-	private static final int		DPE_KWH_MAX		= 500;
-	private static final int		DPE_GES_MAX		= 90;
+	private final Logger			LOGGER				= LoggerFactory.getLogger(ServiceDPEImpl.class);
 
-	private static List<DPEStep>	DPE_KWH_STEPS	= Arrays.asList(new DPEStep(1, 0, 50),//
-															new DPEStep(2, 51, 39),//
-															new DPEStep(3, 91, 59),//
-															new DPEStep(4, 151, 79),//
-															new DPEStep(5, 231, 99),//
-															new DPEStep(6, 331, 119),//
-															new DPEStep(7, 451, 100));
-	private static List<DPEStep>	DPE_GES_STEPS	= Arrays.asList(new DPEStep(1, 0, 5),//
-															new DPEStep(2, 6, 4),//
-															new DPEStep(3, 11, 9),//
-															new DPEStep(4, 21, 14),//
-															new DPEStep(5, 36, 19),//
-															new DPEStep(6, 56, 24),//
-															new DPEStep(7, 81, 20));
+	/** Size of generated image if not provided */
+	private static final Integer	DEFAULT_IMG_SIZE	= 260;
+
+	private static final int		DPE_KWH_MAX			= 500;
+	private static final int		DPE_GES_MAX			= 90;
+
+	/** Configuration for kwh dpe */
+	private static List<DPEStep>	DPE_KWH_STEPS		= Arrays.asList(new DPEStep(1, 0, 50),//
+																new DPEStep(2, 51, 39),//
+																new DPEStep(3, 91, 59),//
+																new DPEStep(4, 151, 79),//
+																new DPEStep(5, 231, 99),//
+																new DPEStep(6, 331, 119),//
+																new DPEStep(7, 451, 100));
+	/** Configuration for ges dpe */
+	private static List<DPEStep>	DPE_GES_STEPS		= Arrays.asList(new DPEStep(1, 0, 5),//
+																new DPEStep(2, 6, 4),//
+																new DPEStep(3, 11, 9),//
+																new DPEStep(4, 21, 14),//
+																new DPEStep(5, 36, 19),//
+																new DPEStep(6, 56, 24),//
+																new DPEStep(7, 81, 20));
 
 	@Autowired
 	private DaoDPE					daoDpe;
 
-	@Override
-	public BufferedImage generateDPEGesImage(Integer dpe, Integer width) throws TechnicalException {
+	private BufferedImage generateDPEGesImage(Integer dpe, Integer width) throws TechnicalException {
 		// If width not provided => 260px
-		Integer w = Objects.firstNonNull(width, 500);
+		Integer w = Objects.firstNonNull(width, DEFAULT_IMG_SIZE);
 
 		try {
 			// Init according to images templates
@@ -94,14 +107,27 @@ public class ServiceDPEImpl extends AbstractTransactionalService<DPE, Integer> i
 					w);
 
 		} catch (IOException ioe) {
-			throw new TechnicalException();
+			throw new TechnicalException(EnumTechnicalError.DPE, ioe);
 		}
 	}
 
 	@Override
-	public BufferedImage generateDPEkWhImage(Integer dpe, Integer width) throws TechnicalException {
+	public void generateDPEGesImage(OutputStream output, Integer dpe, Integer width) throws TechnicalException {
+		Preconditions.checkNotNull(output);
+		BufferedImage img = generateDPEGesImage(dpe, width);
+		try {
+			ImageIO.write(img, "png", output);
+			output.flush();
+			output.close();
+		} catch (IOException ioe) {
+			throw new TechnicalException(EnumTechnicalError.DPE, ioe);
+		}
+
+	}
+
+	private BufferedImage generateDPEkWhImage(Integer dpe, Integer width) throws TechnicalException {
 		// If width not provided => 250px
-		Integer w = Objects.firstNonNull(width, 250);
+		Integer w = Objects.firstNonNull(width, DEFAULT_IMG_SIZE);
 
 		try {
 			// Init according to images templates
@@ -110,8 +136,7 @@ public class ServiceDPEImpl extends AbstractTransactionalService<DPE, Integer> i
 			conf.put("pxStep", 47); // Taille en px d'un step de DPE (A, B, ...)
 			conf.put("pxStepGap", pxStepGap);
 			conf.put("pxMin", 31 - pxStepGap);
-			conf.put("pxMiddleArrow", 23); // nbre de px à partir du haut de l'image ou se trouve le milieu de la
-											// flèche
+			conf.put("pxMiddleArrow", 23); // nbre de px à partir duquel ou se trouve le milieu de la flèche
 			conf.put("widthPasteArrow", 305);
 			conf.put("pxTxtWidth", 40);
 			conf.put("pxTxtHeight", 33);
@@ -138,14 +163,70 @@ public class ServiceDPEImpl extends AbstractTransactionalService<DPE, Integer> i
 					w);
 
 		} catch (IOException ioe) {
-			throw new TechnicalException();
+			throw new TechnicalException(EnumTechnicalError.DPE, ioe);
 		}
+	}
+
+	@Override
+	public void generateDPEkWhImage(OutputStream output, Integer dpe, Integer width) throws TechnicalException {
+		Preconditions.checkNotNull(output);
+		BufferedImage img = generateDPEkWhImage(dpe, width);
+		try {
+			ImageIO.write(img, "png", output);
+			output.flush();
+			output.close();
+		} catch (IOException ioe) {
+			throw new TechnicalException(EnumTechnicalError.DPE, ioe);
+		}
+
 	}
 
 	@Override
 	@PostConstruct
 	protected void init() {
 		super.setDao(daoDpe);
+	}
+
+	@Override
+	public void writeDPEFiles(String prpReference, DPE dpe) {
+		Preconditions.checkNotNull(prpReference);
+
+		// If no dpe => do nothing
+		if (dpe == null) {
+			return;
+		}
+
+		FileOutputStream fos;
+		// DPE : generate and save dpe image in two format : 180px and 260px
+		List<Integer> dpeSize = Arrays.asList(180, 260);
+
+		try {
+			Path dpeDirectory = DocumentUtils.getDirectory(prpReference).resolve(Paths.get("dpe"));
+			Files.createDirectories(dpeDirectory);
+
+			if (dpe.getKwh() != null) {
+				for (Integer size : dpeSize) {
+					// Compute file path
+					Path p = DocumentUtils.absolutize(dpeDirectory.resolve("kwh-" + size + ".png"));
+					fos = new FileOutputStream(p.toString());
+					generateDPEkWhImage(fos, dpe.getKwh(), size);
+
+				}
+			}
+
+			if (dpe.getGes() != null) {
+				for (Integer size : dpeSize) {
+					// Compute file path
+					Path p = DocumentUtils.absolutize(dpeDirectory.resolve("ges-" + size + ".png"));
+					fos = new FileOutputStream(p.toString());
+					generateDPEGesImage(fos, dpe.getGes(), size);
+
+				}
+			}
+
+		} catch (IOException ioe) {
+			throw new TechnicalException(EnumTechnicalError.DPE, ioe);
+		}
 	}
 
 	/**

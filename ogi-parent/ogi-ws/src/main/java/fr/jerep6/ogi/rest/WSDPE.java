@@ -1,6 +1,6 @@
 package fr.jerep6.ogi.rest;
 
-import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import javax.ws.rs.GET;
@@ -38,8 +38,9 @@ public class WSDPE extends AbstractJaxRsWS {
 	public Response generateImgGes(@QueryParam("dpe") Integer dpeValue, @QueryParam("width") Integer width)
 			throws IOException {
 
-		BufferedImage generateDPEGesImage = serviceDPE.generateDPEGesImage(dpeValue, width);
-		return Response.ok(toByte(generateDPEGesImage, "png")).build();
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		serviceDPE.generateDPEGesImage(baos, dpeValue, width);
+		return Response.ok(baos.toByteArray()).build();
 	}
 
 	@GET
@@ -48,8 +49,9 @@ public class WSDPE extends AbstractJaxRsWS {
 	public Response generateImgKwh(@QueryParam("dpe") Integer dpeValue, @QueryParam("width") Integer width)
 			throws IOException {
 
-		BufferedImage generateDPEkWhImage = serviceDPE.generateDPEkWhImage(dpeValue, width);
-		return Response.ok(toByte(generateDPEkWhImage, "png")).build();
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		serviceDPE.generateDPEkWhImage(baos, dpeValue, width);
+		return Response.ok(baos.toByteArray()).build();
 	}
 
 }

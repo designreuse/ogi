@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import fr.jerep6.ogi.exception.business.enumeration.EnumError;
+import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessError;
 import fr.jerep6.ogi.framework.exception.MultipleBusinessException;
 import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
 import fr.jerep6.ogi.persistance.bo.Sale;
@@ -68,7 +68,7 @@ public class ServiceSaleImpl extends AbstractTransactionalService<Sale, Integer>
 		// Begin mandate < end mandate
 		if (sale.getMandateStartDate() != null && sale.getMandateEndDate() != null //
 				&& sale.getMandateStartDate().after(sale.getMandateEndDate())) {
-			mbe.add(EnumError.SALE_MANDAT_DATE);
+			mbe.add(EnumBusinessError.SALE_MANDAT_DATE);
 		}
 
 		mbe.checkErrors();

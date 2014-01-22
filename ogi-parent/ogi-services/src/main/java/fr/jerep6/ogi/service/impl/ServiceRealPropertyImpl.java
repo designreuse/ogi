@@ -28,6 +28,7 @@ import fr.jerep6.ogi.persistance.bo.State;
 import fr.jerep6.ogi.persistance.bo.Type;
 import fr.jerep6.ogi.persistance.dao.DaoProperty;
 import fr.jerep6.ogi.service.ServiceCategory;
+import fr.jerep6.ogi.service.ServiceDPE;
 import fr.jerep6.ogi.service.ServiceDescription;
 import fr.jerep6.ogi.service.ServiceDiagnosis;
 import fr.jerep6.ogi.service.ServiceDocument;
@@ -70,6 +71,9 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 
 	@Autowired
 	private ServiceState		serviceState;
+
+	@Autowired
+	private ServiceDPE			serviceDPE;
 
 	@Autowired
 	private OrikaMapperService	mapper;
@@ -186,6 +190,9 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 				state = serviceState.read(builtFromJson.getState().getOrder());
 			}
 			built.setState(state);
+
+			// Write images dpe to disk
+			serviceDPE.writeDPEFiles(built.getReference(), built.getDpe());
 		}
 
 		if (propertyFromJson instanceof RealPropertyLivable) {

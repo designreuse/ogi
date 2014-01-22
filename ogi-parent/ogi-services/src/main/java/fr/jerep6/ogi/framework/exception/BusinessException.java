@@ -3,7 +3,7 @@ package fr.jerep6.ogi.framework.exception;
 public class BusinessException extends AbstractException {
 	private static final long	serialVersionUID	= 1L;
 
-	private String				code;
+	private String				code				= "";
 
 	public BusinessException() {
 		super();

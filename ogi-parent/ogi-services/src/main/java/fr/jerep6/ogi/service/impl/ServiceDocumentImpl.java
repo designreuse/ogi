@@ -29,7 +29,7 @@ import com.google.common.collect.Collections2;
 
 import fr.jerep6.ogi.enumeration.EnumDocumentType;
 import fr.jerep6.ogi.exception.business.FileAlreadyExist;
-import fr.jerep6.ogi.framework.exception.TechnicalException;
+import fr.jerep6.ogi.exception.technical.FileSystemTechnicalException;
 import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
 import fr.jerep6.ogi.obj.PhotoDimension;
 import fr.jerep6.ogi.persistance.bo.Document;
@@ -67,7 +67,7 @@ public class ServiceDocumentImpl extends AbstractTransactionalService<Document, 
 				Files.createDirectories(root);
 			} catch (IOException ioe) {
 				LOGGER.error("Error creating directory from property " + reference, ioe);
-				throw new TechnicalException();
+				throw new FileSystemTechnicalException("", ioe, reference);
 			}
 		}
 

@@ -7,21 +7,20 @@ import java.util.List;
 import com.google.common.base.Preconditions;
 
 /**
- * 
  * @author jerep6 11 janv. 2014
  */
-public class MultipleBusinessException extends AbstractException implements Iterable<BusinessException> {
+public class MultipleTechnicalException extends AbstractException implements Iterable<TechnicalException> {
 	private static final long				serialVersionUID	= 1L;
 
-	private final List<BusinessException>	exceptions			= new ArrayList<>();
+	private final List<TechnicalException>	exceptions			= new ArrayList<>();
 
-	public MultipleBusinessException() {
+	public MultipleTechnicalException() {
 		super();
 	}
 
 	public void add(ErrorCode errorCode) {
 		Preconditions.checkNotNull(errorCode);
-		exceptions.add(new BusinessException(errorCode));
+		exceptions.add(new TechnicalException(errorCode));
 	}
 
 	public void checkErrors() {
@@ -30,12 +29,12 @@ public class MultipleBusinessException extends AbstractException implements Iter
 		}
 	}
 
-	public List<BusinessException> getExceptions() {
+	public List<TechnicalException> getExceptions() {
 		return exceptions;
 	}
 
 	@Override
-	public Iterator<BusinessException> iterator() {
+	public Iterator<TechnicalException> iterator() {
 		return exceptions.iterator();
 	}
 
