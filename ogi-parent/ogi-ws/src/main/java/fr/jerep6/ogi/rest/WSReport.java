@@ -34,13 +34,16 @@ public class WSReport extends AbstractJaxRsWS {
 	}
 
 	/**
-	 * Configuration for format
+	 * Configuration for formats.
+	 * Given a name of format return mime type and file extension
 	 */
 	private static Map<String, FormatConfiguration>	mimeType	= new HashMap<>();
 	static {
 		mimeType.put(ServiceReport.FORMAT_PDF, new FormatConfiguration("application/pdf", "pdf"));
 		mimeType.put(ServiceReport.FORMAT_WORD, new FormatConfiguration(
 				"application/vnd.openxmlformats-officedocument.wordprocessingml.document", "docx"));
+		mimeType.put(ServiceReport.FORMAT_ODT,
+				new FormatConfiguration("application/vnd.oasis.opendocument.text", "odt"));
 	}
 
 	@Autowired
@@ -48,9 +51,9 @@ public class WSReport extends AbstractJaxRsWS {
 
 	@GET
 	@Path("/{prpRef}")
-	public Response generateShopFront(@PathParam("prpRef") String prpReference, @QueryParam("format") String format)
-			throws Exception {
-		ByteArrayOutputStream generateShopFront = serviceReport.generateShopFront(prpReference, format);
+	public Response generateShopFront(@PathParam("prpRef") String prpReference, @QueryParam("type") String type,
+			@QueryParam("format") String format) throws Exception {
+		ByteArrayOutputStream generateShopFront = serviceReport.generate(prpReference, type, format);
 		return Response
 				.ok(generateShopFront.toByteArray())
 				.type(mimeType.get(format).getMime())

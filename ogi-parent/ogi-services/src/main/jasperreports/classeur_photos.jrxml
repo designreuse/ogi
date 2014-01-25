@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="classeur_photos" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="54b371ab-3643-49e2-9d81-758c1251c096">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="reference" class="java.lang.String"/>
+	<parameter name="DOC_DIR" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+(SELECT DOC_PATH
+FROM TA_DOCUMENT DOC
+JOIN TJ_PRP_DOC TJ ON DOC.DOC_ID=TJ.DOC_ID
+JOIN TA_PROPERTY PRP ON PRP.PRO_ID=TJ.PRO_ID
+WHERE
+PRP.PRO_REFERENCE='ref1'
+AND DOC_ORDER=1) AS PHOTO1,
+(SELECT DOC_PATH
+FROM TA_DOCUMENT DOC
+JOIN TJ_PRP_DOC TJ ON DOC.DOC_ID=TJ.DOC_ID
+JOIN TA_PROPERTY PRP ON PRP.PRO_ID=TJ.PRO_ID
+WHERE
+PRP.PRO_REFERENCE='ref1'
+AND DOC_ORDER=2)  AS PHOTO2,
+(SELECT DOC_PATH
+FROM TA_DOCUMENT DOC
+JOIN TJ_PRP_DOC TJ ON DOC.DOC_ID=TJ.DOC_ID
+JOIN TA_PROPERTY PRP ON PRP.PRO_ID=TJ.PRO_ID
+WHERE
+PRP.PRO_REFERENCE=$P{reference}
+AND DOC_ORDER=3)  AS PHOTO3
+
+FROM DUAL;]]>
+	</queryString>
+	<field name="PHOTO1" class="java.lang.String"/>
+	<field name="PHOTO2" class="java.lang.String"/>
+	<field name="PHOTO3" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="399">
+			<image>
+				<reportElement x="0" y="0" width="250" height="200" uuid="da8c9c6d-f469-4acf-8d61-dad5b3ad7705"/>
+				<imageExpression><![CDATA[$P{DOC_DIR} + $F{PHOTO1}]]></imageExpression>
+			</image>
+			<image>
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="200" width="120" height="117" uuid="742c9340-679f-4a4f-bd1c-277f5c2703e6"/>
+				<imageExpression><![CDATA[$P{DOC_DIR} + $F{PHOTO2}]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="130" y="200" width="120" height="117" uuid="2a41edac-3f8d-41eb-b04e-e95aa0511165"/>
+				<imageExpression><![CDATA[$P{DOC_DIR} + $F{PHOTO3}]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+</jasperReport>
