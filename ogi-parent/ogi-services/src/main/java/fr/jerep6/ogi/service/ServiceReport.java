@@ -2,6 +2,7 @@ package fr.jerep6.ogi.service;
 
 import java.io.ByteArrayOutputStream;
 
+import fr.jerep6.ogi.enumeration.EnumReport;
 import fr.jerep6.ogi.framework.exception.TechnicalException;
 import fr.jerep6.ogi.framework.service.Service;
 
@@ -23,6 +24,6 @@ public interface ServiceReport extends Service {
 	 * @throws TechnicalException
 	 *             if error during generation
 	 */
-	ByteArrayOutputStream generate(String prpReference, String reportType, String format) throws TechnicalException;
+	ByteArrayOutputStream generate(String prpReference, EnumReport reportType, String format) throws TechnicalException;
 
 }

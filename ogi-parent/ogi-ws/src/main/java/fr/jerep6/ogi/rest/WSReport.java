@@ -16,6 +16,7 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import fr.jerep6.ogi.enumeration.EnumReport;
 import fr.jerep6.ogi.service.ServiceReport;
 
 /**
@@ -53,7 +54,8 @@ public class WSReport extends AbstractJaxRsWS {
 	@Path("/{prpRef}")
 	public Response generateShopFront(@PathParam("prpRef") String prpReference, @QueryParam("type") String type,
 			@QueryParam("format") String format) throws Exception {
-		ByteArrayOutputStream generateShopFront = serviceReport.generate(prpReference, type, format);
+		ByteArrayOutputStream generateShopFront = serviceReport.generate(prpReference, EnumReport.valueOfByName(type),
+				format);
 		return Response
 				.ok(generateShopFront.toByteArray())
 				.type(mimeType.get(format).getMime())

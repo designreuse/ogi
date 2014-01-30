@@ -2,6 +2,7 @@ package fr.jerep6.ogi.service.impl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,30 +28,49 @@ import org.springframework.stereotype.Service;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
+import fr.jerep6.ogi.enumeration.EnumReport;
 import fr.jerep6.ogi.exception.technical.JasperTechnicalException;
 import fr.jerep6.ogi.framework.exception.TechnicalException;
 import fr.jerep6.ogi.framework.service.impl.AbstractService;
+import fr.jerep6.ogi.persistance.bo.RealProperty;
+import fr.jerep6.ogi.service.ServiceRealProperty;
 import fr.jerep6.ogi.service.ServiceReport;
 
 @Service("serviceReport")
 public class ServiceReportImpl extends AbstractService implements ServiceReport {
-	private final Logger				LOGGER			= LoggerFactory.getLogger(ServiceReportImpl.class);
+	private final Logger					LOGGER			= LoggerFactory.getLogger(ServiceReportImpl.class);
 
 	@Autowired
-	private DataSource					dataSource;
+	private DataSource						dataSource;
 
 	/** Folder which are stored jasper reports */
 	@Value("${jasper.directory.root}")
-	private String						jasperRootDirectory;
+	private String							jasperRootDirectory;
 
 	/** Folder which are stored documents from properties (photos, dpe ...) */
 	@Value("${document.storage.dir}")
-	private String						jasperDocumentDirectory;
+	private String							jasperDocumentDirectory;
 
-	private static Map<String, String>	reportsConfig	= new HashMap<>();
+	@Autowired
+	private ServiceRealProperty				serviceRealProperty;
+
+	private static Map<EnumReport, String>	reportsConfig	= new HashMap<>();
 	static {
-		reportsConfig.put("classeur", "fiche_classeur.jasper");
-		reportsConfig.put("vitrine", "fiche_vitrine.jasper");
+		reportsConfig.put(EnumReport.CLASSEUR, "fiche_classeur.jasper");
+		reportsConfig.put(EnumReport.VITRINE, "fiche_vitrine$suffixe.jasper");
+	}
+
+	private String computeReportName(String prpReference, EnumReport reportType) {
+		String reportName = reportsConfig.get(reportType);
+
+		switch (reportType) {
+			case VITRINE: // Template différent en fonction du nombre de photos
+				RealProperty prp = serviceRealProperty.readByReference(prpReference);
+				reportName = reportName.replace("$suffixe", prp.getPhotos().size() >= 2 ? "_2" : "_1");
+				break;
+		}
+
+		return reportName;
 	}
 
 	private ByteArrayOutputStream generate(JasperPrint print, String format) throws JRException {
@@ -79,12 +99,13 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 	}
 
 	@Override
-	public ByteArrayOutputStream generate(String prpReference, String reportType, String format)
+	public ByteArrayOutputStream generate(String prpReference, EnumReport reportType, String format)
 			throws TechnicalException {
 		Preconditions.checkArgument(!Strings.isNullOrEmpty(prpReference));
 
 		// Get file name from type
-		String reportName = reportsConfig.get(reportType);
+		String reportName = computeReportName(prpReference, reportType);
+
 		Preconditions.checkArgument(!Strings.isNullOrEmpty(reportName));
 
 		try {
@@ -98,10 +119,13 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 			parameters.put("DOC_DIR", jasperDocumentDirectory);
 			parameters.put("reference", prpReference);
 
-			JasperPrint print = JasperFillManager.fillReport(report, parameters, dataSource.getConnection());
+			Connection connection = dataSource.getConnection();
+			JasperPrint print = JasperFillManager.fillReport(report, parameters, connection);
 
 			// Generate report
-			return generate(print, format);
+			ByteArrayOutputStream data = generate(print, format);
+			connection.close();
+			return data;
 		} catch (Exception e) {
 			LOGGER.error("Error generating report for property " + prpReference, e);
 			throw new JasperTechnicalException(e.getMessage(), e);
