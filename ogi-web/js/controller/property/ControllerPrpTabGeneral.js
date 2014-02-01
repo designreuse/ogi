@@ -105,11 +105,12 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
     // Listen to fileuploaddone event
     $scope.$on('fileuploaddone', function(e, data){
 
-        // Add photo to property
+        // Extract file from response (file contains document)
         var file = data._response.result.files[0];
-        console.debug(file);
         // Set order to table length
         file.document.order = $scope.prp.photos.length+1;
+
+        // Add photo to property
         $scope.prp.photos.push(file.document);
 
         // Search index of just upload file to remove it to queue
