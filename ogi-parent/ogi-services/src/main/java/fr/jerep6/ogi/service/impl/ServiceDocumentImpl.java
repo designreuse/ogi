@@ -31,7 +31,6 @@ import fr.jerep6.ogi.enumeration.EnumDocumentType;
 import fr.jerep6.ogi.exception.business.FileAlreadyExist;
 import fr.jerep6.ogi.exception.technical.FileSystemTechnicalException;
 import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
-import fr.jerep6.ogi.obj.PhotoDimension;
 import fr.jerep6.ogi.persistance.bo.Document;
 import fr.jerep6.ogi.persistance.dao.DaoDocument;
 import fr.jerep6.ogi.service.ServiceDocument;
@@ -133,7 +132,7 @@ public class ServiceDocumentImpl extends AbstractTransactionalService<Document, 
 				.size(Files.size(doc)) //
 				.type(Files.probeContentType(doc)) //
 				.url(DocumentUtils.buildUrl(doc)) //
-				.thumbnailUrl(DocumentUtils.buildUrl(doc, PhotoDimension.THUMB)) //
+				.thumbnailUrl(DocumentUtils.buildUrl(doc, "?size=200,200")) //
 				.deleteUrl(DocumentUtils.buildUrl(doc)) //
 				.deleteType("DELETE") //
 				.document(new Document(DocumentUtils.relativize(doc).toString(), fileName, 1, type)) //

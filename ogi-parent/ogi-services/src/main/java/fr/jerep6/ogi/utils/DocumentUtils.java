@@ -16,7 +16,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
 import fr.jerep6.ogi.enumeration.EnumDocumentType;
-import fr.jerep6.ogi.obj.PhotoDimension;
 
 @Component
 public class DocumentUtils {
@@ -55,15 +54,11 @@ public class DocumentUtils {
 		return buildUrl(absolutePath, null);
 	}
 
-	public static String buildUrl(Path absolutePath, PhotoDimension dimension) {
-		String size = "";
-		if (dimension != null) {
-			size = "?size=" + dimension.getName();
-		}
+	public static String buildUrl(Path absolutePath, String parameters) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(urlBaseDocuments);
 		sb.append(documentStorageDir.relativize(absolutePath).toString().replace("\\", "/"));
-		sb.append(size);
+		sb.append(parameters != null ? parameters : "");
 		return sb.toString();
 	}
 
