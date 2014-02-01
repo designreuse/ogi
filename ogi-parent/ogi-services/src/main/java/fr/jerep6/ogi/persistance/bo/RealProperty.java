@@ -2,6 +2,7 @@ package fr.jerep6.ogi.persistance.bo;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -136,6 +137,8 @@ public class RealProperty {
 			photos = new ArrayList<>(0);
 		}
 
+		Collections.sort(photos);
+		;
 		return photos;
 	}
 

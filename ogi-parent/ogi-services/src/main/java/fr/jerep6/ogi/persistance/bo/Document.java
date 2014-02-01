@@ -20,6 +20,8 @@ import lombok.ToString;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 
+import com.google.common.base.Preconditions;
+
 import fr.jerep6.ogi.enumeration.EnumDocumentType;
 import fr.jerep6.ogi.utils.DocumentUtils;
 
@@ -30,7 +32,11 @@ import fr.jerep6.ogi.utils.DocumentUtils;
 @Setter
 @EqualsAndHashCode(of = { "path" })
 @ToString
-public class Document {
+/**
+ * Document are comparable according to order
+ * @author jerep6 1 févr. 2014
+ */
+public class Document implements Comparable<Document> {
 	@Id
 	@Column(name = "DOC_ID", unique = true, nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,6 +71,17 @@ public class Document {
 		this.name = name;
 		this.order = order;
 		this.type = type;
+	}
+
+	@Override
+	public int compareTo(Document o) {
+		Preconditions.checkNotNull(o);
+		if (equals(o)) {
+			return 0;
+		} else if (type.equals(o.getType())) {
+			return order > o.getOrder() ? 1 : -1;
+		}
+		return -1;
 	}
 
 	public Path getAbsolutePath() {
