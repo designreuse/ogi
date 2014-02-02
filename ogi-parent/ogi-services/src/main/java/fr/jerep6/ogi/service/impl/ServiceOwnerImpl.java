@@ -1,6 +1,7 @@
 package fr.jerep6.ogi.service.impl;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -12,9 +13,11 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
+import fr.jerep6.ogi.persistance.bo.Address;
 import fr.jerep6.ogi.persistance.bo.Owner;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.dao.DaoOwner;
+import fr.jerep6.ogi.service.ServiceAddress;
 import fr.jerep6.ogi.service.ServiceOwner;
 import fr.jerep6.ogi.service.ServiceRealProperty;
 import fr.jerep6.ogi.transfert.mapping.OrikaMapperService;
@@ -26,6 +29,9 @@ public class ServiceOwnerImpl extends AbstractTransactionalService<Owner, Intege
 
 	@Autowired
 	private ServiceRealProperty	serviceRealProperty;
+
+	@Autowired
+	private ServiceAddress		serviceAddress;
 
 	@Autowired
 	private DaoOwner			daoOwner;
@@ -42,18 +48,19 @@ public class ServiceOwnerImpl extends AbstractTransactionalService<Owner, Intege
 	}
 
 	@Override
-	public List<Owner> createOrUpdate(List<Owner> ownersBo) {
-		for (Owner owner : ownersBo) {
-			if (owner.getTechid() != null) {
-				Owner ownerBD = read(owner.getTechid());
-				mapper.map(owner, ownerBD);
-				update(ownerBD);
-			} else {
-				save(owner);
-			}
+	public Owner createOrUpdate(Owner owner) {
+		if (owner.getTechid() != null) {
+			Owner ownerBD = read(owner.getTechid());
+			// Mapper don't map addresses and properties association
+			mapper.map(owner, ownerBD);
+			Set<Address> addr = serviceAddress.merge(ownerBD.getAddresses(), owner.getAddresses());
+			ownerBD.setAddresses(addr);
+			update(ownerBD);
+		} else {
+			save(owner);
 		}
 
-		return ownersBo;
+		return owner;
 	}
 
 	@Override

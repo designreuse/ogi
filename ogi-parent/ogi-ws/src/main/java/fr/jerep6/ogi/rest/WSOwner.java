@@ -94,7 +94,9 @@ public class WSOwner extends AbstractJaxRsWS {
 		Preconditions.checkArgument(techid.equals(owner.getTechid()));
 
 		Owner ownersBo = mapper.map(owner, Owner.class);
-		serviceOwner.update(ownersBo);
+		// Pas d'update directement avec l'objet recu de la requete car sinon hibernate supprime l'adresse
+		// puis la recrée.
+		serviceOwner.createOrUpdate(ownersBo);
 		return owner;
 	}
 }

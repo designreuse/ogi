@@ -10,11 +10,12 @@ public interface ServiceOwner extends TransactionalService<Owner, Integer> {
 
 	/**
 	 * Create or update owners. If techid exist => update. If techid doesn't exist => create
+	 * Don't crate/update property association
 	 * 
 	 * @param ownersBo
 	 * @return
 	 */
-	List<Owner> createOrUpdate(List<Owner> ownersBo);
+	Owner createOrUpdate(Owner owner);
 
 	/**
 	 * Add a property from an owner.

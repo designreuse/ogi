@@ -18,7 +18,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode(of = { "number", "street", "postalCode", "city", "additional" })
+@EqualsAndHashCode(of = { "techid" })
 public class Address {
 	@Id
 	@Column(name = "ADD_ID", unique = true, nullable = false)
