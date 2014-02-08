@@ -1,6 +1,11 @@
 package fr.jerep6.ogi.persistance.bo;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.AttributeOverride;
@@ -25,7 +30,9 @@ import lombok.Setter;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 
+import fr.jerep6.ogi.enumeration.EnumDPE;
 import fr.jerep6.ogi.enumeration.EnumOrientation;
+import fr.jerep6.ogi.utils.DocumentUtils;
 
 @Entity
 @Table(name = "TA_PROPERTY_BUILT")
@@ -91,4 +98,16 @@ public abstract class RealPropertyBuilt extends RealProperty {
 		super(reference, category, type);
 	}
 
+	public Map<EnumDPE, Path> getDpeFile() {
+		Map<EnumDPE, Path> m = new HashMap<>(4);
+
+		for (EnumDPE dpe : EnumDPE.values()) {
+			Path p = DocumentUtils.absolutize(Paths.get(getReference() + "/dpe/" + EnumDPE.KWH_180.getFileName()));
+			if (Files.exists(p)) {
+				m.put(dpe, p);
+			}
+		}
+
+		return m;
+	}
 }

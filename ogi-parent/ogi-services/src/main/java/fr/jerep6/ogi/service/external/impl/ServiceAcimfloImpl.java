@@ -20,6 +20,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -34,7 +35,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Strings;
 
+import fr.jerep6.ogi.enumeration.EnumDPE;
 import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessError;
 import fr.jerep6.ogi.exception.technical.NetworkTechnicalException;
 import fr.jerep6.ogi.framework.exception.BusinessException;
@@ -42,6 +45,7 @@ import fr.jerep6.ogi.framework.service.impl.AbstractService;
 import fr.jerep6.ogi.framework.utils.JSONUtils;
 import fr.jerep6.ogi.persistance.bo.Address;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
+import fr.jerep6.ogi.persistance.bo.RealPropertyBuilt;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 import fr.jerep6.ogi.persistance.bo.Type;
 import fr.jerep6.ogi.service.external.AcimfloReponse;
@@ -64,8 +68,8 @@ public class ServiceAcimfloImpl extends AbstractService implements ServiceAcimfl
 			HttpPost post = new HttpPost(login);
 
 			List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
-			urlParameters.add(new BasicNameValuePair("login", ""));
-			urlParameters.add(new BasicNameValuePair("mdp", ""));
+			urlParameters.add(new BasicNameValuePair("login", "acimflo"));
+			urlParameters.add(new BasicNameValuePair("mdp", "cristal9"));
 			post.setEntity(new UrlEncodedFormEntity(urlParameters));
 
 			// Execute request
@@ -228,10 +232,21 @@ public class ServiceAcimfloImpl extends AbstractService implements ServiceAcimfl
 				ContentType mime = ContentType.create(Files.probeContentType(p));
 				String fileName = p.getFileName().toString();
 
-				builder.addPart("photos[]", new FileBody(p.toFile(), mime, fileName));
+				// builder.addPart("photos[]", new FileBody(p.toFile(), mime, fileName));
 			}
 
-			// builder.addPart("dpe", new FileBody(prp.getPhotos().get(0).getAbsolutePath().toFile()));
+			if (prp instanceof RealPropertyBuilt) {
+				RealPropertyBuilt built = (RealPropertyBuilt) prp;
+
+				ContentBody dpeBody = new StringBody("", ContentType.TEXT_PLAIN);
+				Path dpeKwh = built.getDpeFile().get(EnumDPE.KWH_260);
+				if (dpeKwh != null) {
+					ContentType mime = ContentType.create(Files.probeContentType(dpeKwh));
+					String fileName = dpeKwh.getFileName().toString();
+					dpeBody = new FileBody(dpeKwh.toFile(), mime, fileName);
+				}
+				builder.addPart("dpe", dpeBody);
+			}
 
 			httpPost.setEntity(builder.build());
 			httpPost.addHeader("Referer", updateReferer.replace("${reference}", prp.getReference()));
@@ -244,8 +259,13 @@ public class ServiceAcimfloImpl extends AbstractService implements ServiceAcimfl
 			Document doc = Jsoup.parse(response.getEntity().getContent(), "UTF-8", "");
 			String msg = doc.select(".msg").html();
 			LOGGER.info("Msg = " + msg);
+			if (Strings.isNullOrEmpty(msg)) {
+				LOGGER.error("Empty return message for updating acimflo :" + doc.toString());
+				result = new WSResult("KO", doc.toString());
+			} else {
+				result = new WSResult("OK", msg);
+			}
 
-			result = new WSResult("OK", msg);
 		} catch (IOException e) {
 			LOGGER.error("Error updating property " + prp.getReference() + " on acimflo", e);
 			result = new WSResult("KO", e.getMessage());

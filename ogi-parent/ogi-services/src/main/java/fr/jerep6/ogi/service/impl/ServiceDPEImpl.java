@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
+import fr.jerep6.ogi.enumeration.EnumDPE;
 import fr.jerep6.ogi.exception.technical.enumeration.EnumTechnicalError;
 import fr.jerep6.ogi.framework.exception.TechnicalException;
 import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
@@ -116,7 +117,7 @@ public class ServiceDPEImpl extends AbstractTransactionalService<DPE, Integer> i
 		Preconditions.checkNotNull(output);
 		BufferedImage img = generateDPEGesImage(dpe, width);
 		try {
-			ImageIO.write(img, "png", output);
+			ImageIO.write(img, EnumDPE.getImageFormatName(), output);
 			output.flush();
 			output.close();
 		} catch (IOException ioe) {
@@ -172,7 +173,7 @@ public class ServiceDPEImpl extends AbstractTransactionalService<DPE, Integer> i
 		Preconditions.checkNotNull(output);
 		BufferedImage img = generateDPEkWhImage(dpe, width);
 		try {
-			ImageIO.write(img, "png", output);
+			ImageIO.write(img, EnumDPE.getImageFormatName(), output);
 			output.flush();
 			output.close();
 		} catch (IOException ioe) {
@@ -187,6 +188,20 @@ public class ServiceDPEImpl extends AbstractTransactionalService<DPE, Integer> i
 		super.setDao(daoDpe);
 	}
 
+	public void setAlpha(BufferedImage img, byte alpha) {
+		alpha %= 0xff;
+		for (int cx = 0; cx < img.getWidth(); cx++) {
+			for (int cy = 0; cy < img.getHeight(); cy++) {
+				int color = img.getRGB(cx, cy);
+
+				int mc = alpha << 24 | 0x00ffffff;
+				int newcolor = color & mc;
+				img.setRGB(cx, cy, newcolor);
+			}
+
+		}
+	}
+
 	@Override
 	public void writeDPEFiles(String prpReference, DPE dpe) {
 		Preconditions.checkNotNull(prpReference);
@@ -196,31 +211,25 @@ public class ServiceDPEImpl extends AbstractTransactionalService<DPE, Integer> i
 			return;
 		}
 
-		FileOutputStream fos;
-		// DPE : generate and save dpe image in two format : 180px and 260px
-		List<Integer> dpeSize = Arrays.asList(180, 260);
-
 		try {
 			Path dpeDirectory = DocumentUtils.getDirectory(prpReference).resolve(Paths.get("dpe"));
 			Files.createDirectories(dpeDirectory);
 
 			if (dpe.getKwh() != null) {
-				for (Integer size : dpeSize) {
+				for (EnumDPE aDpe : EnumDPE.getKwh()) {
 					// Compute file path
-					Path p = DocumentUtils.absolutize(dpeDirectory.resolve("kwh-" + size + ".png"));
-					fos = new FileOutputStream(p.toString());
-					generateDPEkWhImage(fos, dpe.getKwh(), size);
-
+					Path p = DocumentUtils.absolutize(dpeDirectory.resolve(aDpe.getFileName()));
+					FileOutputStream fos = new FileOutputStream(p.toString());
+					generateDPEkWhImage(fos, dpe.getKwh(), aDpe.getSize());
 				}
 			}
 
 			if (dpe.getGes() != null) {
-				for (Integer size : dpeSize) {
+				for (EnumDPE aDpe : EnumDPE.getGes()) {
 					// Compute file path
-					Path p = DocumentUtils.absolutize(dpeDirectory.resolve("ges-" + size + ".png"));
-					fos = new FileOutputStream(p.toString());
-					generateDPEGesImage(fos, dpe.getGes(), size);
-
+					Path p = DocumentUtils.absolutize(dpeDirectory.resolve(aDpe.getFileName()));
+					FileOutputStream fos = new FileOutputStream(p.toString());
+					generateDPEGesImage(fos, dpe.getGes(), aDpe.getSize());
 				}
 			}
 
@@ -271,13 +280,14 @@ public class ServiceDPEImpl extends AbstractTransactionalService<DPE, Integer> i
 		graphicsDpeValue.drawString(sDpe, conf.get("pxTxtWidth"), conf.get("pxTxtHeight"));
 
 		BufferedImage combined = new BufferedImage(dpeTemplate.getWidth(), dpeTemplate.getHeight(),
-				BufferedImage.TYPE_INT_ARGB);
+				BufferedImage.TYPE_INT_BGR);
 
 		Graphics g = combined.getGraphics();
 		g.drawImage(dpeTemplate, 0, 0, null);
 		g.drawImage(dpeValue, conf.get("widthPasteArrow"), pxDpe, null);
 
 		combined = Scalr.resize(combined, width);
+
 		return combined;
 	}
 

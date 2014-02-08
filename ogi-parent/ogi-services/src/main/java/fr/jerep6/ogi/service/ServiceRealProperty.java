@@ -18,7 +18,7 @@ public interface ServiceRealProperty extends TransactionalService<RealProperty, 
 	 * Create a real property. All the associated entities are read in database from theirs business fields.
 	 * If entity doesn't exist it will be created.
 	 * 
-	 * 
+	 * Write dpe into dpe property directory
 	 * 
 	 * @param property
 	 * @return
