@@ -1,6 +1,6 @@
 <div ng-controller="ControllerPrpTabDesc">
     <div class="row">
-        <fieldset class="col-xs-6">
+        <fieldset class="col-xs-4">
             <legend>Général</legend>
             <div class="form-group">
                 <label class="control-label">Type de bien</label>
@@ -24,57 +24,70 @@
                 </div>
             </div>
 
-            <div>
-                <label class="control-label">Etat</label>
-                <div ui-slider min="0" max="4" ng-model="saveData.stateOrder"></div>
-                <div class="center">{{states[saveData.stateOrder].label}}</div>
-            </div>
-
         </fieldset>
 
-        <fieldset id="pieces" class="col-xs-6">
+        <fieldset class="col-xs-8">
             <legend>Nombre de pièces</legend>
-            <div class="form-group">
-                <label>Pièces</label>
-                <div class="input-group" minus-plus>
-                    <span class="input-group-addon glyphicon glyphicon-minus"></span>
-                    <input class="form-control" type="number" ng-model="prp.nbRoom" />
-                    <span class="input-group-addon glyphicon glyphicon-plus"></span>
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label>Pièces</label>
+                    <div class="input-group" minus-plus>
+                        <span class="input-group-addon glyphicon glyphicon-minus"></span>
+                        <input class="form-control" type="number" ng-model="prp.nbRoom" />
+                        <span class="input-group-addon glyphicon glyphicon-plus"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Chambres</label>
+                    <div class="input-group" minus-plus>
+                        <span class="input-group-addon glyphicon glyphicon-minus"></span>
+                        <input class="form-control" type="number" ng-model="prp.nbBedRoom" />
+                        <span class="input-group-addon glyphicon glyphicon-plus"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Garage</label>
+                    <div class="input-group" minus-plus>
+                        <span class="input-group-addon glyphicon glyphicon-minus"></span>
+                        <input class="form-control" type="number" ng-model="prp.nbGarage" />
+                        <span class="input-group-addon glyphicon glyphicon-plus"></span>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label>Chambres</label>
-                <div class="input-group" minus-plus>
-                    <span class="input-group-addon glyphicon glyphicon-minus"></span>
-                    <input class="form-control" type="number" ng-model="prp.nbBedRoom" />
-                    <span class="input-group-addon glyphicon glyphicon-plus"></span>
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label>Salles de bains</label>
+                    <div class="input-group" minus-plus>
+                        <span class="input-group-addon glyphicon glyphicon-minus"></span>
+                        <input class="form-control" type="number" ng-model="prp.nbBathRoom" />
+                        <span class="input-group-addon glyphicon glyphicon-plus"></span>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label>Salles de bains</label>
-                <div class="input-group" minus-plus>
-                    <span class="input-group-addon glyphicon glyphicon-minus"></span>
-                    <input class="form-control" type="number" ng-model="prp.nbBathRoom" />
-                    <span class="input-group-addon glyphicon glyphicon-plus"></span>
+                <div class="form-group">
+                    <label>Salles d'eau</label>
+                    <div class="input-group" minus-plus>
+                        <span class="input-group-addon glyphicon glyphicon-minus"></span>
+                        <input class="form-control" type="number" ng-model="prp.nbShowerRoom" />
+                        <span class="input-group-addon glyphicon glyphicon-plus"></span>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label>Salles d'eau</label>
-                <div class="input-group" minus-plus>
-                    <span class="input-group-addon glyphicon glyphicon-minus"></span>
-                    <input class="form-control" type="number" ng-model="prp.nbShowerRoom" />
-                    <span class="input-group-addon glyphicon glyphicon-plus"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label>WC</label>
-                <div class="input-group" minus-plus>
-                    <span class="input-group-addon glyphicon glyphicon-minus"></span>
-                    <input class="form-control" type="number" ng-model="prp.nbWC" />
-                    <span class="input-group-addon glyphicon glyphicon-plus"></span>
+                <div class="form-group">
+                    <label>WC</label>
+                    <div class="input-group" minus-plus>
+                        <span class="input-group-addon glyphicon glyphicon-minus"></span>
+                        <input class="form-control" type="number" ng-model="prp.nbWC" />
+                        <span class="input-group-addon glyphicon glyphicon-plus"></span>
+                    </div>
                 </div>
             </div>
         </fieldset>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+        <label class="control-label">Etat</label>
+        <div ui-slider min="0" max="4" ng-model="saveData.stateOrder"></div>
+        <div class="center">{{states[saveData.stateOrder].label}}&nbsp;</div>
     </div>
 
     <fieldset>

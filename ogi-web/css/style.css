@@ -16,10 +16,6 @@ legend + .control-group {
 .normal {
   font-weight: normal;
 }
-/* ##### PAGE LISTE ##### */
-#prpList .liste img {
-  width: 75px;
-}
 /* ##### PAGE PRP MANAGEMENT ##### */
 #prpFormManage .form-horizontal .control-group {
   margin-bottom: 10px;
