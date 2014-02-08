@@ -261,6 +261,17 @@ public class ServiceAcimfloImpl extends AbstractService implements ServiceAcimfl
 		}
 	}
 
+	@Override
+	public Boolean exist(String prpReference) {
+		CookieHandler.setDefault(new CookieManager());
+		HttpClient client = HttpClientBuilder.create().setRedirectStrategy(new LaxRedirectStrategy()).build();
+
+		// Connection to acimflo => session id is keeped
+		connect(client);
+
+		return prpExist(client, prpReference);
+	}
+
 	/**
 	 * Convert OGI type into acimflo type.
 	 * 

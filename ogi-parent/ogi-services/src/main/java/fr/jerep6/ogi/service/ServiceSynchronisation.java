@@ -7,4 +7,6 @@ import fr.jerep6.ogi.framework.service.Service;
 public interface ServiceSynchronisation extends Service {
 
 	void createOrUpdate(List<String> prpReferences);
+
+	Boolean exist(String partner, String prpReference);
 }

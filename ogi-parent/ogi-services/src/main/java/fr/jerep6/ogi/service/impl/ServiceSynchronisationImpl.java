@@ -41,4 +41,19 @@ public class ServiceSynchronisationImpl extends AbstractService implements Servi
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public Boolean exist(String partner, String prpReference) {
+		Boolean b = false;
+		switch (partner) {
+			case "acimflo":
+				b = serviceAcimflo.exist(prpReference);
+				break;
+
+			default:
+				LOGGER.warn("Unknow partner {}", partner);
+				break;
+		}
+		return b;
+	}
 }

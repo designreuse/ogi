@@ -11,4 +11,6 @@ import fr.jerep6.ogi.persistance.bo.RealProperty;
 public interface ServiceAcimflo extends Service {
 
 	void createOrUpdate(Set<RealProperty> properties) throws ClientProtocolException, IOException;
+
+	Boolean exist(String prpReference);
 }
