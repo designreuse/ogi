@@ -22,9 +22,10 @@
 		<orika.version>1.4.4</orika.version>
 		<mockito.version>1.9.5</mockito.version>
 		<fest.version>2.0M10</fest.version>
-		<httpclient.version>4.3.1</httpclient.version>
+		<httpclient.version>4.3.2</httpclient.version>
 		<jasperReport.version>5.5.0</jasperReport.version>
 		<servlet.version>3.0.1</servlet.version>
+		<jsoup.version>1.7.3</jsoup.version>
 	</properties>
 
 	<modules>
@@ -246,6 +247,11 @@
 				<artifactId>httpclient</artifactId>
 				<version>${httpclient.version}</version>
 			</dependency>
+			<dependency>
+			    <groupId>org.apache.httpcomponents</groupId>
+			    <artifactId>httpmime</artifactId>
+				<version>${httpclient.version}</version>
+			</dependency>
 			
 			<!-- Jasper report -->
 			<dependency>
@@ -259,6 +265,12 @@
 				<groupId>org.imgscalr</groupId>
 				<artifactId>imgscalr-lib</artifactId>
 				<version>4.2</version>
+			</dependency>
+			
+			<dependency>
+			    <groupId>org.jsoup</groupId>
+			    <artifactId>jsoup</artifactId>
+			    <version>${jsoup.version}</version>
 			</dependency>
 	
 		</dependencies>

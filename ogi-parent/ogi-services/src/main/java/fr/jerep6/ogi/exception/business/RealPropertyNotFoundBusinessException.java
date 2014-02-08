@@ -6,7 +6,7 @@ public class RealPropertyNotFoundBusinessException extends BusinessException {
 	private static final long	serialVersionUID	= 1L;
 
 	public RealPropertyNotFoundBusinessException() {
-		super();
+		this(null);
 	}
 
 	public RealPropertyNotFoundBusinessException(Object... args) {

@@ -38,7 +38,7 @@ public class DaoPropertyImpl extends AbstractDao<RealProperty, Integer> implemen
 	}
 
 	@Override
-	public RealProperty readByReference(String reference) {
+	public List<RealProperty> readByReference(List<String> references) {
 		StringBuilder q = new StringBuilder();
 		q.append("SELECT r ").append(" FROM ").append(RealProperty.class.getName()).append(" r ");
 		// I don't want a select for each many to one : prefer join
@@ -49,12 +49,12 @@ public class DaoPropertyImpl extends AbstractDao<RealProperty, Integer> implemen
 		q.append(" LEFT JOIN fetch r.documents");
 		q.append(" LEFT JOIN fetch r.rooms");
 		q.append(" LEFT JOIN fetch r.equipments");
-		q.append(" WHERE r.reference= :").append(PARAM_REFERENCE);
+		q.append(" WHERE r.reference IN (:").append(PARAM_REFERENCE).append(")");
 
 		TypedQuery<RealProperty> query = entityManager.createQuery(q.toString(), RealProperty.class);
-		query.setParameter(PARAM_REFERENCE, reference);
+		query.setParameter(PARAM_REFERENCE, references);
 
-		return Iterables.getFirst(query.getResultList(), null);
+		return query.getResultList();
 	}
 
 	@Override

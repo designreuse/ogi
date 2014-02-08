@@ -6,7 +6,7 @@ public class FileAlreadyExist extends BusinessException {
 	private static final long	serialVersionUID	= -2932063299390151842L;
 
 	public FileAlreadyExist() {
-		super();
+		this(null);
 	}
 
 	public FileAlreadyExist(Object... args) {

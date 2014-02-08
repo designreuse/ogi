@@ -1,11 +1,13 @@
 package fr.jerep6.ogi.persistance.dao;
 
+import java.util.List;
+
 import fr.jerep6.ogi.framework.persistance.dao.DaoCRUD;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 
 public interface DaoProperty extends DaoCRUD<RealProperty, Integer> {
 
-	RealProperty readByReference(String reference);
+	List<RealProperty> readByReference(List<String> references);
 
 	void test();
 

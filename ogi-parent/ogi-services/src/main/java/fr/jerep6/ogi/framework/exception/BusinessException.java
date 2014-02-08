@@ -5,10 +5,6 @@ public class BusinessException extends AbstractException {
 
 	private String				code				= "";
 
-	public BusinessException() {
-		super();
-	}
-
 	public BusinessException(ErrorCode errorCode) {
 		super(errorCode.getMessage());
 		code = errorCode.getCode();

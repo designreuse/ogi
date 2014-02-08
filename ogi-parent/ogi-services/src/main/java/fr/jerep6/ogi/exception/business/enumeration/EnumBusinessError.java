@@ -3,7 +3,8 @@ package fr.jerep6.ogi.exception.business.enumeration;
 import fr.jerep6.ogi.framework.exception.ErrorCode;
 
 public enum EnumBusinessError implements ErrorCode {
-	SALE_MANDAT_DATE("SAL_01", "Wrong  mandate dates");
+	SALE_MANDAT_DATE("SAL_01", "Wrong  mandate dates"), //
+	ACIMFLO_IDENTIFIANTS_KO("ACIMFLO_IDENTIFIANTS_KO", "Wrong  login/pwd");
 
 	private String	code;
 	private String	message;

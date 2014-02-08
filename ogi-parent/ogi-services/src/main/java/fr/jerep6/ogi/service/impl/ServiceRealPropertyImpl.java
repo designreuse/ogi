@@ -1,5 +1,7 @@
 package fr.jerep6.ogi.service.impl;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.common.collect.Iterables;
 
 import fr.jerep6.ogi.exception.business.RealPropertyNotFoundBusinessException;
 import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
@@ -238,10 +241,16 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 	}
 
 	@Override
+	public Set<RealProperty> readByReference(List<String> prpReferences) {
+		Preconditions.checkNotNull(prpReferences);
+
+		return new HashSet(daoProperty.readByReference(prpReferences));
+	}
+
+	@Override
 	public RealProperty readByReference(String reference) {
 		Preconditions.checkArgument(!Strings.isNullOrEmpty(reference), "Reference is null or empty");
 
-		RealProperty r = daoProperty.readByReference(reference);
-		return r;
+		return Iterables.getFirst(daoProperty.readByReference(Arrays.asList(reference)), null);
 	}
 }
