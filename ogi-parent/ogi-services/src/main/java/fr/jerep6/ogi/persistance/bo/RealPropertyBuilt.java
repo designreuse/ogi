@@ -67,6 +67,9 @@ public abstract class RealPropertyBuilt extends RealProperty {
 	@Column(name = "PRB_PARKING", length = 255)
 	private String			parking;
 
+	@Column(name = "PRL_NB_GARAGE")
+	private Integer			nbGarage;
+
 	@Column(name = "PRB_INSULATION", length = 255)
 	private String			insulation;
 

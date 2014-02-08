@@ -36,6 +36,7 @@ import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 
+import fr.jerep6.ogi.enumeration.EnumDescriptionType;
 import fr.jerep6.ogi.enumeration.EnumDocumentType;
 
 // Hibernate use the name of then entity to determine the table name. But the purpose of this name is to use in JPQL
@@ -122,6 +123,15 @@ public class RealProperty {
 		this.reference = reference;
 		this.category = category;
 		this.type = type;
+	}
+
+	public Description getDescription(EnumDescriptionType type) {
+		for (Description desc : descriptions) {
+			if (desc.getType().equals(type)) {
+				return desc;
+			}
+		}
+		return null;
 	}
 
 	public List<Document> getPhotos() {

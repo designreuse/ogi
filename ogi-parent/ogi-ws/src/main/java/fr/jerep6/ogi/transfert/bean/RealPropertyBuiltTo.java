@@ -25,6 +25,7 @@ public abstract class RealPropertyBuiltTo extends RealPropertyTo {
 	private Integer			floorLevel;
 	private String			orientation;
 	private String			parking;
+	private Integer			nbGarage;
 	private StateTo			state;
 	private String			insulation;
 

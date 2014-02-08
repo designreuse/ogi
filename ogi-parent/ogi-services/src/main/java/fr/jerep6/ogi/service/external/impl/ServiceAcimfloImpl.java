@@ -38,12 +38,14 @@ import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 
 import fr.jerep6.ogi.enumeration.EnumDPE;
+import fr.jerep6.ogi.enumeration.EnumDescriptionType;
 import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessError;
 import fr.jerep6.ogi.exception.technical.NetworkTechnicalException;
 import fr.jerep6.ogi.framework.exception.BusinessException;
 import fr.jerep6.ogi.framework.service.impl.AbstractService;
 import fr.jerep6.ogi.framework.utils.JSONUtils;
 import fr.jerep6.ogi.persistance.bo.Address;
+import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyBuilt;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
@@ -62,6 +64,7 @@ public class ServiceAcimfloImpl extends AbstractService implements ServiceAcimfl
 	private String			update			= "http://acimflo.local:50000/adminVente/modifierBienSQL.html";
 	private String			updateReferer	= "http://acimflo.local:50000/adminVente/modifierBien/${reference}.html";
 	private String			verifReference	= "http://acimflo.local:50000/?c=adminBien&m=verifReference&reference=${reference}";
+	private String			imgApercu		= "http://acimflo.local:50000/Biens/Vente/${reference}/thumbs/Apercu.jpg";
 
 	private void connect(HttpClient client) throws BusinessException {
 		try {
@@ -69,7 +72,7 @@ public class ServiceAcimfloImpl extends AbstractService implements ServiceAcimfl
 
 			List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
 			urlParameters.add(new BasicNameValuePair("login", "acimflo"));
-			urlParameters.add(new BasicNameValuePair("mdp", "cristal9"));
+			urlParameters.add(new BasicNameValuePair("mdp", "acimflo"));
 			post.setEntity(new UrlEncodedFormEntity(urlParameters));
 
 			// Execute request
@@ -129,11 +132,17 @@ public class ServiceAcimfloImpl extends AbstractService implements ServiceAcimfl
 
 			HttpResponse response = client.execute(httpPost);
 
-			// Parse html to determine if connection is successful or not
+			// Parse html to get message
 			Document doc = Jsoup.parse(response.getEntity().getContent(), "UTF-8", "");
 			String msg = doc.select(".msg").html();
 			LOGGER.info("Msg = " + msg);
-			result = new WSResult("OK", msg);
+			if (Strings.isNullOrEmpty(msg)) {
+				LOGGER.error("Empty return message for updating acimflo :" + doc.toString());
+				result = new WSResult("KO", doc.toString());
+			} else {
+				result = new WSResult("OK", msg);
+			}
+
 		} catch (IOException e) {
 			LOGGER.error("Error creating property " + prp.getReference() + " on acimflo", e);
 			result = new WSResult("OK", e.getMessage());
@@ -156,6 +165,18 @@ public class ServiceAcimfloImpl extends AbstractService implements ServiceAcimfl
 				create(client, prp);
 			}
 
+		}
+	}
+
+	private String getType(Category category) {
+		switch (category.getCode()) {
+			case APARTMENT:
+				return "2";
+			case PLOT:
+				return "3";
+			case HOUSE:
+			default:
+				return "1";
 		}
 	}
 
@@ -207,33 +228,53 @@ public class ServiceAcimfloImpl extends AbstractService implements ServiceAcimfl
 				builder.addPart("nbreWC", new StringBody(Objects.firstNonNull(liv.getNbWC(), "").toString(),
 						ContentType.TEXT_PLAIN));
 			}
-			builder.addPart("nbreGarage", new StringBody("", ContentType.TEXT_PLAIN));
 
 			builder.addPart("surfaceTerrain", new StringBody(Objects.firstNonNull(prp.getLandArea(), "").toString(),
 					ContentType.TEXT_PLAIN));
 			builder.addPart("prix", new StringBody(prp.getSale().getPriceFinal().toString(), ContentType.TEXT_PLAIN));
-			builder.addPart("surfaceDependance", new StringBody("", ContentType.TEXT_PLAIN));
 			builder.addPart("reference", new StringBody(prp.getReference(), ContentType.TEXT_PLAIN));
 			builder.addPart("referenceOriginale", new StringBody(prp.getReference(), ContentType.TEXT_PLAIN));
 			builder.addPart("nomVille", new StringBody(Objects.firstNonNull(prp.getAddress(), new Address()).getCity(),
 					ContentType.TEXT_PLAIN));
 			builder.addPart("nomStyle", new StringBody(Objects.firstNonNull(prp.getType(), new Type()).getLabel(),
 					ContentType.TEXT_PLAIN));
-			builder.addPart("idType", new StringBody("1", ContentType.TEXT_PLAIN));
-			builder.addPart("commentaire", new StringBody(prp.getDescriptions().iterator().next().getLabel(),
-					ContentType.TEXT_PLAIN));
+			builder.addPart("commentaire", new StringBody(prp.getDescription(EnumDescriptionType.WEBSITE_OWN)
+					.getLabel(), ContentType.TEXT_PLAIN));
+
+			builder.addPart("idType", new StringBody(getType(prp.getCategory()), ContentType.TEXT_PLAIN));
+			builder.addPart("surfaceDependance", new StringBody("", ContentType.TEXT_PLAIN));
 
 			builder.addPart("MAX_FILE_SIZE", new StringBody("5010000", ContentType.TEXT_PLAIN));
 
-			// Photos
-			builder.addPart("apercu", new StringBody("1", ContentType.TEXT_PLAIN));
+			// ###### Photos ######
+
+			// Il ne faut pas uploader l'image d'apercu lors d'une modification car sinon elle sera présente deux fois.
+			// Une fois en Apercu.jpg et une deuxième fois sous son vrai nom
+			String urlApercu = imgApercu.replace("${reference}", prp.getReference());
+			HttpGet getApercu = new HttpGet(urlApercu);
+			HttpResponse apercuResponse = client.execute(getApercu);
+			LOGGER.info("Update acimflo prp {} : response code for {} = {}", urlApercu, apercuResponse.getStatusLine()
+					.getStatusCode());
+			boolean uploadApercu = apercuResponse.getStatusLine().getStatusCode() != 200;
+
+			Integer apercu = 1;
+			Integer i = 1;
 			for (fr.jerep6.ogi.persistance.bo.Document aPhoto : prp.getPhotos()) {
 				Path p = aPhoto.getAbsolutePath();
 				ContentType mime = ContentType.create(Files.probeContentType(p));
-				String fileName = p.getFileName().toString();
 
-				// builder.addPart("photos[]", new FileBody(p.toFile(), mime, fileName));
+				// Upload photo number 1 only if apercu.jpg doesn't exist
+				if (uploadApercu && aPhoto.getOrder().equals(1) || !aPhoto.getOrder().equals(1)) {
+					builder.addPart("photos[]", new FileBody(p.toFile(), mime, p.getFileName().toString()));
+				}
+
+				// If photo is apercu so save its rank
+				if (aPhoto.getOrder().equals(1)) {
+					apercu = i;
+				}
+				i++;
 			}
+			builder.addPart("apercu", new StringBody(apercu.toString(), ContentType.TEXT_PLAIN));
 
 			if (prp instanceof RealPropertyBuilt) {
 				RealPropertyBuilt built = (RealPropertyBuilt) prp;
@@ -246,6 +287,9 @@ public class ServiceAcimfloImpl extends AbstractService implements ServiceAcimfl
 					dpeBody = new FileBody(dpeKwh.toFile(), mime, fileName);
 				}
 				builder.addPart("dpe", dpeBody);
+
+				builder.addPart("nbreGarage", new StringBody(Objects.firstNonNull(built.getNbGarage(), "").toString(),
+						ContentType.TEXT_PLAIN));
 			}
 
 			httpPost.setEntity(builder.build());

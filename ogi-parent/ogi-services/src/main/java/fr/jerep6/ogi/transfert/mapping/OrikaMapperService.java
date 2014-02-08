@@ -72,6 +72,7 @@ public class OrikaMapperService extends ConfigurableMapper {
 				.exclude("type")//
 				.exclude("owners")//
 				.exclude("state")//
+				.exclude("dpeFile")//
 				.byDefault().register();
 
 		factory.classMap(RealPropertyPlot.class, RealPropertyPlot.class)//
