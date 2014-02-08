@@ -65,6 +65,16 @@ function ControllerList($scope, $http, Page, ServiceObjectChecked, ServiceAlert,
         var modalInstance = $modal.open({templateUrl: 'modalPrpAdd.html'});
     };
 
+
+    $scope.synchonizeAcimflo = function() {
+        var references = $scope.selectedProperties().map(function(e) { return e.reference});
+        $http.post(ServiceConfiguration.API_URL+"/rest/synchronisation/", references)
+            .success(function (data, status) {
+
+
+            });
+    }
+
 }
 
 /** Controller for delete modal. Expose selected properties and delete it */

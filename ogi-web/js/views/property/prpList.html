@@ -8,7 +8,7 @@
                 <li><a href="javascript:;" ng-click="openModalDelete()"><i class="glyphicon glyphicon-trash"></i> Supprimer</a></li>
                 <li><a href="#"><i class="glyphicon glyphicon-print"></i> Imprimer</a></li>
                 <li class="divider"></li>
-                <li><a href="#"><i class="glyphicon glyphicon-upload"></i> Synchroniser sur Acimflo</a></li>
+                <li><a href="javascript:;" ng-click="synchonizeAcimflo()"><i class="glyphicon glyphicon-upload"></i> Synchroniser sur Acimflo</a></li>
                 <li><a href="#"><i class="glyphicon glyphicon-upload"></i> Synchroniser sur Diaporama</a></li>
             </ul>
         </div>
@@ -35,7 +35,7 @@
                     <td data-title="'reference'" sortable="reference">{{prp.reference}}</td>
                     <td>{{prp.category.label}}</td>
                     <td>{{prp.address.city}}</td>
-                    <td>{{prp.sale.price | currency}}</td>
+                    <td>{{prp.sale.priceFinal | currency}}</td>
                     <td>
                         <span ng-switch on="prp.category.code">
                             <span ng-switch-when="HSE">{{prp.area | area}}</span>
@@ -44,7 +44,7 @@
                             <span ng-switch-default></span>
                         </span>
                     </td>
-                    <td><img ng-src="{{prp.photos[0].url | img:'thumb'}}"/></td>
+                    <td><img ng-src="{{prp.photos[0].url}}?size=75,60&crop=75,60&sizeMode=inversed_automatic"/></td>
                     <td style="vertical-align:middle">
                         <div class="btn-group">
                             <a type="button" class="btn btn-default" href="#/biens/modifier/{{prp.reference}}"><span class="glyphicon glyphicon-pencil"></span></a>

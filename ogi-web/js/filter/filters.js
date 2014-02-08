@@ -62,3 +62,10 @@ myApp.filter('area', function(Utils) {
         return "";
     };
 });
+
+
+myApp.filter('boolean', function() {
+    return function(b) {
+        return b ? "Oui" : "Non";
+    };
+});
