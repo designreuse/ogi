@@ -35,6 +35,7 @@ public class RealPropertyTo {
 	private String							reference;
 	private Set<String>						equipments		= new HashSet<>(0);
 	private Integer							landArea;
+	private Integer							dependencyArea;
 	private Float							cos;
 	private Boolean							housingEstate;
 	private AddressTo						address;

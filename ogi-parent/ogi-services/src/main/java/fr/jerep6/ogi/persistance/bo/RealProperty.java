@@ -63,6 +63,9 @@ public class RealProperty {
 	@Column(name = "PRO_LAND_AREA")
 	private Integer						landArea;
 
+	@Column(name = "PRO_DEPENDENCY_AREA")
+	private Integer						dependencyArea;
+
 	@Column(name = "PRO_COS")
 	private Float						cos;
 
