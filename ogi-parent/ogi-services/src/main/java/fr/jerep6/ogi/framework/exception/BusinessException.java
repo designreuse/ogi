@@ -10,6 +10,10 @@ public class BusinessException extends AbstractException {
 		code = errorCode.getCode();
 	}
 
+	public BusinessException(ErrorCode errorCode, Object... args) {
+		this(errorCode.getCode(), errorCode.getMessage(), args);
+	}
+
 	/**
 	 * @param message
 	 *            exception message

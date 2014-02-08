@@ -244,7 +244,7 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 	public Set<RealProperty> readByReference(List<String> prpReferences) {
 		Preconditions.checkNotNull(prpReferences);
 
-		return new HashSet(daoProperty.readByReference(prpReferences));
+		return new HashSet<RealProperty>(daoProperty.readByReference(prpReferences));
 	}
 
 	@Override
