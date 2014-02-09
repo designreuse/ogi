@@ -1,10 +1,9 @@
 package fr.jerep6.ogi.service.impl;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.http.client.ClientProtocolException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,7 @@ import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.service.ServiceRealProperty;
 import fr.jerep6.ogi.service.ServiceSynchronisation;
 import fr.jerep6.ogi.service.external.ServiceAcimflo;
+import fr.jerep6.ogi.transfert.WSResult;
 
 @Service("serviceSynchronisation")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -30,16 +30,50 @@ public class ServiceSynchronisationImpl extends AbstractService implements Servi
 	private ServiceAcimflo		serviceAcimflo;
 
 	@Override
-	public void createOrUpdate(List<String> prpReferences) {
+	public List<WSResult> createOrUpdate(String partner, List<String> prpReferences) {
 		Set<RealProperty> properties = serviceRealProperty.readByReference(prpReferences);
 
-		try {
-			serviceAcimflo.createOrUpdate(properties);
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		List<WSResult> results = new ArrayList<>(prpReferences.size());
+		for (RealProperty prp : properties) {
+			WSResult ws = null;
+			switch (partner) {
+				case "acimflo":
+					ws = serviceAcimflo.createOrUpdate(prp);
+					break;
+
+				default:
+					LOGGER.warn("Unknow partner {}", partner);
+					break;
+			}
+			if (ws != null) {
+				results.add(ws);
+			}
 		}
+
+		return results;
+	}
+
+	@Override
+	public List<WSResult> delete(String partner, List<String> prpReferences) {
+		List<WSResult> results = new ArrayList<>(prpReferences.size());
+
+		for (String aRef : prpReferences) {
+			WSResult ws = null;
+			switch (partner) {
+				case "acimflo":
+					ws = serviceAcimflo.delete(aRef);
+					break;
+
+				default:
+					LOGGER.warn("Unknow partner {}", partner);
+					break;
+			}
+			if (ws != null) {
+				results.add(ws);
+			}
+		}
+
+		return results;
 	}
 
 	@Override

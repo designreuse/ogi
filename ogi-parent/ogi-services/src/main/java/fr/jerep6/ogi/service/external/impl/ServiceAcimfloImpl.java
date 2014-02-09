@@ -9,7 +9,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -48,8 +47,9 @@ import fr.jerep6.ogi.persistance.bo.Description;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyBuilt;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
-import fr.jerep6.ogi.service.external.AcimfloReponse;
 import fr.jerep6.ogi.service.external.ServiceAcimflo;
+import fr.jerep6.ogi.service.external.transfert.AcimfloResultDelete;
+import fr.jerep6.ogi.service.external.transfert.AcimfloResultExist;
 import fr.jerep6.ogi.transfert.WSResult;
 
 @Service("serviceAcimflo")
@@ -72,6 +72,9 @@ public class ServiceAcimfloImpl extends AbstractService implements ServiceAcimfl
 	private String			updateUrl;
 	@Value("${partner.acimflo.update.referer}")
 	private String			updateReferer;
+
+	@Value("${partner.acimflo.delete.url}")
+	private String			deleteUrl;
 
 	@Value("${partner.acimflo.exist.url}")
 	private String			verifReference;
@@ -197,14 +200,14 @@ public class ServiceAcimfloImpl extends AbstractService implements ServiceAcimfl
 			LOGGER.info("Result msg = " + msg);
 			if (Strings.isNullOrEmpty(msg)) {
 				LOGGER.error("Empty result msg :" + doc.toString());
-				result = new WSResult("KO", doc.toString());
+				result = new WSResult(prp.getReference(), "KO", doc.toString());
 			} else {
-				result = new WSResult("OK", msg);
+				result = new WSResult(prp.getReference(), "OK", msg);
 			}
 
 		} catch (IOException e) {
 			LOGGER.error("Error broadcast property " + prp.getReference() + " on acimflo", e);
-			result = new WSResult("KO", e.getMessage());
+			result = new WSResult(prp.getReference(), "KO", e.getMessage());
 		}
 
 		return result;
@@ -239,26 +242,63 @@ public class ServiceAcimfloImpl extends AbstractService implements ServiceAcimfl
 		}
 	}
 
+	private String convertToString(HttpResponse response) throws IOException {
+		BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+		StringBuilder result = new StringBuilder();
+		String line = "";
+		while ((line = rd.readLine()) != null) {
+			result.append(line);
+		}
+		return result.toString();
+	}
+
 	@Override
-	public void createOrUpdate(Set<RealProperty> properties) {
+	public WSResult createOrUpdate(RealProperty prp) {
 		CookieHandler.setDefault(new CookieManager());
 		HttpClient client = HttpClientBuilder.create().setRedirectStrategy(new LaxRedirectStrategy()).build();
 
 		// Connection to acimflo => session id is keeped
 		connect(client);
 
-		for (RealProperty prp : properties) {
-			if (prpExist(client, prp.getReference())) {
-				// Update property
-				String refererer = updateReferer.replace("$reference", prp.getReference());
-				broadcast(client, prp, updateUrl, refererer);
-			} else {
-				// Create property
-				String refererer = createReferer.replace("$reference", prp.getReference());
-				broadcast(client, prp, createUrl, refererer);
-			}
-
+		WSResult result;
+		if (prpExist(client, prp.getReference())) {
+			// Update property
+			String refererer = updateReferer.replace("$reference", prp.getReference());
+			result = broadcast(client, prp, updateUrl, refererer);
+		} else {
+			// Create property
+			String refererer = createReferer.replace("$reference", prp.getReference());
+			result = broadcast(client, prp, createUrl, refererer);
 		}
+		return result;
+	}
+
+	@Override
+	public WSResult delete(String prpReference) {
+		CookieHandler.setDefault(new CookieManager());
+		HttpClient client = HttpClientBuilder.create().setRedirectStrategy(new LaxRedirectStrategy()).build();
+
+		// Connection to acimflo => session id is keeped
+		connect(client);
+
+		WSResult ws;
+		try {
+			HttpGet httpGet = new HttpGet(deleteUrl.replace("$reference", prpReference));
+			HttpResponse response = client.execute(httpGet);
+
+			// Convert response to string
+			String json = convertToString(response);
+
+			AcimfloResultDelete result = JSONUtils.toObject(json, AcimfloResultDelete.class);
+			LOGGER.info("Delete of reference {} : {}. Msg = {}", new Object[] { prpReference, result.getSuccess(),
+					result.getPhrase() });
+			ws = new WSResult(prpReference, result.getSuccess() ? "OK" : "KO", result.getPhrase());
+
+		} catch (IOException e) {
+			throw new NetworkTechnicalException(e);
+		}
+
+		return ws;
 	}
 
 	@Override
@@ -307,18 +347,12 @@ public class ServiceAcimfloImpl extends AbstractService implements ServiceAcimfl
 			HttpGet httpget = new HttpGet(verifReference.replace("$reference", prpReference));
 			HttpResponse response = client.execute(httpget);
 
-			// COnvert response to string
-			BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-			StringBuffer result = new StringBuffer();
-			String line = "";
-			while ((line = rd.readLine()) != null) {
-				result.append(line);
-			}
+			String json = convertToString(response);
 
-			AcimfloReponse reponse = JSONUtils.toObject(result.toString(), AcimfloReponse.class);
-			LOGGER.info("Existance of reference {} : {}", prpReference, reponse.getReponse());
+			AcimfloResultExist reponse = JSONUtils.toObject(json, AcimfloResultExist.class);
+			LOGGER.info("Existance of reference {} : {}", prpReference, reponse.isReponse());
 
-			exist = reponse.getReponse();
+			exist = reponse.isReponse();
 		} catch (IOException e) {
 			throw new NetworkTechnicalException(e);
 		}

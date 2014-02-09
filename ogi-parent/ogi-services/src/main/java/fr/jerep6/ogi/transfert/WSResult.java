@@ -8,6 +8,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class WSResult {
+	private String	reference;
 	private String	code;
 	private String	message;
 }
