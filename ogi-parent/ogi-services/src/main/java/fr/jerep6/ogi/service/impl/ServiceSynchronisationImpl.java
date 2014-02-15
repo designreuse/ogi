@@ -2,7 +2,10 @@ package fr.jerep6.ogi.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+
+import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,39 +18,40 @@ import fr.jerep6.ogi.framework.service.impl.AbstractService;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.service.ServiceRealProperty;
 import fr.jerep6.ogi.service.ServiceSynchronisation;
-import fr.jerep6.ogi.service.external.ServiceAcimflo;
+import fr.jerep6.ogi.service.external.ServicePartner;
 import fr.jerep6.ogi.transfert.WSResult;
 
 @Service("serviceSynchronisation")
 @Transactional(propagation = Propagation.REQUIRED)
 public class ServiceSynchronisationImpl extends AbstractService implements ServiceSynchronisation {
-	private final Logger		LOGGER	= LoggerFactory.getLogger(ServiceSynchronisationImpl.class);
+	private final Logger				LOGGER	= LoggerFactory.getLogger(ServiceSynchronisationImpl.class);
 
 	@Autowired
-	private ServiceRealProperty	serviceRealProperty;
+	private ServiceRealProperty			serviceRealProperty;
 
 	@Autowired
-	private ServiceAcimflo		serviceAcimflo;
+	private ServicePartner				serviceAcimflo;
+
+	// Map is defined in xml. Contains all instances of Service to interact with partners
+	@Resource(name = "mapPartners")
+	private Map<String, ServicePartner>	partners;
 
 	@Override
 	public List<WSResult> createOrUpdate(String partner, List<String> prpReferences) {
-		Set<RealProperty> properties = serviceRealProperty.readByReference(prpReferences);
-
 		List<WSResult> results = new ArrayList<>(prpReferences.size());
-		for (RealProperty prp : properties) {
-			WSResult ws = null;
-			switch (partner) {
-				case "acimflo":
-					ws = serviceAcimflo.createOrUpdate(prp);
-					break;
 
-				default:
-					LOGGER.warn("Unknow partner {}", partner);
-					break;
-			}
-			if (ws != null) {
+		// Get servicepartner according to name
+		ServicePartner servicePartner = partners.get(partner);
+
+		if (servicePartner != null) {
+			Set<RealProperty> properties = serviceRealProperty.readByReference(prpReferences);
+
+			for (RealProperty prp : properties) {
+				WSResult ws = servicePartner.createOrUpdate(prp);
 				results.add(ws);
 			}
+		} else {
+			LOGGER.warn("Unknow partner {}", partner);
 		}
 
 		return results;
@@ -57,20 +61,16 @@ public class ServiceSynchronisationImpl extends AbstractService implements Servi
 	public List<WSResult> delete(String partner, List<String> prpReferences) {
 		List<WSResult> results = new ArrayList<>(prpReferences.size());
 
-		for (String aRef : prpReferences) {
-			WSResult ws = null;
-			switch (partner) {
-				case "acimflo":
-					ws = serviceAcimflo.delete(aRef);
-					break;
+		// Get servicepartner according to name
+		ServicePartner servicePartner = partners.get(partner);
 
-				default:
-					LOGGER.warn("Unknow partner {}", partner);
-					break;
-			}
-			if (ws != null) {
+		if (servicePartner != null) {
+			for (String aRef : prpReferences) {
+				WSResult ws = servicePartner.delete(aRef);
 				results.add(ws);
 			}
+		} else {
+			LOGGER.warn("Unknow partner {}", partner);
 		}
 
 		return results;
@@ -78,16 +78,15 @@ public class ServiceSynchronisationImpl extends AbstractService implements Servi
 
 	@Override
 	public Boolean exist(String partner, String prpReference) {
-		Boolean b = false;
-		switch (partner) {
-			case "acimflo":
-				b = serviceAcimflo.exist(prpReference);
-				break;
+		Boolean result = false;
+		// Get servicepartner according to name
+		ServicePartner servicePartner = partners.get(partner);
 
-			default:
-				LOGGER.warn("Unknow partner {}", partner);
-				break;
+		if (servicePartner != null) {
+			result = servicePartner.exist(prpReference);
+		} else {
+			LOGGER.warn("Unknow partner {}", partner);
 		}
-		return b;
+		return result;
 	}
 }

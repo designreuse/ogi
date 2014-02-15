@@ -17,7 +17,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -30,67 +29,57 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 
-import fr.jerep6.ogi.enumeration.EnumDPE;
-import fr.jerep6.ogi.enumeration.EnumDescriptionType;
 import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessError;
 import fr.jerep6.ogi.exception.technical.NetworkTechnicalException;
 import fr.jerep6.ogi.framework.exception.BusinessException;
 import fr.jerep6.ogi.framework.service.impl.AbstractService;
 import fr.jerep6.ogi.persistance.bo.Category;
-import fr.jerep6.ogi.persistance.bo.Description;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
-import fr.jerep6.ogi.persistance.bo.RealPropertyBuilt;
-import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 import fr.jerep6.ogi.service.external.ServicePartner;
 import fr.jerep6.ogi.service.external.transfert.AcimfloResultDelete;
 import fr.jerep6.ogi.service.external.transfert.AcimfloResultExist;
 import fr.jerep6.ogi.transfert.WSResult;
 import fr.jerep6.ogi.utils.HttpClientUtils;
 
-@Service("serviceAcimflo")
-public class ServiceAcimfloImpl extends AbstractService implements ServicePartner {
-	private final Logger	LOGGER	= LoggerFactory.getLogger(ServiceAcimfloImpl.class);
+@Service("serviceDiaporama")
+public class ServiceDiaporamaImpl extends AbstractService implements ServicePartner {
+	private final Logger	LOGGER	= LoggerFactory.getLogger(ServiceDiaporamaImpl.class);
 
-	@Value("${partner.acimflo.connect.url}")
+	@Value("${partner.diaporama.connect.url}")
 	private String			loginUrl;
-	@Value("${partner.acimflo.connect.login}")
+	@Value("${partner.diaporama.connect.login}")
 	private String			login;
-	@Value("${partner.acimflo.connect.pwd}")
+	@Value("${partner.diaporama.connect.pwd}")
 	private String			pwd;
 
-	@Value("${partner.acimflo.create.url}")
+	@Value("${partner.diaporama.create.url}")
 	private String			createUrl;
-	@Value("${partner.acimflo.create.referer}")
+	@Value("${partner.diaporama.create.referer}")
 	private String			createReferer;
 
-	@Value("${partner.acimflo.update.url}")
+	@Value("${partner.diaporama.update.url}")
 	private String			updateUrl;
-	@Value("${partner.acimflo.update.referer}")
+	@Value("${partner.diaporama.update.referer}")
 	private String			updateReferer;
 
-	@Value("${partner.acimflo.delete.url}")
+	@Value("${partner.diaporama.delete.url}")
 	private String			deleteUrl;
 
-	@Value("${partner.acimflo.exist.url}")
+	@Value("${partner.diaporama.exist.url}")
 	private String			verifReference;
 
-	@Value("${partner.acimflo.apercu.url}")
+	@Value("${partner.diaporama.apercu.url}")
 	private String			imgApercu;
 
 	private WSResult broadcast(HttpClient client, RealProperty prp, String url, String referer) {
-		LOGGER.info("Broadcast to Acimflo. url = {} : referer = {}", url, referer);
+		LOGGER.info("Broadcast to Diaporama. url = {} : referer = {}", url, referer);
 
 		WSResult result;
 		try {
-			Description description = prp.getDescription(EnumDescriptionType.WEBSITE_OWN);
 			if (prp.getSale() == null || prp.getSale().getPriceFinal() == null) {
 				throw new BusinessException(EnumBusinessError.NO_SALE, prp.getReference());
-			}
-			if (description == null || description.getLabel() == null) {
-				throw new BusinessException(EnumBusinessError.NO_DESCRIPTION_WEBSITE_OWN, prp.getReference());
 			}
 
 			HttpPost httpPost = new HttpPost(url);
@@ -99,46 +88,10 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 			MultipartEntityBuilder builder = MultipartEntityBuilder.create();
 			builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 
-			builder.addPart("vendu", new StringBody("non", ContentType.TEXT_PLAIN));
-
-			if (prp instanceof RealPropertyLivable) {
-				RealPropertyLivable liv = (RealPropertyLivable) prp;
-				builder.addPart("surfaceHabitable", new StringBody(Objects.firstNonNull(liv.getArea(), "").toString(),
-						ContentType.TEXT_PLAIN));
-				builder.addPart("nbreChambre", new StringBody(Objects.firstNonNull(liv.getNbBedRoom(), "").toString(),
-						ContentType.TEXT_PLAIN));
-				builder.addPart("nbreSDB", new StringBody(Objects.firstNonNull(liv.getNbBathRoom(), "").toString(),
-						ContentType.TEXT_PLAIN));
-				builder.addPart("nbreWC", new StringBody(Objects.firstNonNull(liv.getNbWC(), "").toString(),
-						ContentType.TEXT_PLAIN));
-			}
-
-			builder.addPart("surfaceTerrain", new StringBody(Objects.firstNonNull(prp.getLandArea(), "").toString(),
-					ContentType.TEXT_PLAIN));
 			builder.addPart("prix", new StringBody(prp.getSale().getPriceFinal().toString(), ContentType.TEXT_PLAIN));
 			builder.addPart("reference", new StringBody(prp.getReference(), ContentType.TEXT_PLAIN));
 			builder.addPart("referenceOriginale", new StringBody(prp.getReference(), ContentType.TEXT_PLAIN));
 			builder.addPart("idType", new StringBody(getType(prp.getCategory()), ContentType.TEXT_PLAIN));
-			builder.addPart("surfaceDependance", new StringBody(Objects.firstNonNull(prp.getDependencyArea(), "")
-					.toString(), ContentType.TEXT_PLAIN));
-
-			String addr = "";
-			if (prp.getAddress() != null) {
-				addr = Objects.firstNonNull(prp.getAddress().getCity(), "");
-			}
-			builder.addPart("nomVille", new StringBody(addr, ContentType.TEXT_PLAIN));
-
-			String style = "";
-			if (prp.getType() != null) {
-				style = Objects.firstNonNull(prp.getType().getLabel(), "");
-			}
-			builder.addPart("nomStyle", new StringBody(style, ContentType.TEXT_PLAIN));
-
-			String desc = "";
-			if (description != null) {
-				desc = Objects.firstNonNull(description.getLabel(), "");
-			}
-			builder.addPart("commentaire", new StringBody(desc, ContentType.TEXT_PLAIN));
 
 			// ###### Photos ######
 			builder.addPart("MAX_FILE_SIZE", new StringBody("5010000", ContentType.TEXT_PLAIN));
@@ -170,22 +123,6 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 			}
 			builder.addPart("apercu", new StringBody(apercu.toString(), ContentType.TEXT_PLAIN));
 
-			if (prp instanceof RealPropertyBuilt) {
-				RealPropertyBuilt built = (RealPropertyBuilt) prp;
-
-				ContentBody dpeBody = new StringBody("", ContentType.TEXT_PLAIN);
-				Path dpeKwh = built.getDpeFile().get(EnumDPE.KWH_260);
-				if (dpeKwh != null) {
-					ContentType mime = ContentType.create(Files.probeContentType(dpeKwh));
-					String fileName = dpeKwh.getFileName().toString();
-					dpeBody = new FileBody(dpeKwh.toFile(), mime, fileName);
-				}
-				builder.addPart("dpe", dpeBody);
-
-				builder.addPart("nbreGarage", new StringBody(Objects.firstNonNull(built.getNbGarage(), "").toString(),
-						ContentType.TEXT_PLAIN));
-			}
-
 			httpPost.setEntity(builder.build());
 			httpPost.addHeader("Referer", referer);
 
@@ -204,7 +141,7 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 			}
 
 		} catch (IOException e) {
-			LOGGER.error("Error broadcast property " + prp.getReference() + " on acimflo", e);
+			LOGGER.error("Error broadcast property " + prp.getReference() + " on diaporama", e);
 			result = new WSResult(prp.getReference(), "KO", e.getMessage());
 		}
 
@@ -212,7 +149,7 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 	}
 
 	private void connect(HttpClient client) throws BusinessException {
-		LOGGER.info("Connect to Acimflo. url = {}", loginUrl);
+		LOGGER.info("Connect to Diaporama. url = {}", loginUrl);
 
 		try {
 			HttpPost post = new HttpPost(loginUrl);
@@ -232,8 +169,8 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 			LOGGER.info("Login successful = " + logged);
 
 			if (!logged) {
-				LOGGER.error("Login to acimflo failed : " + doc.toString());
-				throw new BusinessException(EnumBusinessError.ACIMFLO_IDENTIFIANTS_KO);
+				LOGGER.error("Login to Diaporama failed : " + doc.toString());
+				throw new BusinessException(EnumBusinessError.DIAPORAMA_IDENTIFIANTS_KO);
 			}
 		} catch (IOException e) {
 			throw new NetworkTechnicalException(e);
@@ -269,6 +206,7 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 		// Connection to acimflo => session id is keeped
 		connect(client);
 
+		WSResult ws;
 		try {
 			HttpGet httpGet = new HttpGet(deleteUrl.replace("$reference", prpReference));
 			HttpResponse response = client.execute(httpGet);
@@ -276,11 +214,13 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 			AcimfloResultDelete result = HttpClientUtils.convertToJson(response, AcimfloResultDelete.class);
 			LOGGER.info("Delete of reference {} : {}. Msg = {}", new Object[] { prpReference, result.getSuccess(),
 					result.getPhrase() });
-			return new WSResult(prpReference, result.getSuccess() ? "OK" : "KO", result.getPhrase());
+			ws = new WSResult(prpReference, result.getSuccess() ? "OK" : "KO", result.getPhrase());
 
 		} catch (IOException e) {
 			throw new NetworkTechnicalException(e);
 		}
+
+		return ws;
 	}
 
 	@Override
@@ -322,7 +262,7 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 	 * @return
 	 */
 	private boolean prpExist(HttpClient client, String prpReference) {
-		LOGGER.info("Test if reference {} exist on Acimflo.", prpReference);
+		LOGGER.info("Test if reference {} exist on Diaporama.", prpReference);
 		boolean exist = false;
 
 		try {
