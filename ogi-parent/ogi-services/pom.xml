@@ -10,6 +10,7 @@
 	<properties>
 		<maven.compiler.source>7</maven.compiler.source>
 		<maven.compiler.target>7</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<dependencies>
@@ -150,6 +151,7 @@
 	    </resources>
 	    
 	    <plugins>
+	    <!-- 
 	        <plugin>
 	            <groupId>com.alexnederlof</groupId>
 	            <artifactId>jasperreports-plugin</artifactId>
@@ -172,7 +174,7 @@
 	                <numberOfThreads>4</numberOfThreads>
 	            </configuration>
 	        </plugin>
-			
+			 -->
 			<!-- 
 			<plugin>
 		        <groupId>org.codehaus.mojo</groupId>
