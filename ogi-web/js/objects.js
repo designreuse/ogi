@@ -37,10 +37,15 @@ function PropertyJS(prpFromAPI) {
         this[key] = prpFromAPI[key];
     }
 
-    this.dpe = Object.create(dpe);
+    this.dpe = {};
+    angular.extend(this.dpe, dpe);
     angular.extend(this.dpe, prpFromAPI.dpe);
 
-    this.descriptions = Object.create(description);
+    // Object.create renvoie un nouvel object avec les propriétés de l'objet source en tant que prototype.
+    // Cependant JSON.stringify ne tient pas compte du prototype. La solution que j'ai trouvé est de copier toutes
+    // les propriétés de l'object dans sa destination via un extends
+    this.descriptions = {};
+    angular.extend(this.descriptions, description);
     if(!utilsObject.isUndefinedOrNull(prpFromAPI.descriptions)) {
         angular.extend(this.descriptions, prpFromAPI.descriptions);
     }
@@ -48,8 +53,9 @@ function PropertyJS(prpFromAPI) {
     // if address is defined copy attribute into object previously created
     this.address = null;
     if(!utilsObject.isUndefinedOrNull(prpFromAPI.address)) {
-        this.address = Object.create(address);
-        angular.extend(this.address, prpFromAPI.address);
+        this.address = {};
+        angular.extend(this.address, address); // Populate address field from predefined object
+        angular.extend(this.address, prpFromAPI.address); // override JS values with server values
     }
 
     // Override photo only if not exist or empty
@@ -61,7 +67,8 @@ function PropertyJS(prpFromAPI) {
     });
 
     if(!utilsObject.isUndefinedOrNull(prpFromAPI.sale)) {
-        this.sale = Object.create(sale);
+        this.sale = {};
+        this.sale = angular.extend(this.sale, sale);
         angular.extend(this.sale, prpFromAPI.sale);
     }
 

@@ -36,7 +36,7 @@ function ControllerPrpParent($scope, Page, $log, $http, ServiceConfiguration, Ut
             return itemActive;
         }
     };
-    $scope.addMenu.select("partner");
+    $scope.addMenu.select("prp");
 
     /**
      * Le flux json doit contenir le type du bien car en java, il y a un héritage. Il faut donc connaitre la classe
@@ -56,6 +56,7 @@ function ControllerPrpParent($scope, Page, $log, $http, ServiceConfiguration, Ut
     $scope.update = function() {
         $scope.prp.mappingType= getMappingType($scope.prp.category.code);
         $scope.prp.address = $scope.saveData.address.isEmpty() ? null : $scope.saveData.address;
+
 
         // Create or modify property
         $http.post(ServiceConfiguration.API_URL+"/rest/property/", $scope.prp)
