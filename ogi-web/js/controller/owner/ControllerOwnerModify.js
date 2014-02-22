@@ -1,18 +1,5 @@
 function ControllerOwnerModify($scope, Page, $injector, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log, Utils) {
-    $scope.owner = null;
-    $scope.saveData = {
-        addressesOwner: [Object.create(address)]
-    };
-
-    $scope.setOwner = function (o) {
-        $scope.owner = o;
-    }
-
-    $scope.setOwner({
-        gender: "MO",
-        addresses: [Object.create(address)]
-    });
-
+    $injector.invoke(ControllerOwnerParent, this, {$scope: $scope, $log:$log, $http:$http, ServiceConfiguration:ServiceConfiguration});
 
     // Lecture du propriétaire lié au bien
     $http.get(ServiceConfiguration.API_URL+"/rest/owner/"+$routeParams.techid)
@@ -28,30 +15,10 @@ function ControllerOwnerModify($scope, Page, $injector, $routeParams, ServiceCon
         });
 
     $scope.update = function() {
-        // If owner is defined => create / modify it
-        if(!Utils.isUndefinedOrNull($scope.owner)) {
-            // Il ne faut pas envoyer une adresse vide sinon les contraintes d'intégrités ne sont pas respectées
-            $scope.owner.addresses = $scope.saveData.addressesOwner.length == 0 || $scope.saveData.addressesOwner[0].isEmpty() ? [] : $scope.saveData.addressesOwner;
-
+        $scope.updateTechnical( function() {
             $http.put(ServiceConfiguration.API_URL+"/rest/owner/"+$scope.owner.techid, $scope.owner)
-                .success(function (data, status) {
-                    ServiceAlert.addSuccess("Enregistrement du propriétaire OK");
-                })
-                .error(function (data, status) {
-                    ServiceAlert.addError("Erreur lors de l'enregistrement du propriétaire :"+data.message);
-                });
-        }
+                .success($scope.callbackSuccess)
+                .error($scope.callbackError);
+        });
     }
-
-
-    $scope.openCalendar = function($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
-        $scope.opened = true;
-    };
-
-    $scope.dateOptions = {
-        'year-format': "'yyyy'",
-        'starting-day': 1
-    };
 }

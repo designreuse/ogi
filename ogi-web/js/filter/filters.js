@@ -46,7 +46,7 @@ myApp.filter('prpLink', function(Utils, ServiceUrl) {
         // else return first address
         var s = "";
         properties.forEach(function(elt, index) {
-            s += "<a href=\""+ServiceUrl.urlProperty(elt.reference)+"\">"+elt.reference+"</a>";
+            s += "<a href=\""+ServiceUrl.urlProperty(elt.reference)+"\">"+elt.reference+"</a><br />";
         });
 
         return s;

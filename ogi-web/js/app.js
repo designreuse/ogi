@@ -54,6 +54,7 @@ myApp.config(['$routeProvider', function($routeProvider) {
 
         when('/proprietaires', {templateUrl: 'js/views/owner/ownerList.html', controller: ControllerOwnerList}).
         when('/proprietaires/modifier/:techid', {templateUrl: 'js/views/owner/ownerFormAdd.html', controller: ControllerOwnerModify}).
+        when('/proprietaires/ajouter/', {templateUrl: 'js/views/owner/ownerFormAdd.html', controller: ControllerOwnerAdd}).
 
         otherwise({redirectTo: '/biens'});
 }]);
