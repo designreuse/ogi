@@ -61,29 +61,87 @@
     <script src="js/filter/filters.js"></script>
 
     <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/bootstrap-theme.css">
+    <link rel="stylesheet" href="theme/font-awesome.css">
+    <link rel="stylesheet" href="theme/sb-admin.css">
+
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/redmond/jquery-ui-1.10.3.custom.css">
     <link rel="stylesheet" href="css/dialogs.min.css">
+
 
     <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
     <link rel="stylesheet" href="css/jquery.fileupload-ui.css">
 </head>
 
 <body>
-    <div class="container">
-    <div class="row">
-        <div class="col-xs-2">
-            <!--Sidebar content-->
-        </div>
-        <div class="col-xs-10">
-            <div ng-controller="AlertCtrl">
-                <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.date | date:"HH'h 'mm'min 'ss'sec'"}} : {{alert.msg}}</alert>
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.html">OGI</a>
             </div>
+            <form class="navbar-form navbar-right" role="search">
+                <div class="input-group custom-search-form">
+                    <input type="text" class="form-control" placeholder="Rechercher ..." />
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </form>
+            <!-- /.navbar-header -->
+        </nav>
+        <!-- /.navbar-static-top -->
 
-            <div ng-view></div>
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li><a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Accueil</a></li>
+                    <li><a href="#/proprietaires/"><i class="fa fa-users fa-fw"></i> Propriétaires</a></li>
+                    <li><a href="#/biens"><i class="fa fa-hospital-o fa-fw"></i> Biens</a></li>
+                    <li>
+                        <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="panels-wells.html">Panels and Wells</a>
+                            </li>
+                            <li>
+                                <a href="buttons.html">Buttons</a>
+                            </li>
+                            <li>
+                                <a href="notifications.html">Notifications</a>
+                            </li>
+                            <li>
+                                <a href="typography.html">Typography</a>
+                            </li>
+                            <li>
+                                <a href="grid.html">Grid</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                </ul>
+                <!-- /#side-menu -->
+            </div>
+            <!-- /.sidebar-collapse -->
+        </nav>
+        <!-- /.navbar-static-side -->
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div ng-controller="AlertCtrl">
+                        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.date | date:"HH'h 'mm'min 'ss'sec'"}} : {{alert.msg}}</alert>
+                    </div>
+                    <div ng-view></div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+
+    <script src="theme/collapse.js"></script>
+    <script src="theme/transition.js"></script>
+    <script src="theme/jquery.metisMenu.js"></script>
+    <script src="theme/sb-admin.js"></script>
 </body>
 </html>
