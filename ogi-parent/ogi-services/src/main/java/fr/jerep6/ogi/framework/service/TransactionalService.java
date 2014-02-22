@@ -31,4 +31,6 @@ public interface TransactionalService<T, PK extends Serializable> extends Servic
 	void remove(Collection<T> c);
 
 	void remove(T bo);
+
+	void removeByPrimaryKey(Collection<PK> c);
 }

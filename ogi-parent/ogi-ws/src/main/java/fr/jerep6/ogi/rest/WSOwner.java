@@ -6,10 +6,12 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,6 +48,18 @@ public class WSOwner extends AbstractJaxRsWS {
 		serviceOwner.addProperty(ownerTechid, prpRef);
 	}
 
+	@POST
+	@Consumes(APPLICATION_JSON_UTF8)
+	@Produces(APPLICATION_JSON_UTF8)
+	public OwnerTo create(OwnerTo owner) {
+		Preconditions.checkNotNull(owner);
+		Owner ownersBo = mapper.map(owner, Owner.class);
+		// Pas d'update directement avec l'objet recu de la requete car sinon hibernate supprime l'adresse
+		// puis la recrée.
+		serviceOwner.createOrUpdate(ownersBo);
+		return owner;
+	}
+
 	@DELETE
 	@Path("{techid}/property/{prpRef}")
 	@Consumes(APPLICATION_JSON_UTF8)
@@ -55,6 +69,15 @@ public class WSOwner extends AbstractJaxRsWS {
 		Preconditions.checkArgument(!Strings.isNullOrEmpty(prpRef));
 
 		serviceOwner.deleteProperty(ownerTechid, prpRef);
+	}
+
+	@DELETE
+	@Consumes(APPLICATION_JSON_UTF8)
+	@Produces(APPLICATION_JSON_UTF8)
+	public void deleteOwners(@QueryParam("ref") List<Integer> references) {
+		Preconditions.checkNotNull(references);
+
+		serviceOwner.removeByPrimaryKey(references);
 	}
 
 	@GET
