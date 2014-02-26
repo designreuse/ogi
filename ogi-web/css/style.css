@@ -3,6 +3,22 @@
   margin-bottom: 5px;
   padding: 5px;
 }
+/* dialogs.min.css */
+.dialog-header-confirm {
+  background: #F1F1F1;
+}
+.dialog-header-error span,
+.dialog-header-error h4,
+.dialog-header-wait span,
+.dialog-header-wait h4,
+.dialog-header-confirm span,
+.dialog-header-confirm h4 {
+  color: #000000;
+}
+.modal-footer {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
 /* ##### GENERAL ##### */
 .pointer {
   cursor: pointer;
@@ -16,20 +32,84 @@ legend + .control-group {
 .normal {
   font-weight: normal;
 }
-/* ##### PAGE PRP MANAGEMENT ##### */
-#prpFormManage .form-horizontal .control-group {
-  margin-bottom: 10px;
+/* NAVIGATION */
+.navbar-default .navbar-brand {
+  color: #ffffff;
 }
-/* ## TAB GENERAL ## */
+.navbar-default a {
+  color: #ffffff;
+}
+.navbar-default {
+  background: none;
+  border-color: transparent;
+}
+/* Hover sur les liens du menu de gauche */
+.nav > li a:hover,
+.nav > li a:focus {
+  background: #9e889e;
+}
+/* Couleur des liens des onglets */
 .nav-tabs {
-  margin-bottom: 0px;
   border-bottom: none;
   cursor: pointer;
+  /*Pointer pour la directive tab*/
+}
+.nav-tabs a {
+  color: black;
+}
+#wrapper {
+  width: 100%;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.07, #2b0221), color-stop(1, #63485d));
+  background-image: -o-linear-gradient(bottom, #2b0221 7%, #63485d 100%);
+  background-image: -moz-linear-gradient(bottom, #2b0221 7%, #63485d 100%);
+  background-image: -webkit-linear-gradient(bottom, #2b0221 7%, #63485d 100%);
+  background-image: -ms-linear-gradient(bottom, #2b0221 7%, #63485d 100%);
+  background-image: linear-gradient(to bottom, #2b0221 7%, #63485d 100%);
+}
+/* TABLE */
+.table {
+  border: 1px solid #808080;
+  background-color: white;
+}
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+  border-top: 1px solid #808080;
+}
+.table thead {
+  background-color: #260426;
+  color: white;
+}
+/* FORMS */
+.well {
+  background: white;
+}
+/* Menu d'action */
+.action {
+  margin: 10px;
+}
+/* Liste des actions présentées dans une cellure d'un tableau*/
+.btn-group-action {
+  background: #ededed;
+  border-radius: 5px;
+  margin: auto;
+}
+.btn-group-action a {
+  color: black;
+}
+.btn-group-action a:hover,
+.btn-group-action a:focus {
+  color: #428BCA;
 }
 /* bootstrap sets max-width on img to 100% and broke google maps controls */
 #map img {
   max-width: none;
 }
+/* ##### PAGE PRP MANAGEMENT ##### */
+/* ## TAB GENERAL ## */
 /* style des éléments de la liste */
 ul#list-photos li {
   border: 1px solid #ddd;

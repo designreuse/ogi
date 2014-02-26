@@ -1,25 +1,27 @@
 <div ng-controller="ControllerPrpTabOwner">
     <h2>Propriétaires du bien <span class="label label-default">{{ownersProperty.length}}</span></h2>
-    <table class="table table-striped table-condensed" ng-if="displayZoneOwnerLink()">
+    <table class="table table-condensed" ng-if="displayZoneOwnerLink()">
         <thead>
         <tr>
             <th>Nom</th>
-            <th>Actions</th>
+            <th>Prénom</th>
+            <th style="width:20%">Actions</th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="o in ownersProperty">
-            <td>{{o.firstname}} {{o.surname}}</td>
+            <td>{{o.surname}}</td>
+            <td>{{o.firstname}}</td>
             <td style="vertical-align:middle">
-                <div class="btn-group">
-                    <a title="Voir" href="#/proprietaires/modifier/{{o.techid}}" class="btn btn-default"><i class="glyphicon glyphicon-eye-open"></i></a>
-                    <button title="Supprimer du bien" class="btn btn-default" ng-click="deleteToProperty(o.techid)"><i class="glyphicon glyphicon-trash"></i></button>
+                <div class="btn-group btn-group-action">
+                    <a class="btn"href="#/proprietaires/modifier/{{o.techid}}" title="Voir"><i class="glyphicon glyphicon-eye-open"></i></a>
+                    <a class="btn" ng-click="deleteToProperty(o.techid)" title="Supprimer du bien"><i class="glyphicon glyphicon-remove-circle"></i></a>
                 </div>
             </td>
         </tr>
         </tbody>
     </table>
-    <p ng-if="!displayZoneOwnerLink()">Liste vide</p>
+    <p ng-if="!displayZoneOwnerLink()">Le bien n'est associé à aucun propriétaire</p>
 
 
     <hr />
@@ -31,12 +33,12 @@
         </div>
     </div>
 
-    <table class="table table-striped table-condensed">
+    <table class="table table-condensed">
         <thead>
         <tr>
             <th>Nom</th>
             <th>Prénom</th>
-            <th>Actions</th>
+            <th style="width:20%">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -44,9 +46,9 @@
             <td>{{o.surname}}</td>
             <td>{{o.firstname}}</td>
             <td style="vertical-align:middle">
-                <div class="btn-group">
-                    <a title="Voir" href="#/proprietaires/modifier/{{o.techid}}" class="btn btn-default"><i class="glyphicon glyphicon-eye-open"></i></a>
-                    <button title="Ajouter au bien" class="btn btn-default" ng-click="addToProperty(o.techid)"><i class="glyphicon glyphicon-plus-sign"></i></button>
+                <div class="btn-group btn-group-action">
+                    <a class="btn" href="#/proprietaires/modifier/{{o.techid}}" title="Voir"><i class="glyphicon glyphicon-eye-open"></i></a>
+                    <a class="btn" ng-click="addToProperty(o.techid)" title="Ajouter au bien"><i class="glyphicon glyphicon-plus-sign"></i></a>
                 </div>
             </td>
         </tr>

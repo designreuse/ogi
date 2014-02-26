@@ -1,3 +1,9 @@
+<div class="row action">
+    <button type="button" class="btn btn-default" title="Retour" onclick="history.go(-1)"><i class="glyphicon glyphicon-arrow-left"></i></button>
+    <button type="submit" class="btn btn-default" ng-click="update()"><i class="glyphicon glyphicon-floppy-disk"></i> Enregistrer</button>
+</div>
+
+
 <form class="well">
     <div class="row">
         <fieldset class="col-xs-6">
@@ -100,13 +106,6 @@
 
                 </div>
         </fieldset>
-    </div>
-
-    <div class="row">
-        <div class="center">
-            <button type="submit" class="btn btn-success" ng-click="update()">Enregistrer</button>
-            <button type="submit" class="btn btn-danger">Annuler</button>
-        </div>
     </div>
 
 </form>

@@ -1,21 +1,90 @@
+@import "variables.less";
 @import "override.less";
 @import "general.less";
 
-/* ##### PAGE PRP MANAGEMENT ##### */
-#prpFormManage .form-horizontal .control-group {
-    margin-bottom: 10px;
+/* NAVIGATION */
+.navbar-default .navbar-brand {
+  color : @colorNavLi;
+}
+.navbar-default a {
+  color : @colorNavLi;
+}
+.navbar-default {
+  background: none;
+  border-color : transparent;
+}
+/* Hover sur les liens du menu de gauche */
+.nav > li a:hover, .nav > li a:focus {
+  background: @colorNavLiHover;
+}
+/* Couleur des liens des onglets */
+.nav-tabs {
+  border-bottom : none;
+  cursor : pointer; /*Pointer pour la directive tab*/
+
+  a {
+    color : black;
+  }
 }
 
+#wrapper {
+  width: 100%;
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(0.07, @colorWrapperGradientBegin),
+    color-stop(1, @colorWrapperGradientEnd)
+  );
+  background-image: -o-linear-gradient(bottom, @colorWrapperGradientBegin 7%, @colorWrapperGradientEnd 100%);
+  background-image: -moz-linear-gradient(bottom, @colorWrapperGradientBegin 7%, @colorWrapperGradientEnd 100%);
+  background-image: -webkit-linear-gradient(bottom, @colorWrapperGradientBegin 7%, @colorWrapperGradientEnd 100%);
+  background-image: -ms-linear-gradient(bottom, @colorWrapperGradientBegin 7%, @colorWrapperGradientEnd 100%);
+  background-image: linear-gradient(to bottom, @colorWrapperGradientBegin 7%, @colorWrapperGradientEnd 100%);
+}
+
+/* TABLE */
+.table {
+  border: 1px solid @colorTableBorder;
+  background-color: white;
+}
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+  border-top: 1px solid @colorTableBorder;
+}
+.table thead {
+  background-color: @colorTableHead;
+  color : white;
+}
+
+/* FORMS */
+.well {
+  background: white;
+}
+
+/* Menu d'action */
+.action {
+  margin: 10px;
+}
+
+/* Liste des actions présentées dans une cellure d'un tableau*/
+.btn-group-action {
+  background:#ededed;border-radius:5px;
+  margin: auto;
+
+  a {
+    color : black;
+  }
+  a:hover, a:focus {
+    color : #428BCA;
+  }
+}
+
+/* bootstrap sets max-width on img to 100% and broke google maps controls */
+#map img { max-width:none;}
+
+/* ##### PAGE PRP MANAGEMENT ##### */
+
     /* ## TAB GENERAL ## */
-    .nav-tabs {
-        margin-bottom : 0px;
-        border-bottom : none;
-        cursor : pointer;
-    }
-
-    /* bootstrap sets max-width on img to 100% and broke google maps controls */
-    #map img { max-width:none;}
-
     /* style des éléments de la liste */
     ul#list-photos li{
         border:1px solid #ddd;

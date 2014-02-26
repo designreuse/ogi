@@ -1,22 +1,13 @@
 <div id="prpList">
-    <div class="row">
-        <div class="btn-group">
-            <button class="btn btn-info">Actions</button>
-            <button class="btn btn-info dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-            <ul class="dropdown-menu">
-                <li><a href="#"><i class="glyphicon glyphicon-pencil"></i> Modifier</a></li>
-                <li><a href="javascript:;" ng-click="openModalDelete()"><i class="glyphicon glyphicon-trash"></i> Supprimer</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-print"></i> Imprimer</a></li>
-                <li class="divider"></li>
-                <li><a href="javascript:;" ng-click="synchonizeAcimflo()"><i class="glyphicon glyphicon-upload"></i> Synchroniser sur Acimflo</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-upload"></i> Synchroniser sur Diaporama</a></li>
-            </ul>
-        </div>
 
-        <button class="btn btn-primary" ng-click="openModalAddPrp()">Ajouter</button>
+    <div class="row action">
+        <button type="button" class="btn btn-default" title="Retour" onclick="history.go(-1)"><i class="glyphicon glyphicon-arrow-left"></i></button>
+        <button type="button" class="btn btn-default" ng-click="openModalAddPrp()"><i class="glyphicon glyphicon-plus-sign"></i> Ajouter</button>
     </div>
+
+
     <div class="row">
-        <table class="liste table table-striped table-condensed">
+        <table class="table table-condensed">
             <thead>
             <tr>
                 <th></th>
@@ -46,10 +37,10 @@
                     </td>
                     <td><img ng-src="{{prp.photos[0].url}}?size=75,60&crop=75,60&sizeMode=inversed_automatic"/></td>
                     <td style="vertical-align:middle">
-                        <div class="btn-group">
-                            <a type="button" class="btn btn-default" href="#/biens/modifier/{{prp.reference}}"><span class="glyphicon glyphicon-pencil"></span></a>
-                            <button type="button" class="btn btn-default" ng-click="confirmDeletion($index)"><span class="glyphicon glyphicon-trash"></span></button>
-                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-print"></span></button>
+                        <div class="btn-group btn-group-action">
+                            <a class="btn" href="#/biens/voir/{{prp.reference}}" title="Voir"><span class="glyphicon glyphicon-eye-open"></span></a>
+                            <a class="btn" href="#/biens/modifier/{{prp.reference}}" title="Modifier"><span class="glyphicon glyphicon-edit"></span></a>
+                            <a class="btn" ng-click="confirmDeletion($index)" title="Supprimer"><span class="glyphicon glyphicon-remove-circle"></span></a>
                         </div>
                     </td>
                 </tr>
@@ -76,8 +67,8 @@
 
 
     <script type="text/ng-template" id="modalPrpAdd.html">
-        <div class="modal-header"><a class="close" ng-click="$dismiss()">×</a>
-            <h3>Ajouter un bien</h3>
+        <div class="modal-header dialog-header-confirm"><a class="close" ng-click="$dismiss()">×</a>
+            <h4 class="modal-title"><i class="glyphicon glyphicon-plus-sign"></i> Ajouter un bien</h4>
         </div>
         <div class="modal-body">
             <ul class="list-unstyled list-inline text-center">
