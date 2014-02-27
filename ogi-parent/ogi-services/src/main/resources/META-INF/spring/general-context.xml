@@ -47,5 +47,7 @@
 		<entry key="diaporama" value-ref="serviceDiaporama" />
 	</util:map>
 	
+	<!-- Classe initialisant la redirection java.util.logging vers slf4j-->
+	<bean class="fr.jerep6.ogi.framework.log.JULInitializer" />
 
 </beans>
