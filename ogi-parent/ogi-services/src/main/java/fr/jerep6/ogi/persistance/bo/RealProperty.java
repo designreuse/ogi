@@ -111,6 +111,9 @@ public class RealProperty {
 	@ManyToMany(mappedBy = "properties")
 	private Set<Owner>					owners;
 
+	@OneToMany(mappedBy = "property")
+	private Set<PartnerRequest>		partnersExistence;
+
 	// ##### Technical field #####
 	// Il faut obligatoirement spécifier l'attribut columnDefinition sinon mysql crée un champ date time
 	@Column(name = "PRO_MODIFICATION_DATE", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")

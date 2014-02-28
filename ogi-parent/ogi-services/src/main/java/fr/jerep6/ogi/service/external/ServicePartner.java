@@ -10,5 +10,14 @@ public interface ServicePartner extends Service {
 
 	Boolean exist(String prpReference);
 
-	WSResult delete(String prpReference);
+	/**
+	 * Delete a property from partner.
+	 * 
+	 * @param prpReference
+	 *            functional reference
+	 * @param techidForAck
+	 *            technical identifying in order to create ack
+	 * @return
+	 */
+	WSResult delete(String prpReference, Integer techidForAck);
 }

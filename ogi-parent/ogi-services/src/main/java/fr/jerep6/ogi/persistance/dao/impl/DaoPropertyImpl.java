@@ -34,7 +34,6 @@ public class DaoPropertyImpl extends AbstractDao<RealProperty, Integer> implemen
 		TypedQuery<Integer> query = entityManager.createQuery(q.toString(), Integer.class);
 
 		return Iterables.getFirst(query.getResultList(), 0);
-
 	}
 
 	@Override
@@ -55,6 +54,18 @@ public class DaoPropertyImpl extends AbstractDao<RealProperty, Integer> implemen
 		query.setParameter(PARAM_REFERENCE, references);
 
 		return query.getResultList();
+	}
+
+	@Override
+	public Integer readTechid(String reference) {
+		StringBuilder q = new StringBuilder();
+		q.append("SELECT techid FROM " + RealProperty.class.getName() + " r");
+		q.append(" WHERE r.reference = :" + PARAM_REFERENCE);
+
+		TypedQuery<Integer> query = entityManager.createQuery(q.toString(), Integer.class);
+		query.setParameter(PARAM_REFERENCE, reference);
+
+		return Iterables.getFirst(query.getResultList(), null);
 	}
 
 	@Override

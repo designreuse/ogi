@@ -16,6 +16,7 @@ import fr.jerep6.ogi.framework.exception.BusinessException;
 import fr.jerep6.ogi.framework.exception.MultipleBusinessException;
 import fr.jerep6.ogi.framework.transfert.ErrorTo;
 import fr.jerep6.ogi.framework.transfert.ExceptionTo;
+import fr.jerep6.ogi.framework.utils.ContextUtils;
 import fr.jerep6.ogi.framework.utils.ExceptionUtils;
 import fr.jerep6.ogi.framework.utils.UrlUtils;
 import fr.jerep6.ogi.persistance.bo.Address;
@@ -25,6 +26,7 @@ import fr.jerep6.ogi.persistance.bo.Description;
 import fr.jerep6.ogi.persistance.bo.Document;
 import fr.jerep6.ogi.persistance.bo.Label;
 import fr.jerep6.ogi.persistance.bo.Owner;
+import fr.jerep6.ogi.persistance.bo.PartnerRequest;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyDiagnosis;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
@@ -42,6 +44,7 @@ import fr.jerep6.ogi.transfert.bean.DocumentTo;
 import fr.jerep6.ogi.transfert.bean.FileUploadTo;
 import fr.jerep6.ogi.transfert.bean.LabelTo;
 import fr.jerep6.ogi.transfert.bean.OwnerTo;
+import fr.jerep6.ogi.transfert.bean.PartnerRequestTo;
 import fr.jerep6.ogi.transfert.bean.RealPropertyDiagnosisTo;
 import fr.jerep6.ogi.transfert.bean.RealPropertyLinkTo;
 import fr.jerep6.ogi.transfert.bean.RealPropertyLivableTo;
@@ -52,10 +55,11 @@ import fr.jerep6.ogi.transfert.bean.SaleTo;
 import fr.jerep6.ogi.transfert.bean.StateTo;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumCategory;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumDescriptionType;
-import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumDocumentType;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumLabelType;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumMandateType;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumOrientation;
+import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumPartner;
+import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumPartnerRequestType;
 import fr.jerep6.ogi.utils.DocumentUtils;
 
 @Component("orikaMapper")
@@ -134,7 +138,8 @@ public class OrikaMapper extends ConfigurableMapper {
 		converterFactory.registerConverter(new ConverterEnumOrientation());
 		converterFactory.registerConverter(new ConverterEnumMandateType());
 		converterFactory.registerConverter(new ConverterEnumLabelType());
-		converterFactory.registerConverter(new ConverterEnumDocumentType());
+		converterFactory.registerConverter(new ConverterEnumPartner());
+		converterFactory.registerConverter(new ConverterEnumPartnerRequestType());
 
 		exceptionMapping();
 
@@ -208,5 +213,17 @@ public class OrikaMapper extends ConfigurableMapper {
 				.exclude("descriptions")//
 				.exclude("type").byDefault()//
 				.register();
+
+		factory.classMap(PartnerRequest.class, PartnerRequestTo.class)//
+				.customize(new CustomMapper<PartnerRequest, PartnerRequestTo>() {
+					@Override
+					public void mapAtoB(PartnerRequest a, PartnerRequestTo b, MappingContext context) {
+						b.setLabel(ContextUtils.getMessage("partner.request." + a.getRequestType().getCode()));
+					}
+
+					@Override
+					public void mapBtoA(PartnerRequestTo b, PartnerRequest a, MappingContext context) {}
+				})//
+				.byDefault().register();
 	}
 }

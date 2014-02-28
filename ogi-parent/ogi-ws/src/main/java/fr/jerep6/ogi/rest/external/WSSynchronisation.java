@@ -16,9 +16,14 @@ import javax.ws.rs.QueryParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import fr.jerep6.ogi.enumeration.EnumPartner;
+import fr.jerep6.ogi.persistance.bo.PartnerRequest;
 import fr.jerep6.ogi.rest.AbstractJaxRsWS;
+import fr.jerep6.ogi.service.ServicePartnerRequest;
 import fr.jerep6.ogi.service.ServiceSynchronisation;
 import fr.jerep6.ogi.transfert.WSResult;
+import fr.jerep6.ogi.transfert.bean.PartnerRequestTo;
+import fr.jerep6.ogi.transfert.mapping.OrikaMapper;
 
 @Controller
 @Path("/synchronisation")
@@ -26,6 +31,12 @@ public class WSSynchronisation extends AbstractJaxRsWS {
 
 	@Autowired
 	private ServiceSynchronisation	serviceSynchronisation;
+
+	@Autowired
+	private ServicePartnerRequest	servicePartnerRequest;
+
+	@Autowired
+	private OrikaMapper				mapper;
 
 	@DELETE
 	@Path("/{partner}")
@@ -38,11 +49,16 @@ public class WSSynchronisation extends AbstractJaxRsWS {
 	@GET
 	@Path("/{partner}/{ref}")
 	@Produces(APPLICATION_JSON_UTF8)
-	public Map<String, Boolean> get(@PathParam("partner") String partner, @PathParam("ref") String prpReference) {
+	public Map<String, Object> get(@PathParam("partner") String partner, @PathParam("ref") String prpReference) {
 		Boolean b = serviceSynchronisation.exist(partner, prpReference);
 
-		HashMap<String, Boolean> result = new HashMap<>(1);
+		PartnerRequest lastRequest = servicePartnerRequest
+				.lastRequest(EnumPartner.valueOfByCode(partner), prpReference);
+		PartnerRequestTo lastRequestTo = mapper.map(lastRequest, PartnerRequestTo.class);
+
+		HashMap<String, Object> result = new HashMap<>(1);
 		result.put("exist", b);
+		result.put("lastRequest", lastRequestTo);
 		return result;
 	}
 

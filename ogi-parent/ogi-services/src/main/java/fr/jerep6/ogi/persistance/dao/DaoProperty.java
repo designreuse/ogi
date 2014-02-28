@@ -17,4 +17,6 @@ public interface DaoProperty extends DaoCRUD<RealProperty, Integer> {
 	 * @return
 	 */
 	Integer getMax();
+
+	Integer readTechid(String reference);
 }

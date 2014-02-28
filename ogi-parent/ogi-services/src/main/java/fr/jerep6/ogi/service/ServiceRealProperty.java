@@ -35,4 +35,12 @@ public interface ServiceRealProperty extends TransactionalService<RealProperty, 
 
 	Set<RealProperty> readByReference(List<String> prpReferences);
 
+	/**
+	 * Get techid from a fonctionnal reference
+	 * 
+	 * @param aRef
+	 * @return
+	 */
+	Integer readTechid(String aRef);
+
 }

@@ -27,6 +27,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,8 @@ import com.google.common.base.Strings;
 
 import fr.jerep6.ogi.enumeration.EnumDPE;
 import fr.jerep6.ogi.enumeration.EnumDescriptionType;
+import fr.jerep6.ogi.enumeration.EnumPartner;
+import fr.jerep6.ogi.enumeration.EnumPartnerRequestType;
 import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessError;
 import fr.jerep6.ogi.exception.technical.NetworkTechnicalException;
 import fr.jerep6.ogi.framework.exception.BusinessException;
@@ -44,6 +47,7 @@ import fr.jerep6.ogi.persistance.bo.Description;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyBuilt;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
+import fr.jerep6.ogi.service.ServicePartnerRequest;
 import fr.jerep6.ogi.service.external.ServicePartner;
 import fr.jerep6.ogi.service.external.transfert.AcimfloResultDelete;
 import fr.jerep6.ogi.service.external.transfert.AcimfloResultExist;
@@ -52,33 +56,36 @@ import fr.jerep6.ogi.utils.HttpClientUtils;
 
 @Service("serviceAcimflo")
 public class ServiceAcimfloImpl extends AbstractService implements ServicePartner {
-	private final Logger	LOGGER	= LoggerFactory.getLogger(ServiceAcimfloImpl.class);
+	private final Logger			LOGGER	= LoggerFactory.getLogger(ServiceAcimfloImpl.class);
 
 	@Value("${partner.acimflo.connect.url}")
-	private String			loginUrl;
+	private String					loginUrl;
 	@Value("${partner.acimflo.connect.login}")
-	private String			login;
+	private String					login;
 	@Value("${partner.acimflo.connect.pwd}")
-	private String			pwd;
+	private String					pwd;
 
 	@Value("${partner.acimflo.create.url}")
-	private String			createUrl;
+	private String					createUrl;
 	@Value("${partner.acimflo.create.referer}")
-	private String			createReferer;
+	private String					createReferer;
 
 	@Value("${partner.acimflo.update.url}")
-	private String			updateUrl;
+	private String					updateUrl;
 	@Value("${partner.acimflo.update.referer}")
-	private String			updateReferer;
+	private String					updateReferer;
 
 	@Value("${partner.acimflo.delete.url}")
-	private String			deleteUrl;
+	private String					deleteUrl;
 
 	@Value("${partner.acimflo.exist.url}")
-	private String			verifReference;
+	private String					verifReference;
 
 	@Value("${partner.acimflo.apercu.url}")
-	private String			imgApercu;
+	private String					imgApercu;
+
+	@Autowired
+	private ServicePartnerRequest	servicePartnerExistence;
 
 	private WSResult broadcast(HttpClient client, RealProperty prp, String url, String referer) {
 		LOGGER.info("Broadcast to Acimflo. url = {} : referer = {}", url, referer);
@@ -201,6 +208,10 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 				result = new WSResult(prp.getReference(), "KO", doc.toString());
 			} else {
 				result = new WSResult(prp.getReference(), "OK", msg);
+
+				// Add ack
+				servicePartnerExistence.addRequest(EnumPartner.ACIMFLO, prp.getTechid(),
+						EnumPartnerRequestType.ADD_UPDATE_ACK);
 			}
 
 		} catch (IOException e) {
@@ -262,13 +273,14 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 	}
 
 	@Override
-	public WSResult delete(String prpReference) {
+	public WSResult delete(String prpReference, Integer techidForAck) {
 		CookieHandler.setDefault(new CookieManager());
 		HttpClient client = HttpClientBuilder.create().setRedirectStrategy(new LaxRedirectStrategy()).build();
 
 		// Connection to acimflo => session id is keeped
 		connect(client);
 
+		WSResult ws;
 		try {
 			HttpGet httpGet = new HttpGet(deleteUrl.replace("$reference", prpReference));
 			HttpResponse response = client.execute(httpGet);
@@ -276,11 +288,20 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 			AcimfloResultDelete result = HttpClientUtils.convertToJson(response, AcimfloResultDelete.class);
 			LOGGER.info("Delete of reference {} : {}. Msg = {}", new Object[] { prpReference, result.getSuccess(),
 					result.getPhrase() });
-			return new WSResult(prpReference, result.getSuccess() ? "OK" : "KO", result.getPhrase());
+
+			if (result.getSuccess()) {
+				servicePartnerExistence
+						.addRequest(EnumPartner.ACIMFLO, techidForAck, EnumPartnerRequestType.DELETE_ACK);
+				ws = new WSResult(prpReference, "OK", result.getPhrase());
+			} else {
+				ws = new WSResult(prpReference, "KO", result.getPhrase());
+			}
 
 		} catch (IOException e) {
 			throw new NetworkTechnicalException(e);
 		}
+
+		return ws;
 	}
 
 	@Override

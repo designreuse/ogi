@@ -43,8 +43,9 @@
 	
 	
 	<util:map id="mapPartners" map-class="java.util.HashMap">
-		<entry key="acimflo" value-ref="serviceAcimflo" />
-		<entry key="diaporama" value-ref="serviceDiaporama" />
+		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).ACIMFLO}" 	value-ref="serviceAcimflo" />
+		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).DIAPORAMA}" 	value-ref="serviceDiaporama" />
+		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).SE_LOGER}" 	value-ref="serviceSeLoger" />
 	</util:map>
 	
 	<!-- Classe initialisant la redirection java.util.logging vers slf4j-->

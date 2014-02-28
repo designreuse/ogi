@@ -11,9 +11,12 @@
 
 
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-		<property name="basename">
-			<value>i18n/exception</value>
-		</property>
+		<property name="basenames">
+            <list>
+				<value>i18n/exception</value>
+				<value>i18n/application</value>
+            </list>
+        </property>
 	</bean>
 
 	<context:component-scan 

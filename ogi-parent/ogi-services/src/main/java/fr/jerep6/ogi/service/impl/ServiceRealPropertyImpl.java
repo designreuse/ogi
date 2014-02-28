@@ -253,4 +253,9 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 
 		return Iterables.getFirst(daoProperty.readByReference(Arrays.asList(reference)), null);
 	}
+
+	@Override
+	public Integer readTechid(String reference) {
+		return daoProperty.readTechid(reference);
+	}
 }
