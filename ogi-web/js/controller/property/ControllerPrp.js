@@ -36,7 +36,7 @@ function ControllerPrpParent($scope, Page, $log, $http, ServiceConfiguration, Ut
             return itemActive;
         }
     };
-    $scope.addMenu.select("prp");
+    $scope.addMenu.select("partner");
 
     /**
      * Le flux json doit contenir le type du bien car en java, il y a un héritage. Il faut donc connaitre la classe

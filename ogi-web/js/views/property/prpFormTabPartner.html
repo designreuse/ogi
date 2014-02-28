@@ -14,7 +14,7 @@
             <tr ng-repeat="p in partners">
                 <td><img title="{{p.name}}" ng-src="{{p.img}}" /></td>
                 <td><img ng-if="p.exist == null" ng-src="img/loading.gif" /><span ng-if="p.exist != null">{{p.exist | boolean}}</span></td>
-                <td>15/02/2014 15:56:20</td>
+                <td><span ng-if="p.lastRequest">{{p.lastRequest.label}} le {{p.lastRequest.modificationDate | date:'medium'}}</span></td>
                 <td>
                     <div class="btn-group btn-group-action">
                         <a class="btn glyphicon glyphicon-upload" ng-click="synchronize(p.name)" title="Ajouter ou modifier"></a>
