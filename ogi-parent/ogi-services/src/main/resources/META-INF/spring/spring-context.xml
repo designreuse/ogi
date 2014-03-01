@@ -13,7 +13,48 @@
 
 
 	<import resource="classpath:META-INF/spring/general-context.xml" />
-	<import resource="classpath:META-INF/spring/datasource-context.xml" />
 	<import resource="classpath:META-INF/spring/bdd-context.xml" />
-	
+
+	<!-- 
+	classpath*: -> This special prefix specifies that all classpath resources that match the given name must be obtained
+	(internally, this essentially happens via a ClassLoader.getResources(...) call), and then merged to form the final application context definition.
+	-->
+	<import resource="classpath*:META-INF/spring/datasource-profile.xml" />
+	<import resource="classpath*:META-INF/spring/properties-profile.xml" />
 </beans>
+
+
+
+<!-- 
+L'application gère deux profiles (jndi et default)
+L'application doit obligatoirement être lancée avec un de ces profiles sinon la datasource sera absente
+Plusieurs moyen de définir le profil actif :
+
+Comme paramètre de lancement
+-Dspring.profiles.active=web 
+
+Dans le web.xml
+<context-param>
+    <param-name>spring.profiles.active</param-name>
+    <param-value>jndi</param-value>
+</context-param>
+
+
+##### Profile par défault #####
+
+Default profile in spring is "default", see this: https://jira.springsource.org/browse/SPR-8203
+You can change the default profile in web.xml by doing this:
+<context-param>
+    <param-name>spring.profiles.default</param-name>
+    <param-value>production</param-value>
+</context-param>
+
+Command line:
+-Dspring.profiles.default=production
+
+Env variable:
+export spring_profiles_default=production
+
+If active profile is set, it overrides the default.
+
+ -->

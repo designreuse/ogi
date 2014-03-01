@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>fr.jerep6</groupId>
+	<groupId>fr.jerep6.ogi</groupId>
 	<artifactId>ogi-parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
@@ -10,7 +10,9 @@
 		<sourceEncoding>UTF-8</sourceEncoding>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<spring.version>4.0.0.RELEASE</spring.version>
+		<spring.version>4.0.2.RELEASE</spring.version>
+		<spring.batch.version>3.0.0.M3</spring.batch.version>
+		
 		<hibernate.version>4.3.1.Final</hibernate.version>
 		<aspectj.version>1.7.2</aspectj.version>
 		<guava.version>16.0</guava.version>
@@ -34,6 +36,7 @@
 	<modules>
 		<module>ogi-services</module>
 		<module>ogi-ws</module>
+		<module>ogi-batch</module>
 	</modules>
 
 	<dependencyManagement>
@@ -45,7 +48,7 @@
 				<artifactId>spring-tx</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
-
+			
 			<!-- ClassPathXmlApplicationContext -->
 			<dependency>
 				<groupId>org.springframework</groupId>
@@ -58,6 +61,13 @@
 				<artifactId>spring-aop</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
+
+			<!-- Batch -->
+			<dependency>
+		        <groupId>org.springframework.batch</groupId>
+		        <artifactId>spring-batch-core</artifactId>
+		        <version>${spring.batch.version}</version>
+		    </dependency>
 
 			<!-- JPA -->
 			<dependency>
@@ -335,5 +345,16 @@
 		</dependencies>
 
 	</dependencyManagement>
+	
+	<repositories>
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>http://repo.spring.io/milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 
 </project>

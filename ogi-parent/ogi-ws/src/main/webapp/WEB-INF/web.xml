@@ -18,6 +18,13 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:META-INF/spring/spring-context.xml, classpath:META-INF/spring/web-context.xml</param-value>
 	</context-param>
+	
+	<!-- To not specify the parameter -Dspring.profiles.active in server common line  -->
+	<context-param>
+	    <param-name>spring.profiles.active</param-name>
+	    <param-value>web</param-value>
+	</context-param>
+	
 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

@@ -22,19 +22,35 @@
 <!--           	classpath:properties/fonctionnel.properties"  -->
 <!--         ignore-resource-not-found="true"/> -->
         
+    
+    <!--     
+		The PropertyPlaceholderConfigurer not only looks for properties in the Properties file you specify. 
+		By default it also checks against the Java System properties if it cannot find a property in the specified properties files. 
+		You can customize this behavior by setting the systemPropertiesMode property of the configurer with one of the following three supported integer values:
+    	-> never (0): Never check system properties
+    	-> fallback (1): Check system properties if not resolvable in the specified properties files. This is the default.
+    	-> override (2): Check system properties first, before trying the specified properties files. This allows system properties to override any other property source.
+     -->
         <bean class="fr.jerep6.ogi.framework.spring.CryptablePropertyPlaceholderConfigurer">
         	<!-- Password is set with -D parameter -DpropertyConfigurerPassword=secret key -->
         	<constructor-arg index="0" value="#{systemProperties.propertyConfigurerPassword}"/>
 		    <property name="locations">
 	            <list>
 	                <value>classpath:properties/environnement.properties</value>
-	                <value>classpath:properties/environnement${environnement}.properties</value>
 	                <value>classpath:properties/fonctionnel.properties</value>
 	            </list>
 	        </property>
+	        
+	        <!-- Default properties -->
+	        <property name="properties">
+                <value>
+                </value>
+		  	</property>
+		  
 	        <property name="ignoreResourceNotFound" value="true"/>
+	        <property name="ignoreUnresolvablePlaceholders" value="true" />
 		</bean>
-
+		
 	<context:annotation-config />
 	<context:component-scan 
 		base-package="

@@ -1,0 +1,23 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/batch
+		http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	">
+ 
+	<import resource="spring-batch-context.xml" />
+ 
+	<!-- Job definition -->
+	<batch:job id="jobTest">
+	    <batch:step id="stepTest">
+			<tasklet ref="TaskletTest" />
+		</batch:step>
+	</batch:job>
+	
+	
+    <bean id="TaskletTest" class="fr.jerep6.ogi.batch.tasklet.TaskletTest">
+	</bean>
+ 
+</beans>
