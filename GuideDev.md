@@ -3,7 +3,7 @@ Properties
 Chargement des properties
 ---
 
-L'application gère deux type de fichiers properties :
+L'application gère deux types de fichiers properties :
   
   * environment.properties : properties pouvant changer entre les environnements
   * functionnal.properties : properties ne dépendant pas de l'environnement. Purement fonctionnel
@@ -13,15 +13,15 @@ Les batchs disposent de properties qui leur sont propres et les définissent dan
   * environment-batch.properties
   * functional-batch.properties
   
-Comme le projet **ogi-batchs** dépend de **ogi-services** , l'ensemble des properties des deux projets existent dans le contexte Spring. Chaque projet défini sont PropertyPlaceholderConfigurer.
+Comme le projet **ogi-batchs** dépend de **ogi-services** , l'ensemble des properties des deux projets existent dans le contexte Spring. Chaque projet défini son PropertyPlaceholderConfigurer.
 Le PropertyPlaceholderConfigurer de **ogi-services** doit avoir la propriété ignoreUnresolvablePlaceholders à true pour qu'il ignore les properties qu'il ne connait pas.
-L'ordre de chargement est important des fichiers contexte et important : le contexte de **ogi-services** doit être chargé avant celui de **ogi-batchs**.
+L'ordre de chargement des fichiers contexte et important : le contexte de **ogi-services** doit être chargé avant celui de **ogi-batchs**.
 
 Confidentialité
 ---
 Les mots de passe dans les properties sont chiffrés via l'algorithme AES.
-Le PropertyPlaceholderConfigurer est une classe spéciale : *fr.jerep6.ogi.framework.spring.CryptablePropertyPlaceholderConfigurer*
-Il faut l'initialiser avec la clé de l'algorithme AES pour qu'il puisse déchiffrer les properties. Pour cela, il suffit de définir la propriété système **propertyConfigurerPassword**
+Le PropertyPlaceholderConfigurer est donc une classe spéciale : *fr.jerep6.ogi.framework.spring.CryptablePropertyPlaceholderConfigurer*.
+Il faut l'initialiser avec la clé de l'algorithme AES pour qu'elle puisse déchiffrer les properties. Pour cela, il suffit de définir la propriété système **propertyConfigurerPassword**
 
 La valeur d'une property chiffrée doit être de la forme <code>ENC(RESULTAT ALGO AES)</code>.
 
@@ -51,5 +51,6 @@ Ajouter la propriété suivante à la commande de lancement :
 <code>-DpropertyConfigurerPassword="clé secrète"</code>
 
 Batch
-===Ajouter la propriété suivante à la commande de lancement :
+===
+Ajouter la propriété suivante à la commande de lancement :
 <code>-Dspring.profiles.default=batch</code>
