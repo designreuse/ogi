@@ -11,13 +11,54 @@
  
 	<!-- Job definition -->
 	<batch:job id="jobTest">
-	    <batch:step id="stepTest">
-			<tasklet ref="TaskletTest" />
+		<batch:step id="writeCSV">
+		  <tasklet>
+			<batch:chunk reader="jpaItemReader" processor="compositeItemProcessor" writer="cvsFileItemWriter" commit-interval="1" />
+		  </tasklet>
 		</batch:step>
+<!-- 	    <batch:step id="stepTest"> -->
+<!-- 			<tasklet ref="TaskletTest" /> -->
+<!-- 		</batch:step> -->
 	</batch:job>
 	
-	
-    <bean id="TaskletTest" class="fr.jerep6.ogi.batch.tasklet.TaskletTest">
+	<bean id="jpaItemReader" class="org.springframework.batch.item.database.JpaPagingItemReader">
+	    <property name="queryString" value="${seloger.extraction.jpql}" />
+	    <property name="entityManagerFactory" ref="emFactory" />
 	</bean>
+	
+	<bean id="compositeItemProcessor" class="org.springframework.batch.item.support.CompositeItemProcessor">
+	    <property name="delegates">
+	        <list>
+	            <bean class="fr.jerep6.ogi.batch.seloger.CSVProcessor" >
+					<property name="serviceUrl" ref="serviceUrl" />
+	            </bean>
+	        </list>
+	    </property>
+	</bean>
+
+
+	<bean id="cvsFileItemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
+		<property name="resource" value="file:${seloger.extraction.file.path}${seloger.extraction.file.csv.name}" />
+		<property name="shouldDeleteIfExists" value="true" />
+		<property name="lineAggregator">
+			<bean class="fr.jerep6.ogi.batch.common.writer.AdvancedDelimitedLineAggregator">
+				<property name="delimiter" value="!#" />
+				<property name="quotedCharacter" value='"' />
+				<property name="fieldExtractor">
+					<bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+						<property name="names" value="techid, reference" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+  
+    <bean id="dummyWriter" class="fr.jerep6.ogi.batch.common.writer.DummyWriter">
+  	</bean>
+
+
+    <bean id="TaskletTest" class="fr.jerep6.ogi.batch.seloger.TaskletTest">
+	</bean>
+	
  
 </beans>

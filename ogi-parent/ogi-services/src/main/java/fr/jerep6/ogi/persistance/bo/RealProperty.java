@@ -112,7 +112,7 @@ public class RealProperty {
 	private Set<Owner>					owners;
 
 	@OneToMany(mappedBy = "property")
-	private Set<PartnerRequest>		partnersExistence;
+	private Set<PartnerRequest>		partnersRequests;
 
 	// ##### Technical field #####
 	// Il faut obligatoirement spécifier l'attribut columnDefinition sinon mysql crée un champ date time
