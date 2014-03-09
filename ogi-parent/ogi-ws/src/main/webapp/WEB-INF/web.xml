@@ -19,7 +19,7 @@
 		<param-value>classpath:META-INF/spring/spring-context.xml, classpath:META-INF/spring/web-context.xml</param-value>
 	</context-param>
 	
-	<!-- To not specify the parameter -Dspring.profiles.active in server common line  -->
+	<!-- To not specify the parameter -Dspring.profiles.active in server command line  -->
 	<context-param>
 	    <param-name>spring.profiles.active</param-name>
 	    <param-value>web</param-value>
