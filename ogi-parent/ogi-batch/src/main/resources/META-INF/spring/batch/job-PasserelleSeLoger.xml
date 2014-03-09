@@ -46,7 +46,7 @@
 				<property name="quotedCharacter" value='"' />
 				<property name="fieldExtractor">
 					<bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
-						<property name="names" value="techid, reference" />
+						<property name="names" value="bienTechid, bienReference" />
 					</bean>
 				</property>
 			</bean>

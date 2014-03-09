@@ -11,8 +11,8 @@ public class CSVProcessor implements ItemProcessor<RealProperty, RealPropertyCSV
 
 	public RealPropertyCSV process(RealProperty item) throws Exception {
 		RealPropertyCSV r = new RealPropertyCSV();
-		r.setTechid(item.getTechid());
-		r.setReference(item.getReference());
+		r.setBienTechid(item.getTechid().toString());
+		r.setBienReference(item.getReference());
 		return r;
 	}
 
