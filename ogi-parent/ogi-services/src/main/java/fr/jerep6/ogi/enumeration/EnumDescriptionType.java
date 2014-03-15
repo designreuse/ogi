@@ -8,7 +8,7 @@ import lombok.Getter;
 public enum EnumDescriptionType {
 	SHOP_FRONT("VITRINE"), //
 	WEBSITE_OWN("WEBSITE_PERSO"), //
-	WEBSITE_AD("WEBSITE_AUTRE"), //
+	WEBSITE_OTHER("WEBSITE_AUTRE"), //
 	APP("APP"), //
 	STATE("ETAT"); //
 

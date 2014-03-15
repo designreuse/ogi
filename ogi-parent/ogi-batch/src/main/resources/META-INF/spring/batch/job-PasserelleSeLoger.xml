@@ -11,14 +11,14 @@
  
 	<!-- Job definition -->
 	<batch:job id="jobTest">
-		<batch:step id="writeCSV">
+		<batch:step id="writeCSV" next="photosResize">
 		  <tasklet>
 			<batch:chunk reader="jpaItemReader" processor="compositeItemProcessor" writer="cvsFileItemWriter" commit-interval="1" />
 		  </tasklet>
 		</batch:step>
-<!-- 	    <batch:step id="stepTest"> -->
-<!-- 			<tasklet ref="TaskletTest" /> -->
-<!-- 		</batch:step> -->
+	    <batch:step id="photosResize">
+			<tasklet ref="TaskletPhotosResize" />
+		</batch:step>
 	</batch:job>
 	
 	<bean id="jpaItemReader" class="org.springframework.batch.item.database.JpaPagingItemReader">
@@ -29,8 +29,12 @@
 	<bean id="compositeItemProcessor" class="org.springframework.batch.item.support.CompositeItemProcessor">
 	    <property name="delegates">
 	        <list>
-	            <bean class="fr.jerep6.ogi.batch.seloger.CSVProcessor" >
+	            <bean class="fr.jerep6.ogi.batch.seloger.ProcessorTransformToCSV" >
 					<property name="serviceUrl" ref="serviceUrl" />
+					<property name="estateCode" value="${seloger.agence.code}" />
+	            </bean>
+	            <bean class="fr.jerep6.ogi.batch.seloger.ProcessorPhotos" >
+	            	<property name="photosDirectory" value="file:${seloger.extraction.file.photos.path}" />
 	            </bean>
 	        </list>
 	    </property>
@@ -46,7 +50,7 @@
 				<property name="quotedCharacter" value='"' />
 				<property name="fieldExtractor">
 					<bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
-						<property name="names" value="bienTechid, bienReference" />
+						<property name="names" value="${seloger.extraction.file.csv.schema}" />
 					</bean>
 				</property>
 			</bean>
@@ -57,8 +61,12 @@
   	</bean>
 
 
-    <bean id="TaskletTest" class="fr.jerep6.ogi.batch.seloger.TaskletTest">
+    <bean id="TaskletPhotosResize" class="fr.jerep6.ogi.batch.seloger.TaskletPhotosResize">
+		<property name="photosDirectory" value="file:${seloger.extraction.file.photos.path}" />
+		<property name="photoSize" value="${seloger.extraction.file.photos.size}" />
 	</bean>
+	
+	
 	
  
 </beans>

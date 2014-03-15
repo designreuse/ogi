@@ -70,8 +70,27 @@ public class DocumentUtils {
 	 * @return
 	 */
 	public static Path getDirectory(String reference) {
+		return getDirectory(reference, null);
+	}
+
+	/**
+	 * Return absolute path to property's directory corresponding to documentType
+	 * 
+	 * @param reference
+	 *            property's reference
+	 * @param docType
+	 *            type of document
+	 * @return
+	 */
+	public static Path getDirectory(String reference, EnumDocumentType docType) {
 		Preconditions.checkArgument(!Strings.isNullOrEmpty(reference));
-		return documentStorageDir.resolve(Paths.get(reference));
+
+		String docPath = "";
+		if (docType != null) {
+			docPath = getDirectoryName(docType);
+		}
+
+		return documentStorageDir.resolve(Paths.get(reference)).resolve(Paths.get(docPath));
 	}
 
 	/**
