@@ -11,12 +11,15 @@
  
 	<!-- Job definition -->
 	<batch:job id="jobTest">
-		<batch:step id="writeCSV" next="photosResize">
+	    <batch:step id="stepTaskletPrepareTree" next="stepWriteCSV">
+			<tasklet ref="TaskletPrepareTree" />
+		</batch:step>
+		<batch:step id="stepWriteCSV" next="stepPhotosResize">
 		  <tasklet>
 			<batch:chunk reader="jpaItemReader" processor="compositeItemProcessor" writer="cvsFileItemWriter" commit-interval="1" />
 		  </tasklet>
 		</batch:step>
-	    <batch:step id="photosResize">
+	    <batch:step id="stepPhotosResize">
 			<tasklet ref="TaskletPhotosResize" />
 		</batch:step>
 	</batch:job>
@@ -57,9 +60,13 @@
 		</property>
 	</bean>
   
-    <bean id="dummyWriter" class="fr.jerep6.ogi.batch.common.writer.DummyWriter">
-  	</bean>
 
+	<bean id="TaskletPrepareTree" class="fr.jerep6.ogi.batch.seloger.TaskletPrepareTree">
+		<property name="rootDirectory" value="file:${seloger.extraction.file.path}" />
+		<property name="seLogerVersion" value="${seloger.passerelle.version}" />
+		<property name="config" value="classpath:${seloger.extraction.file.tree.config}" />
+		<property name="photosConfig" value="classpath:${seloger.extraction.file.tree.photos}" />
+	</bean>
 
     <bean id="TaskletPhotosResize" class="fr.jerep6.ogi.batch.seloger.TaskletPhotosResize">
 		<property name="photosDirectory" value="file:${seloger.extraction.file.photos.path}" />
@@ -67,6 +74,4 @@
 	</bean>
 	
 	
-	
- 
 </beans>
