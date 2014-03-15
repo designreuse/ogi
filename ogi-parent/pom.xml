@@ -346,6 +346,41 @@
 
 	</dependencyManagement>
 	
+	
+	<build>
+		<plugins>
+		<!-- http://stackoverflow.com/questions/2712970/how-to-get-maven-artifact-version-at-runtime
+			getClass().getPackage().getImplementationVersion()
+		 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+		
+			<plugin>
+			    <artifactId>maven-war-plugin</artifactId>
+			    <version>2.1</version>
+			    <configuration>
+			        <archive>                   
+			            <manifest>
+			                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+			                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+			            </manifest>
+			        </archive>
+			        <archiveClasses>true</archiveClasses>
+			    </configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
 	<repositories>
 		<repository>
 			<id>spring-milestones</id>

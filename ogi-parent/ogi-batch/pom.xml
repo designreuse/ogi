@@ -7,25 +7,25 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>ogi-batch</artifactId>
-	
+
 	<properties>
 		<maven.compiler.source>7</maven.compiler.source>
 		<maven.compiler.target>7</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	
+
 	<dependencies>
-	
+
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>ogi-services</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-	
+
 		<dependency>
-	        <groupId>org.springframework.batch</groupId>
-	        <artifactId>spring-batch-core</artifactId>
-	    </dependency>
-		
+			<groupId>org.springframework.batch</groupId>
+			<artifactId>spring-batch-core</artifactId>
+		</dependency>
+
 	</dependencies>
 </project>
