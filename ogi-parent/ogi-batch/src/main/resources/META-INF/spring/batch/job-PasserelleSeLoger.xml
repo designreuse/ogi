@@ -11,6 +11,9 @@
  
 	<!-- Job definition -->
 	<batch:job id="jobTest">
+	    <batch:step id="stepTaskletDelete" next="stepTaskletPrepareTree">
+			<tasklet ref="TaskletDelete" />
+		</batch:step>
 	    <batch:step id="stepTaskletPrepareTree" next="stepWriteCSV">
 			<tasklet ref="TaskletPrepareTree" />
 		</batch:step>
@@ -45,7 +48,7 @@
 
 
 	<bean id="cvsFileItemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
-		<property name="resource" value="file:${seloger.extraction.file.path}${seloger.extraction.file.csv.name}" />
+		<property name="resource" value="file:${seloger.extraction.file.root.path}${seloger.extraction.file.csv.name}" />
 		<property name="shouldDeleteIfExists" value="true" />
 		<property name="lineAggregator">
 			<bean class="fr.jerep6.ogi.batch.common.writer.AdvancedDelimitedLineAggregator">
@@ -62,7 +65,7 @@
   
 
 	<bean id="TaskletPrepareTree" class="fr.jerep6.ogi.batch.seloger.TaskletPrepareTree">
-		<property name="rootDirectory" value="file:${seloger.extraction.file.path}" />
+		<property name="rootDirectory" value="file:${seloger.extraction.file.root.path}" />
 		<property name="seLogerVersion" value="${seloger.passerelle.version}" />
 		<property name="config" value="classpath:${seloger.extraction.file.tree.config}" />
 		<property name="photosConfig" value="classpath:${seloger.extraction.file.tree.photos}" />
@@ -73,5 +76,9 @@
 		<property name="photoSize" value="${seloger.extraction.file.photos.size}" />
 	</bean>
 	
+	
+	<bean id="TaskletDelete" class="fr.jerep6.ogi.batch.common.tasklet.TaskletDeleteDirectories">
+		<property name="directoriesToDelete" value="file:${seloger.extraction.file.root.path}*" />
+	</bean>
 	
 </beans>
