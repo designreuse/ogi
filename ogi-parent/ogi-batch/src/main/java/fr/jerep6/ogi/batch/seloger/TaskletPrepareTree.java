@@ -22,8 +22,8 @@ import org.springframework.core.io.Resource;
 public class TaskletPrepareTree implements Tasklet {
 	private final Logger		LOGGER			= LoggerFactory.getLogger(TaskletPrepareTree.class);
 
-	private static final String	SELOGER_VERSION	= "SELOGER_VERSION";
-	private static final String	OGI_VERSION		= "OGI_VERSION";
+	private static final String	SELOGER_VERSION	= "#SELOGER_VERSION";
+	private static final String	OGI_VERSION		= "#OGI_VERSION";
 
 	private Resource			rootDirectory;
 
@@ -69,7 +69,8 @@ public class TaskletPrepareTree implements Tasklet {
 		String s = new String(readAllBytes, Charset.forName("UTF-8"));
 
 		s = s.replaceAll(SELOGER_VERSION, seLogerVersion);
-		s = s.replaceAll(OGI_VERSION, getClass().getPackage().getImplementationVersion());
+		s = s.replaceAll(OGI_VERSION, getClass().getPackage().getImplementationVersion() == null ? "unknow"
+				: getClass().getPackage().getImplementationVersion());
 
 		// Write content to root directory
 		Path root = rootDirectory.getFile().toPath();

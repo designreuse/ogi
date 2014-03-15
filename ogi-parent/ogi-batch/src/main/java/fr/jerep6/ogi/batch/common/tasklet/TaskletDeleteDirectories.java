@@ -17,13 +17,13 @@ import fr.jerep6.ogi.framework.utils.FileUtils;
 public class TaskletDeleteDirectories implements Tasklet {
 	private final Logger	LOGGER	= LoggerFactory.getLogger(TaskletDeleteDirectories.class);
 
-	private List<Resource>	directoriesToDelete;
+	private List<Resource>	resources;
 
 	@Override
 	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-		LOGGER.debug("Directories to delete : {}", directoriesToDelete);
+		LOGGER.debug("Directories to delete : {}", resources);
 
-		for (Resource r : directoriesToDelete) {
+		for (Resource r : resources) {
 			FileUtils.delete(r.getFile().toPath());
 		}
 
@@ -31,8 +31,8 @@ public class TaskletDeleteDirectories implements Tasklet {
 		return RepeatStatus.FINISHED;
 	}
 
-	public void setDirectoriesToDelete(Resource[] directoriesToDelete) {
-		this.directoriesToDelete = Arrays.asList(directoriesToDelete);
+	public void setResources(Resource[] resources) {
+		this.resources = Arrays.asList(resources);
 	}
 
 }

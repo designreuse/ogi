@@ -1,3 +1,3 @@
-Version=SELOGER_VERSION
-Application=OGI_VERSION
+Version=#SELOGER_VERSION
+Application=OGI / #OGI_VERSION
 Devise=Euro
