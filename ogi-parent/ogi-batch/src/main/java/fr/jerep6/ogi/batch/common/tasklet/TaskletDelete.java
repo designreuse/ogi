@@ -14,8 +14,8 @@ import org.springframework.core.io.Resource;
 
 import fr.jerep6.ogi.framework.utils.FileUtils;
 
-public class TaskletDeleteDirectories implements Tasklet {
-	private final Logger	LOGGER	= LoggerFactory.getLogger(TaskletDeleteDirectories.class);
+public class TaskletDelete implements Tasklet {
+	private final Logger	LOGGER	= LoggerFactory.getLogger(TaskletDelete.class);
 
 	private List<Resource>	resources;
 

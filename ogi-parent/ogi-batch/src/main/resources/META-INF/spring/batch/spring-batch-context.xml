@@ -2,46 +2,69 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:batch="http://www.springframework.org/schema/batch"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
 	">
 	
 	<import resource="classpath:META-INF/spring/spring-context.xml" />
 	
 	<bean class="fr.jerep6.ogi.framework.spring.CryptablePropertyPlaceholderConfigurer">
-        	<!-- Password is set with -D parameter -DpropertyConfigurerPassword=secret key -->
-        	<constructor-arg index="0" value="#{systemProperties.propertyConfigurerPassword}"/>
-		    <property name="locations">
-	            <list>
-	                <value>classpath:properties/environment-batch.properties</value>
-	                <value>classpath:properties/functional-batch.properties</value>
-	            </list>
-	        </property>
-	        <property name="ignoreResourceNotFound" value="true"/>
-	        <property name="ignoreUnresolvablePlaceholders" value="false"/>
-		</bean>
-	
- 
-	<bean id="transactionManager" 	class="org.springframework.batch.support.transaction.ResourcelessTransactionManager"/>
+     	<!-- Password is set with -D parameter -DpropertyConfigurerPassword=secret key -->
+      	<constructor-arg index="0" value="#{systemProperties.propertyConfigurerPassword}"/>
+	    <property name="locations">
+	           <list>
+	               <value>classpath:properties/environment-batch.properties</value>
+	               <value>classpath:properties/functional-batch.properties</value>
+	           </list>
+	       </property>
+	       <property name="ignoreResourceNotFound" value="true"/>
+	       <property name="ignoreUnresolvablePlaceholders" value="false"/>
+	</bean>
+
+	<!-- ##### Memory configuration ##### -->
+	<!-- Doesn’t do anything with transactions; it’s a dummy transaction manager that provides a dummy transaction. --> 
+	<!--<bean id="transactionManager" 	class="org.springframework.batch.support.transaction.ResourcelessTransactionManager"/> -->
 
 	<!-- stored job-meta in memory -->
 	<!-- Interface responsable de la persistance des jobs dans la base (ou en mémoire). Il contient les opérations CRUD pour gérer les jobs. -->
-	<bean id="jobRepository" 		class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
-		<property name="transactionManager" ref="transactionManager" />
+	<!-- 	<bean id="jobRepository" 		class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean"> -->
+	<!-- 		<property name="transactionManager" ref="transactionManager" /> -->
+	<!-- 	</bean> -->
+	
+	<!-- ##### Database configuration ##### -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
 	</bean>
+	
+	<!--
+	When you use the job-repository tag from the Spring Batch namespace, Spring Batch uses Spring’s
+	AOP features to wrap the repository with a transaction. The only thing to configure when using this
+	approach is the transaction isolation level for the createJobExecution method of the job repository
+	interface. The intent of this configuration is to prevent multiple executions of a JobInstance at the same
+	time. To address this issue, Spring Batch sets the transaction’s isolation level at its most aggressive value,
+	SERIALIZABLE, by default. However, your environment may not require a level this aggressive, so Spring
+	Batch lets you configure the transaction level for the createJobExecution method with the isolationlevel-
+	for-create attribute of the job-repository tag. Listing 5-5 shows how to lower the isolation level
+	when using the job-repository tag.
+	-->
+	<batch:job-repository id="jobRepository" transaction-manager="transactionManager"  data-source="dataSource" isolation-level-for-create="READ_COMMITTED"/>
+	<!--
+	<bean id="jobRepository" 	class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="databaseType" value="mysql" />
+	</bean> 
+	-->
  
  	<!--  Interface pour contrôler les jobs (lancer, arrêter, relancer,..) -->
 	<bean id="jobLauncher" 			class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
 		<property name="jobRepository" ref="jobRepository" />
 	</bean>
 	
-	<!-- Needed for quartz -->
-	<bean id="jobRegistry" class="org.springframework.batch.core.configuration.support.MapJobRegistry" />
-	<bean class="org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor">
-		<property name="jobRegistry" ref="jobRegistry" />
-	</bean>
 
  
 </beans>

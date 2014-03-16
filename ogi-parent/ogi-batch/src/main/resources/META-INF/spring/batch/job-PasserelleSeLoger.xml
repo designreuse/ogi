@@ -10,7 +10,7 @@
 	<import resource="spring-batch-context.xml" />
  
 	<!-- Job definition -->
-	<batch:job id="jobTest">
+	<batch:job id="jobPasserelle-seloger.com">
 	    <batch:step id="stepTaskletDelete" next="stepTaskletPrepareTree">
 			<tasklet ref="TaskletDelete" />
 		</batch:step>
@@ -78,7 +78,7 @@
 		<property name="photoSize" value="${seloger.extraction.file.photos.size}" />
 	</bean>
 	
-	<bean id="TaskletDelete" class="fr.jerep6.ogi.batch.common.tasklet.TaskletDeleteDirectories">
+	<bean id="TaskletDelete" class="fr.jerep6.ogi.batch.common.tasklet.TaskletDelete">
 		<property name="resources" value="file:${seloger.extraction.file.root.path}*" />
 	</bean>
 	
