@@ -35,7 +35,7 @@ public class PartnerRequest {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer					techid;
 
-	@Column(name = "PRO_TECHID", nullable = false)
+	@Column(name = "PRO_ID", nullable = false)
 	private Integer					property;
 
 	@Column(name = "REQ_PARTNER", nullable = false, length = 16)
