@@ -8,9 +8,18 @@
 	">
  
 	<import resource="spring-batch-context.xml" />
+	
+	<!-- Once you’ve configured JobParametersIncrementer you need to add the configuration for a JobExplorer
+		implementation. Chapter 5 goes into detail about what JobExplorer is and how to use it. -->
+	<bean id="jobExplorer" class="org.springframework.batch.core.explore.support.JobExplorerFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	<!-- JobParametersIncrementer affects how you call your job. When you want to increment a parameter, you need to 
+		 add the parameter –next to the command when you call your job -->
+	<bean id="idIncrementer" class="org.springframework.batch.core.launch.support.RunIdIncrementer" />
  
 	<!-- Job definition -->
-	<batch:job id="jobPasserelle-seloger.com">
+	<batch:job id="jobPasserelle-seloger.com" incrementer="idIncrementer">
 	    <batch:step id="stepTaskletDelete" next="stepTaskletPrepareTree">
 			<tasklet ref="TaskletDelete" />
 		</batch:step>
@@ -19,7 +28,11 @@
 		</batch:step>
 		<batch:step id="stepWriteCSV" next="stepPhotosResize">
 		  <tasklet>
-			<batch:chunk reader="jpaItemReader" processor="compositeItemProcessor" writer="cvsFileItemWriter" commit-interval="1" />
+			<batch:chunk reader="jpaItemReader" processor="compositeItemProcessor" writer="cvsFileItemWriter" commit-interval="1" skip-limit="10">
+				<batch:skippable-exception-classes>
+					<batch:include class="fr.jerep6.ogi.framework.exception.AbstractException" />
+				</batch:skippable-exception-classes>
+			</batch:chunk>
 		  </tasklet>
 		</batch:step>
 	    <batch:step id="stepPhotosResize" next="stepTaskletZip">
