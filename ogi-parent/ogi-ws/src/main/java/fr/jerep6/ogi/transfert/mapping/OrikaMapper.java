@@ -96,6 +96,7 @@ public class OrikaMapper extends ConfigurableMapper {
 		factory.classMap(StepExecution.class, BatchReportStepExecutionTo.class)//
 				.field("stepName", "stepName")//
 				.field("status", "status")//
+				.field("exitStatus", "exitStatus")//
 				.field("readCount", "readCount")//
 				.field("writeCount", "writeCount")//
 				.field("commitCount", "commitCount")//
