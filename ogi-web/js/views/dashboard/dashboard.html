@@ -1,0 +1,22 @@
+<br /><br />
+<div class="col-xs-6">
+    Compte rendu d'exécution des batchs
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th>Job</th>
+                <th>Début</th>
+                <th>Fin</th>
+                <th>Etat</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="j in jobs">
+                <td>{{j.jobName}}</td>
+                <td>{{j.jobExecutions[0].startTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td>{{j.jobExecutions[0].endTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td  ng-class="{batchSuccess : j.isSuccess, batchError : !j.isSuccess}">{{j.jobExecutions[0].status.code}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

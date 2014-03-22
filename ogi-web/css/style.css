@@ -32,6 +32,13 @@ legend + .control-group {
 .normal {
   font-weight: normal;
 }
+.batchSuccess {
+  color: green;
+}
+.batchError {
+  color: red;
+  font-weight: bold;
+}
 /* NAVIGATION */
 .navbar-default .navbar-brand {
   color: #ffffff;

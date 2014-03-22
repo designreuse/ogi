@@ -48,6 +48,9 @@ myApp.config(function ($provide, $httpProvider) {
 // ###### ROUTES ######
 myApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.
+        when('/', {templateUrl: 'js/views/dashboard/dashboard.html', controller: ControllerDashboard}).
+
+
         when('/biens', {templateUrl: 'js/views/property/prpList.html', controller: ControllerList}).
         when('/biens/modifier/:prpRef', {templateUrl: 'js/views/property/prpFormGlobal.html', controller: ControllerPrpModify}).
         when('/biens/ajouter/:type', {templateUrl: 'js/views/property/prpFormGlobal.html', controller: ControllerPrpAdd}).
