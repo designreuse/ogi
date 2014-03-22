@@ -7,6 +7,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 
@@ -27,6 +29,8 @@ public class TaskletPhotosResize implements Tasklet {
 
 	@Override
 	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+		final Map<String, Integer> m = new HashMap<String, Integer>(1);
+		m.put("nbPhotosResize", 0);
 
 		Files.walkFileTree(photosDirectory.getFile().toPath(), new SimpleFileVisitor<Path>() {
 			@Override
@@ -44,11 +48,15 @@ public class TaskletPhotosResize implements Tasklet {
 				BufferedImage imgResize = Scalr.resize(img, photoSize);
 				ImageIO.write(imgResize, "jpeg", file.toFile());
 
+				m.put("nbPhotosResize", m.get("nbPhotosResize") + 1);
+
 				return FileVisitResult.CONTINUE;
 			}
 
 		});
 
+		// Write step execution context the number of resized photos
+		chunkContext.getStepContext().getStepExecution().setWriteCount(m.get("nbPhotosResize"));
 		contribution.setExitStatus(ExitStatus.COMPLETED);
 		return RepeatStatus.FINISHED;
 	}

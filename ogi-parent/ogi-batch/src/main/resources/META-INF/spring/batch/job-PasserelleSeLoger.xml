@@ -23,9 +23,11 @@
 	    <batch:step id="stepTaskletDelete" next="stepTaskletPrepareTree">
 			<tasklet ref="TaskletDelete" />
 		</batch:step>
+		
 	    <batch:step id="stepTaskletPrepareTree" next="stepWriteCSV">
 			<tasklet ref="TaskletPrepareTree" />
 		</batch:step>
+		
 		<batch:step id="stepWriteCSV" next="stepPhotosResize">
 		  <tasklet>
 			<batch:chunk reader="jpaItemReader" processor="compositeItemProcessor" writer="cvsFileItemWriter" commit-interval="1" skip-limit="10">
@@ -35,12 +37,15 @@
 			</batch:chunk>
 		  </tasklet>
 		</batch:step>
+	    
 	    <batch:step id="stepPhotosResize" next="stepTaskletZip">
 			<tasklet ref="TaskletPhotosResize" />
 		</batch:step>
+	    
 	    <batch:step id="stepTaskletZip">
 			<tasklet ref="TaskletZip" />
 		</batch:step>
+		
 	</batch:job>
 	
 	<bean id="jpaItemReader" class="org.springframework.batch.item.database.JpaPagingItemReader">

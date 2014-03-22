@@ -9,9 +9,12 @@ import ma.glasnost.orika.converter.ConverterFactory;
 import ma.glasnost.orika.impl.ConfigurableMapper;
 import ma.glasnost.orika.metadata.TypeFactory;
 
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.StepExecution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import fr.jerep6.ogi.batch.bean.BatchReportJobInstance;
 import fr.jerep6.ogi.framework.exception.BusinessException;
 import fr.jerep6.ogi.framework.exception.MultipleBusinessException;
 import fr.jerep6.ogi.framework.transfert.ErrorTo;
@@ -34,6 +37,9 @@ import fr.jerep6.ogi.persistance.bo.RealPropertyPlot;
 import fr.jerep6.ogi.persistance.bo.Room;
 import fr.jerep6.ogi.persistance.bo.Sale;
 import fr.jerep6.ogi.persistance.bo.State;
+import fr.jerep6.ogi.rest.batch.transfert.BatchReportInstanceTo;
+import fr.jerep6.ogi.rest.batch.transfert.BatchReportJobExecutionTo;
+import fr.jerep6.ogi.rest.batch.transfert.BatchReportStepExecutionTo;
 import fr.jerep6.ogi.service.ServiceUrl;
 import fr.jerep6.ogi.transfert.FileUpload;
 import fr.jerep6.ogi.transfert.bean.AddressTo;
@@ -53,6 +59,8 @@ import fr.jerep6.ogi.transfert.bean.RealPropertyTo;
 import fr.jerep6.ogi.transfert.bean.RoomTo;
 import fr.jerep6.ogi.transfert.bean.SaleTo;
 import fr.jerep6.ogi.transfert.bean.StateTo;
+import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumBatchExitStatus;
+import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumBatchStatus;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumCategory;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumDescriptionType;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumLabelType;
@@ -69,10 +77,57 @@ public class OrikaMapper extends ConfigurableMapper {
 
 	private MapperFactory	factory;
 
+	private void batchMapping() {
+
+		factory.classMap(BatchReportJobInstance.class, BatchReportInstanceTo.class)//
+				.field("jobInstance.jobName", "jobName")//
+				.field("jobExecutions", "jobExecutions")//
+				.field("success", "isSuccess")//
+				.register();
+
+		factory.classMap(JobExecution.class, BatchReportJobExecutionTo.class)//
+				.field("startTime", "startTime")//
+				.field("endTime", "endTime")//
+				.field("status", "status")//
+				.field("exitStatus", "exitStatus")//
+				.field("stepExecutions", "steps")//
+				.register();
+
+		factory.classMap(StepExecution.class, BatchReportStepExecutionTo.class)//
+				.field("stepName", "stepName")//
+				.field("status", "status")//
+				.field("readCount", "readCount")//
+				.field("writeCount", "writeCount")//
+				.field("commitCount", "commitCount")//
+				.field("rollbackCount", "rollbackCount")//
+				.field("readSkipCount", "readSkipCount")//
+				.field("processSkipCount", "processSkipCount")//
+				.field("writeSkipCount", "writeSkipCount")//
+				.register();
+	}
+
 	@Override
 	protected void configure(MapperFactory factory) {
 		super.configure(factory);
 		this.factory = factory;
+
+		// Init converter here because from 1.4.5 orika throw exception when this code is not in configure method
+		// Caused by: java.lang.IllegalStateException: Cannot register converters after MapperFacade has been
+		// initialized at
+		// ma.glasnost.orika.converter.DefaultConverterFactory.registerConverter(DefaultConverterFactory.java:192)
+		ConverterFactory converterFactory = factory.getConverterFactory();
+
+		// Specifics converter (instantiate and copy properties)
+		converterFactory.registerConverter(new ConverterEnumCategory());
+		converterFactory.registerConverter(new ConverterEnumDescriptionType());
+		converterFactory.registerConverter(new ConverterEnumOrientation());
+		converterFactory.registerConverter(new ConverterEnumMandateType());
+		converterFactory.registerConverter(new ConverterEnumLabelType());
+		converterFactory.registerConverter(new ConverterEnumPartner());
+		converterFactory.registerConverter(new ConverterEnumPartnerRequestType());
+
+		converterFactory.registerConverter(new ConverterEnumBatchStatus());
+		converterFactory.registerConverter(new ConverterEnumBatchExitStatus());
 	}
 
 	/** Mapping for exception */
@@ -130,18 +185,9 @@ public class OrikaMapper extends ConfigurableMapper {
 	 */
 	@PostConstruct
 	private void postConstruct() {
-		ConverterFactory converterFactory = factory.getConverterFactory();
-
-		// Specifics converter (instantiate and copy properties)
-		converterFactory.registerConverter(new ConverterEnumCategory());
-		converterFactory.registerConverter(new ConverterEnumDescriptionType());
-		converterFactory.registerConverter(new ConverterEnumOrientation());
-		converterFactory.registerConverter(new ConverterEnumMandateType());
-		converterFactory.registerConverter(new ConverterEnumLabelType());
-		converterFactory.registerConverter(new ConverterEnumPartner());
-		converterFactory.registerConverter(new ConverterEnumPartnerRequestType());
 
 		exceptionMapping();
+		batchMapping();
 
 		// Specifics factory (create object)
 		factory.registerObjectFactory(new FactoryRealPropertyTo(), TypeFactory.valueOf(RealPropertyTo.class));

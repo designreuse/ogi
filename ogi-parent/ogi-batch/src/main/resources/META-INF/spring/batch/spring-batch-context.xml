@@ -65,6 +65,4 @@
 		<property name="jobRepository" ref="jobRepository" />
 	</bean>
 	
-
- 
 </beans>

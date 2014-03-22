@@ -66,5 +66,9 @@
 	
 	<!-- Classe initialisant la redirection java.util.logging vers slf4j-->
 	<bean class="fr.jerep6.ogi.framework.log.JULInitializer" />
+	
+	<bean id="jobExplorer" class="org.springframework.batch.core.explore.support.JobExplorerFactoryBean">
+		 <property name="dataSource" ref="dataSource"/>
+	</bean>
 
 </beans>

@@ -158,7 +158,7 @@ public class ProcessorTransformToCSV implements ItemProcessor<RealProperty, Real
 			return r;
 		} catch (Exception e) {
 			LOGGER.error("Error processing item " + item.getReference(), e);
-			return null;
+			throw e;
 		}
 	}
 
