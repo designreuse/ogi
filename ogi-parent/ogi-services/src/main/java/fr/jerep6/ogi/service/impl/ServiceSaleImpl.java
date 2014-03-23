@@ -38,18 +38,23 @@ public class ServiceSaleImpl extends AbstractTransactionalService<Sale, Integer>
 
 		Sale saleMapping = null;
 
-		// Map field only if sale found and saleModif (ihm) is not null
-		if (saleOriginalBD != null && saleModif != null) {
-			saleMapping = saleOriginalBD;
-			mapper.map(saleModif, saleMapping);
-		}
-		// no sale in database and ihm is not null
-		else if (saleOriginalBD == null && saleModif != null) {
-			saleMapping = saleModif;
-		}
-		// ihm null and database contain sale => remove sale in database
-		else if (saleOriginalBD != null && saleModif == null) {
-			remove(saleOriginalBD);
+		// IHM send a sale
+		if (saleModif != null) {
+			// Map field only if sale found and saleModif (ihm) is not null
+			if (saleOriginalBD != null) {
+				saleMapping = saleOriginalBD;
+				mapper.map(saleModif, saleMapping);
+			}
+			// no sale in database and ihm is not null
+			else if (saleOriginalBD == null) {
+				saleMapping = saleModif;
+			}
+
+		} else {
+			// ihm null and database contain sale => remove sale in database
+			if (saleOriginalBD != null) {
+				remove(saleOriginalBD);
+			}
 		}
 
 		return saleMapping;

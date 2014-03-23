@@ -45,5 +45,6 @@ public class RealPropertyTo {
 	private String							type;
 	private List<DocumentTo>				photos			= new ArrayList<>(0);
 	private SaleTo							sale;
+	private RentTo							rent;
 
 }

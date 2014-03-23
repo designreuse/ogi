@@ -14,6 +14,7 @@ import fr.jerep6.ogi.persistance.bo.Owner;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 import fr.jerep6.ogi.persistance.bo.RealPropertyPlot;
+import fr.jerep6.ogi.persistance.bo.Rent;
 import fr.jerep6.ogi.persistance.bo.Sale;
 
 @Component("orikaMapperService")
@@ -38,6 +39,7 @@ public class OrikaMapperService extends ConfigurableMapper {
 		factory.classMap(Owner.class, Owner.class).exclude("techid").exclude("properties").exclude("addresses")
 				.byDefault().register();
 		factory.classMap(Sale.class, Sale.class).exclude("techid").byDefault().register();
+		factory.classMap(Rent.class, Rent.class).exclude("techid").byDefault().register();
 
 		factory.classMap(Description.class, Description.class).exclude("techid").exclude("property").byDefault()
 				.register();
@@ -52,6 +54,7 @@ public class OrikaMapperService extends ConfigurableMapper {
 				.exclude("diagnosisProperty")//
 				.exclude("equipments")//
 				.exclude("sale")//
+				.exclude("rent")//
 				.exclude("documents")//
 				.exclude("type")//
 				.exclude("owners")// exclusion des propriétaires car ils sont traités ailleurs
@@ -68,6 +71,7 @@ public class OrikaMapperService extends ConfigurableMapper {
 				.exclude("category")//
 				.exclude("diagnosisProperty")//
 				.exclude("sale")//
+				.exclude("rent")//
 				.exclude("documents")//
 				.exclude("type")//
 				.exclude("owners")//
@@ -86,6 +90,7 @@ public class OrikaMapperService extends ConfigurableMapper {
 				.exclude("category")//
 				.exclude("diagnosisProperty")//
 				.exclude("sale")//
+				.exclude("rent")//
 				.exclude("documents")//
 				.exclude("type")//
 				.exclude("owners")//

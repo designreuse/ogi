@@ -23,7 +23,6 @@ import fr.jerep6.ogi.persistance.bo.Document;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 import fr.jerep6.ogi.persistance.bo.RealPropertyPlot;
-import fr.jerep6.ogi.service.ServiceUrl;
 
 public class ProcessorTransformToCSV implements ItemProcessor<RealProperty, RealPropertyCSV> {
 	private static Logger						LOGGER		= LoggerFactory.getLogger(ProcessorTransformToCSV.class);
@@ -36,7 +35,6 @@ public class ProcessorTransformToCSV implements ItemProcessor<RealProperty, Real
 		mapTypeBien.put(EnumCategory.PLOT, "terrain");
 	}
 
-	private ServiceUrl							serviceUrl;
 	private String								estateCode;
 
 	private void populateCommon(RealProperty item, RealPropertyCSV r) {
@@ -164,10 +162,6 @@ public class ProcessorTransformToCSV implements ItemProcessor<RealProperty, Real
 
 	public void setEstateCode(String estateCode) {
 		this.estateCode = estateCode;
-	}
-
-	public void setServiceUrl(ServiceUrl serviceUrl) {
-		this.serviceUrl = serviceUrl;
 	}
 
 	private String toBoolean(boolean b) {

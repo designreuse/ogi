@@ -26,6 +26,7 @@ import fr.jerep6.ogi.persistance.bo.Document;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyBuilt;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
+import fr.jerep6.ogi.persistance.bo.Rent;
 import fr.jerep6.ogi.persistance.bo.Sale;
 import fr.jerep6.ogi.persistance.bo.State;
 import fr.jerep6.ogi.persistance.bo.Type;
@@ -37,6 +38,7 @@ import fr.jerep6.ogi.service.ServiceDiagnosis;
 import fr.jerep6.ogi.service.ServiceDocument;
 import fr.jerep6.ogi.service.ServiceEquipment;
 import fr.jerep6.ogi.service.ServiceRealProperty;
+import fr.jerep6.ogi.service.ServiceRent;
 import fr.jerep6.ogi.service.ServiceSale;
 import fr.jerep6.ogi.service.ServiceState;
 import fr.jerep6.ogi.service.ServiceType;
@@ -71,6 +73,9 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 
 	@Autowired
 	private ServiceSale			serviceSale;
+
+	@Autowired
+	private ServiceRent			serviceRent;
 
 	@Autowired
 	private ServiceState		serviceState;
@@ -146,6 +151,14 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 		prp.setSale(saleModif);
 		if (saleModif != null) {
 			saleModif.setProperty(prp);
+		}
+
+		// ###### RENT ######
+		// Map modification into object.
+		Rent rentModif = serviceRent.merge(prp.getRent(), propertyFromJson.getRent());
+		prp.setRent(rentModif);
+		if (rentModif != null) {
+			rentModif.setProperty(prp);
 		}
 
 		// ###### Equipment ######

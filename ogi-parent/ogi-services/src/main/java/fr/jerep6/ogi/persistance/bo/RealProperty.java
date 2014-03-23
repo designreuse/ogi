@@ -80,6 +80,9 @@ public class RealProperty {
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "property")
 	private Sale						sale;
 
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "property")
+	private Rent						rent;
+
 	@OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
 	private Set<Description>			descriptions		= new HashSet<>(0);
 
@@ -112,7 +115,7 @@ public class RealProperty {
 	private Set<Owner>					owners;
 
 	@OneToMany(mappedBy = "property")
-	private Set<PartnerRequest>		partnersRequests;
+	private Set<PartnerRequest>			partnersRequests;
 
 	// ##### Technical field #####
 	// Il faut obligatoirement spécifier l'attribut columnDefinition sinon mysql crée un champ date time
