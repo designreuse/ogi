@@ -51,14 +51,15 @@ myApp.factory('ServiceAlert', function(Utils){
             return alerts;
         },
         formatMessage: function(response) {
-            var msg = "";
+            var msg = "[HTTP:"+response.status+"] - ";
             if(!Utils.isUndefinedOrNull(response.data.errors)) {
                 for(var i = 0; i < response.data.errors.length; i++) {
-                    msg += response.data.errors[0].message;
-                    msg += "\n";
+                    msg += response.data.errors[i].message;
+                    if(i < response.data.errors.length) {
+                        msg += "<br />";
+                    }
                 }
             }
-            msg += "[HTTP:"+response.status+"]";
             return msg;
         }
     }
