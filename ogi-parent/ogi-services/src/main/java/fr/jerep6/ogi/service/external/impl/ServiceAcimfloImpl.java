@@ -41,6 +41,7 @@ import fr.jerep6.ogi.enumeration.EnumPartnerRequestType;
 import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessError;
 import fr.jerep6.ogi.exception.technical.NetworkTechnicalException;
 import fr.jerep6.ogi.framework.exception.BusinessException;
+import fr.jerep6.ogi.framework.exception.MultipleBusinessException;
 import fr.jerep6.ogi.framework.service.impl.AbstractService;
 import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.Description;
@@ -358,5 +359,11 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 			throw new NetworkTechnicalException(e);
 		}
 		return exist;
+	}
+
+	@Override
+	public void validate(RealProperty item) throws MultipleBusinessException {
+		// TODO Auto-generated method stub
+
 	}
 }

@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -56,6 +58,9 @@ public class Rent {
 	@Column(name = "REN_SERVICE_CHARGE_INCLUDED")
 	private Boolean			serviceChargeIncluded;
 
+	@Column(name = "REN_FUNISHED", nullable = false)
+	private Boolean			furnished;
+
 	@ManyToOne
 	@JoinColumn(name = "PRO_ID", nullable = false)
 	private RealProperty	property;
@@ -65,6 +70,14 @@ public class Rent {
 			return VenteUtils.roundPrice(commission / price * 100);
 		}
 		return null;
+	}
+
+	@PreUpdate
+	@PrePersist
+	private void setDefaultValue() {
+		if (furnished == null) {
+			furnished = false;
+		}
 	}
 
 }

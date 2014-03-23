@@ -24,13 +24,23 @@
 			<tasklet ref="TaskletDelete" />
 		</batch:step>
 		
-	    <batch:step id="stepTaskletPrepareTree" next="stepWriteCSV">
+	    <batch:step id="stepTaskletPrepareTree" next="stepWriteCSVSale">
 			<tasklet ref="TaskletPrepareTree" />
 		</batch:step>
 		
-		<batch:step id="stepWriteCSV" next="stepPhotosResize">
+		<batch:step id="stepWriteCSVSale" next="stepWriteCSVRent">
 		  <tasklet>
-			<batch:chunk reader="jpaItemReader" processor="compositeItemProcessor" writer="cvsFileItemWriter" commit-interval="1" skip-limit="10">
+			<batch:chunk reader="jpaItemReaderSale" processor="compositeItemProcessor" writer="cvsFileItemWriter" commit-interval="1" skip-limit="10">
+				<batch:skippable-exception-classes>
+					<batch:include class="fr.jerep6.ogi.framework.exception.AbstractException" />
+				</batch:skippable-exception-classes>
+			</batch:chunk>
+		  </tasklet>
+		</batch:step>
+		
+		<batch:step id="stepWriteCSVRent" next="stepPhotosResize">
+		  <tasklet>
+			<batch:chunk reader="jpaItemReaderRent" processor="compositeItemProcessor" writer="cvsFileItemWriter" commit-interval="1" skip-limit="10">
 				<batch:skippable-exception-classes>
 					<batch:include class="fr.jerep6.ogi.framework.exception.AbstractException" />
 				</batch:skippable-exception-classes>
@@ -48,8 +58,14 @@
 		
 	</batch:job>
 	
-	<bean id="jpaItemReader" class="org.springframework.batch.item.database.JpaPagingItemReader">
-	    <property name="queryString" value="${seloger.extraction.jpql}" />
+	<!-- JPA doesn't support UNION. So 2 queries -->
+	<bean id="jpaItemReaderSale" class="org.springframework.batch.item.database.JpaPagingItemReader">
+	    <property name="queryString" value="${seloger.extraction.jpql.sale}" />
+	    <property name="entityManagerFactory" ref="emFactory" />
+	</bean>
+	
+	<bean id="jpaItemReaderRent" class="org.springframework.batch.item.database.JpaPagingItemReader">
+	    <property name="queryString" value="${seloger.extraction.jpql.rent}" />
 	    <property name="entityManagerFactory" ref="emFactory" />
 	</bean>
 	
@@ -57,8 +73,8 @@
 	    <property name="delegates">
 	        <list>
 	            <bean class="fr.jerep6.ogi.batch.seloger.ProcessorTransformToCSV" >
-					<property name="serviceUrl" ref="serviceUrl" />
 					<property name="estateCode" value="${seloger.agence.code}" />
+					<property name="serviceSeLoger" ref="serviceSeLoger" />
 	            </bean>
 	            <bean class="fr.jerep6.ogi.batch.seloger.ProcessorPhotos" >
 	            	<property name="photosDirectory" value="file:${seloger.extraction.file.photos.path}" />
@@ -69,7 +85,9 @@
 
 	<bean id="cvsFileItemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
 		<property name="resource" value="file:${seloger.extraction.file.root.path}${seloger.extraction.file.csv.name}" />
-		<property name="shouldDeleteIfExists" value="true" />
+		<property name="shouldDeleteIfExists" value="false" />
+		<property name="appendAllowed" value="true" />
+		
 		<property name="lineAggregator">
 			<bean class="fr.jerep6.ogi.batch.common.writer.AdvancedDelimitedLineAggregator">
 				<property name="delimiter" value="!#" />

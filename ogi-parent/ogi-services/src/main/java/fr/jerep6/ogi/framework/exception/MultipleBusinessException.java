@@ -24,6 +24,11 @@ public class MultipleBusinessException extends AbstractException implements Iter
 		exceptions.add(new BusinessException(errorCode));
 	}
 
+	public void add(ErrorCode errorCode, Object... params) {
+		Preconditions.checkNotNull(errorCode);
+		exceptions.add(new BusinessException(errorCode, params));
+	}
+
 	public void checkErrors() {
 		if (!exceptions.isEmpty()) {
 			throw this;

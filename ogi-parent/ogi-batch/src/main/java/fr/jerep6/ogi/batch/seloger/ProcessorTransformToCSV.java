@@ -1,5 +1,6 @@
 package fr.jerep6.ogi.batch.seloger;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -14,8 +15,6 @@ import com.google.common.base.Strings;
 import fr.jerep6.ogi.enumeration.EnumCategory;
 import fr.jerep6.ogi.enumeration.EnumDescriptionType;
 import fr.jerep6.ogi.enumeration.EnumOrientation;
-import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessError;
-import fr.jerep6.ogi.framework.exception.MultipleBusinessException;
 import fr.jerep6.ogi.framework.utils.ObjectUtils;
 import fr.jerep6.ogi.persistance.bo.Address;
 import fr.jerep6.ogi.persistance.bo.DPE;
@@ -23,18 +22,28 @@ import fr.jerep6.ogi.persistance.bo.Document;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 import fr.jerep6.ogi.persistance.bo.RealPropertyPlot;
+import fr.jerep6.ogi.persistance.bo.Rent;
+import fr.jerep6.ogi.service.external.ServicePartner;
 
-public class ProcessorTransformToCSV implements ItemProcessor<RealProperty, RealPropertyCSV> {
+public class ProcessorTransformToCSV implements ItemProcessor<ExtractSeLoger, RealPropertyCSV> {
 	private static Logger						LOGGER		= LoggerFactory.getLogger(ProcessorTransformToCSV.class);
+
+	private static final String					MEUBLEE		= "Location meublée";
+
+	private static final String					MODE_SALE	= "SALE";
+	private static final String					MODE_RENT	= "RENT";
+	private static final SimpleDateFormat		spFormater	= new SimpleDateFormat("dd/MM/yyyy");
+
+	private ServicePartner						serviceSeLoger;
 
 	/** Matching between OGI category and seloger category */
 	private static Map<EnumCategory, String>	mapTypeBien	= new HashMap<>();
+
 	static {
 		mapTypeBien.put(EnumCategory.APARTMENT, "appartement,");
 		mapTypeBien.put(EnumCategory.HOUSE, "maison");
 		mapTypeBien.put(EnumCategory.PLOT, "terrain");
 	}
-
 	private String								estateCode;
 
 	private void populateCommon(RealProperty item, RealPropertyCSV r) {
@@ -49,6 +58,9 @@ public class ProcessorTransformToCSV implements ItemProcessor<RealProperty, Real
 
 		r.setLibelle(item.getType().getLabel());
 		r.setDescriptif(item.getDescription(EnumDescriptionType.WEBSITE_OTHER).getLabel().replace("\n", "<br />"));
+
+		// Liveable will erase this. Set here to plot
+		r.setNbrePiece("0");
 	}
 
 	private void populateLiveable(RealProperty item, RealPropertyCSV r) {
@@ -128,25 +140,60 @@ public class ProcessorTransformToCSV implements ItemProcessor<RealProperty, Real
 		}
 	}
 
+	private void populateRent(RealProperty item, RealPropertyCSV r) {
+		Rent rent = item.getRent();
+		if (rent != null) {
+			r.setPrix(rent.getPrice().toString());
+			r.setLoyerCC(toBoolean(rent.getServiceChargeIncluded()));
+			r.setHonoraires(ObjectUtils.toString(rent.getCommission()));
+			r.setCharges(ObjectUtils.toString(rent.getServiceCharge()));
+			r.setDepotDeGarantie(ObjectUtils.toString(rent.getDeposit()));
+
+			if (rent.getFurnished()) {
+				r.setNatureBail(MEUBLEE);
+			}
+
+			if (rent.getFreeDate() != null) {
+				r.setDateDisponibilite(spFormater.format(rent.getFreeDate().getTime()));
+			}
+		}
+
+	}
+
+	private void populateSale(RealProperty item, RealPropertyCSV r) {
+		if (item.getSale() != null) {
+			r.setPrix(item.getSale().getPriceFinal().toString());
+			r.setMandatNumero(item.getSale().getMandateReference());
+		}
+	}
+
 	@Override
-	public RealPropertyCSV process(RealProperty item) throws Exception {
+	public RealPropertyCSV process(ExtractSeLoger extract) throws Exception {
+		RealProperty item = extract.getProperty();
+
 		try {
-			validate(item);
+			serviceSeLoger.validate(item);
 
 			RealPropertyCSV r = new RealPropertyCSV(item);
 			r.setAgenceId(estateCode);
 
-			if (item.getSale() != null) {
-				r.setTypeAnnonce("vente");
-				r.setMandatNumero(item.getSale().getMandateReference());
-			} else {
-				r.setTypeAnnonce("location");
-			}
-			r.setTypeBien(mapTypeBien.get(item.getCategory().getCode()));
+			// Choose mode according to extract
+			switch (extract.getMode()) {
+				case MODE_SALE:
+					r.setTypeAnnonce("vente");
+					populateSale(item, r);
+					break;
+				case MODE_RENT:
+					r.setTypeAnnonce("location");
 
-			// Price
-			r.setPrix(item.getSale().getPriceFinal().toString());
-			r.setHonoraires(""); // Pas de location pour le moment
+					populateRent(item, r);
+					break;
+
+				default:
+					break;
+			}
+
+			r.setTypeBien(mapTypeBien.get(item.getCategory().getCode()));
 
 			populateCommon(item, r);
 			populatePhotos(item, r);
@@ -164,30 +211,12 @@ public class ProcessorTransformToCSV implements ItemProcessor<RealProperty, Real
 		this.estateCode = estateCode;
 	}
 
-	private String toBoolean(boolean b) {
-		return b ? "OUI" : "NON";
+	public void setServiceSeLoger(ServicePartner serviceSeLoger) {
+		this.serviceSeLoger = serviceSeLoger;
 	}
 
-	private void validate(RealProperty item) throws MultipleBusinessException {
-		MultipleBusinessException mbe = new MultipleBusinessException();
-
-		if (item.getAddress() == null) {
-			mbe.add(EnumBusinessError.NO_ADDRESS);
-		}
-
-		if (item.getSale() == null) {
-			mbe.add(EnumBusinessError.NO_SALE);
-		} else if (Strings.isNullOrEmpty(item.getSale().getMandateReference())) {
-			mbe.add(EnumBusinessError.NO_MANDAT_REFERENCE);
-		}
-
-		if (item.getType() == null) {
-			mbe.add(EnumBusinessError.NO_TYPE);
-		}
-		if (item.getDescription(EnumDescriptionType.WEBSITE_OTHER) == null) {
-			mbe.add(EnumBusinessError.NO_DESCRIPTION_WEBSITE_OTHER);
-		}
-
-		mbe.checkErrors();
+	private String toBoolean(Boolean b) {
+		return b == null ? "" : b ? "OUI" : "NON";
 	}
+
 }

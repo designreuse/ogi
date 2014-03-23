@@ -40,6 +40,7 @@ public class RealPropertyCSV {
 	@Setter
 	private String			prix;
 	private String			loyerParMois;								// Dans le cas d'une cession de bail
+	@Setter
 	private String			loyerCC;									// loyer charge comprise OUI NON
 	private String			loyerHT;									// loyer hors taxe OUI NON
 	@Setter
@@ -63,7 +64,9 @@ public class RealPropertyCSV {
 	@Setter
 	private String			descriptif;								// OBLI (4000 CHAR). Ne pas mettre de caractères
 																		// spéciaux
+	@Setter
 	private String			dateDisponibilite;							// Format JJ/MM/AAAA
+	@Setter
 	private String			charges;
 	@Setter
 	private String			etage;										// 0 pour RDC
@@ -252,6 +255,7 @@ public class RealPropertyCSV {
 	private String			champPersonnalise25;
 
 	// 161 -- 170
+	@Setter
 	private String			depotDeGarantie;
 	private String			recent;
 	@Setter
@@ -356,6 +360,7 @@ public class RealPropertyCSV {
 
 	// 241 -- 250
 	private String			montantRapport;
+	@Setter
 	private String			natureBail;								// Uniquement pour les location. Exemple :
 																		// Location
 																		// meublée

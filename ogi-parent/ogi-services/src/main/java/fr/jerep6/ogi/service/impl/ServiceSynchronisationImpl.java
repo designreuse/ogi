@@ -52,6 +52,9 @@ public class ServiceSynchronisationImpl extends AbstractService implements Servi
 			Set<RealProperty> properties = serviceRealProperty.readByReference(prpReferences);
 
 			for (RealProperty prp : properties) {
+				// Validate if property is valid for partner
+				servicePartner.validate(prp);
+
 				// insert in database add/update request. It will be ack when property will be really updat on partner
 				servicePartnerRequest.addRequest(prt, prp.getTechid(), EnumPartnerRequestType.ADD_UPDATE);
 

@@ -7,11 +7,15 @@ public enum EnumBusinessError implements ErrorCode {
 	ACIMFLO_IDENTIFIANTS_KO("ACIMFLO_IDENTIFIANTS_KO", "Wrong  login/pwd"), //
 	DIAPORAMA_IDENTIFIANTS_KO("DIAPORAMA_IDENTIFIANTS_KO", "Wrong  login/pwd"), //
 	NO_SALE("NO_SALE", "Property haven't sale"), //
+	NO_RENT("NO_RENT", "Property haven't rent"), //
 	NO_DESCRIPTION_WEBSITE_OWN("NO_DESCRIPTION_WEBSITE_OWN", "Property haven't description WEBSITE_OWN"), //
 	NO_DESCRIPTION_WEBSITE_OTHER("NO_DESCRIPTION_WEBSITE_OTHER", "Property haven't description WEBSITE_OTHER"), //
 	NO_ADDRESS("NO_ADDRESS", "Property haven't address"), //
 	NO_TYPE("NO_TYPE", "Property haven't type"), //
 	NO_MANDAT_REFERENCE("NO_MANDAT_REFERENCE", "Property haven't mandat reference"), //
+	NO_RENT_PRICE("NO_RENT_PRICE", "Property haven't price"), //
+	NO_RENT_COMMISSION("NO_RENT_COMMISSION", "Property haven't commission"), //
+	NO_ROOM_NUMBER("NO_ROOM_NUMBER", "Property haven't room number"), //
 	;
 
 	private String	code;
