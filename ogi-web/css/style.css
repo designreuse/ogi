@@ -147,3 +147,13 @@ ul#list-photos li.highlight {
 .ui-slider-handle {
   cursor: pointer !important;
 }
+.displaytable {
+  display: table;
+  border-spacing: 5px;
+}
+.displaytable > div {
+  display: table-cell;
+}
+.displaytable > div .input-group {
+  border-spacing: 0;
+}

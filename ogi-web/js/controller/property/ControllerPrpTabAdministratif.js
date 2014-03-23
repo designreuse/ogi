@@ -46,7 +46,8 @@ function ControllerPrpTabAdministratif($scope, Page, $routeParams, ServiceConfig
     $scope.open = {
         'mandateStartDate': false,
         'mandateEndDate': false,
-        'estimationDate': false
+        'estimationDate': false,
+        'freeDate' : false
     }
 
     $scope.openCalendar = function($event, calendarName) {

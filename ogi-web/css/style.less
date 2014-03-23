@@ -118,3 +118,15 @@
 .ui-slider-handle {
     cursor:pointer !important;
 }
+
+.displaytable {
+  display: table;
+  border-spacing: 5px;
+
+  & > div {
+    display: table-cell;
+    & .input-group {
+      border-spacing: 0;
+    }
+  }
+}
