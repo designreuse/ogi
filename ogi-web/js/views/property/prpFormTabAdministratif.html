@@ -179,10 +179,22 @@
                         <label>Location en exclusivité</label>
                         <ul class="list-inline list-unstyled">
                             <li>
-                                <label class="normal"><input type="radio" name="exclusive" value="true" ng-model="prp.rent.exclusive"> Oui</label>
+                                <label class="normal"><input type="radio" name="exclusive" ng-value="true" ng-model="prp.rent.exclusive"> Oui</label>
                             </li>
                             <li>
-                                <label class="normal"><input type="radio" name="exclusive" value="false" ng-model="prp.rent.exclusive"> Non</label>
+                                <label class="normal"><input type="radio" name="exclusive" ng-value="false" ng-model="prp.rent.exclusive"> Non</label>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Location meublée</label>
+                        <ul class="list-inline list-unstyled">
+                            <li>
+                                <label class="normal"><input type="radio" name="furnished" ng-value="true" ng-model="prp.rent.furnished"> Oui</label>
+                            </li>
+                            <li>
+                                <label class="normal"><input type="radio" name="furnished" ng-value="false" ng-model="prp.rent.furnished"> Non</label>
                             </li>
                         </ul>
                     </div>
