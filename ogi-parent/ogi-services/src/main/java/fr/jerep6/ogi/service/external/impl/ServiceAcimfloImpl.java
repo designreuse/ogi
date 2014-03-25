@@ -5,12 +5,17 @@ import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -43,11 +48,13 @@ import fr.jerep6.ogi.exception.technical.NetworkTechnicalException;
 import fr.jerep6.ogi.framework.exception.BusinessException;
 import fr.jerep6.ogi.framework.exception.MultipleBusinessException;
 import fr.jerep6.ogi.framework.service.impl.AbstractService;
+import fr.jerep6.ogi.framework.utils.ObjectUtils;
 import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.Description;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyBuilt;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
+import fr.jerep6.ogi.persistance.bo.Rent;
 import fr.jerep6.ogi.service.ServicePartnerRequest;
 import fr.jerep6.ogi.service.external.ServicePartner;
 import fr.jerep6.ogi.service.external.transfert.AcimfloResultDelete;
@@ -57,57 +64,100 @@ import fr.jerep6.ogi.utils.HttpClientUtils;
 
 @Service("serviceAcimflo")
 public class ServiceAcimfloImpl extends AbstractService implements ServicePartner {
-	private final Logger			LOGGER	= LoggerFactory.getLogger(ServiceAcimfloImpl.class);
+	private final Logger						LOGGER		= LoggerFactory.getLogger(ServiceAcimfloImpl.class);
+	private static final SimpleDateFormat		spFormater	= new SimpleDateFormat("dd/MM/yyyy");
+	public static final String					MODE_RENT	= "RENT";
+	public static final String					MODE_SALE	= "SALE";
 
 	@Value("${partner.acimflo.connect.url}")
-	private String					loginUrl;
+	private String								loginUrl;
 	@Value("${partner.acimflo.connect.login}")
-	private String					login;
+	private String								login;
 	@Value("${partner.acimflo.connect.pwd}")
-	private String					pwd;
-
-	@Value("${partner.acimflo.create.url}")
-	private String					createUrl;
-	@Value("${partner.acimflo.create.referer}")
-	private String					createReferer;
-
-	@Value("${partner.acimflo.update.url}")
-	private String					updateUrl;
-	@Value("${partner.acimflo.update.referer}")
-	private String					updateReferer;
+	private String								pwd;
 
 	@Value("${partner.acimflo.delete.url}")
-	private String					deleteUrl;
+	private String								deleteUrl;
 
 	@Value("${partner.acimflo.exist.url}")
-	private String					verifReference;
+	private String								verifReference;
 
-	@Value("${partner.acimflo.apercu.url}")
-	private String					imgApercu;
+	@Value("${partner.reference.sale.suffix}")
+	private String								suffixSale;
+
+	@Value("${partner.reference.rent.suffix}")
+	private String								suffixRent;
+
+	@Resource(name = "mapAcimfloUrl")
+	private Map<String, Map<String, String>>	config;
+
+	@Value("${httpclient.timeout.connection}")
+	private Integer								timeoutConnection;
+
+	@Value("${httpclient.timeout.socket}")
+	private Integer								timeoutSocket;
 
 	@Autowired
-	private ServicePartnerRequest	servicePartnerExistence;
+	private ServicePartnerRequest				servicePartnerExistence;
 
-	private WSResult broadcast(HttpClient client, RealProperty prp, String url, String referer) {
+	private WSResult broadcast(HttpClient client, RealProperty prp, String reference, String mode, String prefixeMap) {
+		String referer = config.get(mode).get(prefixeMap + ".referer").replace("$reference", reference);
+		String url = config.get(mode).get(prefixeMap + ".url").replace("$reference", reference);
+		String imgApercu = config.get(mode).get("apercu.url").replace("$reference", reference);
+
 		LOGGER.info("Broadcast to Acimflo. url = {} : referer = {}", url, referer);
 
+		HttpPost httpPost = new HttpPost(url);
+		MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+		builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+		// Construct form data
+		buildCommon(client, prp, reference, builder, imgApercu);
+		switch (mode) {
+			case MODE_SALE:
+				buildSale(client, prp, builder);
+				break;
+			case MODE_RENT:
+				buildRent(client, prp, builder);
+				break;
+		}
+
+		// Send request
 		WSResult result;
 		try {
-			Description description = prp.getDescription(EnumDescriptionType.WEBSITE_OWN);
-			if (prp.getSale() == null || prp.getSale().getPriceFinal() == null) {
-				throw new BusinessException(EnumBusinessError.NO_SALE, prp.getReference());
+			httpPost.setEntity(builder.build());
+			httpPost.addHeader("Referer", referer);
+
+			HttpResponse response = client.execute(httpPost);
+			LOGGER.info("Response code for create/update = {}", response.getStatusLine().getStatusCode());
+
+			// Parse html to get message
+			Document doc = Jsoup.parse(response.getEntity().getContent(), "UTF-8", "");
+			String msg = doc.select(".msg").html();
+			LOGGER.info("Result msg = " + msg);
+			if (Strings.isNullOrEmpty(msg)) {
+				LOGGER.error("Empty result msg :" + doc.toString());
+				result = new WSResult(prp.getReference(), "KO", doc.toString());
+			} else {
+				result = new WSResult(prp.getReference(), "OK", msg);
+
+				// Add ack
+				servicePartnerExistence.addRequest(EnumPartner.ACIMFLO, prp.getTechid(),
+						EnumPartnerRequestType.ADD_UPDATE_ACK);
 			}
-			if (description == null || description.getLabel() == null) {
-				throw new BusinessException(EnumBusinessError.NO_DESCRIPTION_WEBSITE_OWN, prp.getReference());
-			}
+		} catch (IOException e) {
+			LOGGER.error("Error broadcast property " + prp.getReference() + " on acimflo", e);
+			result = new WSResult(prp.getReference(), "KO", e.getMessage());
+		} finally {
+			httpPost.releaseConnection();
+		}
+		return result;
 
-			HttpPost httpPost = new HttpPost(url);
+	}
 
-			// FileBody uploadFilePart = new FileBody(uploadFile);
-			MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-			builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-
-			builder.addPart("vendu", new StringBody("non", ContentType.TEXT_PLAIN));
+	private void buildCommon(HttpClient client, RealProperty prp, String reference, MultipartEntityBuilder builder,
+			String imgApercu) {
+		try {
 
 			if (prp instanceof RealPropertyLivable) {
 				RealPropertyLivable liv = (RealPropertyLivable) prp;
@@ -123,9 +173,9 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 
 			builder.addPart("surfaceTerrain", new StringBody(Objects.firstNonNull(prp.getLandArea(), "").toString(),
 					ContentType.TEXT_PLAIN));
-			builder.addPart("prix", new StringBody(prp.getSale().getPriceFinal().toString(), ContentType.TEXT_PLAIN));
-			builder.addPart("reference", new StringBody(prp.getReference(), ContentType.TEXT_PLAIN));
-			builder.addPart("referenceOriginale", new StringBody(prp.getReference(), ContentType.TEXT_PLAIN));
+
+			builder.addPart("reference", new StringBody(reference, ContentType.TEXT_PLAIN));
+			builder.addPart("referenceOriginale", new StringBody(reference, ContentType.TEXT_PLAIN));
 			builder.addPart("idType", new StringBody(getType(prp.getCategory()), ContentType.TEXT_PLAIN));
 			builder.addPart("surfaceDependance", new StringBody(Objects.firstNonNull(prp.getDependencyArea(), "")
 					.toString(), ContentType.TEXT_PLAIN));
@@ -142,6 +192,7 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 			}
 			builder.addPart("nomStyle", new StringBody(style, ContentType.TEXT_PLAIN));
 
+			Description description = prp.getDescription(EnumDescriptionType.WEBSITE_OWN);
 			String desc = "";
 			if (description != null) {
 				desc = Objects.firstNonNull(description.getLabel(), "");
@@ -153,11 +204,12 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 
 			// Il ne faut pas uploader l'image d'apercu lors d'une modification car sinon elle sera présente deux fois.
 			// Une fois en Apercu.jpg et une deuxième fois sous son vrai nom
-			String urlApercu = imgApercu.replace("$reference", prp.getReference());
+			String urlApercu = imgApercu.replace("$reference", reference);
 			HttpGet getApercu = new HttpGet(urlApercu);
 			HttpResponse apercuResponse = client.execute(getApercu);
 			LOGGER.info("Response code for {} = {}", urlApercu, apercuResponse.getStatusLine().getStatusCode());
 			boolean uploadApercu = apercuResponse.getStatusLine().getStatusCode() != 200;
+			getApercu.releaseConnection();
 
 			Integer apercu = 1;
 			Integer i = 1;
@@ -193,42 +245,38 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 				builder.addPart("nbreGarage", new StringBody(Objects.firstNonNull(built.getNbGarage(), "").toString(),
 						ContentType.TEXT_PLAIN));
 			}
-
-			httpPost.setEntity(builder.build());
-			httpPost.addHeader("Referer", referer);
-
-			HttpResponse response = client.execute(httpPost);
-			LOGGER.info("Response code for create/update = {}", response.getStatusLine().getStatusCode());
-
-			// Parse html to get message
-			Document doc = Jsoup.parse(response.getEntity().getContent(), "UTF-8", "");
-			String msg = doc.select(".msg").html();
-			LOGGER.info("Result msg = " + msg);
-			if (Strings.isNullOrEmpty(msg)) {
-				LOGGER.error("Empty result msg :" + doc.toString());
-				result = new WSResult(prp.getReference(), "KO", doc.toString());
-			} else {
-				result = new WSResult(prp.getReference(), "OK", msg);
-
-				// Add ack
-				servicePartnerExistence.addRequest(EnumPartner.ACIMFLO, prp.getTechid(),
-						EnumPartnerRequestType.ADD_UPDATE_ACK);
-			}
-
 		} catch (IOException e) {
-			LOGGER.error("Error broadcast property " + prp.getReference() + " on acimflo", e);
-			result = new WSResult(prp.getReference(), "KO", e.getMessage());
+			LOGGER.error("", e);
 		}
+	}
 
-		return result;
+	private void buildRent(HttpClient client, RealProperty prp, MultipartEntityBuilder builder) {
+		Rent rent = prp.getRent();
+		builder.addPart("prix", new StringBody(ObjectUtils.toString(rent.getPrice()), ContentType.TEXT_PLAIN));
+		builder.addPart("disponible", new StringBody(toBoolean(rent.getFreeDate() != null), ContentType.TEXT_PLAIN));
+		builder.addPart("prix", new StringBody(ObjectUtils.toString(rent.getPrice()), ContentType.TEXT_PLAIN));
+		builder.addPart("honoraires",
+				new StringBody(ObjectUtils.toString(rent.getCommission()), ContentType.TEXT_PLAIN));
+		builder.addPart("charges",
+				new StringBody(ObjectUtils.toString(rent.getServiceCharge()), ContentType.TEXT_PLAIN));
+
+		if (rent.getFreeDate() != null) {
+			builder.addPart("libre_le", new StringBody(spFormater.format(rent.getFreeDate().getTime()),
+					ContentType.TEXT_PLAIN));
+		}
+	}
+
+	private void buildSale(HttpClient client, RealProperty prp, MultipartEntityBuilder builder) {
+		builder.addPart("prix", new StringBody(prp.getSale().getPriceFinal().toString(), ContentType.TEXT_PLAIN));
+
+		builder.addPart("vendu", new StringBody("non", ContentType.TEXT_PLAIN));
 	}
 
 	private void connect(HttpClient client) throws BusinessException {
 		LOGGER.info("Connect to Acimflo. url = {}", loginUrl);
 
+		HttpPost post = new HttpPost(loginUrl);
 		try {
-			HttpPost post = new HttpPost(loginUrl);
-
 			List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
 			urlParameters.add(new BasicNameValuePair("login", login));
 			urlParameters.add(new BasicNameValuePair("mdp", pwd));
@@ -249,27 +297,56 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 			}
 		} catch (IOException e) {
 			throw new NetworkTechnicalException(e);
+		} finally {
+			post.releaseConnection();
 		}
 	}
 
 	@Override
 	public WSResult createOrUpdate(RealProperty prp) {
+		validate(prp);
+
 		CookieHandler.setDefault(new CookieManager());
-		HttpClient client = HttpClientBuilder.create().setRedirectStrategy(new LaxRedirectStrategy()).build();
+		RequestConfig config = RequestConfig.custom()//
+				.setSocketTimeout(timeoutConnection * 1000)//
+				.setConnectTimeout(timeoutSocket * 1000)//
+				.setConnectionRequestTimeout(timeoutSocket * 1000)//
+				.build();
+
+		HttpClient client = HttpClientBuilder.create().setRedirectStrategy(new LaxRedirectStrategy())
+				.setDefaultRequestConfig(config).build();
 
 		// Connection to acimflo => session id is keeped
 		connect(client);
 
-		WSResult result;
-		if (prpExist(client, prp.getReference())) {
-			// Update property
-			String refererer = updateReferer.replace("$reference", prp.getReference());
-			result = broadcast(client, prp, updateUrl, refererer);
-		} else {
-			// Create property
-			String refererer = createReferer.replace("$reference", prp.getReference());
-			result = broadcast(client, prp, createUrl, refererer);
+		WSResult result = new WSResult(prp.getReference(), WSResult.RESULT_OK, "");
+
+		// Treat sale
+		if (prp.getSale() != null) {
+			String reference = prp.getReference() + suffixSale;
+
+			if (prpExist(client, reference)) {
+				// Update property
+				result = result.combine(broadcast(client, prp, reference, MODE_SALE, "update"));
+			} else {
+				// Create property
+				result = result.combine(broadcast(client, prp, reference, MODE_SALE, "create"));
+			}
 		}
+
+		// Treat rent
+		if (prp.getRent() != null) {
+			String reference = prp.getReference() + suffixRent;
+
+			if (prpExist(client, reference)) {
+				// Update property
+				result = result.combine(broadcast(client, prp, reference, MODE_RENT, "update"));
+			} else {
+				// Create property
+				result = result.combine(broadcast(client, prp, reference, MODE_RENT, "create"));
+			}
+		}
+
 		return result;
 	}
 
@@ -282,8 +359,8 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 		connect(client);
 
 		WSResult ws;
+		HttpGet httpGet = new HttpGet(deleteUrl.replace("$reference", prpReference));
 		try {
-			HttpGet httpGet = new HttpGet(deleteUrl.replace("$reference", prpReference));
 			HttpResponse response = client.execute(httpGet);
 
 			AcimfloResultDelete result = HttpClientUtils.convertToJson(response, AcimfloResultDelete.class);
@@ -300,6 +377,8 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 
 		} catch (IOException e) {
 			throw new NetworkTechnicalException(e);
+		} finally {
+			httpGet.releaseConnection();
 		}
 
 		return ws;
@@ -361,9 +440,32 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 		return exist;
 	}
 
-	@Override
-	public void validate(RealProperty item) throws MultipleBusinessException {
-		// TODO Auto-generated method stub
+	private String toBoolean(Boolean b) {
+		return b == null ? "" : b ? "oui" : "non";
+	}
 
+	@Override
+	public void validate(RealProperty prp) throws MultipleBusinessException {
+		MultipleBusinessException mbe = new MultipleBusinessException();
+
+		Description description = prp.getDescription(EnumDescriptionType.WEBSITE_OWN);
+		if ((prp.getSale() == null || prp.getSale().getPriceFinal() == null) && prp.getRent() == null) {
+			mbe.add(EnumBusinessError.NO_SALE, prp.getReference());
+		}
+		if (description == null || description.getLabel() == null) {
+			mbe.add(EnumBusinessError.NO_DESCRIPTION_WEBSITE_OWN, prp.getReference());
+		}
+
+		if (prp.getRent() != null) {
+			if (prp.getRent().getPrice() == null || prp.getRent().getPrice() <= 0F) {
+				mbe.add(EnumBusinessError.NO_RENT_PRICE, prp.getReference());
+			}
+
+			if (prp.getRent().getCommission() == null || prp.getRent().getCommission() < 0F) {
+				mbe.add(EnumBusinessError.NO_RENT_COMMISSION, prp.getReference());
+			}
+		}
+
+		mbe.checkErrors();
 	}
 }

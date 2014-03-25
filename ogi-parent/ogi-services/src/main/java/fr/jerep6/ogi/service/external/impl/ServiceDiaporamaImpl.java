@@ -85,12 +85,11 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 		LOGGER.info("Broadcast to Diaporama. url = {} : referer = {}", url, referer);
 
 		WSResult result;
+		HttpPost httpPost = new HttpPost(url);
 		try {
 			if (prp.getSale() == null || prp.getSale().getPriceFinal() == null) {
 				throw new BusinessException(EnumBusinessError.NO_SALE, prp.getReference());
 			}
-
-			HttpPost httpPost = new HttpPost(url);
 
 			// FileBody uploadFilePart = new FileBody(uploadFile);
 			MultipartEntityBuilder builder = MultipartEntityBuilder.create();
@@ -154,6 +153,8 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 		} catch (IOException e) {
 			LOGGER.error("Error broadcast property " + prp.getReference() + " on diaporama", e);
 			result = new WSResult(prp.getReference(), "KO", e.getMessage());
+		} finally {
+			httpPost.releaseConnection();
 		}
 
 		return result;
@@ -162,8 +163,8 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 	private void connect(HttpClient client) throws BusinessException {
 		LOGGER.info("Connect to Diaporama. url = {}", loginUrl);
 
+		HttpPost post = new HttpPost(loginUrl);
 		try {
-			HttpPost post = new HttpPost(loginUrl);
 
 			List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
 			urlParameters.add(new BasicNameValuePair("login", login));
@@ -185,6 +186,8 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 			}
 		} catch (IOException e) {
 			throw new NetworkTechnicalException(e);
+		} finally {
+			post.releaseConnection();
 		}
 	}
 
@@ -218,8 +221,8 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 		connect(client);
 
 		WSResult ws;
+		HttpGet httpGet = new HttpGet(deleteUrl.replace("$reference", prpReference));
 		try {
-			HttpGet httpGet = new HttpGet(deleteUrl.replace("$reference", prpReference));
 			HttpResponse response = client.execute(httpGet);
 
 			AcimfloResultDelete result = HttpClientUtils.convertToJson(response, AcimfloResultDelete.class);
@@ -236,8 +239,9 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 
 		} catch (IOException e) {
 			throw new NetworkTechnicalException(e);
+		} finally {
+			httpGet.releaseConnection();
 		}
-
 		return ws;
 	}
 

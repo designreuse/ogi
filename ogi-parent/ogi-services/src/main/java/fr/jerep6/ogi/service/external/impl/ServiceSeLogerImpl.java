@@ -13,6 +13,7 @@ import fr.jerep6.ogi.enumeration.EnumPartnerRequestType;
 import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessError;
 import fr.jerep6.ogi.framework.exception.MultipleBusinessException;
 import fr.jerep6.ogi.framework.service.impl.AbstractService;
+import fr.jerep6.ogi.persistance.bo.Description;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 import fr.jerep6.ogi.service.ServicePartnerRequest;
@@ -83,7 +84,9 @@ public class ServiceSeLogerImpl extends AbstractService implements ServicePartne
 		if (item.getType() == null) {
 			mbe.add(EnumBusinessError.NO_TYPE, item.getReference());
 		}
-		if (item.getDescription(EnumDescriptionType.WEBSITE_OTHER) == null) {
+
+		Description description = item.getDescription(EnumDescriptionType.WEBSITE_OTHER);
+		if (description == null || description.getLabel() == null) {
 			mbe.add(EnumBusinessError.NO_DESCRIPTION_WEBSITE_OTHER, item.getReference());
 		}
 

@@ -37,7 +37,7 @@
 		    <property name="locations">
 	            <list>
 	                <value>classpath:properties/environnement.properties</value>
-	                <value>classpath:properties/fonctionnel.properties</value>
+	                <value>classpath:properties/functional.properties</value>
 	            </list>
 	        </property>
 	        
@@ -63,6 +63,28 @@
 		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).DIAPORAMA}" 	value-ref="serviceDiaporama" />
 		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).SE_LOGER}" 	value-ref="serviceSeLoger" />
 	</util:map>
+	
+	<util:map id="mapAcimfloUrl">
+		<entry key="#{T(fr.jerep6.ogi.service.external.impl.ServiceAcimfloImpl).MODE_SALE}" value-ref="acimfloMapSale" />
+		<entry key="#{T(fr.jerep6.ogi.service.external.impl.ServiceAcimfloImpl).MODE_RENT}" value-ref="acimfloMapRent" />
+	</util:map>
+	
+	<util:map id="acimfloMapSale">
+		<entry key="create.url" value="${partner.acimflo.sale.create.url}" />
+		<entry key="create.referer" value="${partner.acimflo.sale.create.referer}" />
+		<entry key="update.url" value="${partner.acimflo.sale.update.url}" />
+		<entry key="update.referer" value="${partner.acimflo.sale.update.referer}" />
+		<entry key="apercu.url" value="${partner.acimflo.sale.apercu.url}" />
+	</util:map>
+	
+	<util:map id="acimfloMapRent">
+		<entry key="create.url" value="${partner.acimflo.rent.create.url}" />
+		<entry key="create.referer" value="${partner.acimflo.rent.create.referer}" />
+		<entry key="update.url" value="${partner.acimflo.rent.update.url}" />
+		<entry key="update.referer" value="${partner.acimflo.rent.update.referer}" />
+		<entry key="apercu.url" value="${partner.acimflo.rent.apercu.url}" />
+	</util:map>
+	
 	
 	<!-- Classe initialisant la redirection java.util.logging vers slf4j-->
 	<bean class="fr.jerep6.ogi.framework.log.JULInitializer" />
