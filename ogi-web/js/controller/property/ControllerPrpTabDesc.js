@@ -29,7 +29,7 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
                 $scope[vScope] = data;
                 $scope[vScope].push(labelOther);
 
-                // to select the pointer must be identical
+                // to select item, the pointer must be identical
                 $scope.saveData[vSaveData] = ServiceObject.getObject(data, $scope.saveData[vSaveData], ["label", "type"]);
             });
         });
@@ -52,11 +52,13 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
         $scope.prp.state = $scope.states[$scope.saveData.stateOrder];
     });
 
+    // Build date is a date and IHM allow only year. So complete with month and day to create a date
     $scope.$watch('saveData.buildDate', function() {
         if(!$scope.utils.isUndefinedOrNull($scope.saveData.buildDate)) {
             $scope.prp.buildDate = $scope.saveData.buildDate+"-01-01";
         }
     });
+    // SAve only label in property type
     $scope.$watch('saveData.type', function() {
         if(!$scope.utils.isUndefinedOrNull($scope.saveData.type)) {
             $scope.prp.type = $scope.saveData.type.label;

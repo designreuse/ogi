@@ -34,7 +34,8 @@ var dpe = {
 function PropertyJS(prpFromAPI) {
     // Init object from parameter
     for(var key in prpFromAPI){
-        this[key] = prpFromAPI[key];
+        // Replace null for undefined. Need to select with angular JS. If value is null angular create a new option instead of select option with value ""
+        this[key] = prpFromAPI[key] || undefined;
     }
 
     this.dpe = {};
