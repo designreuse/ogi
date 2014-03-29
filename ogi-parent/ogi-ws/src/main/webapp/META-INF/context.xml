@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <Context>
+	<!-- Provide by tomcat context
     <Resource
             name="jdbc/ogi"
             auth="Container"
@@ -22,4 +23,5 @@
             validationQuery="SELECT 1"
             testOnBorrow="true"
             />
+	 -->
 </Context>
