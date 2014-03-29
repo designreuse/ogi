@@ -10,6 +10,7 @@ import com.google.common.base.Preconditions;
 public class WSResult {
 	public static final String	RESULT_OK	= "OK";
 	public static final String	RESULT_KO	= "KO";
+	public static final String	RESULT_WAIT	= "WAIT";
 
 	private String				reference;
 	private String				code;
@@ -41,6 +42,6 @@ public class WSResult {
 	}
 
 	public boolean isSuccess() {
-		return RESULT_OK.equals(code);
+		return RESULT_OK.equals(code) || RESULT_WAIT.equals(code);
 	}
 }

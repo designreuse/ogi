@@ -12,4 +12,10 @@ and  not (exists (
 		and partnerreq2_.REQ_MODIFICATION_DATE>partnersre1_.REQ_MODIFICATION_DATE)
 	);
 	
+-- Select all partner action for a property
+SELECT r.* FROM TA_PARTNER_REQUEST r
+JOIN TA_PROPERTY p ON r.PRO_ID=p.PRO_ID
+WHERE p.PRO_REFERENCE='M8'
+ORDER BY REQ_MODIFICATION_DATE ASC;
+	
 	

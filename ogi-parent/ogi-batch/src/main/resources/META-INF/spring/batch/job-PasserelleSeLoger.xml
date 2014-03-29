@@ -18,6 +18,10 @@
 		 add the parameter –next to the command when you call your job -->
 	<bean id="idIncrementer" class="org.springframework.batch.core.launch.support.RunIdIncrementer" />
  
+ 
+ 
+ 
+ 
 	<!-- Job definition -->
 	<batch:job id="jobPasserelle-seloger.com" incrementer="idIncrementer">
 	    <batch:step id="stepTaskletDelete" next="stepTaskletPrepareTree">
@@ -56,15 +60,34 @@
 			<tasklet ref="TaskletZip" />
 		</batch:step>
 		
-		<!-- parse csv to write into database the synchronisation with seloger -->
-		<batch:step id="stepAckCreateUpdatePrp">
+		<!-- Write into database the synchronisation with seloger -->
+		<batch:step id="stepAckCreateUpdatePrp" next="stepAckDeletePrp">
 			<tasklet>
-				<batch:chunk reader="cvsFileItemReader" writer="ackWriter" commit-interval="10">
+				<batch:chunk reader="cvsReaderAckCreateUpdate" writer="jdbcWriterAckCreateUpdate" commit-interval="10">
+				</batch:chunk>
+			</tasklet>
+		</batch:step>
+		
+		<!-- Write into database the deletion on seloger -->
+		<batch:step id="stepAckDeletePrp">
+			<tasklet>
+				<batch:chunk reader="jpaReaderAckDelete" writer="jdbcWriterAckDelete" commit-interval="10">
 				</batch:chunk>
 			</tasklet>
 		</batch:step>
 		
 	</batch:job>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	<!-- JPA doesn't support UNION. So 2 queries -->
 	<bean id="jpaItemReaderSale" class="org.springframework.batch.item.database.JpaPagingItemReader">
@@ -134,8 +157,10 @@
 	
 	
 	
-	<bean id="report" class="fr.jerep6.ogi.batch.seloger.AckCSV" scope="prototype" />
-	<bean id="cvsFileItemReader" class="org.springframework.batch.item.file.FlatFileItemReader">
+	<bean id="report" class="fr.jerep6.ogi.batch.seloger.Ack" scope="prototype" />
+	
+	<!-- ACK for create/update -->
+	<bean id="cvsReaderAckCreateUpdate" class="org.springframework.batch.item.file.FlatFileItemReader">
 		<property name="resource" value="file:${seloger.extraction.file.root.path}${seloger.extraction.file.csv.name}" />
 		<property name="lineMapper">
 			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
@@ -156,15 +181,27 @@
 			  </bean>
 		  </property>
   	</bean>
-  	
-	<bean id="ackWriter" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+	<bean id="jdbcWriterAckCreateUpdate" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
 		<property name="dataSource" ref="dataSource" />
-		<property name="sql" value="${seloger.extraction.ack.sql}" />
+		<property name="sql" value="${seloger.write.ack.createupdate.sql}" />
 		<!-- It will take care matching between object property and sql name parameter -->
 		<property name="itemSqlParameterSourceProvider">
 			<bean class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider" />
 		</property>
 	</bean>
-  	
+
+	<!-- ACK for delete -->
+	<bean id="jpaReaderAckDelete" class="org.springframework.batch.item.database.JpaPagingItemReader">
+	    <property name="queryString" value="${seloger.extraction.ack.jpql}" />
+	    <property name="entityManagerFactory" ref="emFactory" />
+	</bean>
+	<bean id="jdbcWriterAckDelete" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+		<property name="dataSource" ref="dataSource" />
+		<property name="sql" value="${seloger.write.ack.delete.sql}" />
+		<!-- It will take care matching between object property and sql name parameter -->
+		<property name="itemSqlParameterSourceProvider">
+			<bean class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider" />
+		</property>
+	</bean>
 	
 </beans>
