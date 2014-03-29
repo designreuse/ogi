@@ -52,8 +52,16 @@
 			<tasklet ref="TaskletPhotosResize" />
 		</batch:step>
 	    
-	    <batch:step id="stepTaskletZip">
+	    <batch:step id="stepTaskletZip" next="stepAckCreateUpdatePrp">
 			<tasklet ref="TaskletZip" />
+		</batch:step>
+		
+		<!-- parse csv to write into database the synchronisation with seloger -->
+		<batch:step id="stepAckCreateUpdatePrp">
+			<tasklet>
+				<batch:chunk reader="cvsFileItemReader" writer="ackWriter" commit-interval="10">
+				</batch:chunk>
+			</tasklet>
 		</batch:step>
 		
 	</batch:job>
@@ -122,5 +130,41 @@
 		<property name="resource" value="file:${seloger.extraction.file.root.path}" />
 		<property name="zipNamePattern" value="${seloger.extraction.file.zip.name}" />
 	</bean>
+	
+	
+	
+	
+	<bean id="report" class="fr.jerep6.ogi.batch.seloger.AckCSV" scope="prototype" />
+	<bean id="cvsFileItemReader" class="org.springframework.batch.item.file.FlatFileItemReader">
+		<property name="resource" value="file:${seloger.extraction.file.root.path}${seloger.extraction.file.csv.name}" />
+		<property name="lineMapper">
+			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+
+			  <property name="lineTokenizer">
+			        <bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+					<property name="names" value="${seloger.extraction.file.ack.csv.schema}" />
+					<property name="delimiter" value="!#" />
+				</bean>
+			  </property>
+			  
+				<property name="fieldSetMapper">   
+					<bean class="org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper">
+						<property name="prototypeBeanName" value="report" />
+					</bean>			
+				</property>
+	 
+			  </bean>
+		  </property>
+  	</bean>
+  	
+	<bean id="ackWriter" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+		<property name="dataSource" ref="dataSource" />
+		<property name="sql" value="${seloger.extraction.ack.sql}" />
+		<!-- It will take care matching between object property and sql name parameter -->
+		<property name="itemSqlParameterSourceProvider">
+			<bean class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider" />
+		</property>
+	</bean>
+  	
 	
 </beans>

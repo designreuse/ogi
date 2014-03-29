@@ -50,7 +50,7 @@ public class WSRealProperty extends AbstractJaxRsWS {
 	public void delete(@QueryParam("ref") List<String> reference) {
 		Preconditions.checkNotNull(reference);
 
-		// serviceRealProperty.delete(reference);
+		serviceRealProperty.delete(reference);
 	}
 
 	@GET
