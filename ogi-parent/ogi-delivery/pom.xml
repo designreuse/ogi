@@ -27,6 +27,7 @@
 						<configuration>
 							<!-- Par défaut, le nom de l'archive finale est suffixé par l'identifiant de l'assembly -->
 							<appendAssemblyId>false</appendAssemblyId>
+							<finalName>delivery</finalName>
 							<descriptors>
 								<descriptor>src/main/assembly/assembly_war.xml</descriptor>
 								<descriptor>src/main/assembly/assembly_res.xml</descriptor>
