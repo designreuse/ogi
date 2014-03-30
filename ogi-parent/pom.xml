@@ -31,12 +31,17 @@
 		<log4j.version>2.0-rc1</log4j.version>
 		<slf4j.version>1.7.6</slf4j.version>
 		
+		<maven.compiler.source>7</maven.compiler.source>
+		<maven.compiler.target>7</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<modules>
+		<module>ogi-external-resources</module>
 		<module>ogi-services</module>
 		<module>ogi-ws</module>
 		<module>ogi-batch</module>
+		<module>ogi-database</module>
 	</modules>
 
 	<dependencyManagement>
@@ -348,6 +353,15 @@
 	
 	
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>2.4</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		
 		<plugins>
 		<!-- http://stackoverflow.com/questions/2712970/how-to-get-maven-artifact-version-at-runtime
 			getClass().getPackage().getImplementationVersion()
@@ -382,6 +396,18 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	
+	<profiles>
+        <profile>
+            <id>delivery</id>
+            <modules>
+                <module>ogi-delivery</module>
+            </modules>
+            
+        </profile>
+    </profiles>
+	
 	
 	<repositories>
 		<repository>

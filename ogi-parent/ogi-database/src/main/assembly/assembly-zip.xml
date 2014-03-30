@@ -1,0 +1,34 @@
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+	<id>batch-zip</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	
+	<fileSets>
+        <fileSet>
+            <directory>${basedir}/scripts</directory>
+            <outputDirectory>scripts</outputDirectory>
+            <includes>
+                <include>**</include>
+            </includes>
+            
+            <excludes><exclude>xx.xx.xx.xx/**</exclude></excludes>
+        </fileSet>
+    </fileSets>
+    
+    <files>
+        <!-- version de la BD dans le dossier de DELTA -->
+        <file>
+            <source>${basedir}/utils/tt_version.sql</source>
+            <outputDirectory>scripts/${pom.version}/</outputDirectory>
+            <destName>data_999.sql</destName>
+            <fileMode>0644</fileMode>
+            
+            <!-- Indique qu'il faut remplacer les expressions dans les fichiers sélectionnés par les valeurs des propriétés  -->
+            <filtered>true</filtered>
+        </file>
+    </files>
+</assembly>
+

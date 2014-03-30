@@ -6,40 +6,15 @@
 		<artifactId>ogi-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>ogi-batch</artifactId>
+	<artifactId>ogi-database</artifactId>
 
-	<dependencies>
-
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>ogi-services</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-
-	</dependencies>
 
 	<profiles>
 		<profile>
 			<id>delivery</id>
 			<build>
-				<finalName>ogi-batchs</finalName>
+				<finalName>ogi-database</finalName>
 				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-jar-plugin</artifactId>
-						<configuration>
-							<archive>
-								<manifest>
-									<!-- Classpath is added to the manifest of the created jar file. -->
-									<addClasspath>true</addClasspath>
-									<!-- Configures the classpath prefix. This configuration option is used to specify that all needed libraries are 
-										found under lib/ directory. -->
-									<classpathPrefix>lib/</classpathPrefix>
-								</manifest>
-							</archive>
-						</configuration>
-					</plugin>
-
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-assembly-plugin</artifactId>
@@ -52,7 +27,7 @@
 						</configuration>
 						<executions>
 							<execution>
-								<id>batch-zip</id>
+								<id>database-zip</id>
 								<phase>package</phase>
 								<goals>
 									<goal>single</goal>

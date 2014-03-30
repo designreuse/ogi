@@ -17,8 +17,8 @@
       	<constructor-arg index="0" value="#{systemProperties.propertyConfigurerPassword}"/>
 	    <property name="locations">
 	           <list>
-	               <value>classpath:properties/environment-batch.properties</value>
-	               <value>classpath:properties/functional-batch.properties</value>
+	               <value>classpath:properties/batch/environment-batch.properties</value>
+	               <value>classpath:properties/batch/functional-batch.properties</value>
 	           </list>
 	       </property>
 	       <property name="ignoreResourceNotFound" value="true"/>
