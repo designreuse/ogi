@@ -430,8 +430,8 @@
     </profiles>
 	
 	<scm>
-        <connection>scm:git:git://github.com/jerep6/ogi.git</connection>
-        <developerConnection>scm:git:git://github.com/jerep6/ogi.git</developerConnection>       
+        <connection>scm:git:https://github.com/jerep6/ogi.git</connection>
+        <developerConnection>scm:git:https://github.com/jerep6/ogi.git</developerConnection>       
     </scm>
     
 	<repositories>
