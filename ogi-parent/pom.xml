@@ -27,6 +27,7 @@
 		<jasperReport.version>5.5.0</jasperReport.version>
 		<servlet.version>3.0.1</servlet.version>
 		<jsoup.version>1.7.3</jsoup.version>
+		<commonnet.version>3.3</commonnet.version>
 		
 		<log4j.version>2.0-rc1</log4j.version>
 		<slf4j.version>1.7.6</slf4j.version>
@@ -341,10 +342,18 @@
 				<version>4.2</version>
 			</dependency>
 			
+			<!-- HTML parser -->
 			<dependency>
 			    <groupId>org.jsoup</groupId>
 			    <artifactId>jsoup</artifactId>
 			    <version>${jsoup.version}</version>
+			</dependency>
+			
+			<!-- FTP support -->
+			<dependency>
+			    <groupId>commons-net</groupId>
+			    <artifactId>commons-net</artifactId>
+			    <version>${commonnet.version}</version>
 			</dependency>
 	
 		</dependencies>
@@ -394,7 +403,19 @@
 			        <archiveClasses>true</archiveClasses>
 			    </configuration>
 			</plugin>
+			
+			<!-- Skip deploy. Deploy need to define repository in distributionManagement. With this configuration, when
+			perform a release (goal deploy) only upload envelope to ssh server. -->
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
 		</plugins>
+		
+		
 	</build>
 	
 	
@@ -433,6 +454,12 @@
         <connection>scm:git:ssh://git@github.com/jerep6/ogi.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/jerep6/ogi.git</developerConnection>       
     </scm>
+    
+    <distributionManagement>
+        <site> <!-- Need to define credentials in settings.xml -->
+            <id>delivery_ssh</id>
+        </site>
+    </distributionManagement>
     
 	<repositories>
 		<repository>
