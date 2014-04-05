@@ -56,8 +56,12 @@
 			<tasklet ref="TaskletPhotosResize" />
 		</batch:step>
 	    
-	    <batch:step id="stepTaskletZip" next="stepAckCreateUpdatePrp">
+	    <batch:step id="stepTaskletZip" next="stepFTPUpload">
 			<tasklet ref="TaskletZip" />
+		</batch:step>
+		
+		<batch:step id="stepFTPUpload" next="stepAckCreateUpdatePrp">
+			<tasklet ref="TaskletFTPUpload" />
 		</batch:step>
 		
 		<!-- Write into database the synchronisation with seloger -->
@@ -152,6 +156,14 @@
 	<bean id="TaskletZip" class="fr.jerep6.ogi.batch.common.tasklet.TaskletZip">
 		<property name="resource" value="file:${seloger.extraction.file.root.path}" />
 		<property name="zipNamePattern" value="${seloger.extraction.file.zip.name}" />
+	</bean>
+	
+	<bean id="TaskletFTPUpload" class="fr.jerep6.ogi.batch.common.tasklet.TaskletFTPUpload">
+		<property name="resources" value="file:${seloger.extraction.file.root.path}${seloger.extraction.file.zip.name}" />
+		<property name="destinationDirectory" value="${seloger.ftp.directory}" />
+		<property name="ftpHost" value="${seloger.ftp.host}" />
+		<property name="ftpLogin" value="${seloger.ftp.login}" />
+		<property name="ftpPwd" value="${seloger.ftp.pwd}" />
 	</bean>
 	
 	
