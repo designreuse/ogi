@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public final class ContextUtils {
+	/** Hold server uri. Populate with FilterRequestContext */
+	public static final ThreadLocal<String>			threadLocalRequestURI	= new ThreadLocal<String>();
 	private static ConfigurableApplicationContext	applicationContext;
 
 	public static <T> T getBean(Class<T> requiredType) {
@@ -27,8 +29,7 @@ public final class ContextUtils {
 		String msg = "";
 		try {
 			msg = applicationContext.getMessage(code, args, Locale.FRANCE);
-		}
-		catch (NoSuchMessageException nsme) {
+		} catch (NoSuchMessageException nsme) {
 			// No message was found.
 		}
 		return msg;

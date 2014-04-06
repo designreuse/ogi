@@ -9,6 +9,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
 import fr.jerep6.ogi.framework.service.impl.AbstractService;
+import fr.jerep6.ogi.framework.utils.ContextUtils;
 import fr.jerep6.ogi.service.ServiceUrl;
 import fr.jerep6.ogi.utils.MyUrlUtils;
 
@@ -18,18 +19,19 @@ public class ServiceUrlImpl extends AbstractService implements ServiceUrl {
 
 	private static final String	PATH_PROPERTY	= "property";
 
-	@Value("${rest.url}")
-	private String				restUrl;
+	@Value("${rest.url.context}")
+	private String				restUrlContext;
 
-	@Value("${photos.url}")
-	private String				urlBasePhoto;
+	@Value("${document.url.context}")
+	private String				photoContext;
 
 	@Override
 	public String urlDocument(String p) {
 		Preconditions.checkArgument(!Strings.isNullOrEmpty(p));
 
 		StringBuilder sb = new StringBuilder();
-		sb.append(urlBasePhoto);
+		sb.append(ContextUtils.threadLocalRequestURI.get());
+		sb.append(photoContext);
 		sb.append(MyUrlUtils.replace(p.toString()));
 		return sb.toString();
 	}
@@ -39,7 +41,8 @@ public class ServiceUrlImpl extends AbstractService implements ServiceUrl {
 		Preconditions.checkArgument(!Strings.isNullOrEmpty(reference));
 
 		StringBuilder sb = new StringBuilder();
-		sb.append(restUrl).append("/");
+		sb.append(ContextUtils.threadLocalRequestURI.get());
+		sb.append(restUrlContext).append("/");
 		sb.append(PATH_PROPERTY).append("/");
 		sb.append(reference);
 

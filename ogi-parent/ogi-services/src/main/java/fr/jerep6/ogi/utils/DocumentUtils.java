@@ -16,6 +16,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
 import fr.jerep6.ogi.enumeration.EnumDocumentType;
+import fr.jerep6.ogi.framework.utils.ContextUtils;
 
 @Component
 public class DocumentUtils {
@@ -26,7 +27,7 @@ public class DocumentUtils {
 	public static String							DIR_MISC_NAME	= "divers";
 	public static String							DIR_TMP			= "temp";
 
-	private static String							urlBaseDocuments;
+	private static String							documentsUrlContext;
 	private static Path								documentStorageDir;
 
 	/**
@@ -56,7 +57,8 @@ public class DocumentUtils {
 
 	public static String buildUrl(Path absolutePath, String parameters) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(urlBaseDocuments);
+		sb.append(ContextUtils.threadLocalRequestURI.get());
+		sb.append(documentsUrlContext);
 		sb.append(documentStorageDir.relativize(absolutePath).toString().replace("\\", "/"));
 		sb.append(parameters != null ? parameters : "");
 		return sb.toString();
@@ -128,7 +130,11 @@ public class DocumentUtils {
 		if (Strings.isNullOrEmpty(url)) {
 			return null;
 		}
-		String relativePathUrl = url.replace(urlBaseDocuments, "");
+
+		StringBuilder ctx = new StringBuilder();
+		ctx.append(ContextUtils.threadLocalRequestURI.get());
+		ctx.append(documentsUrlContext);
+		String relativePathUrl = url.replace(ctx.toString(), "");
 		return Paths.get(relativePathUrl);
 	}
 
@@ -145,13 +151,13 @@ public class DocumentUtils {
 	@PostConstruct
 	private void init() {}
 
+	@Value("${document.url.context}")
+	public void setDocumentsUrlContext(String urlCtx) {
+		documentsUrlContext = urlCtx;
+	}
+
 	@Value("${document.storage.dir}")
 	public void setPhotoDir(String photoDir) {
 		DocumentUtils.documentStorageDir = Paths.get(photoDir);
-	}
-
-	@Value("${photos.url}")
-	public void setUrlBasePhoto(String urlBasePhoto) {
-		urlBaseDocuments = urlBasePhoto;
 	}
 }
