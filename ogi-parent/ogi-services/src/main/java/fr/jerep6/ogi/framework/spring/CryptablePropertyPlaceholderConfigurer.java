@@ -11,6 +11,8 @@ import fr.jerep6.ogi.framework.security.CryptageAES;
  * Encrypted value must be prefix ENC( and sufixed with ) like Jasypt
  * Exemple : ENC(G6N718UuyPE5bHyWKyuLQSm02auQPUtm)
  * 
+ * If key is empty or null and property is encrpted, return value INTO ENC()
+ * 
  * @author jerep6 16 févr. 2014
  */
 public class CryptablePropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer {
@@ -19,11 +21,13 @@ public class CryptablePropertyPlaceholderConfigurer extends PropertyPlaceholderC
 	private static final String	ENCRYPTED_VALUE_PREFIX	= "ENC(";
 	private static final String	ENCRYPTED_VALUE_SUFFIX	= ")";
 
-	private final CryptageAES	algo;
+	private CryptageAES			algo;
 
 	public CryptablePropertyPlaceholderConfigurer(String skey) {
 		super();
-		algo = new CryptageAES(skey);
+		if (skey != null && !skey.isEmpty()) {
+			algo = new CryptageAES(skey);
+		}
 	}
 
 	@Override
@@ -32,7 +36,11 @@ public class CryptablePropertyPlaceholderConfigurer extends PropertyPlaceholderC
 
 		if (isEncryptedValue(originalValue)) {
 			try {
-				v = algo.decrypt(getInnerEncryptedValue(originalValue));
+				if (algo != null) {
+					v = algo.decrypt(getInnerEncryptedValue(originalValue));
+				} else {
+					v = getInnerEncryptedValue(originalValue);
+				}
 			} catch (Exception e) {
 				LOGGER.error("Error decrypt property. Original value = " + originalValue, e);
 			}
