@@ -42,6 +42,7 @@
 		<module>ogi-ws</module>
 		<module>ogi-batch</module>
 		<module>ogi-database</module>
+		<module>ogi-web</module>
 	</modules>
 
 	<dependencyManagement>
