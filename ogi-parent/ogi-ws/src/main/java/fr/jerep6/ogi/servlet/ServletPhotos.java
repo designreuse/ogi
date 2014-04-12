@@ -3,6 +3,8 @@ package fr.jerep6.ogi.servlet;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -36,6 +38,9 @@ public class ServletPhotos extends HttpServlet {
 
 	private String				photosStorageDir;
 
+	/** Image to display when error occured */
+	private Path				imgError;
+
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setHeader("Content-Type", "image/jpeg");
@@ -55,13 +60,23 @@ public class ServletPhotos extends HttpServlet {
 
 			ImageIO.write(img, "jpeg", response.getOutputStream());
 		} catch (Exception e) {
-			LOGGER.warn("Error for serving image " + request.getRequestURI(), e);
+			LOGGER.error("Error for serving image " + request.getRequestURI(), e);
 		}
 
 	}
 
+	/**
+	 * @param request
+	 *            http request into extract image path
+	 * @return image corresponding to url path or ff url path doesn't exist return error img
+	 * @throws IOException
+	 */
 	private BufferedImage getImage(HttpServletRequest request) throws IOException {
-		InputStream is = Files.newInputStream(Paths.get(photosStorageDir).resolve(getRelativePhotoPath(request)));
+		Path img = Paths.get(photosStorageDir).resolve(getRelativePhotoPath(request));
+		if (!Files.exists(img)) {
+			img = imgError;
+		}
+		InputStream is = Files.newInputStream(img);
 		return ImageIO.read(is);
 	}
 
@@ -75,7 +90,11 @@ public class ServletPhotos extends HttpServlet {
 	private Path getRelativePhotoPath(HttpServletRequest request) {
 		String begin = contextPath + request.getServletPath() + "/";
 		String relativePath = request.getRequestURI().replaceFirst(begin, "");
-
+		try {
+			relativePath = URLDecoder.decode(relativePath, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			LOGGER.error("Error decode " + relativePath, e);
+		}
 		return Paths.get(relativePath);
 	}
 
@@ -84,5 +103,6 @@ public class ServletPhotos extends HttpServlet {
 		super.init(config);
 		contextPath = config.getServletContext().getContextPath();
 		photosStorageDir = ContextUtils.getProperty("document.storage.dir");
+		imgError = Paths.get(photosStorageDir).resolve(Paths.get("error.jpg"));
 	}
 }
