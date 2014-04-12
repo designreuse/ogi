@@ -3,6 +3,8 @@ package fr.jerep6.ogi.framework.exception;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Spliterator;
+import java.util.function.Consumer;
 
 import com.google.common.base.Preconditions;
 
@@ -35,6 +37,11 @@ public class MultipleBusinessException extends AbstractException implements Iter
 		}
 	}
 
+	@Override
+	public void forEach(Consumer<? super BusinessException> action) {
+		exceptions.forEach(action);
+	}
+
 	public List<BusinessException> getExceptions() {
 		return exceptions;
 	}
@@ -42,6 +49,11 @@ public class MultipleBusinessException extends AbstractException implements Iter
 	@Override
 	public Iterator<BusinessException> iterator() {
 		return exceptions.iterator();
+	}
+
+	@Override
+	public Spliterator<BusinessException> spliterator() {
+		return exceptions.spliterator();
 	}
 
 }

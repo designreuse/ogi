@@ -1,0 +1,7 @@
+.batchSuccess {
+  color: green;
+}
+.batchError {
+  color: red;
+  font-weight: bold;
+}

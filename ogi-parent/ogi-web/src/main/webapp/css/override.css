@@ -1,0 +1,21 @@
+/* ##### OVERRIDE ##### */
+.alert {
+  margin-bottom: 5px;
+  padding: 5px;
+}
+/* dialogs.min.css */
+.dialog-header-confirm {
+  background: #F1F1F1;
+}
+.dialog-header-error span,
+.dialog-header-error h4,
+.dialog-header-wait span,
+.dialog-header-wait h4,
+.dialog-header-confirm span,
+.dialog-header-confirm h4 {
+  color: #000000;
+}
+.modal-footer {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}

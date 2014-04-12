@@ -239,7 +239,7 @@ public class OrikaMapper extends ConfigurableMapper {
 
 		factory.classMap(RealProperty.class, RealPropertyTo.class)//
 				.field("type.label", "type") //
-				.field("equipments{label}", "equipments{}")//
+				// .field("equipments{label}", "equipments{}")//
 				.field("diagnosisProperty", "diagnosis")//
 				// must exclude the field else classcast exception. It doesn't detected that description is mapped as
 				// map bellow

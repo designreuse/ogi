@@ -3,6 +3,8 @@ package fr.jerep6.ogi.framework.exception;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Spliterator;
+import java.util.function.Consumer;
 
 import com.google.common.base.Preconditions;
 
@@ -29,6 +31,11 @@ public class MultipleTechnicalException extends AbstractException implements Ite
 		}
 	}
 
+	@Override
+	public void forEach(Consumer<? super TechnicalException> action) {
+		exceptions.forEach(action);
+	}
+
 	public List<TechnicalException> getExceptions() {
 		return exceptions;
 	}
@@ -36,6 +43,11 @@ public class MultipleTechnicalException extends AbstractException implements Ite
 	@Override
 	public Iterator<TechnicalException> iterator() {
 		return exceptions.iterator();
+	}
+
+	@Override
+	public Spliterator<TechnicalException> spliterator() {
+		return exceptions.spliterator();
 	}
 
 }
