@@ -31,6 +31,7 @@ import fr.jerep6.ogi.persistance.bo.Sale;
 import fr.jerep6.ogi.persistance.bo.State;
 import fr.jerep6.ogi.persistance.bo.Type;
 import fr.jerep6.ogi.persistance.dao.DaoProperty;
+import fr.jerep6.ogi.service.ServiceAddress;
 import fr.jerep6.ogi.service.ServiceCategory;
 import fr.jerep6.ogi.service.ServiceDPE;
 import fr.jerep6.ogi.service.ServiceDescription;
@@ -73,6 +74,9 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 
 	@Autowired
 	private ServiceSale			serviceSale;
+
+	@Autowired
+	private ServiceAddress		serviceAddress;
 
 	@Autowired
 	private ServiceRent			serviceRent;
@@ -144,6 +148,9 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 			type = serviceType.readOrInsert(propertyFromJson.getType().getLabel(), cat);
 		}
 		prp.setType(type);
+
+		// ###### Address ######
+		serviceAddress.validate(prp.getAddress());
 
 		// ###### SALE ######
 		// Map modification into object.

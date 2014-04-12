@@ -41,8 +41,7 @@ public class WSRealProperty extends AbstractJaxRsWS {
 		RealProperty property = mapper.map(rp, RealProperty.class);
 		property = serviceRealProperty.createOrUpdateFromBusinessFields(property);
 
-		// return mapper.map(property, RealPropertyTo.class);
-		return rp;
+		return mapper.map(property, RealPropertyTo.class);
 	}
 
 	@DELETE

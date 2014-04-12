@@ -13,6 +13,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.base.Strings;
+
+import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessError;
+import fr.jerep6.ogi.framework.exception.BusinessException;
+import fr.jerep6.ogi.framework.exception.MultipleBusinessException;
 import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
 import fr.jerep6.ogi.persistance.bo.Address;
 import fr.jerep6.ogi.persistance.dao.DaoAddress;
@@ -78,4 +83,17 @@ public class ServiceAddressImpl extends AbstractTransactionalService<Address, In
 
 		return addressesBD;
 	}
+
+	@Override
+	public void validate(Address bo) throws BusinessException {
+		MultipleBusinessException mbe = new MultipleBusinessException();
+		if (Strings.isNullOrEmpty(bo.getCity())) {
+			mbe.add(EnumBusinessError.NO_ADDRESS_CITY);
+		}
+		if (Strings.isNullOrEmpty(bo.getPostalCode())) {
+			mbe.add(EnumBusinessError.NO_ADDRESS_POSTAL_CODE);
+		}
+		mbe.checkErrors();
+	}
+
 }

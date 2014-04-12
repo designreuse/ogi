@@ -21,6 +21,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -157,8 +159,13 @@ public class RealProperty {
 		}
 
 		Collections.sort(photos);
-		;
 		return photos;
+	}
+
+	@PreUpdate
+	@PrePersist
+	private void setDefaultValue() {
+		modificationDate = Calendar.getInstance();
 	}
 
 	@Override

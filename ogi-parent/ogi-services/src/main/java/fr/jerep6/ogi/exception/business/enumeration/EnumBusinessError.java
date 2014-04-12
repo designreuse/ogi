@@ -11,6 +11,8 @@ public enum EnumBusinessError implements ErrorCode {
 	NO_DESCRIPTION_WEBSITE_OWN("NO_DESCRIPTION_WEBSITE_OWN", "Property haven't description WEBSITE_OWN"), //
 	NO_DESCRIPTION_WEBSITE_OTHER("NO_DESCRIPTION_WEBSITE_OTHER", "Property haven't description WEBSITE_OTHER"), //
 	NO_ADDRESS("NO_ADDRESS", "Property haven't address"), //
+	NO_ADDRESS_CITY("NO_ADDRESS_CITY", "City is mandatory"), //
+	NO_ADDRESS_POSTAL_CODE("NO_ADDRESS_POSTAL_CODE", "Postal code is mandatory"), //
 	NO_TYPE("NO_TYPE", "Property haven't type"), //
 	NO_MANDAT_REFERENCE("NO_MANDAT_REFERENCE", "Property haven't mandat reference"), //
 	NO_RENT_PRICE("NO_RENT_PRICE", "Property haven't price"), //
