@@ -3,7 +3,6 @@ package fr.jerep6.ogi.service.impl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -128,15 +127,15 @@ public class ServiceDocumentImpl extends AbstractTransactionalService<Document, 
 		Files.copy(is, doc);
 
 		FileUpload f = new FileUpload.Builder() //
-				.name(fileName) //
-				.size(Files.size(doc)) //
-				.type(Files.probeContentType(doc)) //
-				.url(DocumentUtils.buildUrl(doc)) //
-				.thumbnailUrl(DocumentUtils.buildUrl(doc, "?size=200,200")) //
-				.deleteUrl(DocumentUtils.buildUrl(doc)) //
-				.deleteType("DELETE") //
-				.document(new Document(DocumentUtils.relativize(doc).toString(), fileName, 1, type)) //
-				.build();
+		.name(fileName) //
+		.size(Files.size(doc)) //
+		.type(Files.probeContentType(doc)) //
+		.url(DocumentUtils.buildUrl(doc)) //
+		.thumbnailUrl(DocumentUtils.buildUrl(doc, "?size=200,200")) //
+		.deleteUrl(DocumentUtils.buildUrl(doc)) //
+		.deleteType("DELETE") //
+		.document(new Document(DocumentUtils.relativize(doc).toString(), fileName, 1, type)) //
+		.build();
 
 		return f;
 	}
@@ -149,15 +148,12 @@ public class ServiceDocumentImpl extends AbstractTransactionalService<Document, 
 
 		for (Document aDoc : documents) {
 			try {
-				try {
-					Files.delete(aDoc.getAbsolutePath());
-				} catch (NoSuchFileException nsfe) {}
-				remove(aDoc);
-				documentOK.add(aDoc);
-			} catch (IOException ioe) {
-				LOGGER.error("Error deleting" + aDoc.getAbsolutePath(), ioe);
+				Files.delete(aDoc.getAbsolutePath());
+			} catch (Exception e) {
+				LOGGER.error("Error deleting " + aDoc, e);
 			}
-
+			remove(aDoc);
+			documentOK.add(aDoc);
 		}
 
 		return documentOK;
