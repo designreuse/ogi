@@ -52,10 +52,9 @@ function PropertyJS(prpFromAPI) {
     }
 
     // if address is defined copy attribute into object previously created
-    this.address = null;
+    this.address = {};
+    angular.extend(this.address, address); // Populate address field from predefined object
     if(!utilsObject.isUndefinedOrNull(prpFromAPI.address)) {
-        this.address = {};
-        angular.extend(this.address, address); // Populate address field from predefined object
         angular.extend(this.address, prpFromAPI.address); // override JS values with server values
     }
 

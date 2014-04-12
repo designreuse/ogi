@@ -11,6 +11,7 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
 
     $scope.clickMap = function($event, $params) {
         addOrMoveMarker($params[0].latLng, false);
+        updateGPS($params[0].latLng.lat(), $params[0].latLng.lng());
     };
 
     $scope.resetMap = function() {
@@ -60,8 +61,7 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
                 draggable : true
             });
             m.addListener("dragend", function() {
-                $scope.prp.address.latitude = this.getPosition().lat();
-                $scope.prp.address.longitude = this.getPosition().lng();
+                updateGPS(this.getPosition().lat(), this.getPosition().lng());
             });
             $scope.markers.push(m);
         }
@@ -73,11 +73,15 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
         }
     };
 
+    function updateGPS(lat, lng) {
+        $scope.saveData.address.latitude = lat;
+        $scope.saveData.address.longitude = lng;
+    }
+
     $scope.usePlace = function (index) {
         var location = $scope.places[index].geometry.location;
 
-        $scope.saveData.address.latitude = location.lat();
-        $scope.saveData.address.longitude = location.lng();
+        updateGPS(location.lat(), location.lng());
         addOrMoveMarker(location, true);
 
         $scope.closeGeoloc();
