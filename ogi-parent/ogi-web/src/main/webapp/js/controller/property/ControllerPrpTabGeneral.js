@@ -136,9 +136,7 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
                 element.order = index+1;
             });
         },
-        axis: "x",
-        placeholder: 'highlight', // class of fantom item
-        floating: true
+        placeholder: 'highlight' // class of fantom item
     };
 
     $scope.deletePhoto = function(index) {
