@@ -2,6 +2,7 @@
 @import "override.less";
 @import "general.less";
 @import "dashboard.less";
+@import "properties.less";
 
 /* NAVIGATION */
 .navbar-default .navbar-brand {
@@ -67,7 +68,7 @@
   margin: 10px;
 }
 
-/* Liste des actions présentées dans une cellure d'un tableau*/
+/* Liste des actions présentées dans une cellule d'un tableau*/
 .btn-group-action {
   background:#ededed;border-radius:5px;
   margin: auto;
@@ -80,44 +81,6 @@
   }
 }
 
-/* bootstrap sets max-width on img to 100% and broke google maps controls */
-#map img { max-width:none;}
-
-/* ##### PAGE PRP MANAGEMENT ##### */
-
-    /* ## TAB GENERAL ## */
-    /* style des éléments de la liste */
-    ul#list-photos li{
-        border:1px solid #ddd;
-        padding:10px;
-        cursor:move;
-        height:180px;
-        width:130px;
-        float:left;
-        margin-right:10px;
-        background:#fff;
-        color:#212326;
-        -moz-box-shadow:2px 2px 5px #ccc;
-        text-align: center;
-        overflow : hidden;
-    }
-    ul#list-photos li img {
-        margin-bottom: 10px;
-    }
-    /* style de l'élément fantome, qui apparait losque que l'on bouge un élément */
-    ul#list-photos li.highlight{
-        background:#f2f2f2;
-        border:1px dashed #212326;
-    }
-
-    /* ## TAB DESC ## */
-    #pieces .add-on {
-        cursor : pointer;
-    }
-
-.ui-slider-handle {
-    cursor:pointer !important;
-}
 
 .displaytable {
   display: table;

@@ -11,3 +11,10 @@ legend + .control-group {
 .normal {
   font-weight: normal;
 }
+
+/* Add pointer to widget minus-plus */
+div[minus-plus=""] {
+  & > span {
+    cursor: pointer;
+  }
+}

@@ -95,7 +95,7 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
     $scope.openModalType = function () {
         var modalInstance = $modal.open({
             templateUrl: 'modalAddType.html',
-            controller: ModalInstanceCtrl,
+            controller: ModalTypeInstanceCtrl,
             resolve: {
                 labels: function(){
                     return {
@@ -104,7 +104,7 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
                     };
                 },
                 currentElt: function () {
-                    return "HSE";
+                    return $scope.prp.category.code;
                 }
             }
         });
@@ -112,10 +112,10 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
         modalInstance.result.then(function (param) {
             $log.info('Modal closed');
             $scope.types.push(param);
-            $scope.prp.type = param;
+            $scope.saveData.type = param;
         }, function () {
             $log.info('Modal dismissed');
-            $scope.prp.type = "";
+            $scope.saveData.type = undefined;
         });
     };
 
@@ -156,7 +156,7 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
     }
 }
 
-var ModalInstanceCtrl = function ($scope, $modalInstance, ServiceConfiguration, $http, currentElt, labels) {
+var ModalTypeInstanceCtrl = function ($scope, $modalInstance, ServiceConfiguration, $http, currentElt, labels) {
     $scope.newType = {"label" : null}; // Have to use object else in function ok value is not up to date
     $scope.labels =labels;
 
@@ -164,7 +164,7 @@ var ModalInstanceCtrl = function ($scope, $modalInstance, ServiceConfiguration, 
         var label = $scope.newType.label;
 
         $http.put(ServiceConfiguration.API_URL+"/rest/category/"+currentElt+"/types/"+label).success(function (data) {
-            $modalInstance.close(label);
+            $modalInstance.close(data);
         });
     };
 };

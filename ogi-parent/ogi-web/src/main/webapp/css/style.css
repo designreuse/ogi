@@ -3,7 +3,18 @@
   margin-bottom: 5px;
   padding: 5px;
 }
+.modal-header {
+  background: #F1F1F1;
+  padding: 10px;
+}
+.modal-header h3 {
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
 /* dialogs.min.css */
+.modal-header.dialog-header-confirm {
+  padding: 15px;
+}
 .dialog-header-confirm {
   background: #F1F1F1;
 }
@@ -32,12 +43,52 @@ legend + .control-group {
 .normal {
   font-weight: normal;
 }
+/* Add pointer to widget minus-plus */
+div[minus-plus=""] > span {
+  cursor: pointer;
+}
 .batchSuccess {
   color: green;
 }
 .batchError {
   color: red;
   font-weight: bold;
+}
+/* bootstrap sets max-width on img to 100% and broke google maps controls */
+#map img {
+  max-width: none;
+}
+/* ##### PAGE PRP MANAGEMENT ##### */
+/* ## TAB GENERAL ## */
+/* style des éléments de la liste */
+ul#list-photos li {
+  border: 1px solid #ddd;
+  padding: 10px;
+  cursor: move;
+  height: 180px;
+  width: 130px;
+  float: left;
+  margin-right: 10px;
+  background: #fff;
+  color: #212326;
+  -moz-box-shadow: 2px 2px 5px #ccc;
+  text-align: center;
+  overflow: hidden;
+}
+ul#list-photos li img {
+  margin-bottom: 10px;
+}
+/* style de l'élément fantome, qui apparait losque que l'on bouge un élément */
+ul#list-photos li.highlight {
+  background: #f2f2f2;
+  border: 1px dashed #212326;
+}
+/* ## TAB DESC ## */
+#pieces .add-on {
+  cursor: pointer;
+}
+.ui-slider-handle {
+  cursor: pointer !important;
 }
 /* NAVIGATION */
 .navbar-default .navbar-brand {
@@ -98,7 +149,7 @@ legend + .control-group {
 .action {
   margin: 10px;
 }
-/* Liste des actions présentées dans une cellure d'un tableau*/
+/* Liste des actions présentées dans une cellule d'un tableau*/
 .btn-group-action {
   background: #ededed;
   border-radius: 5px;
@@ -110,42 +161,6 @@ legend + .control-group {
 .btn-group-action a:hover,
 .btn-group-action a:focus {
   color: #428BCA;
-}
-/* bootstrap sets max-width on img to 100% and broke google maps controls */
-#map img {
-  max-width: none;
-}
-/* ##### PAGE PRP MANAGEMENT ##### */
-/* ## TAB GENERAL ## */
-/* style des éléments de la liste */
-ul#list-photos li {
-  border: 1px solid #ddd;
-  padding: 10px;
-  cursor: move;
-  height: 180px;
-  width: 130px;
-  float: left;
-  margin-right: 10px;
-  background: #fff;
-  color: #212326;
-  -moz-box-shadow: 2px 2px 5px #ccc;
-  text-align: center;
-  overflow: hidden;
-}
-ul#list-photos li img {
-  margin-bottom: 10px;
-}
-/* style de l'élément fantome, qui apparait losque que l'on bouge un élément */
-ul#list-photos li.highlight {
-  background: #f2f2f2;
-  border: 1px dashed #212326;
-}
-/* ## TAB DESC ## */
-#pieces .add-on {
-  cursor: pointer;
-}
-.ui-slider-handle {
-  cursor: pointer !important;
 }
 .displaytable {
   display: table;
