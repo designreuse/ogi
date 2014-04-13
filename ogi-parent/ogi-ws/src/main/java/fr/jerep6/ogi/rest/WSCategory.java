@@ -85,7 +85,7 @@ public class WSCategory extends AbstractJaxRsWS {
 	@PUT
 	@Path("/{code}/types/{label}")
 	@Produces(APPLICATION_JSON_UTF8)
-	public String typeAdd( //
+	public TypeTo typeAdd( //
 			@PathParam("code") String categoryCode, //
 			@PathParam("label") String typeLabel) {
 
@@ -93,7 +93,7 @@ public class WSCategory extends AbstractJaxRsWS {
 		Category category = serviceCategory.readByCode(EnumCategory.valueOfByCode(categoryCode));
 		Type type = serviceType.readOrInsert(typeLabel, category);
 
-		return type.getLabel();
+		return mapper.map(type, TypeTo.class);
 	}
 
 	/** @return all types from a category */
