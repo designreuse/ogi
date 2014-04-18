@@ -15,17 +15,6 @@ public interface ServiceRealProperty extends TransactionalService<RealProperty, 
 	RealProperty readByReference(String reference);
 
 	/**
-	 * Create a real property. All the associated entities are read in database from theirs business fields.
-	 * If entity doesn't exist it will be created.
-	 * 
-	 * Write dpe into dpe property directory
-	 * 
-	 * @param property
-	 * @return
-	 */
-	RealProperty createOrUpdateFromBusinessFields(RealProperty property);
-
-	/**
 	 * Delete properties
 	 * 
 	 * @param reference
@@ -42,5 +31,17 @@ public interface ServiceRealProperty extends TransactionalService<RealProperty, 
 	 * @return
 	 */
 	Integer readTechid(String aRef);
+
+	/**
+	 * Create a real property. All the associated entities are read in database from theirs business fields.
+	 * 
+	 * Write dpe into dpe property directory
+	 * 
+	 * @param property
+	 * @return
+	 */
+	RealProperty createFromBusinessFields(RealProperty propertyFromJson);
+
+	RealProperty updateFromBusinessFields(String reference, RealProperty propertyFromJson);
 
 }

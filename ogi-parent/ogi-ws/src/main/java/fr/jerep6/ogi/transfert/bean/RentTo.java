@@ -22,5 +22,6 @@ public class RentTo {
 	private Float		serviceCharge;
 	private Boolean		serviceChargeIncluded;
 	private Boolean		furnished;
+	private Float		priceFinal;
 
 }

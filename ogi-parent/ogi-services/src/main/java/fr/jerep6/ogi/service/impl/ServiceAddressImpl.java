@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Strings;
 
-import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessError;
+import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessErrorProperty;
 import fr.jerep6.ogi.framework.exception.BusinessException;
 import fr.jerep6.ogi.framework.exception.MultipleBusinessException;
 import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
@@ -86,12 +86,15 @@ public class ServiceAddressImpl extends AbstractTransactionalService<Address, In
 
 	@Override
 	public void validate(Address bo) throws BusinessException {
+		if (bo == null) {
+			return;
+		}
 		MultipleBusinessException mbe = new MultipleBusinessException();
 		if (Strings.isNullOrEmpty(bo.getCity())) {
-			mbe.add(EnumBusinessError.NO_ADDRESS_CITY);
+			mbe.add(EnumBusinessErrorProperty.NO_ADDRESS_CITY);
 		}
 		if (Strings.isNullOrEmpty(bo.getPostalCode())) {
-			mbe.add(EnumBusinessError.NO_ADDRESS_POSTAL_CODE);
+			mbe.add(EnumBusinessErrorProperty.NO_ADDRESS_POSTAL_CODE);
 		}
 		mbe.checkErrors();
 	}

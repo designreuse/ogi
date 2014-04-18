@@ -10,7 +10,7 @@ import com.google.common.base.Strings;
 import fr.jerep6.ogi.enumeration.EnumDescriptionType;
 import fr.jerep6.ogi.enumeration.EnumPartner;
 import fr.jerep6.ogi.enumeration.EnumPartnerRequestType;
-import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessError;
+import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessErrorProperty;
 import fr.jerep6.ogi.framework.exception.MultipleBusinessException;
 import fr.jerep6.ogi.framework.service.impl.AbstractService;
 import fr.jerep6.ogi.persistance.bo.Description;
@@ -58,41 +58,41 @@ public class ServiceSeLogerImpl extends AbstractService implements ServicePartne
 		MultipleBusinessException mbe = new MultipleBusinessException();
 
 		if (item.getAddress() == null) {
-			mbe.add(EnumBusinessError.NO_ADDRESS, item.getReference());
+			mbe.add(EnumBusinessErrorProperty.NO_ADDRESS, item.getReference());
 		}
 
 		if (item.getSale() == null && item.getRent() == null) {
-			mbe.add(EnumBusinessError.NO_SALE, item.getReference());
-			mbe.add(EnumBusinessError.NO_RENT, item.getReference());
+			mbe.add(EnumBusinessErrorProperty.NO_SALE, item.getReference());
+			mbe.add(EnumBusinessErrorProperty.NO_RENT, item.getReference());
 		}
 		if (item.getSale() != null) {
 			if (Strings.isNullOrEmpty(item.getSale().getMandateReference())) {
-				mbe.add(EnumBusinessError.NO_MANDAT_REFERENCE, item.getReference());
+				mbe.add(EnumBusinessErrorProperty.NO_MANDAT_REFERENCE, item.getReference());
 			}
 		}
 
 		if (item.getRent() != null) {
 			if (item.getRent().getPrice() == null || item.getRent().getPrice() <= 0F) {
-				mbe.add(EnumBusinessError.NO_RENT_PRICE, item.getReference());
+				mbe.add(EnumBusinessErrorProperty.NO_RENT_PRICE, item.getReference());
 			}
 
 			if (item.getRent().getCommission() == null || item.getRent().getCommission() < 0F) {
-				mbe.add(EnumBusinessError.NO_RENT_COMMISSION, item.getReference());
+				mbe.add(EnumBusinessErrorProperty.NO_RENT_COMMISSION, item.getReference());
 			}
 		}
 
 		if (item.getType() == null) {
-			mbe.add(EnumBusinessError.NO_TYPE, item.getReference());
+			mbe.add(EnumBusinessErrorProperty.NO_TYPE, item.getReference());
 		}
 
 		Description description = item.getDescription(EnumDescriptionType.WEBSITE_OTHER);
 		if (description == null || description.getLabel() == null) {
-			mbe.add(EnumBusinessError.NO_DESCRIPTION_WEBSITE_OTHER, item.getReference());
+			mbe.add(EnumBusinessErrorProperty.NO_DESCRIPTION_WEBSITE_OTHER, item.getReference());
 		}
 
 		if (item instanceof RealPropertyLivable) {
 			if (((RealPropertyLivable) item).getNbRoom() == null) {
-				mbe.add(EnumBusinessError.NO_ROOM_NUMBER, item.getReference());
+				mbe.add(EnumBusinessErrorProperty.NO_ROOM_NUMBER, item.getReference());
 			}
 		}
 

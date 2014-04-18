@@ -43,7 +43,8 @@ import fr.jerep6.ogi.enumeration.EnumDPE;
 import fr.jerep6.ogi.enumeration.EnumDescriptionType;
 import fr.jerep6.ogi.enumeration.EnumPartner;
 import fr.jerep6.ogi.enumeration.EnumPartnerRequestType;
-import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessError;
+import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessErrorPartner;
+import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessErrorProperty;
 import fr.jerep6.ogi.exception.technical.NetworkTechnicalException;
 import fr.jerep6.ogi.framework.exception.BusinessException;
 import fr.jerep6.ogi.framework.exception.MultipleBusinessException;
@@ -293,7 +294,7 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 
 			if (!logged) {
 				LOGGER.error("Login to acimflo failed : " + doc.toString());
-				throw new BusinessException(EnumBusinessError.ACIMFLO_IDENTIFIANTS_KO);
+				throw new BusinessException(EnumBusinessErrorPartner.ACIMFLO_IDENTIFIANTS_KO);
 			}
 		} catch (IOException e) {
 			throw new NetworkTechnicalException(e);
@@ -369,7 +370,7 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 
 			if (result.getSuccess()) {
 				servicePartnerExistence
-						.addRequest(EnumPartner.ACIMFLO, techidForAck, EnumPartnerRequestType.DELETE_ACK);
+				.addRequest(EnumPartner.ACIMFLO, techidForAck, EnumPartnerRequestType.DELETE_ACK);
 				ws = new WSResult(prpReference, "OK", result.getPhrase());
 			} else {
 				ws = new WSResult(prpReference, "KO", result.getPhrase());
@@ -450,19 +451,19 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 
 		Description description = prp.getDescription(EnumDescriptionType.WEBSITE_OWN);
 		if ((prp.getSale() == null || prp.getSale().getPriceFinal() == null) && prp.getRent() == null) {
-			mbe.add(EnumBusinessError.NO_SALE, prp.getReference());
+			mbe.add(EnumBusinessErrorProperty.NO_SALE, prp.getReference());
 		}
 		if (description == null || description.getLabel() == null) {
-			mbe.add(EnumBusinessError.NO_DESCRIPTION_WEBSITE_OWN, prp.getReference());
+			mbe.add(EnumBusinessErrorProperty.NO_DESCRIPTION_WEBSITE_OWN, prp.getReference());
 		}
 
 		if (prp.getRent() != null) {
 			if (prp.getRent().getPrice() == null || prp.getRent().getPrice() <= 0F) {
-				mbe.add(EnumBusinessError.NO_RENT_PRICE, prp.getReference());
+				mbe.add(EnumBusinessErrorProperty.NO_RENT_PRICE, prp.getReference());
 			}
 
 			if (prp.getRent().getCommission() == null || prp.getRent().getCommission() < 0F) {
-				mbe.add(EnumBusinessError.NO_RENT_COMMISSION, prp.getReference());
+				mbe.add(EnumBusinessErrorProperty.NO_RENT_COMMISSION, prp.getReference());
 			}
 		}
 

@@ -34,7 +34,8 @@ import com.google.common.base.Strings;
 
 import fr.jerep6.ogi.enumeration.EnumPartner;
 import fr.jerep6.ogi.enumeration.EnumPartnerRequestType;
-import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessError;
+import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessErrorPartner;
+import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessErrorProperty;
 import fr.jerep6.ogi.exception.technical.NetworkTechnicalException;
 import fr.jerep6.ogi.framework.exception.BusinessException;
 import fr.jerep6.ogi.framework.exception.MultipleBusinessException;
@@ -88,7 +89,7 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 		HttpPost httpPost = new HttpPost(url);
 		try {
 			if (prp.getSale() == null || prp.getSale().getPriceFinal() == null) {
-				throw new BusinessException(EnumBusinessError.NO_SALE, prp.getReference());
+				throw new BusinessException(EnumBusinessErrorProperty.NO_SALE, prp.getReference());
 			}
 
 			// FileBody uploadFilePart = new FileBody(uploadFile);
@@ -182,7 +183,7 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 
 			if (!logged) {
 				LOGGER.error("Login to Diaporama failed : " + doc.toString());
-				throw new BusinessException(EnumBusinessError.DIAPORAMA_IDENTIFIANTS_KO);
+				throw new BusinessException(EnumBusinessErrorPartner.DIAPORAMA_IDENTIFIANTS_KO);
 			}
 		} catch (IOException e) {
 			throw new NetworkTechnicalException(e);

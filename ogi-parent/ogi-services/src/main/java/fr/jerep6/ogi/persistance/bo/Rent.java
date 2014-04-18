@@ -72,6 +72,18 @@ public class Rent {
 		return null;
 	}
 
+	public Float getPriceFinal() {
+		Float finalPrice = 0F;
+		if (serviceChargeIncluded != null && !serviceChargeIncluded && serviceCharge != null) {
+			finalPrice += serviceCharge;
+		}
+		if (price != null) {
+			finalPrice += price;
+		}
+
+		return finalPrice;
+	}
+
 	@PreUpdate
 	@PrePersist
 	private void setDefaultValue() {
@@ -79,5 +91,4 @@ public class Rent {
 			furnished = false;
 		}
 	}
-
 }
