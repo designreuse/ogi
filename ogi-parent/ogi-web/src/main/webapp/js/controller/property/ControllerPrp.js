@@ -1,4 +1,6 @@
 function ControllerPrpParent($scope, Page, $log, $http, ServiceConfiguration, Utils, ServiceAlert) {
+    $scope.formCreate = true;
+
     // Top menu for active item
     $scope.addMenu = {
         "items" : [
@@ -53,17 +55,11 @@ function ControllerPrpParent($scope, Page, $log, $http, ServiceConfiguration, Ut
         return mt[categCode];
     }
 
-    $scope.update = function() {
+    $scope.updateTechnical = function(fn) {
         $scope.prp.mappingType= getMappingType($scope.prp.category.code);
         $scope.prp.address = $scope.saveData.address.isEmpty() ? null : $scope.saveData.address;
 
-
-        // Create or modify property
-        $http.post(ServiceConfiguration.API_URL+"/rest/property/", $scope.prp)
-            .success(function (data, status) {
-                ServiceAlert.addSuccess("Enregistrement du bien OK");
-                $scope.prp = new PropertyJS(data);
-            });
+        fn();
     }
 
     // Generating temp reference for property (necessary for store uploaded files)

@@ -15,7 +15,6 @@
                 <th>Type</th>
                 <th>Ville</th>
                 <th>Prix</th>
-                <th>Surface</th>
                 <th>Photo</th>
                 <th>Actions</th>
             </tr>
@@ -26,19 +25,15 @@
                     <td data-title="'reference'" sortable="reference">{{prp.reference}}</td>
                     <td>{{prp.category.label}}</td>
                     <td>{{prp.address.city}}</td>
-                    <td>{{prp.sale.priceFinal | currency}}</td>
                     <td>
-                        <span ng-switch on="prp.category.code">
-                            <span ng-switch-when="HSE">{{prp.area | area}}</span>
-                            <span ng-switch-when="APT">{{prp.area | area}}</span>
-                            <span ng-switch-when="PLT">{{prp.landArea | area}}</span>
-                            <span ng-switch-default></span>
-                        </span>
+                        <span ng-if="prp.sale.priceFinal">{{prp.sale.priceFinal | currency}}</span>
+                        <br ng-if="prp.sale.priceFinal && prp.rent.priceFinal" />
+                        <span ng-if="prp.rent.priceFinal">{{prp.rent.priceFinal | currency}}</span>
                     </td>
                     <td><img ng-src="{{prp.photos[0].url}}?size=75,60&crop=75,60&sizeMode=inversed_automatic"/></td>
                     <td style="vertical-align:middle">
                         <div class="btn-group btn-group-action">
-                            <a class="btn" href="#/biens/voir/{{prp.reference}}" title="Voir"><span class="glyphicon glyphicon-eye-open"></span></a>
+                            <!--<a class="btn" href="#/biens/voir/{{prp.reference}}" title="Voir"><span class="glyphicon glyphicon-eye-open"></span></a>-->
                             <a class="btn" href="#/biens/modifier/{{prp.reference}}" title="Modifier"><span class="glyphicon glyphicon-edit"></span></a>
                             <a class="btn" ng-click="confirmDeletion($index)" title="Supprimer"><span class="glyphicon glyphicon-remove-circle"></span></a>
                         </div>

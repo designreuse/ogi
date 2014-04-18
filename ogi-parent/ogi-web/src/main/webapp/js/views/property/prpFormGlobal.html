@@ -2,7 +2,7 @@
 
     <div class="row action">
         <button type="button" class="btn btn-default" title="Retour" onclick="history.go(-1)"><i class="glyphicon glyphicon-arrow-left"></i></button>
-        <button type="submit" class="btn btn-default" ng-click="update()"><i class="glyphicon glyphicon-floppy-disk"></i> Enregistrer</button>
+        <button type="submit" class="btn btn-default" ng-click="save()"><i class="glyphicon glyphicon-floppy-disk"></i> Enregistrer</button>
     </div>
 
     <ul class="nav nav-tabs">
@@ -12,10 +12,10 @@
         <li ng-class="{active: addMenu.getActive().name == 'adminis'}"><a ng-click="addMenu.select('adminis')" href="javascript:;">Administratif</a></li>
         <li ng-class="{active: addMenu.getActive().name == 'diagnosis'}"><a ng-click="addMenu.select('diagnosis')" href="javascript:;">Diagnostics immobiliers</a></li>
 
-        <li ng-class="{active: addMenu.getActive().name == 'doc'}"><a ng-click="addMenu.select('doc')" href="javascript:;">Documents</a></li>
+        <!---<li ng-class="{active: addMenu.getActive().name == 'doc'}"><a ng-click="addMenu.select('doc')" href="javascript:;">Documents</a></li>-->
         <li ng-class="{active: addMenu.getActive().name == 'partner'}"><a ng-click="addMenu.select('partner')" href="javascript:;">Sites externes</a></li>
 
-        <li ng-class="{active: addMenu['room']}"><a ng-click="addMenu.select('room')" href="javascript:;">Détail des pièces</a></li>
+        <!--<li ng-class="{active: addMenu['room']}"><a ng-click="addMenu.select('room')" href="javascript:;">Détail des pièces</a></li>-->
         <!--<li ng-class="{active: addMenu['prp']}"><a ng-click="addMenu.select('prp')" href="javascript:;">Visites</a></li>-->
     </ul>
 

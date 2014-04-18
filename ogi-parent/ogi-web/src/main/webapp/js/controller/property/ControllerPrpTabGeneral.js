@@ -21,6 +21,8 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
         $scope.markers = [];
         $scope.map.setCenter(ServiceConfiguration.MAP_CENTER);
         $scope.map.setZoom(ServiceConfiguration.MAP_ZOOM);
+
+        updateGPS(null, null);
     };
 
     $scope.findPositionByAddress = function () {

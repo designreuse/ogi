@@ -1,6 +1,8 @@
 function ControllerPrpModify($scope, Page, $injector, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log, $filter) {
     $injector.invoke(ControllerPrpParent, this, {$scope: $scope, Page:Page, $log:$log, $http:$http, ServiceConfiguration:ServiceConfiguration});
 
+    $scope.formCreate = false;
+
     // Get information about current property
     $scope.httpGetCurrentType = $http.get(ServiceConfiguration.API_URL+"/rest/property/"+$routeParams.prpRef)
         .success(function (data, status, headers) {
@@ -25,6 +27,18 @@ function ControllerPrpModify($scope, Page, $injector, $routeParams, ServiceConfi
 
             Page.setTitle("Modifier le bien : "+$scope.prp.reference);
         });
+
+
+
+    $scope.save = function() {
+        $scope.updateTechnical(function() {
+            $http.put(ServiceConfiguration.API_URL+"/rest/property/"+$scope.prp.reference, $scope.prp)
+                .success(function (data, status) {
+                    ServiceAlert.addSuccess("Modification du bien OK");
+                    $scope.prp = new PropertyJS(data);
+                });
+        });
+    }
 }
 
 

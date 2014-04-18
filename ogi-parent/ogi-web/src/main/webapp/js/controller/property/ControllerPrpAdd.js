@@ -7,6 +7,17 @@ function ControllerPrpAdd($scope, Page, $injector, $routeParams, ServiceConfigur
         Page.setTitle("Ajouter un bien : "+data.label);
     });
 
+
+    $scope.save = function() {
+        $scope.updateTechnical(function() {
+            $http.post(ServiceConfiguration.API_URL+"/rest/property/", $scope.prp)
+                .success(function (data, status) {
+                    ServiceAlert.addSuccess("Ajout du bien OK");
+                    $scope.prp = new PropertyJS(data);
+                });
+        });
+    }
+
 }
 
 
