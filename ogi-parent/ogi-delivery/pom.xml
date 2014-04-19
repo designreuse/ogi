@@ -11,7 +11,7 @@
 
 	<properties>
         <envelopeName>OGI-${project.version}</envelopeName>
-        <remote.directory>scp://192.168.1.73/home/jerep6/</remote.directory>
+        <remote.directory>scp://192.168.1.73/home/jerep6/delivery/</remote.directory>
     </properties>
     
 	<build>
