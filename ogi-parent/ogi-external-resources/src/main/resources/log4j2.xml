@@ -7,7 +7,7 @@
 		<Console name="Console" target="SYSTEM_OUT">
 			<PatternLayout pattern="[%d{ISO8601}] - [%p] - [THREAD %t] - %c[%l] - %m %n" />
 		</Console>
-		<File name="R1" fileName="D:/a/app.log">
+		<File name="R1" fileName="D:/Developpement/Master/Java8/logs/app.log">
 			<PatternLayout pattern="[%d{ISO8601}] - [%p] - [THREAD %t] - %c[%l] - %m %n" />
 		</File>
 	</Appenders>
