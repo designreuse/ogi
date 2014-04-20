@@ -73,6 +73,9 @@ ul#list-photos li {
   color: #212326;
   -moz-box-shadow: 2px 2px 5px #ccc;
   text-align: center;
+}
+ul#list-photos li .photoName {
+  white-space: nowrap;
   overflow: hidden;
 }
 ul#list-photos li img {
@@ -89,6 +92,17 @@ ul#list-photos li.highlight {
 }
 .ui-slider-handle {
   cursor: pointer !important;
+}
+.saveRemind {
+  font-weight: bold;
+}
+form.ng-dirty {
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ffffff), color-stop(1, #f4f5bf));
+  background-image: -o-linear-gradient(bottom, #ffffff 0%, #f4f5bf 100%);
+  background-image: -moz-linear-gradient(bottom, #ffffff 0%, #f4f5bf 100%);
+  background-image: -webkit-linear-gradient(bottom, #ffffff 0%, #f4f5bf 100%);
+  background-image: -ms-linear-gradient(bottom, #ffffff 0%, #f4f5bf 100%);
+  background-image: linear-gradient(to bottom, #ffffff 0%, #f4f5bf 100%);
 }
 /* NAVIGATION */
 .navbar-default .navbar-brand {

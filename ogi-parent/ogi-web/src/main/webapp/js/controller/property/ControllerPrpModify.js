@@ -36,6 +36,9 @@ function ControllerPrpModify($scope, Page, $injector, $routeParams, ServiceConfi
                 .success(function (data, status) {
                     ServiceAlert.addSuccess("Modification du bien OK");
                     $scope.prp = new PropertyJS(data);
+
+                    // Reset form to indicate that prp is saved
+                    $scope.formPrp.$setPristine(true);
                 });
         });
     }

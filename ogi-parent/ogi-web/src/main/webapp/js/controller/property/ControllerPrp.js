@@ -55,6 +55,12 @@ function ControllerPrpParent($scope, Page, $log, $http, ServiceConfiguration, Ut
         return mt[categCode];
     }
 
+    /**
+     * This function is called by ControllerAdd and ControllerModify during save
+     * Only prepare $scope.prp
+     *
+     * @param fn function to execute. Provide by caller. This function must save prp
+     */
     $scope.updateTechnical = function(fn) {
         $scope.prp.mappingType= getMappingType($scope.prp.category.code);
         $scope.prp.address = $scope.saveData.address.isEmpty() ? null : $scope.saveData.address;

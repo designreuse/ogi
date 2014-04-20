@@ -78,6 +78,7 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
     function updateGPS(lat, lng) {
         $scope.saveData.address.latitude = lat;
         $scope.saveData.address.longitude = lng;
+        $scope.formPrp.$setDirty(true);
     }
 
     $scope.usePlace = function (index) {
@@ -98,6 +99,7 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
         type : "POST", // The HTTP request method for the file uploads
         dataType : "json", //The type of data that is expected back from the server.
         limitMultiFileUploads : 2, //To limit the number of files uploaded with one XHR request, set the following option to an integer greater than 0
+        limitConcurrentUploads: 2, //To limit the number of concurrent uploads, set this option to an integer value greater than 0.
         acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
         messages: {
             maxNumberOfFiles: 'Nombre maximum de fichiers dépassé',
@@ -110,7 +112,6 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
 
     // Listen to fileuploaddone event
     $scope.$on('fileuploaddone', function(e, data){
-
         // Extract file from response (file contains document)
         var file = data._response.result.files[0];
         // Set order to table length
@@ -128,6 +129,13 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
             }
         }
         $scope.queue.splice(index, 1);
+
+        $scope.formPrp.$setDirty(true);
+    });
+
+
+    $scope.$on('fileuploadfail', function(e, data){
+        data.errorThrown =  ServiceAlert.formatErrors(data.result.errors);
     });
 
     // ##### SORTABLE #####
@@ -179,30 +187,30 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
 
 
 function FileDestroyController($scope, $http) {
-        var file = $scope.file,
-            state;
-        if (file.url) {
-            file.$state = function () {
-                return state;
-            };
-            file.$destroy = function () {
-                state = 'pending';
-                return $http({
-                    url: file.deleteUrl,
-                    method: file.deleteType
-                }).then(
-                    function () {
-                        state = 'resolved';
-                        $scope.clear(file);
-                    },
-                    function () {
-                        state = 'rejected';
-                    }
-                );
-            };
-        } else if (!file.$cancel && !file._index) {
-            file.$cancel = function () {
-                $scope.clear(file);
-            };
-        }
+    var file = $scope.file,
+        state;
+    if (file.url) {
+        file.$state = function () {
+            return state;
+        };
+        file.$destroy = function () {
+            state = 'pending';
+            return $http({
+                url: file.deleteUrl,
+                method: file.deleteType
+            }).then(
+                function () {
+                    state = 'resolved';
+                    $scope.clear(file);
+                },
+                function () {
+                    state = 'rejected';
+                }
+            );
+        };
+    } else if (!file.$cancel && !file._index) {
+        file.$cancel = function () {
+            $scope.clear(file);
+        };
     }
+}

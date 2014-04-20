@@ -32,7 +32,7 @@ myApp.config(function ($provide, $httpProvider) {
         return {
             // On response failure
             responseError: function (rejection) {
-                ServiceAlert.addError(ServiceAlert.formatMessage(rejection));
+                ServiceAlert.addError(ServiceAlert.formatResponse(rejection));
                 // Return the promise rejection.
                 return $q.reject(rejection);
             }

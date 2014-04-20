@@ -50,12 +50,17 @@ myApp.factory('ServiceAlert', function(Utils){
         getAlerts:function(){
             return alerts;
         },
-        formatMessage: function(response) {
+        formatResponse: function(response) {
             var msg = "[HTTP:"+response.status+"] - ";
-            if(!Utils.isUndefinedOrNull(response.data.errors)) {
-                for(var i = 0; i < response.data.errors.length; i++) {
-                    msg += response.data.errors[i].message;
-                    if(i < response.data.errors.length) {
+            msg += this.formatErrors(response.data.errors);
+            return msg;
+        },
+        formatErrors: function(errors) {
+            var msg = "";
+            if(!Utils.isUndefinedOrNull(errors)) {
+                for(var i = 0; i < errors.length; i++) {
+                    msg += errors[i].message;
+                    if(i < errors.length) {
                         msg += "<br />";
                     }
                 }

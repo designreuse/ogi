@@ -3,6 +3,7 @@
     <div class="row action">
         <button type="button" class="btn btn-default" title="Retour" onclick="history.go(-1)"><i class="glyphicon glyphicon-arrow-left"></i></button>
         <button type="submit" class="btn btn-default" ng-click="save()"><i class="glyphicon glyphicon-floppy-disk"></i> Enregistrer</button>
+        <span ng-if="formPrp.$dirty" class="saveRemind pull-right">Des modifications ont été apportées. Pensez à sauvegarder.</span>
     </div>
 
     <ul class="nav nav-tabs">
@@ -19,8 +20,8 @@
         <!--<li ng-class="{active: addMenu['prp']}"><a ng-click="addMenu.select('prp')" href="javascript:;">Visites</a></li>-->
     </ul>
 
-
-    <form class="well">
+    <!-- name is used by FormController to published form into scope -->
+    <form name="formPrp" class="well" ng-submit="save()">
         <div ng-include="addMenu.getActive().url"></div>
     </form>
 

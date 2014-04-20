@@ -14,6 +14,9 @@ function ControllerPrpAdd($scope, Page, $injector, $routeParams, ServiceConfigur
                 .success(function (data, status) {
                     ServiceAlert.addSuccess("Ajout du bien OK");
                     $scope.prp = new PropertyJS(data);
+
+                    // Reset form to indicate that prp is saved
+                    $scope.formPrp.$setPristine(true);
                 });
         });
     }

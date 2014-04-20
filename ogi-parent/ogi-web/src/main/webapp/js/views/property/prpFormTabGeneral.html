@@ -1,5 +1,5 @@
 <!--BEGIN DIV GENERAL -->
-<div ng-controller="ControllerPrpTabGeneral">
+<div ng-controller="ControllerPrpTabGeneral" file-upload="options">
     <div class="row">
         <div class="col-xs-7">
 
@@ -59,7 +59,7 @@
         </div>
     </div>
 
-    <fieldset file-upload="options" ng-class="{'fileupload-processing': processing() || loadingFiles}">
+    <fieldset ng-class="{'fileupload-processing': processing() || loadingFiles}">
         <legend>Photos</legend>
 
         <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
@@ -112,7 +112,7 @@
                         </span>
                         <span ng-switch-default>{{file.name}}</span>
                     </p>
-                    <div ng-show="file.error"><span class="label label-danger">Error</span> {{file.error}}</div>
+                    <div ng-show="file.error"><span class="label label-danger">Error</span> <span ng-bind-html="file.error"></span></div>
                 </td>
                 <td>
                     <p class="size">{{file.size | formatFileSize}}</p>
@@ -137,7 +137,8 @@
 
         <ul ui-sortable="sortableOptions" id="list-photos" class="list-unstyled list-inline" ng-model="prp.photos">
             <li ng-repeat="photo in prp.photos">
-                <img ng-src="{{photo.url}}?size=110,110&crop=110,110&&sizeMode=inversed_automatic" />{{photo.name}}
+                <img ng-src="{{photo.url}}?size=110,110&crop=110,110&&sizeMode=inversed_automatic" />
+                <div class="photoName">{{photo.name}}</div>
                 <a class="btn" href="{{photo.url}}" target="_blank"><i class="glyphicon glyphicon-eye-open"></i></a>
                 <a class="btn" ng-click="deletePhoto($index)"><i class="glyphicon glyphicon-trash"></i></a>
             </li>

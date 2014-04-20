@@ -7,7 +7,7 @@
 
 /* ## TAB GENERAL ## */
 /* style des éléments de la liste */
-ul#list-photos li{
+ul#list-photos li {
   border:1px solid #ddd;
   padding:10px;
   cursor:move;
@@ -19,7 +19,11 @@ ul#list-photos li{
   color:#212326;
   -moz-box-shadow:2px 2px 5px #ccc;
   text-align: center;
-  overflow : hidden;
+
+  .photoName {
+    white-space: nowrap;
+    overflow: hidden
+  }
 }
 ul#list-photos li img {
   margin-bottom: 10px;
@@ -37,4 +41,22 @@ ul#list-photos li.highlight{
 
 .ui-slider-handle {
   cursor:pointer !important;
+}
+
+.saveRemind {
+  font-weight: bold;
+}
+form.ng-dirty {
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(0, #FFFFFF),
+    color-stop(1, #F4F5BF)
+  );
+  background-image: -o-linear-gradient(bottom, #FFFFFF 0%, #F4F5BF 100%);
+  background-image: -moz-linear-gradient(bottom, #FFFFFF 0%, #F4F5BF 100%);
+  background-image: -webkit-linear-gradient(bottom, #FFFFFF 0%, #F4F5BF 100%);
+  background-image: -ms-linear-gradient(bottom, #FFFFFF 0%, #F4F5BF 100%);
+  background-image: linear-gradient(to bottom, #FFFFFF 0%, #F4F5BF 100%);
 }
