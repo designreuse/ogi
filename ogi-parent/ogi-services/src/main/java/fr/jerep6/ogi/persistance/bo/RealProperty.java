@@ -85,6 +85,10 @@ public class RealProperty {
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "property")
 	private Rent						rent;
 
+	// Assa
+	@Column(name = "PRO_SANITATION")
+	private String						sanitation;
+
 	@OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
 	private Set<Description>			descriptions		= new HashSet<>(0);
 
@@ -92,7 +96,7 @@ public class RealProperty {
 	@JoinTable(name = "TJ_PRP_EQP", //
 	joinColumns = @JoinColumn(name = "PRO_ID"), //
 	inverseJoinColumns = @JoinColumn(name = "EQP_ID")//
-	)
+			)
 	private Set<Equipment>				equipments			= new HashSet<>(0);
 
 	@ManyToOne
@@ -107,7 +111,7 @@ public class RealProperty {
 	@JoinTable(name = "TJ_PRP_DOC",//
 	joinColumns = @JoinColumn(name = "PRO_ID"),//
 	inverseJoinColumns = @JoinColumn(name = "DOC_ID")//
-	)
+			)
 	private Set<Document>				documents;
 
 	@OneToMany(mappedBy = "pk.property", cascade = CascadeType.ALL)

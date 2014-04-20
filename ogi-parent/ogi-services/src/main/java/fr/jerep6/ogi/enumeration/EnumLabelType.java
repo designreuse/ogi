@@ -7,6 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum EnumLabelType {
 	HEATING("HEATING"), //
+	SANITATION("SANITATION"), //
 	HOTWATER("HOTWATER"), //
 	ROOMTYPE("ROOMTYPE"), //
 	ROOF("ROOF"), //

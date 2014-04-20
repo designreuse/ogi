@@ -90,7 +90,6 @@ public class ServiceSynchronisationImpl extends AbstractService implements Servi
 			}
 		} catch (IllegalArgumentException iae) {
 			LOGGER.warn("Unknow partner {}. Exception = ", partner, iae.getMessage());
-
 		}
 		return results;
 	}

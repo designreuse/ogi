@@ -16,6 +16,9 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
     getLabels("WALL","walls" , "wall");
     getLabels("INSULATION", "insulations" , "insulation");
     getLabels("PARKING", "parkings" , "parking");
+    getLabels("HEATING", "heatings" , "heating");
+    getLabels("SANITATION", "sanitations" , "sanitation");
+
     /**
      * Get labels for a type and populate scope with them
      * @param type type of label to get
@@ -75,7 +78,10 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
     $scope.roofChange = function () { labelChange("roof", $scope.saveData.roof, $scope.openModalRoof); };
     $scope.wallChange = function () { labelChange("wall", $scope.saveData.wall, $scope.openModalWall); };
     $scope.insulationChange = function () { labelChange("insulation", $scope.saveData.insulation, $scope.openModalInsulation); };
+    $scope.heatingChange = function () { labelChange("heating", $scope.saveData.heating, $scope.openModalHeating); };
     $scope.parkingChange = function () { labelChange("parking", $scope.saveData.parking, $scope.openModalParking); };
+    $scope.sanitationChange = function () { labelChange("sanitation", $scope.saveData.sanitation, $scope.openModalSanitation); };
+
     /**
      *
      * @param vPrp name of variable in object realproperty into store the label
@@ -123,7 +129,10 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
     $scope.openModalRoof = function () { openLabelOther("ROOF", { title:"Ajouter une toiture", placeholder:"Entrer une toiture" }, "roofs", "roof"); }
     $scope.openModalWall = function () { openLabelOther("WALL", { title:"Ajouter un mur", placeholder:"Entrer un type de mur" }, "walls", "wall"); }
     $scope.openModalInsulation = function () { openLabelOther("INSULATION", { title:"Ajouter une isolation", placeholder:"Entrer un type d'isolation" }, "insulations", "insulation"); }
+    $scope.openModalHeating = function () { openLabelOther("HEATING", { title:"Ajouter un chauffage", placeholder:"Entrer un type de chauffage" }, "heatings", "heating"); }
     $scope.openModalParking = function () { openLabelOther("PARKING", { title:"Ajouter un stationnement", placeholder:"Entrer un type de stationnement" }, "parkings", "parking"); }
+    $scope.openModalSanitation = function () { openLabelOther("SANITATION", { title:"Ajouter un assainissement", placeholder:"Entrer un type d'assainissement" }, "sanitations", "sanitation"); }
+
     /**
      * Open model to add a label
      * @param labelType type of label

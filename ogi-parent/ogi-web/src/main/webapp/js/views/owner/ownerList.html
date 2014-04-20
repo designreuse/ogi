@@ -11,8 +11,7 @@
             <tr>
                 <th>Nom</th>
                 <th>Téléphones</th>
-                <th>Mail</th>
-                <th>Adresse</th>
+                <th>Clé</th>
                 <th>Biens</th>
                 <th>Actions</th>
             </tr>
@@ -25,8 +24,7 @@
                         <br ng-if="o.phoneMobile"/>
                         {{o.phoneHome}}
                     </td>
-                    <td>{{o.mail}}</td>
-                    <td>{{o.addresses | address}}</td>
+                    <td>{{o.keyNumber}}</td>
                     <td><span ng-bind-html="o.properties | prpLink"></span></td>
                     <td>
                         <div class="btn-group btn-group-action">

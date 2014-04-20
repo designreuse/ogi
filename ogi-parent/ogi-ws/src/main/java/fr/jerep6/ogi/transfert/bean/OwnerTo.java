@@ -24,6 +24,7 @@ public class OwnerTo {
 	private String						phoneConjoint;
 	private String						fax;
 	private String						mail;
+	private String						keyNumber;
 	private List<AddressTo>				addresses;
 	private List<RealPropertyLinkTo>	properties;
 }

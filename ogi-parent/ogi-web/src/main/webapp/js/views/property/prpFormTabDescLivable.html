@@ -129,6 +129,12 @@
                     </select>
                 </div>
 
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" value="true" ng-model="prp.housingEstate"> Lotissement
+                    </label>
+                </div>
+
             </div>
 
             <div class="col-xs-6">
@@ -145,15 +151,22 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label>Chauffage</label>
+                    <select class="form-control" ng-model="saveData.heating" ng-options="l.label for l in heatings" ng-change="heatingChange()">
+                        <option value="">--- Sélectionner un chauffage ---</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label>Stationnement</label>
                     <select class="form-control" ng-model="saveData.parking" ng-options="l.label for l in parkings" ng-change="parkingChange()">
                         <option value="">--- Sélectionner un stationnement ---</option>
                     </select>
                 </div>
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="true" ng-model="prp.housingEstate"> Lotissement
-                    </label>
+                <div class="form-group">
+                    <label>Assainissement</label>
+                    <select class="form-control" ng-model="saveData.sanitation" ng-options="l.label for l in sanitations" ng-change="sanitationChange()">
+                        <option value="">--- Sélectionner un assainissement ---</option>
+                    </select>
                 </div>
 
                 <div style="margin-bottom: 20px;">

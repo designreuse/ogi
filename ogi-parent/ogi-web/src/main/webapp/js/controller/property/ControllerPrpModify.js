@@ -14,7 +14,9 @@ function ControllerPrpModify($scope, Page, $injector, $routeParams, ServiceConfi
             $scope.saveData.roof = {type:"ROOF", label:$scope.prp.roof};
             $scope.saveData.wall = {type:"WALL", label:$scope.prp.wall};
             $scope.saveData.insulation = {type:"INSULATION", label:$scope.prp.insulation};
+            $scope.saveData.heating = {type:"HEATING", label:$scope.prp.heating};
             $scope.saveData.parking = {type:"PARKING", label:$scope.prp.parking};
+            $scope.saveData.sanitation = {type:"SANITATION", label:$scope.prp.sanitation};
             $scope.saveData.type = {label : $scope.prp.type};
 
             $scope.saveData.address = Object.create(address);
