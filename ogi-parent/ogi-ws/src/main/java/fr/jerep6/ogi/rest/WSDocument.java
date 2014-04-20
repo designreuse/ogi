@@ -61,8 +61,9 @@ public class WSDocument extends AbstractJaxRsWS {
 		EnumDocumentType enumType = EnumDocumentType.valueOfByCode(type);
 
 		// Copy uploaded file into photo directory
-		FileUpload f = serviceDocument.copyToDirectory(uploadedInputStream, fileDetail.getFileName(), reference,
-				enumType);
+		// Convert iso filename in utf8. Je ne suis pas arrivé à envoyer le nom du fichier en utf8
+		String fileName = new String(fileDetail.getFileName().getBytes("iso-8859-1"), "UTF-8");
+		FileUpload f = serviceDocument.copyToDirectory(uploadedInputStream, fileName, reference, enumType);
 
 		Map<String, List<FileUploadTo>> m = new HashMap<>();
 		m.put("files", Arrays.asList(mapper.map(f, FileUploadTo.class)));
