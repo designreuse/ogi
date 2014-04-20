@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import javax.annotation.Resource;
 
@@ -61,12 +62,12 @@ import fr.jerep6.ogi.service.external.ServicePartner;
 import fr.jerep6.ogi.service.external.transfert.AcimfloResultDelete;
 import fr.jerep6.ogi.service.external.transfert.AcimfloResultExist;
 import fr.jerep6.ogi.transfert.WSResult;
+import fr.jerep6.ogi.utils.Functions;
 import fr.jerep6.ogi.utils.HttpClientUtils;
 
 @Service("serviceAcimflo")
 public class ServiceAcimfloImpl extends AbstractService implements ServicePartner {
 	private final Logger						LOGGER		= LoggerFactory.getLogger(ServiceAcimfloImpl.class);
-	private static final SimpleDateFormat		spFormater	= new SimpleDateFormat("dd/MM/yyyy");
 	public static final String					MODE_RENT	= "RENT";
 	public static final String					MODE_SALE	= "SALE";
 
@@ -136,9 +137,9 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 			Document doc = Jsoup.parse(response.getEntity().getContent(), "UTF-8", "");
 			String msg = doc.select(".msg").html();
 			LOGGER.info("Result msg = " + msg);
-			if (Strings.isNullOrEmpty(msg)) {
+			if (Strings.isNullOrEmpty(msg) || msg.toLowerCase().contains("erreur")) {
 				LOGGER.error("Empty result msg :" + doc.toString());
-				result = new WSResult(prp.getReference(), "KO", doc.toString());
+				result = new WSResult(prp.getReference(), "KO", msg);
 			} else {
 				result = new WSResult(prp.getReference(), "OK", msg);
 
@@ -262,6 +263,7 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 				new StringBody(ObjectUtils.toString(rent.getServiceCharge()), ContentType.TEXT_PLAIN));
 
 		if (rent.getFreeDate() != null) {
+			SimpleDateFormat spFormater = new SimpleDateFormat("dd/MM/yyyy");
 			builder.addPart("libre_le", new StringBody(spFormater.format(rent.getFreeDate().getTime()),
 					ContentType.TEXT_PLAIN));
 		}
@@ -352,28 +354,41 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 	}
 
 	@Override
-	public WSResult delete(String prpReference, Integer techidForAck) {
+	public WSResult delete(RealProperty prp) {
 		CookieHandler.setDefault(new CookieManager());
 		HttpClient client = HttpClientBuilder.create().setRedirectStrategy(new LaxRedirectStrategy()).build();
 
 		// Connection to acimflo => session id is keeped
 		connect(client);
 
+		WSResult r = new WSResult(prp.getReference(), "OK", "");
+		// Delete sale
+		if (prp.getSale() != null) {
+			r.combine(delete(prp, Functions::computeSaleReference, client));
+		}
+		if (prp.getRent() != null) {
+			r.combine(delete(prp, Functions::computeRentReference, client));
+		}
+
+		return r;
+	}
+
+	private WSResult delete(RealProperty prp, Function<String, String> computeReference, HttpClient client) {
 		WSResult ws;
-		HttpGet httpGet = new HttpGet(deleteUrl.replace("$reference", prpReference));
+		HttpGet httpGet = new HttpGet(deleteUrl.replace("$reference", computeReference.apply(prp.getReference())));
 		try {
 			HttpResponse response = client.execute(httpGet);
 
 			AcimfloResultDelete result = HttpClientUtils.convertToJson(response, AcimfloResultDelete.class);
-			LOGGER.info("Delete of reference {} : {}. Msg = {}", new Object[] { prpReference, result.getSuccess(),
-					result.getPhrase() });
+			LOGGER.info("Delete of reference {} : {}. Msg = {}", new Object[] { prp.getReference(),
+					result.getSuccess(), result.getPhrase() });
 
 			if (result.getSuccess()) {
-				servicePartnerExistence
-				.addRequest(EnumPartner.ACIMFLO, techidForAck, EnumPartnerRequestType.DELETE_ACK);
-				ws = new WSResult(prpReference, "OK", result.getPhrase());
+				servicePartnerExistence.addRequest(EnumPartner.ACIMFLO, prp.getTechid(),
+						EnumPartnerRequestType.DELETE_ACK);
+				ws = new WSResult(prp.getReference(), "OK", result.getPhrase());
 			} else {
-				ws = new WSResult(prpReference, "KO", result.getPhrase());
+				ws = new WSResult(prp.getReference(), "KO", result.getPhrase());
 			}
 
 		} catch (IOException e) {

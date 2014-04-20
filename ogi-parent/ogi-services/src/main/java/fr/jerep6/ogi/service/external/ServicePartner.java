@@ -1,11 +1,14 @@
 package fr.jerep6.ogi.service.external;
 
+import java.util.function.Function;
+
 import fr.jerep6.ogi.framework.exception.MultipleBusinessException;
 import fr.jerep6.ogi.framework.service.Service;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.transfert.WSResult;
 
 public interface ServicePartner extends Service {
+	public static Function<String, String>	computeReferenceSale	= (String ref) -> ref + "V";
 
 	WSResult createOrUpdate(RealProperty prp);
 
@@ -14,13 +17,11 @@ public interface ServicePartner extends Service {
 	/**
 	 * Delete a property from partner.
 	 * 
-	 * @param prpReference
-	 *            functional reference
-	 * @param techidForAck
-	 *            technical identifying in order to create ack
+	 * @param prp
+	 *            realproperty to delete
 	 * @return
 	 */
-	WSResult delete(String prpReference, Integer techidForAck);
+	WSResult delete(RealProperty prp);
 
 	/**
 	 * Validate property. If property doesn't respect partner interface throw MultipleBusinessException

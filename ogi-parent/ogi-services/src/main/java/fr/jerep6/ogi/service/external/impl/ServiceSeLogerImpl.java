@@ -38,9 +38,9 @@ public class ServiceSeLogerImpl extends AbstractService implements ServicePartne
 	}
 
 	@Override
-	public WSResult delete(String prpReference, Integer techidForAck) {
+	public WSResult delete(RealProperty prp) {
 		LOGGER.info("Delete property {}. Do nothing because batch will process it later");
-		return new WSResult(prpReference, "WAIT", "");
+		return new WSResult(prp.getReference(), "WAIT", "");
 	}
 
 	@Override

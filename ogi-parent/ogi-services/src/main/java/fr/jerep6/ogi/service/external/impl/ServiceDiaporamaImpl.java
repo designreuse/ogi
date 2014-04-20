@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -47,6 +48,7 @@ import fr.jerep6.ogi.service.external.ServicePartner;
 import fr.jerep6.ogi.service.external.transfert.AcimfloResultDelete;
 import fr.jerep6.ogi.service.external.transfert.AcimfloResultExist;
 import fr.jerep6.ogi.transfert.WSResult;
+import fr.jerep6.ogi.utils.Functions;
 import fr.jerep6.ogi.utils.HttpClientUtils;
 
 @Service("serviceDiaporama")
@@ -141,9 +143,9 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 			Document doc = Jsoup.parse(response.getEntity().getContent(), "UTF-8", "");
 			String msg = doc.select(".msg").html();
 			LOGGER.info("Result msg = " + msg);
-			if (Strings.isNullOrEmpty(msg)) {
+			if (Strings.isNullOrEmpty(msg) || msg.toLowerCase().contains("erreur")) {
 				LOGGER.error("Empty result msg :" + doc.toString());
-				result = new WSResult(prp.getReference(), "KO", doc.toString());
+				result = new WSResult(prp.getReference(), "KO", msg);
 			} else {
 				result = new WSResult(prp.getReference(), "OK", msg);
 				// Add ack
@@ -214,28 +216,43 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 	}
 
 	@Override
-	public WSResult delete(String prpReference, Integer techidForAck) {
+	public WSResult delete(RealProperty prp) {
 		CookieHandler.setDefault(new CookieManager());
 		HttpClient client = HttpClientBuilder.create().setRedirectStrategy(new LaxRedirectStrategy()).build();
 
-		// Connection to acimflo => session id is keeped
+		// Connection to diaporama => session id is keeped
 		connect(client);
 
+		WSResult r = new WSResult(prp.getReference(), "OK", "");
+		// Delete sale
+		if (prp.getSale() != null) {
+			r.combine(delete(prp, Functions::computeSaleReference, client));
+		}
+		if (prp.getRent() != null) {
+			r.combine(delete(prp, Functions::computeRentReference, client));
+
+		}
+
+		return r;
+
+	}
+
+	private WSResult delete(RealProperty prp, Function<String, String> computeReference, HttpClient client) {
 		WSResult ws;
-		HttpGet httpGet = new HttpGet(deleteUrl.replace("$reference", prpReference));
+		HttpGet httpGet = new HttpGet(deleteUrl.replace("$reference", computeReference.apply(prp.getReference())));
 		try {
 			HttpResponse response = client.execute(httpGet);
 
 			AcimfloResultDelete result = HttpClientUtils.convertToJson(response, AcimfloResultDelete.class);
-			LOGGER.info("Delete of reference {} : {}. Msg = {}", new Object[] { prpReference, result.getSuccess(),
-					result.getPhrase() });
+			LOGGER.info("Delete of reference {} : {}. Msg = {}", new Object[] { prp.getReference(),
+					result.getSuccess(), result.getPhrase() });
 
 			if (result.getSuccess()) {
-				servicePartnerExistence.addRequest(EnumPartner.DIAPORAMA, techidForAck,
+				servicePartnerExistence.addRequest(EnumPartner.DIAPORAMA, prp.getTechid(),
 						EnumPartnerRequestType.DELETE_ACK);
-				ws = new WSResult(prpReference, "OK", result.getPhrase());
+				ws = new WSResult(prp.getReference(), "OK", result.getPhrase());
 			} else {
-				ws = new WSResult(prpReference, "KO", result.getPhrase());
+				ws = new WSResult(prp.getReference(), "KO", result.getPhrase());
 			}
 
 		} catch (IOException e) {
@@ -244,6 +261,7 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 			httpGet.releaseConnection();
 		}
 		return ws;
+
 	}
 
 	@Override

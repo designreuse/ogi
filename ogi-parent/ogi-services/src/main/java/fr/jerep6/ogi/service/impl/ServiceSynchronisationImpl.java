@@ -85,7 +85,7 @@ public class ServiceSynchronisationImpl extends AbstractService implements Servi
 				// insert in database add/update request. It will be ack when property will be really updat on partner
 				servicePartnerRequest.addRequest(prt, prpTechid, EnumPartnerRequestType.DELETE);
 
-				WSResult ws = servicePartner.delete(aRef, prpTechid);
+				WSResult ws = servicePartner.delete(serviceRealProperty.readByReference(aRef));
 				results.add(ws);
 			}
 		} catch (IllegalArgumentException iae) {
