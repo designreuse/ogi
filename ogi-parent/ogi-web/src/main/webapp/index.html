@@ -21,7 +21,7 @@
     <script src="js/lib/ui-slider.js"></script>
 
     <!-- File upload -->
-    <script src="js/lib/upload/vendor/jquery.ui.widget.js"></script>
+    <script src="js/lib/upload/jquery.ui.widget.js"></script>
     <script src="js/lib/upload/load-image.min.js"></script>
     <script src="js/lib/upload/jquery.fileupload.js"></script>
     <script src="js/lib/upload/jquery.fileupload-process.js"></script>
@@ -31,38 +31,46 @@
 
 
     <!-- OGI -->
-    <script src="js/utils.js"></script>
-    <script src="js/objects.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/module/config/config.js"></script>
 
-    <script src="js/service/services.js"></script>
-    <script src="js/service/ServiceUtils.js"></script>
+    <!-- Module common -->
+    <script src="js/module/common/common.js"></script>
+    <script src="js/module/common/utils.js"></script>
+    <script src="js/module/common/objects.js"></script>
+    <script src="js/module/common/filter/filters.js"></script>
+    <script src="js/module/common/service/services.js"></script>
+    <script src="js/module/common/service/ServiceUtils.js"></script>
+    <script src="js/module/common/directive/directives.js"></script>
+    <script src="js/module/common/controller/ControllerAlert.js"></script>
+    <script src="js/module/common/controller/ControllerMain.js"></script>
 
-    <script src="js/directive/directives.js"></script>
+    <!-- Module property -->
+    <script src="js/module/property/property.js"></script>
+    <script src="js/module/property/controller/ControllerList.js"></script>
+    <script src="js/module/property/controller/ControllerPrp.js"></script>
+    <script src="js/module/property/controller/ControllerPrpAdd.js"></script>
+    <script src="js/module/property/controller/ControllerPrpModify.js"></script>
+    <script src="js/module/property/controller/ControllerPrpTabGeneral.js"></script>
+    <script src="js/module/property/controller/ControllerPrpTabDesc.js"></script>
+    <script src="js/module/property/controller/ControllerPrpOwner.js"></script>
+    <script src="js/module/property/controller/ControllerPrpTabDocuments.js"></script>
+    <script src="js/module/property/controller/ControllerPrpTabAdministratif.js"></script>
+    <script src="js/module/property/controller/ControllerPrpTabDiagnosis.js"></script>
+    <script src="js/module/property/controller/ControllerPrpTabPartner.js"></script>
 
-    <script src="js/controller/ControllerAlert.js"></script>
-    <script src="js/controller/ControllerMain.js"></script>
-    <script src="js/controller/property/ControllerList.js"></script>
-    <script src="js/controller/property/ControllerPrp.js"></script>
-    <script src="js/controller/property/ControllerPrpAdd.js"></script>
-    <script src="js/controller/property/ControllerPrpModify.js"></script>
-    <script src="js/controller/property/ControllerPrpTabGeneral.js"></script>
-    <script src="js/controller/property/ControllerPrpTabDesc.js"></script>
-    <script src="js/controller/property/ControllerPrpOwner.js"></script>
-    <script src="js/controller/property/ControllerPrpTabDocuments.js"></script>
-    <script src="js/controller/property/ControllerPrpTabAdministratif.js"></script>
-    <script src="js/controller/property/ControllerPrpTabDiagnosis.js"></script>
-    <script src="js/controller/property/ControllerPrpTabPartner.js"></script>
+    <!-- Module owner -->
+    <script src="js/module/owner/owner.js"></script>
+    <script src="js/module/owner/controller/ControllerOwnerList.js"></script>
+    <script src="js/module/owner/controller/ControllerOwnerParent.js"></script>
+    <script src="js/module/owner/controller/ControllerOwnerAdd.js"></script>
+    <script src="js/module/owner/controller/ControllerOwnerModify.js"></script>
 
-    <script src="js/controller/owner/ControllerOwnerList.js"></script>
-    <script src="js/controller/owner/ControllerOwnerParent.js"></script>
-    <script src="js/controller/owner/ControllerOwnerAdd.js"></script>
-    <script src="js/controller/owner/ControllerOwnerModify.js"></script>
-
-    <script src="js/controller/dashboard/ControllerDashboard.js"></script>
+    <!-- Module dashboard -->
+    <script src="js/module/dashboard/dashboard.js"></script>
+    <script src="js/module/dashboard/controller/ControllerDashboard.js"></script>
 
 
-    <script src="js/filter/filters.js"></script>
 
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="theme/font-awesome.css">

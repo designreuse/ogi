@@ -4,15 +4,15 @@ function ControllerPrpParent($scope, Page, $log, $http, ServiceConfiguration, Ut
     // Top menu for active item
     $scope.addMenu = {
         "items" : [
-            { "name" : "owner", "active" : false, "url" : "js/views/property/prpFormTabOwner.html"},
-            { "name" : "prp", "active" : false, "url" : "js/views/property/prpFormTabGeneral.html"},
-            { "name" : "desc", "active" : false, "url" : "js/views/property/prpFormTabDesc.html"},
-            { "name" : "doc", "active" : false, "url" : "js/views/property/prpFormTabDocuments.html"},
-            { "name" : "adminis", "active" : false, "url" : "js/views/property/prpFormTabAdministratif.html"},
-            { "name" : "equipment", "active" : false, "url" : "js/views/formPrpTabGeneral.html"},
-            { "name" : "diagnosis", "active" : false, "url" : "js/views/property/prpFormTabDiagnosis.html"},
-            { "name" : "room", "active" : false, "url" : "js/views/formPrpTabGeneral.html"},
-            { "name" : "partner", "active" : false, "url" : "js/views/property/prpFormTabPartner.html"}
+            { "name" : "owner", "active" : false, "url" : "js/module/property/view/prpFormTabOwner.html"},
+            { "name" : "prp", "active" : false, "url" : "js/module/property/view/prpFormTabGeneral.html"},
+            { "name" : "desc", "active" : false, "url" : "js/module/property/view/prpFormTabDesc.html"},
+            { "name" : "doc", "active" : false, "url" : "js/module/property/view/prpFormTabDocuments.html"},
+            { "name" : "adminis", "active" : false, "url" : "js/module/property/view/prpFormTabAdministratif.html"},
+            { "name" : "equipment", "active" : false, "url" : "js/module/property/view/formPrpTabGeneral.html"},
+            { "name" : "diagnosis", "active" : false, "url" : "js/module/property/view/prpFormTabDiagnosis.html"},
+            { "name" : "room", "active" : false, "url" : "js/module/property/view/formPrpTabGeneral.html"},
+            { "name" : "partner", "active" : false, "url" : "js/module/property/view/prpFormTabPartner.html"}
         ],
 
         clean : function () {

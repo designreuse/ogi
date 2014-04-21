@@ -1,0 +1,7 @@
+<div ng-if="prp.category.code == 'PLT'">
+    <div ng-include="'js/module/property/view/prpFormTabDescPlot.html'"></div>
+</div>
+
+<div ng-if="prp.category.code == 'HSE' || prp.category.code == 'APT'">
+    <div ng-include="'js/module/property/view/prpFormTabDescLivable.html'"></div>
+</div>
