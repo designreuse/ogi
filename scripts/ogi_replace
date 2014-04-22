@@ -1,0 +1,29 @@
+#!/bin/bash
+#Quick and dirty replacement for env variables
+
+TOMCAT_VERSION=7.0.52
+
+PATH_OGI_INSTALL="/home/jerep6/install/ogi/"
+PATTERN_PATH_TOMCAT_WEBAPPS="/home/jerep6/install/apache-tomcat-VERSION/webapps/"
+PATH_TOMCAT_WEBAPPS=${PATTERN_PATH_TOMCAT_WEBAPPS/VERSION/$TOMCAT_VERSION}
+
+#log4j file
+LOG4J_FILE=$PATH_OGI_INSTALL"resources/log4j2.xml"
+sed 's/fileName=".*"/filename="\/home\/jerep6\/install\/ogi\/logs\/app.log"/g' $LOG4J_FILE > $LOG4J_FILE
+
+
+#environment.properties file
+ENVIRONMENT_FILE=$PATH_OGI_INSTALL"resources/properties/environment.properties"
+sed -i 's/document.storage.dir.*$/document.storage.dir =\/home\/jerep6\/install\/ogi\/storage\//g' $ENVIRONMENT_FILE
+
+sed -i 's/partner.acimflo.url.*$/partner.acimflo.url =http:\/\/www.acimflo.com\//g' $ENVIRONMENT_FILE
+
+sed -i 's/partner.diaporama.url.*$/partner.diaporama.url =http:\/\/192.168.1.70\//g' $ENVIRONMENT_FILE
+
+
+
+#ogi-web
+IHM_CONF_FILE=$PATH_TOMCAT_WEBAPPS"ogi-web/js/app.js"
+sed -i 's/API_URL:.*,/API_URL:window.location.protocol+"\/\/"+window.location.hostname+(window.location.port !== '' ? ':'+window.location.port : '')+"ogi-ws",/g' $IHM_CONF_FILE
+
+
