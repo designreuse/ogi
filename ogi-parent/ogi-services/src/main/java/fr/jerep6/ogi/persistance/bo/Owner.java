@@ -67,17 +67,13 @@ public class Owner {
 	@Column(name = "OWN_KEY_NUMBER")
 	private String				keyNumber;
 
-	@ManyToMany
-	@JoinTable(name = "TJ_OWN_PRP",//
-	joinColumns = @JoinColumn(name = "OWN_ID"),//
-	inverseJoinColumns = @JoinColumn(name = "PRO_ID")//
-			)
+	@ManyToMany(mappedBy = "owners")
 	private Set<RealProperty>	properties;
 
 	@ManyToMany
 	@JoinTable(name = "TJ_OWN_ADD", //
 	joinColumns = @JoinColumn(name = "OWN_ID"), //
 	inverseJoinColumns = @JoinColumn(name = "ADD_ID")//
-			)
+	)
 	private Set<Address>		addresses;
 }

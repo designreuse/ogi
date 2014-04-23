@@ -8,11 +8,6 @@
 	<artifactId>ogi-ws</artifactId>
 	<packaging>war</packaging>
 
-	<properties>
-		<maven.compiler.source>7</maven.compiler.source>
-		<maven.compiler.target>7</maven.compiler.target>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>

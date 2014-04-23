@@ -56,8 +56,8 @@ public class WSOwner extends AbstractJaxRsWS {
 		Owner ownersBo = mapper.map(owner, Owner.class);
 		// Pas d'update directement avec l'objet recu de la requete car sinon hibernate supprime l'adresse
 		// puis la recrée.
-		serviceOwner.createOrUpdate(ownersBo);
-		return owner;
+		Owner ownerInsert = serviceOwner.createOrUpdate(ownersBo);
+		return mapper.map(ownerInsert, OwnerTo.class);
 	}
 
 	@DELETE

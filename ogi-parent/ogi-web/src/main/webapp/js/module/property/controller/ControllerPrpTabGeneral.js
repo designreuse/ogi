@@ -78,7 +78,6 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
     function updateGPS(lat, lng) {
         $scope.saveData.address.latitude = lat;
         $scope.saveData.address.longitude = lng;
-        $scope.formPrp.$setDirty(true);
     }
 
     $scope.usePlace = function (index) {
@@ -129,8 +128,6 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
             }
         }
         $scope.queue.splice(index, 1);
-
-        $scope.formPrp.$setDirty(true);
     });
 
 

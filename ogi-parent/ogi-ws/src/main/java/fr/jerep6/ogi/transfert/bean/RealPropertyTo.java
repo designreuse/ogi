@@ -48,4 +48,6 @@ public class RealPropertyTo {
 	private RentTo							rent;
 	private String							sanitation;
 
+	// Owners. Only set by IHM to associate it with prp
+	private List<Integer>					owners;
 }

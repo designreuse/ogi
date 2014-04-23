@@ -1,6 +1,7 @@
 package fr.jerep6.ogi.service;
 
 import java.util.List;
+import java.util.Set;
 
 import fr.jerep6.ogi.framework.service.TransactionalService;
 import fr.jerep6.ogi.persistance.bo.Owner;
@@ -36,4 +37,6 @@ public interface ServiceOwner extends TransactionalService<Owner, Integer> {
 	 *            fonctional reference of property
 	 */
 	void deleteProperty(Integer ownerTechid, String prpRef);
+
+	Set<Owner> read(Set<Integer> techids);
 }

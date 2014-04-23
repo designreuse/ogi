@@ -1,4 +1,4 @@
-function ControllerPrpAdd($scope, Page, $injector, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log) {
+function ControllerPrpAdd($scope, Page, $injector, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log, $location) {
     $injector.invoke(ControllerPrpParent, this, {$scope: $scope, Page:Page, $log:$log, $http:$http, ServiceConfiguration:ServiceConfiguration});
 
     // Get information about current type
@@ -13,13 +13,22 @@ function ControllerPrpAdd($scope, Page, $injector, $routeParams, ServiceConfigur
             $http.post(ServiceConfiguration.API_URL+"/rest/property/", $scope.prp)
                 .success(function (data, status) {
                     ServiceAlert.addSuccess("Ajout du bien OK");
-                    $scope.prp = new PropertyJS(data);
+                    $location.url("/biens/modifier/"+data.reference);
 
-                    // Reset form to indicate that prp is saved
-                    $scope.formPrp.$setPristine(true);
                 });
         });
     }
+
+    /**
+     * Craft url to create a owner from property module. Only when type/category is read
+     * @returns {string}
+     */
+    $scope.urlOwnerCreate = "";
+    $scope.httpGetCurrentType.success(function () {
+        var url = "#/proprietaires/ajouter/?";
+        url +="prpCategory="+$routeParams.type;
+        $scope.urlOwnerCreate = url;
+    });
 
 }
 

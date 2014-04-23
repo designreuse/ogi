@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -25,6 +26,7 @@ import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
 import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.Description;
 import fr.jerep6.ogi.persistance.bo.Document;
+import fr.jerep6.ogi.persistance.bo.Owner;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyBuilt;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
@@ -40,6 +42,7 @@ import fr.jerep6.ogi.service.ServiceDescription;
 import fr.jerep6.ogi.service.ServiceDiagnosis;
 import fr.jerep6.ogi.service.ServiceDocument;
 import fr.jerep6.ogi.service.ServiceEquipment;
+import fr.jerep6.ogi.service.ServiceOwner;
 import fr.jerep6.ogi.service.ServiceRealProperty;
 import fr.jerep6.ogi.service.ServiceRent;
 import fr.jerep6.ogi.service.ServiceSale;
@@ -90,6 +93,9 @@ ServiceRealProperty {
 	private ServiceDPE			serviceDPE;
 
 	@Autowired
+	private ServiceOwner		serviceOwner;
+
+	@Autowired
 	private OrikaMapperService	mapper;
 
 	/**
@@ -107,7 +113,7 @@ ServiceRealProperty {
 
 	@Override
 	public RealProperty createFromBusinessFields(RealProperty propertyFromJson) {
-		RealProperty prp = propertyFromJson;
+		RealProperty prp = mapper.map(propertyFromJson, RealProperty.class);
 
 		// Reference is not set by IHM => compute it
 		if (Strings.isNullOrEmpty(prp.getReference())) {
@@ -115,15 +121,9 @@ ServiceRealProperty {
 			prp.setReference(computeReference(cat));
 		}
 
-		return createOrUpdateFromBusinessFields(propertyFromJson, propertyFromJson, true);
+		return createOrUpdateFromBusinessFields(prp, propertyFromJson, true);
 	}
 
-	/**
-	 * <ul>
-	 * <li>Si la référence du bien est renseignée => lecture du bien et modification</li>
-	 * <li>Si pas de référence (ie nouveau bien) => enregistrement</li>
-	 * </ul>
-	 */
 	private RealProperty createOrUpdateFromBusinessFields(RealProperty prp, RealProperty propertyFromJson,
 			Boolean create) {
 		Preconditions.checkNotNull(prp);
@@ -224,6 +224,12 @@ ServiceRealProperty {
 			 */
 		}
 
+		// Owners
+		Set<Integer> ownersTechid = propertyFromJson.getOwners().stream().map(o -> o.getTechid())
+				.collect(Collectors.<Integer> toSet());
+		Set<Owner> owners = serviceOwner.read(ownersTechid);
+		prp.setOwners(owners);
+
 		// Documents
 		Set<Document> documents = serviceDocument.merge(prp.getReference(), prp.getDocuments(),
 				propertyFromJson.getDocuments());
@@ -285,6 +291,7 @@ ServiceRealProperty {
 
 			// Map into object read from BD simples fields
 			mapper.map(propertyFromJson, prp);
+
 		} else {
 			throw new BusinessException(EnumBusinessErrorProperty.NO_REFERENCE);
 		}

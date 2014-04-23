@@ -1,4 +1,5 @@
-function ControllerOwnerModify($scope, Page, $injector, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log, Utils) {
+function ControllerOwnerModify($scope, Page, $injector, $routeParams, ServiceConfiguration,
+                               ServiceAlert, $http, $log, Utils) {
     $injector.invoke(ControllerOwnerParent, this, {$scope: $scope, $log:$log, $http:$http, ServiceConfiguration:ServiceConfiguration});
 
     // Lecture du propriétaire lié au bien
@@ -14,11 +15,12 @@ function ControllerOwnerModify($scope, Page, $injector, $routeParams, ServiceCon
             ServiceAlert.addAlert(status + " : " +data)
         });
 
-    $scope.update = function() {
+    $scope.save = function() {
         $scope.updateTechnical( function() {
             $http.put(ServiceConfiguration.API_URL+"/rest/owner/"+$scope.owner.techid, $scope.owner)
                 .success($scope.callbackSuccess)
                 .error($scope.callbackError);
         });
     }
+
 }

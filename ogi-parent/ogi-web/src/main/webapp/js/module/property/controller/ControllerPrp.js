@@ -1,4 +1,4 @@
-function ControllerPrpParent($scope, Page, $log, $http, ServiceConfiguration, Utils, ServiceAlert) {
+function ControllerPrpParent($scope, Page, $log, $http, $routeParams, ServiceConfiguration, Utils, ServiceAlert) {
     $scope.formCreate = true;
 
     // Top menu for active item
@@ -38,7 +38,7 @@ function ControllerPrpParent($scope, Page, $log, $http, ServiceConfiguration, Ut
             return itemActive;
         }
     };
-    $scope.addMenu.select("prp");
+    $scope.addMenu.select("owner");
 
     /**
      * Le flux json doit contenir le type du bien car en java, il y a un héritage. Il faut donc connaitre la classe
@@ -64,6 +64,8 @@ function ControllerPrpParent($scope, Page, $log, $http, ServiceConfiguration, Ut
     $scope.updateTechnical = function(fn) {
         $scope.prp.mappingType= getMappingType($scope.prp.category.code);
         $scope.prp.address = $scope.saveData.address.isEmpty() ? null : $scope.saveData.address;
+        // Send only techid
+        $scope.prp.owners = $scope.saveData.ownersProperty.map(function(owner) {return owner.techid});
 
         fn();
     }
@@ -82,14 +84,7 @@ function ControllerPrpParent($scope, Page, $log, $http, ServiceConfiguration, Ut
         parking:null,
         type:null,
         address: Object.create(address),
-        addressesOwner: [Object.create(address)]
+        addressesOwner: [Object.create(address)],
+        ownersProperty: []
     };
-
-    // Ce controler parent stocke également le propriétaire car le bouton de validation n'est pas dans le scope du ControllerOwner
-    $scope.owner = null;
-    // Il est impossible de réallouer une variable dans les controller fils. Utilise donc une fonction
-    $scope.setOwner = function(o) {
-        $scope.owner = o;
-    }
-
 }

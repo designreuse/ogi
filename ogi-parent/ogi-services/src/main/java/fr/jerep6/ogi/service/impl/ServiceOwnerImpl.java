@@ -1,5 +1,6 @@
 package fr.jerep6.ogi.service.impl;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -12,6 +13,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.base.Strings;
+
+import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessErrorOwner;
+import fr.jerep6.ogi.framework.exception.BusinessException;
+import fr.jerep6.ogi.framework.exception.MultipleBusinessException;
 import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
 import fr.jerep6.ogi.persistance.bo.Address;
 import fr.jerep6.ogi.persistance.bo.Owner;
@@ -49,6 +55,8 @@ public class ServiceOwnerImpl extends AbstractTransactionalService<Owner, Intege
 
 	@Override
 	public Owner createOrUpdate(Owner owner) {
+		validate(owner);
+
 		if (owner.getTechid() != null) {
 			Owner ownerBD = read(owner.getTechid());
 			// Mapper don't map addresses and properties association
@@ -78,8 +86,27 @@ public class ServiceOwnerImpl extends AbstractTransactionalService<Owner, Intege
 	}
 
 	@Override
+	public Set<Owner> read(Set<Integer> techids) {
+		return new HashSet<>(daoOwner.read(techids));
+	}
+
+	@Override
 	public List<Owner> readByProperty(String prpRef) {
 		return daoOwner.readByProperty(prpRef);
+	}
+
+	@Override
+	public void validate(Owner bo) throws BusinessException {
+		if (bo == null) {
+			return;
+		}
+		MultipleBusinessException mbe = new MultipleBusinessException();
+
+		if (Strings.isNullOrEmpty(bo.getSurname())) {
+			mbe.add(EnumBusinessErrorOwner.NO_SURNAME);
+		}
+
+		mbe.checkErrors();
 	}
 
 }

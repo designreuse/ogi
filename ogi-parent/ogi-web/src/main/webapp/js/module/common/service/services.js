@@ -28,7 +28,7 @@ myApp.factory('ServiceObjectChecked', function(){
 
 
 myApp.factory('ServiceAlert', function(Utils){
-    var NB_ALERT_MAX = 3;
+    var NB_ALERT_MAX = 1;
     var alerts = [ ];
     return {
         addSuccess:function(msg){

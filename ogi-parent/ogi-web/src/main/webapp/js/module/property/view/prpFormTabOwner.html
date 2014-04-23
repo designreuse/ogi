@@ -1,17 +1,23 @@
 <div ng-controller="ControllerPrpTabOwner">
-    <h2>Propriétaires du bien <span class="label label-default">{{ownersProperty.length}}</span></h2>
+    <h3>Propriétaires du bien <span class="label label-default">{{saveData.ownersProperty.length}}</span></h3>
     <table class="table table-condensed" ng-if="displayZoneOwnerLink()">
         <thead>
         <tr>
             <th>Nom</th>
-            <th>Prénom</th>
+            <th>Téléphones</th>
+            <th>Clé</th>
             <th style="width:20%">Actions</th>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="o in ownersProperty">
-            <td>{{o.surname}}</td>
-            <td>{{o.firstname}}</td>
+        <tr ng-repeat="o in saveData.ownersProperty">
+            <td>{{o.firstname}} {{o.surname}}</td>
+            <td>
+                {{o.phoneMobile}}
+                <br ng-if="o.phoneMobile"/>
+                {{o.phoneHome}}
+            </td>
+            <td>{{o.keyNumber}}</td>
             <td style="vertical-align:middle">
                 <div class="btn-group btn-group-action">
                     <a class="btn"href="#/proprietaires/modifier/{{o.techid}}" title="Voir"><i class="glyphicon glyphicon-eye-open"></i></a>
@@ -21,30 +27,34 @@
         </tr>
         </tbody>
     </table>
-    <p ng-if="!displayZoneOwnerLink()">Le bien n'est associé à aucun propriétaire</p>
-
-
-    <hr />
-    <h2>Liste des propriétaires</h2>
-    <div class="form-group">
-        <label for="inputSearch" class="col-xs-4 control-label">Rechercher dans la liste (par le nom)</label>
-        <div class="col-xs-8">
-            <input ng-model="searchText.surname" type="text" class="form-control" id="inputSearch" />
-        </div>
+    <div ng-if="!displayZoneOwnerLink()">
+        <p>Le bien n'est associé à aucun propriétaire</p>
+        <p class="center"><a href="{{urlOwnerCreate}}" class="btn btn-primary">Créer un propriétaire</a></p>
     </div>
+    <hr />
 
+    <h3>Liste des propriétaires de l'agence</h3>
+    <input ng-model="searchText.surname" type="text" class="form-control" id="inputSearch" placeholder="Saissisez le nom du propriétaire à rechercher"/>
+
+    <br />
     <table class="table table-condensed">
         <thead>
         <tr>
             <th>Nom</th>
-            <th>Prénom</th>
+            <th>Téléphones</th>
+            <th>Clé</th>
             <th style="width:20%">Actions</th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="o in owners | filter:searchText | orderBy:'surname'">
-            <td>{{o.surname}}</td>
-            <td>{{o.firstname}}</td>
+            <td>{{o.firstname}} {{o.surname}}</td>
+            <td>
+                {{o.phoneMobile}}
+                <br ng-if="o.phoneMobile"/>
+                {{o.phoneHome}}
+            </td>
+            <td>{{o.keyNumber}}</td>
             <td style="vertical-align:middle">
                 <div class="btn-group btn-group-action">
                     <a class="btn" href="#/proprietaires/modifier/{{o.techid}}" title="Voir"><i class="glyphicon glyphicon-eye-open"></i></a>
