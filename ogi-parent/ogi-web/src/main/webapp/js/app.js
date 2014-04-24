@@ -6,5 +6,5 @@ var myApp = angular.module('myApp',
 
 // ###### ROUTES ######
 myApp.config(['$routeProvider', function($routeProvider) {
-    $routeProvider.otherwise({redirectTo: '/dashboard'});
+    $routeProvider.otherwise({redirectTo: '/biens'});
 }]);
