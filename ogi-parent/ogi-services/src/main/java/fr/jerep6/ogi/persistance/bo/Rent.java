@@ -33,6 +33,9 @@ public class Rent {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer			techid;
 
+	@Column(name = "REN_MAND_REFERENCE", unique = true, length = 64)
+	private String			mandateReference;
+
 	@Column(name = "REN_FREE_DATE")
 	@Temporal(TemporalType.DATE)
 	private Calendar		freeDate;

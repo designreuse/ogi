@@ -13,6 +13,7 @@ import lombok.ToString;
 @EqualsAndHashCode(of = { "techid" })
 public class RentTo {
 	private Integer		techid;
+	private String		mandateReference;
 	private Calendar	freeDate;
 	private Boolean		exclusive;
 	private Float		price;
