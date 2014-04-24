@@ -39,7 +39,7 @@ public class Owner {
 	@Column(name = "OWB_FIRSTNAME")
 	private String				firstname;
 
-	@Column(name = "OWN_SURNAME")
+	@Column(name = "OWN_SURNAME", nullable = false)
 	private String				surname;
 
 	@Column(name = "OWN_BIRTHDATE")
@@ -74,6 +74,6 @@ public class Owner {
 	@JoinTable(name = "TJ_OWN_ADD", //
 	joinColumns = @JoinColumn(name = "OWN_ID"), //
 	inverseJoinColumns = @JoinColumn(name = "ADD_ID")//
-	)
+			)
 	private Set<Address>		addresses;
 }
