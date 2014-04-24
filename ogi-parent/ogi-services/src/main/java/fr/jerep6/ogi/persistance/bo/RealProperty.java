@@ -1,11 +1,10 @@
 package fr.jerep6.ogi.persistance.bo;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -32,11 +31,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import org.springframework.util.CollectionUtils;
-
 import com.google.common.base.Objects;
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
 
 import fr.jerep6.ogi.enumeration.EnumDescriptionType;
 import fr.jerep6.ogi.enumeration.EnumDocumentType;
@@ -96,7 +91,7 @@ public class RealProperty {
 	@JoinTable(name = "TJ_PRP_EQP", //
 	joinColumns = @JoinColumn(name = "PRO_ID"), //
 	inverseJoinColumns = @JoinColumn(name = "EQP_ID")//
-	)
+			)
 	private Set<Equipment>				equipments			= new HashSet<>(0);
 
 	@ManyToOne
@@ -111,7 +106,7 @@ public class RealProperty {
 	@JoinTable(name = "TJ_PRP_DOC",//
 	joinColumns = @JoinColumn(name = "PRO_ID"),//
 	inverseJoinColumns = @JoinColumn(name = "DOC_ID")//
-	)
+			)
 	private Set<Document>				documents			= new HashSet<>(0);
 
 	@OneToMany(mappedBy = "pk.property", cascade = CascadeType.ALL)
@@ -121,7 +116,7 @@ public class RealProperty {
 	@JoinTable(name = "TJ_PRP_OWN",//
 	joinColumns = @JoinColumn(name = "PRP_ID"),//
 	inverseJoinColumns = @JoinColumn(name = "OWN_ID")//
-	)
+			)
 	private Set<Owner>					owners				= new HashSet<>(0);
 
 	@OneToMany(mappedBy = "property")
@@ -154,19 +149,9 @@ public class RealProperty {
 	}
 
 	public List<Document> getPhotos() {
-		List<Document> photos;
-		if (!CollectionUtils.isEmpty(documents)) {
-			photos = new ArrayList<>(Collections2.filter(documents, new Predicate<Document>() {
-				@Override
-				public boolean apply(Document d) {
-					return EnumDocumentType.PHOTO.equals(d.getType());
-				}
-			}));
-		} else {
-			photos = new ArrayList<>(0);
-		}
-
-		Collections.sort(photos);
+		List<Document> photos = documents.stream().filter(d -> EnumDocumentType.PHOTO.equals(d.getType()))//
+				.sorted()//
+				.collect(Collectors.<Document> toList());
 		return photos;
 	}
 

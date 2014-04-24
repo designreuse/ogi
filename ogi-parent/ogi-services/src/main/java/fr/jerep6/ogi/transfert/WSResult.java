@@ -41,7 +41,11 @@ public class WSResult {
 		return new WSResult(reference, c, msg.toString());
 	}
 
+	public boolean isError() {
+		return RESULT_KO.equals(code);
+	}
+
 	public boolean isSuccess() {
-		return RESULT_OK.equals(code) || RESULT_WAIT.equals(code);
+		return RESULT_OK.equals(code);
 	}
 }

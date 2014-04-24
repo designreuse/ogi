@@ -33,7 +33,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -42,8 +41,6 @@ import com.google.common.base.Strings;
 
 import fr.jerep6.ogi.enumeration.EnumDPE;
 import fr.jerep6.ogi.enumeration.EnumDescriptionType;
-import fr.jerep6.ogi.enumeration.EnumPartner;
-import fr.jerep6.ogi.enumeration.EnumPartnerRequestType;
 import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessErrorPartner;
 import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessErrorProperty;
 import fr.jerep6.ogi.exception.technical.NetworkTechnicalException;
@@ -51,13 +48,13 @@ import fr.jerep6.ogi.framework.exception.BusinessException;
 import fr.jerep6.ogi.framework.exception.MultipleBusinessException;
 import fr.jerep6.ogi.framework.service.impl.AbstractService;
 import fr.jerep6.ogi.framework.utils.ObjectUtils;
+import fr.jerep6.ogi.framework.utils.StringUtils;
 import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.Description;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyBuilt;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 import fr.jerep6.ogi.persistance.bo.Rent;
-import fr.jerep6.ogi.service.ServicePartnerRequest;
 import fr.jerep6.ogi.service.external.ServicePartner;
 import fr.jerep6.ogi.service.external.transfert.AcimfloResultDelete;
 import fr.jerep6.ogi.service.external.transfert.AcimfloResultExist;
@@ -99,9 +96,6 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 	@Value("${httpclient.timeout.socket}")
 	private Integer								timeoutSocket;
 
-	@Autowired
-	private ServicePartnerRequest				servicePartnerExistence;
-
 	private WSResult broadcast(HttpClient client, RealProperty prp, String reference, String mode, String prefixeMap) {
 		String referer = config.get(mode).get(prefixeMap + ".referer").replace("$reference", reference);
 		String url = config.get(mode).get(prefixeMap + ".url").replace("$reference", reference);
@@ -130,6 +124,9 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 			httpPost.setEntity(builder.build());
 			httpPost.addHeader("Referer", referer);
 
+			// Delete all documents before update/create property on partner. This is for update.
+			deleteDocuments(client, mode, reference);
+
 			HttpResponse response = client.execute(httpPost);
 			LOGGER.info("Response code for create/update = {}", response.getStatusLine().getStatusCode());
 
@@ -142,10 +139,6 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 				result = new WSResult(prp.getReference(), "KO", msg);
 			} else {
 				result = new WSResult(prp.getReference(), "OK", msg);
-
-				// Add ack
-				servicePartnerExistence.addRequest(EnumPartner.ACIMFLO, prp.getTechid(),
-						EnumPartnerRequestType.ADD_UPDATE_ACK);
 			}
 		} catch (IOException e) {
 			LOGGER.error("Error broadcast property " + prp.getReference() + " on acimflo", e);
@@ -204,25 +197,14 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 			// ###### Photos ######
 			builder.addPart("MAX_FILE_SIZE", new StringBody("5010000", ContentType.TEXT_PLAIN));
 
-			// Il ne faut pas uploader l'image d'apercu lors d'une modification car sinon elle sera présente deux fois.
-			// Une fois en Apercu.jpg et une deuxième fois sous son vrai nom
-			String urlApercu = imgApercu.replace("$reference", reference);
-			HttpGet getApercu = new HttpGet(urlApercu);
-			HttpResponse apercuResponse = client.execute(getApercu);
-			LOGGER.info("Response code for {} = {}", urlApercu, apercuResponse.getStatusLine().getStatusCode());
-			boolean uploadApercu = apercuResponse.getStatusLine().getStatusCode() != 200;
-			getApercu.releaseConnection();
-
 			Integer apercu = 1;
 			Integer i = 1;
 			for (fr.jerep6.ogi.persistance.bo.Document aPhoto : prp.getPhotos()) {
 				Path p = aPhoto.getAbsolutePath();
 				ContentType mime = ContentType.create(Files.probeContentType(p));
 
-				// Upload photo number 1 only if apercu.jpg doesn't exist
-				if (uploadApercu && aPhoto.getOrder().equals(1) || !aPhoto.getOrder().equals(1)) {
-					builder.addPart("photos[]", new FileBody(p.toFile(), mime, p.getFileName().toString()));
-				}
+				builder.addPart("photos[]",
+						new FileBody(p.toFile(), mime, StringUtils.stripAccents(p.getFileName().toString())));
 
 				// If photo is order 1 (ie apercu) => save its rank
 				if (aPhoto.getOrder().equals(1)) {
@@ -364,18 +346,25 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 		WSResult r = new WSResult(prp.getReference(), "OK", "");
 		// Delete sale
 		if (prp.getSale() != null) {
-			r.combine(delete(prp, Functions::computeSaleReference, client));
+			r = r.combine(delete(prp, Functions::computeSaleReference, client));
 		}
 		if (prp.getRent() != null) {
-			r.combine(delete(prp, Functions::computeRentReference, client));
+			r = r.combine(delete(prp, Functions::computeRentReference, client));
 		}
 
 		return r;
 	}
 
 	private WSResult delete(RealProperty prp, Function<String, String> computeReference, HttpClient client) {
+		String reference = computeReference.apply(prp.getReference());
+
+		// If property doesn't exist => nothing to do
+		if (!exist(reference)) {
+			return new WSResult(prp.getReference(), "OK", "Le bien n'existe pas sur le site acimflo");
+		}
+
+		HttpGet httpGet = new HttpGet(deleteUrl.replace("$reference", reference));
 		WSResult ws;
-		HttpGet httpGet = new HttpGet(deleteUrl.replace("$reference", computeReference.apply(prp.getReference())));
 		try {
 			HttpResponse response = client.execute(httpGet);
 
@@ -384,8 +373,6 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 					result.getSuccess(), result.getPhrase() });
 
 			if (result.getSuccess()) {
-				servicePartnerExistence.addRequest(EnumPartner.ACIMFLO, prp.getTechid(),
-						EnumPartnerRequestType.DELETE_ACK);
 				ws = new WSResult(prp.getReference(), "OK", result.getPhrase());
 			} else {
 				ws = new WSResult(prp.getReference(), "KO", result.getPhrase());
@@ -398,6 +385,15 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 		}
 
 		return ws;
+	}
+
+	private void deleteDocuments(HttpClient client, String mode, String reference) throws IOException {
+		String url = config.get(mode).get("document.delete.url").replace("$reference", reference);
+
+		HttpGet httpGet = new HttpGet(url);
+		client.execute(httpGet);
+
+		httpGet.releaseConnection();
 	}
 
 	@Override

@@ -14,11 +14,14 @@
             <tr ng-repeat="p in partners">
                 <td><img title="{{p.name}}" ng-src="{{p.img}}" /></td>
                 <td><img ng-if="p.exist == null" ng-src="img/loading.gif" /><span ng-if="p.exist != null">{{p.exist | boolean}}</span></td>
-                <td><span ng-if="p.lastRequest">{{p.lastRequest.label}} le {{p.lastRequest.modificationDate | date:'medium'}}</span></td>
+                <td>
+                    <span ng-if="p.lastRequest && !p.disable">{{p.lastRequest.label}} le {{p.lastRequest.modificationDate | date:'medium'}}</span>
+                    <div ng-if="p.disable" class="text-center">Attente de la réponse du serveur. <br /><br /><img src="img/loading.gif" /></div>
+                </td>
                 <td>
                     <div class="btn-group btn-group-action">
-                        <a class="btn glyphicon glyphicon-upload" ng-click="synchronize(p)" title="Ajouter ou modifier"></a>
-                        <a class="btn glyphicon glyphicon-remove-circle" ng-click="delete(p)" title="Supprimer"></a>
+                        <button ng-disabled="p.disable" class="btn glyphicon glyphicon-upload" ng-click="synchronize(p)" title="Ajouter ou modifier"></button>
+                        <button ng-disabled="p.disable" class="btn glyphicon glyphicon-remove-circle" ng-click="delete(p)" title="Supprimer"></button>
                     </div>
 
                 </td>

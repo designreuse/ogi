@@ -75,6 +75,7 @@
 		<entry key="update.url" value="${partner.acimflo.sale.update.url}" />
 		<entry key="update.referer" value="${partner.acimflo.sale.update.referer}" />
 		<entry key="apercu.url" value="${partner.acimflo.sale.apercu.url}" />
+		<entry key="document.delete.url" value="${partner.acimflo.sale.document.delete.url}" />
 	</util:map>
 	
 	<util:map id="acimfloMapRent">
@@ -83,6 +84,7 @@
 		<entry key="update.url" value="${partner.acimflo.rent.update.url}" />
 		<entry key="update.referer" value="${partner.acimflo.rent.update.referer}" />
 		<entry key="apercu.url" value="${partner.acimflo.rent.apercu.url}" />
+		<entry key="document.delete.url" value="${partner.acimflo.rent.document.delete.url}" />
 	</util:map>
 	
 	

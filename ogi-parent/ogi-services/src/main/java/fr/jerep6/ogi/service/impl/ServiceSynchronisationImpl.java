@@ -60,6 +60,10 @@ public class ServiceSynchronisationImpl extends AbstractService implements Servi
 
 				// Create or update property on external website
 				WSResult ws = servicePartner.createOrUpdate(prp);
+				// Add ack
+				if (ws.isSuccess()) {
+					servicePartnerRequest.addRequest(prt, prp.getTechid(), EnumPartnerRequestType.ADD_UPDATE_ACK);
+				}
 
 				results.add(ws);
 			}
@@ -86,6 +90,9 @@ public class ServiceSynchronisationImpl extends AbstractService implements Servi
 				servicePartnerRequest.addRequest(prt, prpTechid, EnumPartnerRequestType.DELETE);
 
 				WSResult ws = servicePartner.delete(serviceRealProperty.readByReference(aRef));
+				if (ws.isSuccess()) {
+					servicePartnerRequest.addRequest(prt, prpTechid, EnumPartnerRequestType.DELETE_ACK);
+				}
 				results.add(ws);
 			}
 		} catch (IllegalArgumentException iae) {
