@@ -10,7 +10,6 @@
         <table class="table table-condensed">
             <thead>
             <tr>
-                <th></th>
                 <th>Référence</th>
                 <th>Type</th>
                 <th>Ville</th>
@@ -21,7 +20,6 @@
             </thead>
             <tbody>
                 <tr ng-repeat="prp in properties">
-                    <td><input type="checkbox" value="{{prp.reference}}" ng-model="prp.checked"/></td>
                     <td data-title="'reference'" sortable="reference">{{prp.reference}}</td>
                     <td>{{prp.category.label}}</td>
                     <td>{{prp.address.city}}</td>
