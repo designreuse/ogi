@@ -28,8 +28,8 @@
                     <td><span ng-bind-html="o.properties | prpLink"></span></td>
                     <td>
                         <div class="btn-group btn-group-action">
-                            <a href="#/proprietaires/modifier/{{o.techid}}" class="btn"><i class="glyphicon glyphicon-edit"></i></a>
-                            <a class="btn" ng-click="delete($index)"><i class="glyphicon glyphicon-remove-circle"></i></a>
+                            <a title="Modifier" href="#/proprietaires/modifier/{{o.techid}}" class="btn"><i class="glyphicon glyphicon-edit"></i></a>
+                            <button title="Supprimer" class="btn" ng-click="delete($index)"><i class="glyphicon glyphicon-remove-circle"></i></button>
                         </div>
                     </td>
                 </tr>
