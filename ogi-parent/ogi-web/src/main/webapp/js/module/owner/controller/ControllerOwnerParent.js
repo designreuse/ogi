@@ -21,7 +21,7 @@ function ControllerOwnerParent($scope, $injector, ServiceConfiguration, ServiceA
         ServiceAlert.addSuccess("Enregistrement du propriétaire OK");
     };
     $scope.callbackError = function (data, status) {
-        ServiceAlert.addError("Erreur lors de l'enregistrement du propriétaire :"+data.message);
+        ServiceAlert.addError("Erreur lors de l'enregistrement du propriétaire : "+ServiceAlert.formatErrors(data.errors));
     }
 
 
