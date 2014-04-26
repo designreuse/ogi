@@ -28,7 +28,7 @@ import fr.jerep6.ogi.enumeration.EnumPartnerRequestType;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode(of = { "partner", "property" })
+@EqualsAndHashCode(of = { "techid" })
 public class PartnerRequest {
 	@Id
 	@Column(name = "REQ_ID", unique = true, nullable = false)
