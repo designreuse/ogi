@@ -15,9 +15,9 @@ var address = {
 };
 
 var description = {
-    ETAT : {"type": "ETAT", "label": ""},
     APP : {"type": "APP", "label": ""},
-    "VITRINE" : {"type": "VITRINE", "label": ""},
+    CLIENT : {"type": "CLIENT", "label": ""},
+    VITRINE : {"type": "VITRINE", "label": ""},
     WEBSITE_PERSO : {"type": "WEBSITE_PERSO", "label": ""},
     WEBSITE_AUTRE : {"type": "WEBSITE_AUTRE", "label": ""}
 };

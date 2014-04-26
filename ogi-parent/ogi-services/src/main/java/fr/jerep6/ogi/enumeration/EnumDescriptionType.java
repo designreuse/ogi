@@ -10,7 +10,7 @@ public enum EnumDescriptionType {
 	WEBSITE_OWN("WEBSITE_PERSO"), //
 	WEBSITE_OTHER("WEBSITE_AUTRE"), //
 	APP("APP"), //
-	STATE("ETAT"); //
+	CLIENT("CLIENT"); //
 
 	/**
 	 * Get the enumeration from this code
