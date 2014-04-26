@@ -12,7 +12,7 @@ public interface ServicePartner extends Service {
 
 	WSResult createOrUpdate(RealProperty prp);
 
-	Boolean exist(String prpReference);
+	Boolean exist(RealProperty prp);
 
 	/**
 	 * Delete a property from partner.

@@ -109,7 +109,7 @@ public class ServiceSynchronisationImpl extends AbstractService implements Servi
 			// Predicate : if enumPartner exist, servicePartner have to exist
 			ServicePartner servicePartner = partners.get(prt);
 
-			result = servicePartner.exist(prpReference);
+			result = servicePartner.exist(serviceRealProperty.readByReference(prpReference));
 		} catch (IllegalArgumentException iae) {
 			LOGGER.warn("Unknow partner {}. Exception = ", partner, iae.getMessage());
 

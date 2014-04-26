@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
 import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessErrorPartner;
@@ -233,7 +234,7 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 		String reference = computeReference.apply(prp.getReference());
 
 		// If property doesn't exist => nothing to do
-		if (!exist(reference)) {
+		if (!exist(prp)) {
 			return new WSResult(prp.getReference(), "OK", "Le bien n'existe pas sur le diaporama");
 		}
 
@@ -262,14 +263,15 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 	}
 
 	@Override
-	public Boolean exist(String prpReference) {
+	public Boolean exist(RealProperty prp) {
+		Preconditions.checkNotNull(prp);
 		CookieHandler.setDefault(new CookieManager());
 		HttpClient client = HttpClientBuilder.create().setRedirectStrategy(new LaxRedirectStrategy()).build();
 
 		// Connection to acimflo => session id is keeped
 		connect(client);
 
-		return prpExist(client, prpReference);
+		return prpExist(client, prp.getReference());
 	}
 
 	/**

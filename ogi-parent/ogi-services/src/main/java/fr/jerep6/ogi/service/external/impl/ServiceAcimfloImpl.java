@@ -359,7 +359,7 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 		String reference = computeReference.apply(prp.getReference());
 
 		// If property doesn't exist => nothing to do
-		if (!exist(reference)) {
+		if (!prpExist(client, reference)) {
 			return new WSResult(prp.getReference(), "OK", "Le bien n'existe pas sur le site acimflo");
 		}
 
@@ -397,14 +397,24 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 	}
 
 	@Override
-	public Boolean exist(String prpReference) {
+	public Boolean exist(RealProperty prp) {
 		CookieHandler.setDefault(new CookieManager());
 		HttpClient client = HttpClientBuilder.create().setRedirectStrategy(new LaxRedirectStrategy()).build();
 
 		// Connection to acimflo => session id is keeped
 		connect(client);
 
-		return prpExist(client, prpReference);
+		Boolean existSale = false;
+		if (prp.getSale() != null) {
+			existSale = prpExist(client, Functions.computeSaleReference(prp.getReference()));
+		}
+
+		Boolean existRent = false;
+		if (prp.getRent() != null) {
+			existRent = prpExist(client, Functions.computeRentReference(prp.getReference()));
+		}
+
+		return existSale || existRent;
 	}
 
 	/**

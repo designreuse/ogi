@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
 import fr.jerep6.ogi.enumeration.EnumDescriptionType;
@@ -44,11 +45,10 @@ public class ServiceSeLogerImpl extends AbstractService implements ServicePartne
 	}
 
 	@Override
-	public Boolean exist(String prpReference) {
-		Integer prpTechid = serviceRealProperty.readTechid(prpReference);
-
+	public Boolean exist(RealProperty prp) {
+		Preconditions.checkNotNull(prp);
 		// Détermine si le bien existe à partir du journal des demandes
-		boolean b = servicePartnerExistence.lastRequestIs(EnumPartner.SE_LOGER, prpTechid,
+		boolean b = servicePartnerExistence.lastRequestIs(EnumPartner.SE_LOGER, prp.getTechid(),
 				EnumPartnerRequestType.ADD_UPDATE, EnumPartnerRequestType.ADD_UPDATE_ACK);
 		return b;
 	}
