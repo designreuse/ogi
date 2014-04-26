@@ -67,7 +67,7 @@ public class ServiceSeLogerImpl extends AbstractService implements ServicePartne
 		}
 		if (item.getSale() != null) {
 			if (Strings.isNullOrEmpty(item.getSale().getMandateReference())) {
-				mbe.add(EnumBusinessErrorProperty.NO_MANDAT_REFERENCE, item.getReference());
+				mbe.add(EnumBusinessErrorProperty.NO_MANDAT_REFERENCE_SALE, item.getReference());
 			}
 		}
 
