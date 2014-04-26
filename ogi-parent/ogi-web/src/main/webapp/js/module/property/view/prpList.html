@@ -2,7 +2,7 @@
 
     <div class="row action">
         <button type="button" class="btn btn-default" title="Retour" onclick="history.go(-1)"><i class="glyphicon glyphicon-arrow-left"></i></button>
-        <button type="button" class="btn btn-default" ng-click="openModalAddPrp()"><i class="glyphicon glyphicon-plus-sign"></i> Ajouter</button>
+        <button type="button" class="btn btn-success" ng-click="openModalAddPrp()"><i class="glyphicon glyphicon-plus-sign"></i> Ajouter</button>
     </div>
 
 
@@ -24,9 +24,9 @@
                     <td>{{prp.category.label}}</td>
                     <td>{{prp.address.city}}</td>
                     <td>
-                        <span ng-if="prp.sale.priceFinal">{{prp.sale.priceFinal | currency}}</span>
+                        <span ng-if="prp.sale.priceFinal">{{prp.sale.priceFinal | number:0}} €</span>
                         <br ng-if="prp.sale.priceFinal && prp.rent.priceFinal" />
-                        <span ng-if="prp.rent.priceFinal">{{prp.rent.priceFinal | currency}}</span>
+                        <span ng-if="prp.rent.priceFinal">{{prp.rent.priceFinal | number:0}} €</span>
                     </td>
                     <td><img ng-src="{{prp.photos[0].url}}?size=75,60&crop=75,60&sizeMode=inversed_automatic"/></td>
                     <td style="vertical-align:middle">
