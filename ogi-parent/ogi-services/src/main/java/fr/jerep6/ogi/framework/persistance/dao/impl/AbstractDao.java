@@ -23,6 +23,11 @@ public class AbstractDao<T, PK extends Serializable> implements DaoCRUD<T, PK> {
 				.getActualTypeArguments()[0];
 	}
 
+	@Override
+	public void flush() {
+		entityManager.flush();
+	}
+
 	public Class<T> getPersistentClass() {
 		return persistentClass;
 	}

@@ -25,4 +25,6 @@ public interface DaoCRUD<T, PK extends Serializable> {
 
 	T merge(T bo);
 
+	void flush();
+
 }
