@@ -23,7 +23,6 @@ sed -i 's/partner.diaporama.url.*$/partner.diaporama.url =http:\/\/192.168.1.70\
 
 
 #ogi-web
-IHM_CONF_FILE=$PATH_TOMCAT_WEBAPPS"ogi-web/js/app.js"
-sed -i 's/API_URL:.*,/API_URL:window.location.protocol+"\/\/"+window.location.hostname+(window.location.port !== '' ? ':'+window.location.port : '')+"ogi-ws",/g' $IHM_CONF_FILE
-
+IHM_CONF_FILE=$PATH_TOMCAT_WEBAPPS"ogi-web/js/module/config/config.js"
+sed -i 's/API_URL:.*,/API_URL:window.location.protocol+"\/\/"+window.location.hostname+(window.location.port !== "" ? ":"+window.location.port : "")+"/ogi-ws",/g' $IHM_CONF_FILE
 
