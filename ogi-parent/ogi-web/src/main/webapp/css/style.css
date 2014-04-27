@@ -107,9 +107,16 @@ ul#list-photos li.highlight {
   background: none;
   border-color: transparent;
 }
+.navbar-default .active {
+  background: #9e889e;
+}
 /* Hover sur les liens du menu de gauche */
 .nav > li a:hover,
 .nav > li a:focus {
+  background: #9e889e;
+}
+/* Menu de gauche actif*/
+.navbar-default .active {
   background: #9e889e;
 }
 /* Couleur des liens des onglets */

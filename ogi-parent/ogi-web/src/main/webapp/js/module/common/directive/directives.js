@@ -1,4 +1,4 @@
-myApp.directive('minusPlus', function() {
+angular.module('myApp.config').directive('minusPlus', function() {
     return {
         restrict: 'A',
         link: function (scope, elem, attrs) {
@@ -19,8 +19,7 @@ myApp.directive('minusPlus', function() {
                     //ngModel listens for "input" event, so to "fix"
                     input.trigger('input');
                 }
-            }
-            );
+            });
 
             // Second span => plus
             spans.eq(1).click(function() {
@@ -33,13 +32,43 @@ myApp.directive('minusPlus', function() {
                     //ngModel listens for "input" event, so to "fix"
                     input.trigger('input');
                 }
-            }
-            );
+            });
 
         }
     }
 });
 
+
+/**
+ * Directive positionnant la classe "active" sur le menu courant.
+ *
+ * L'attribut ogi-navigation doit être positionné sur l'élément englobant du menu
+ * L'attribut ogi-navigation-url doit être positionné sur les liens constituant le menu. La valeur du lien sera
+ * utilisé pour déterminé le menu courant. Si le lien contient le path courant de l'url => class active
+ */
+angular.module('myApp.config').directive('ogiNavigation', function() {
+    return {
+        restrict: 'A',
+        link: function (scope, elem, attrs) {
+            var eltsNavigation = elem.find("a[ogi-navigation-url]");
+
+            // Listen route change
+            scope.$on('$routeChangeSuccess', function(angularEvent, current, previous) {
+                eltsNavigation.each(function(index) {
+                    console.log(current.originalPath);
+                    var $elt = $(this);
+                    if($elt.attr("href").contains(current.originalPath)) {
+                        $elt.addClass("active");
+                    }
+                    else {
+                        $elt.removeClass("active");
+                    }
+                });
+            });
+
+        }
+    }
+});
 
 /*
 myApp.directive('minusPlus', function() {

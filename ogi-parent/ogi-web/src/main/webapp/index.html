@@ -105,13 +105,13 @@
         </nav>
         <!-- /.navbar-static-top -->
 
-        <nav class="navbar-default navbar-static-side" role="navigation">
+        <nav class="navbar-default navbar-static-side" role="navigation" ogi-navigation>
             <div class="sidebar-collapse">
                 <ul class="nav" id="side-menu">
                     <!--<li><a href="index.html"><i class="glyphicon glyphicon-home"></i> Accueil</a></li>-->
-                    <li><a href="#/biens"><i class="glyphicon glyphicon-tower"></i> Biens</a></li>
-                    <li><a href="#/proprietaires/"><i class="glyphicon glyphicon-user"></i> Propriétaires</a></li>
-                    <li><a href="#/dashboard"><i class="glyphicon glyphicon-tasks"></i> Traitements</a></li>
+                    <li><a ogi-navigation-url href="#/biens"><i class="glyphicon glyphicon-tower"></i> Biens</a></li>
+                    <li><a ogi-navigation-url href="#/proprietaires/"><i class="glyphicon glyphicon-user"></i> Propriétaires</a></li>
+                    <li><a ogi-navigation-url href="#/dashboard"><i class="glyphicon glyphicon-tasks"></i> Traitements</a></li>
                     <!--<li>
                         <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
@@ -142,7 +142,7 @@
 
         <div id="page-wrapper">
 
-            {{$rootScope.Page.navigation}}
+            <div my-customer></div>
             <div class="row">
                 <div class="col-xs-12">
                     <div ng-controller="AlertCtrl">
