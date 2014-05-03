@@ -25,6 +25,17 @@ function ControllerPrpTabAdministratif($scope, Page, $routeParams, ServiceConfig
         $scope.computeCommisionPercent();
     }
 
+    $scope.computeRentFinalPrice = function() {
+        var finalPrice = 0;
+        if (!$scope.prp.rent.serviceChargeIncluded && $scope.prp.rent.serviceCharge) {
+            finalPrice += Number.parseFloat($scope.prp.rent.serviceCharge);
+        }
+        if (!Utils.isUndefinedOrNull($scope.prp.rent.price)) {
+            finalPrice += Number.parseFloat($scope.prp.rent.price);
+        }
+
+        $scope.prp.rent.priceFinal = finalPrice;
+    }
 
     //Lors de l'ouverture du panel, il faut créer et attacher un objet vente/location au bien pour qu'il puisse être renseigné
     $scope.panelShowHide = function(type) {
