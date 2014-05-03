@@ -1,6 +1,13 @@
 @import "variables.less";
 
 /* ##### OVERRIDE ##### */
+/* Hide spinner on html5 input number (firefox) */
+input[type=number] {
+  -moz-appearance:textfield;
+}
+
+
+
 .alert {
   margin-bottom: 5px;
   padding: 5px;
