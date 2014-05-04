@@ -1,12 +1,18 @@
 package fr.jerep6.ogi.transfert.mapping;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.PostConstruct;
 
 import ma.glasnost.orika.CustomMapper;
+import ma.glasnost.orika.MapEntry;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.MappingContext;
 import ma.glasnost.orika.converter.ConverterFactory;
 import ma.glasnost.orika.impl.ConfigurableMapper;
+import ma.glasnost.orika.metadata.Type;
+import ma.glasnost.orika.metadata.TypeBuilder;
 import ma.glasnost.orika.metadata.TypeFactory;
 
 import org.springframework.batch.core.JobExecution;
@@ -82,31 +88,31 @@ public class OrikaMapper extends ConfigurableMapper {
 	private void batchMapping() {
 
 		factory.classMap(BatchReportJobInstance.class, BatchReportInstanceTo.class)//
-		.field("jobInstance.jobName", "jobName")//
-		.field("jobExecutions", "jobExecutions")//
-		.field("success", "isSuccess")//
-		.register();
+				.field("jobInstance.jobName", "jobName")//
+				.field("jobExecutions", "jobExecutions")//
+				.field("success", "isSuccess")//
+				.register();
 
 		factory.classMap(JobExecution.class, BatchReportJobExecutionTo.class)//
-		.field("startTime", "startTime")//
-		.field("endTime", "endTime")//
-		.field("status", "status")//
-		.field("exitStatus", "exitStatus")//
-		.field("stepExecutions", "steps")//
-		.register();
+				.field("startTime", "startTime")//
+				.field("endTime", "endTime")//
+				.field("status", "status")//
+				.field("exitStatus", "exitStatus")//
+				.field("stepExecutions", "steps")//
+				.register();
 
 		factory.classMap(StepExecution.class, BatchReportStepExecutionTo.class)//
-		.field("stepName", "stepName")//
-		.field("status", "status")//
-		.field("exitStatus", "exitStatus")//
-		.field("readCount", "readCount")//
-		.field("writeCount", "writeCount")//
-		.field("commitCount", "commitCount")//
-		.field("rollbackCount", "rollbackCount")//
-		.field("readSkipCount", "readSkipCount")//
-		.field("processSkipCount", "processSkipCount")//
-		.field("writeSkipCount", "writeSkipCount")//
-		.register();
+				.field("stepName", "stepName")//
+				.field("status", "status")//
+				.field("exitStatus", "exitStatus")//
+				.field("readCount", "readCount")//
+				.field("writeCount", "writeCount")//
+				.field("commitCount", "commitCount")//
+				.field("rollbackCount", "rollbackCount")//
+				.field("readSkipCount", "readSkipCount")//
+				.field("processSkipCount", "processSkipCount")//
+				.field("writeSkipCount", "writeSkipCount")//
+				.register();
 	}
 
 	@Override
@@ -136,50 +142,50 @@ public class OrikaMapper extends ConfigurableMapper {
 	/** Mapping for exception */
 	private void exceptionMapping() {
 		factory.classMap(BusinessException.class, ErrorTo.class)//
-		.customize(new CustomMapper<BusinessException, ErrorTo>() {
-			@Override
-			public void mapAtoB(BusinessException a, ErrorTo b, MappingContext context) {
-				String msg = a.getMessage() == null ? "" : ExceptionUtils.i18n(a);
-				b.setMessage(msg);
-			}
+				.customize(new CustomMapper<BusinessException, ErrorTo>() {
+					@Override
+					public void mapAtoB(BusinessException a, ErrorTo b, MappingContext context) {
+						String msg = a.getMessage() == null ? "" : ExceptionUtils.i18n(a);
+						b.setMessage(msg);
+					}
 
-			@Override
-			public void mapBtoA(ErrorTo b, BusinessException a, MappingContext context) {}
-		})//
-		.byDefault().register();
+					@Override
+					public void mapBtoA(ErrorTo b, BusinessException a, MappingContext context) {}
+				})//
+				.byDefault().register();
 
 		factory.classMap(Exception.class, ErrorTo.class)//
-		.customize(new CustomMapper<Exception, ErrorTo>() {
-			@Override
-			public void mapAtoB(Exception a, ErrorTo b, MappingContext context) {
-				String msg = a.getMessage() == null ? "" : ExceptionUtils.i18n(a);
-				b.setMessage(msg);
+				.customize(new CustomMapper<Exception, ErrorTo>() {
+					@Override
+					public void mapAtoB(Exception a, ErrorTo b, MappingContext context) {
+						String msg = a.getMessage() == null ? "" : ExceptionUtils.i18n(a);
+						b.setMessage(msg);
 
-				// Exception other than business exception don't have code
-				b.setCode("TECH");
-			}
+						// Exception other than business exception don't have code
+						b.setCode("TECH");
+					}
 
-			@Override
-			public void mapBtoA(ErrorTo b, Exception a, MappingContext context) {}
-		})//
-		.byDefault().register();
+					@Override
+					public void mapBtoA(ErrorTo b, Exception a, MappingContext context) {}
+				})//
+				.byDefault().register();
 
 		factory.classMap(Exception.class, ExceptionTo.class)//
-		.customize(new CustomMapper<Exception, ExceptionTo>() {
+				.customize(new CustomMapper<Exception, ExceptionTo>() {
 
-			@Override
-			public void mapAtoB(Exception a, ExceptionTo b, MappingContext context) {
-				b.add(map(a, ErrorTo.class));
-			}
+					@Override
+					public void mapAtoB(Exception a, ExceptionTo b, MappingContext context) {
+						b.add(map(a, ErrorTo.class));
+					}
 
-			@Override
-			public void mapBtoA(ExceptionTo b, Exception a, MappingContext context) {}
-		})//
-		.register();
+					@Override
+					public void mapBtoA(ExceptionTo b, Exception a, MappingContext context) {}
+				})//
+				.register();
 
 		factory.classMap(MultipleBusinessException.class, ExceptionTo.class)//
-		.field("exceptions", "errors")//
-		.register();
+				.field("exceptions", "errors")//
+				.register();
 	}
 
 	/**
@@ -268,16 +274,46 @@ public class OrikaMapper extends ConfigurableMapper {
 		.byDefault()//
 		.register();
 
-		factory.classMap(PartnerRequest.class, PartnerRequestTo.class)//
-		.customize(new CustomMapper<PartnerRequest, PartnerRequestTo>() {
-			@Override
-			public void mapAtoB(PartnerRequest a, PartnerRequestTo b, MappingContext context) {
-				b.setLabel(ContextUtils.getMessage("partner.request." + a.getRequestType().getCode()));
-			}
+		Type<Map<String, List<PartnerRequest>>> mapType = new TypeBuilder<Map<String, List<PartnerRequest>>>() {}
+		.build();
+		Type<MapEntry<String, List<PartnerRequest>>> entryType = MapEntry.concreteEntryType(mapType);
 
-			@Override
-			public void mapBtoA(PartnerRequestTo b, PartnerRequest a, MappingContext context) {}
-		})//
-		.byDefault().register();
+		Type<Map<String, List<PartnerRequestTo>>> mapTypeDest = new TypeBuilder<Map<String, List<PartnerRequestTo>>>() {}
+		.build();
+		Type<MapEntry<String, List<PartnerRequestTo>>> entryTypeDest = MapEntry.concreteEntryType(mapTypeDest);
+
+		factory.classMap(entryType, entryTypeDest)
+				//
+		.customize(
+				new CustomMapper<MapEntry<String, List<PartnerRequest>>, MapEntry<String, List<PartnerRequestTo>>>() {
+
+					@Override
+					public void mapAtoB(MapEntry<String, List<PartnerRequest>> a,
+							MapEntry<String, List<PartnerRequestTo>> b, MappingContext context) {
+						// TODO Auto-generated method stub
+						super.mapAtoB(a, b, context);
+					}
+
+					@Override
+					public void mapBtoA(MapEntry<String, List<PartnerRequestTo>> b,
+							MapEntry<String, List<PartnerRequest>> a, MappingContext context) {
+						// TODO Auto-generated method stub
+						super.mapBtoA(b, a, context);
+					}
+
+				})//
+				.byDefault().register();
+
+		factory.classMap(PartnerRequest.class, PartnerRequestTo.class)//
+				.customize(new CustomMapper<PartnerRequest, PartnerRequestTo>() {
+					@Override
+					public void mapAtoB(PartnerRequest a, PartnerRequestTo b, MappingContext context) {
+						b.setLabel(ContextUtils.getMessage("partner.request." + a.getRequestType().getCode()));
+					}
+
+					@Override
+					public void mapBtoA(PartnerRequestTo b, PartnerRequest a, MappingContext context) {}
+				})//
+				.byDefault().register();
 	}
 }

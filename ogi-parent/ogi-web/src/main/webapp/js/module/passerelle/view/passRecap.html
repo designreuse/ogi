@@ -1,0 +1,27 @@
+<br /><br />
+<div class="col-xs-12">
+    <p>
+        Liste des biens présents chez les partenaires grâces aux passerelles.
+    </p>
+
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th>Bien</th>
+                <th>Acimflo</th>
+                <th>Diaporama</th>
+                <th>SeLoger.com</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="(ref, request) in passerelles">
+                <td>{{ref}}</td>
+                <td>
+                    <a href="#/biens/modifier/{{ref}}" >{{getPartner(request, "ACIMFLO").requestType}}</a>
+                </td>
+                <td>{{getPartner(request, "DIAPORAMA").requestType}}</td>
+                <td>{{getPartner(request, "SE_LOGER").requestType}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,5 +1,8 @@
 package fr.jerep6.ogi.service;
 
+import java.util.List;
+import java.util.Map;
+
 import fr.jerep6.ogi.enumeration.EnumPartner;
 import fr.jerep6.ogi.enumeration.EnumPartnerRequestType;
 import fr.jerep6.ogi.framework.service.TransactionalService;
@@ -30,5 +33,12 @@ public interface ServicePartnerRequest extends TransactionalService<PartnerReque
 	boolean lastRequestIs(EnumPartner partner, Integer prpTechid, EnumPartnerRequestType... addUpdateAck);
 
 	PartnerRequest lastRequest(EnumPartner partner, String prpReference);
+
+	/**
+	 * Return lasts requests for each property
+	 * 
+	 * @return
+	 */
+	Map<String, List<PartnerRequest>> lastRequests();
 
 }

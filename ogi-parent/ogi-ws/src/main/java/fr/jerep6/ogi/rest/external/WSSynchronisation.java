@@ -62,6 +62,18 @@ public class WSSynchronisation extends AbstractJaxRsWS {
 		return result;
 	}
 
+	@GET
+	@Produces(APPLICATION_JSON_UTF8)
+	public Map<String, List<PartnerRequest>> listAll() {
+		Map<String, List<PartnerRequest>> lastRequests = servicePartnerRequest.lastRequests();
+
+		// Map<String, List<PartnerRequestTo>> convertMap = mapper.mapAsMap(lastRequests,
+		// new TypeBuilder<Map<String, List<PartnerRequest>>>() {}.build(),
+		// new TypeBuilder<Map<String, List<PartnerRequestTo>>>() {}.build());
+
+		return lastRequests;
+	}
+
 	@POST
 	@Path("/{partner}")
 	@Consumes(APPLICATION_JSON_UTF8)

@@ -55,7 +55,6 @@ angular.module('myApp.config').directive('ogiNavigation', function() {
             // Listen route change
             scope.$on('$routeChangeSuccess', function(angularEvent, current, previous) {
                 eltsNavigation.each(function(index) {
-                    console.log(current.originalPath);
                     var $elt = $(this);
                     if($elt.attr("href").contains(current.originalPath)) {
                         $elt.addClass("active");

@@ -11,6 +11,8 @@ public interface DaoPartnerRequest extends DaoCRUD<PartnerRequest, Integer> {
 
 	boolean lastRequestIs(EnumPartner partner, Integer prpTechid, List<EnumPartnerRequestType> l);
 
-	PartnerRequest lastRequest(EnumPartner partner, Integer prpTechid);
+	PartnerRequest lastRequests(EnumPartner partner, Integer prpTechid);
+
+	List<Object[]> lastRequests();
 
 }

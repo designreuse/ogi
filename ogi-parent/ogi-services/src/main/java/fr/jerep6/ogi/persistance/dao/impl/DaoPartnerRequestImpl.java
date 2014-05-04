@@ -2,6 +2,7 @@ package fr.jerep6.ogi.persistance.dao.impl;
 
 import java.util.List;
 
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ import fr.jerep6.ogi.enumeration.EnumPartner;
 import fr.jerep6.ogi.enumeration.EnumPartnerRequestType;
 import fr.jerep6.ogi.framework.persistance.dao.impl.AbstractDao;
 import fr.jerep6.ogi.persistance.bo.PartnerRequest;
+import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.dao.DaoPartnerRequest;
 
 @Repository("daoPartnerRequest")
@@ -25,28 +27,6 @@ public class DaoPartnerRequestImpl extends AbstractDao<PartnerRequest, Integer> 
 	private static final String	PARAM_PARTNER		= "PARTNER";
 	private static final String	PARAM_REQUEST_TYPE	= "REQUEST_TYPE";
 	private static final String	PARAM_PROPERTY		= "PROPERTY";
-
-	@Override
-	public PartnerRequest lastRequest(EnumPartner partner, Integer prpTechid) {
-		StringBuilder q = new StringBuilder();
-		q.append("SELECT r FROM " + PartnerRequest.class.getName() + " r ");
-		q.append(" WHERE r.partner = :" + PARAM_PARTNER);
-		q.append(" AND r.property = :" + PARAM_PROPERTY);
-		q.append(" ORDER BY r.modificationDate DESC");
-
-		TypedQuery<PartnerRequest> query = entityManager.createQuery(q.toString(), PartnerRequest.class);
-		query.setParameter(PARAM_PARTNER, partner);
-		query.setParameter(PARAM_PROPERTY, prpTechid);
-
-		List<PartnerRequest> resultList = query.getResultList();
-		return Iterables.getFirst(resultList, null);
-
-		// Another version in SQL
-		// SELECT req.* FROM ogi.ta_partner_request req
-		// JOIN (SELECT max(req.REQ_MODIFICATION_DATE), REQ_ID FROM ogi.ta_partner_request req
-		// WHERE REQ_PARTNER='acimflo') reqMax ON req.REQ_ID=reqMax.REQ_ID
-		// WHERE req.req_TYPE IN ('push');
-	}
 
 	@Override
 	public boolean lastRequestIs(EnumPartner partner, Integer prpTechid, List<EnumPartnerRequestType> l) {
@@ -76,6 +56,47 @@ public class DaoPartnerRequestImpl extends AbstractDao<PartnerRequest, Integer> 
 		LOGGER.debug("JPQL result = {}", l);
 
 		return !resultList.isEmpty();
+	}
+
+	/**
+	 * Retourne pour chaque bien la dernière requête exécutée
+	 */
+	@Override
+	public List<Object[]> lastRequests() {
+		StringBuilder q = new StringBuilder();
+		q.append("SELECT rp, r FROM " + RealProperty.class.getName() + " rp ");
+		q.append(" LEFT JOIN rp.partnersRequests r ");
+		q.append(" WHERE NOT EXISTS (");
+		q.append(" 		SELECT r2.techid FROM " + PartnerRequest.class.getName() + " r2 ");
+		q.append(" 		WHERE r2.partner = r.partner");
+		q.append(" 		AND r2.modificationDate > r.modificationDate");
+		q.append(")");
+
+		Query query = entityManager.createQuery(q.toString());
+
+		return query.getResultList();
+	}
+
+	@Override
+	public PartnerRequest lastRequests(EnumPartner partner, Integer prpTechid) {
+		StringBuilder q = new StringBuilder();
+		q.append("SELECT r FROM " + PartnerRequest.class.getName() + " r ");
+		q.append(" WHERE r.partner = :" + PARAM_PARTNER);
+		q.append(" AND r.property = :" + PARAM_PROPERTY);
+		q.append(" ORDER BY r.modificationDate DESC");
+
+		TypedQuery<PartnerRequest> query = entityManager.createQuery(q.toString(), PartnerRequest.class);
+		query.setParameter(PARAM_PARTNER, partner);
+		query.setParameter(PARAM_PROPERTY, prpTechid);
+
+		List<PartnerRequest> resultList = query.getResultList();
+		return Iterables.getFirst(resultList, null);
+
+		// Another version in SQL
+		// SELECT req.* FROM ogi.ta_partner_request req
+		// JOIN (SELECT max(req.REQ_MODIFICATION_DATE), REQ_ID FROM ogi.ta_partner_request req
+		// WHERE REQ_PARTNER='acimflo') reqMax ON req.REQ_ID=reqMax.REQ_ID
+		// WHERE req.req_TYPE IN ('push');
 	}
 
 }
