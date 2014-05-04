@@ -40,9 +40,9 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractSeLoger, Re
 	private static Map<EnumCategory, String>	mapTypeBien	= new HashMap<>();
 
 	static {
-		mapTypeBien.put(EnumCategory.APARTMENT, "appartement,");
-		mapTypeBien.put(EnumCategory.HOUSE, "maison");
-		mapTypeBien.put(EnumCategory.PLOT, "terrain");
+		mapTypeBien.put(EnumCategory.APARTMENT, "Appartement");
+		mapTypeBien.put(EnumCategory.HOUSE, "Maison");
+		mapTypeBien.put(EnumCategory.PLOT, "Terrain");
 	}
 	private String								estateCode;
 
