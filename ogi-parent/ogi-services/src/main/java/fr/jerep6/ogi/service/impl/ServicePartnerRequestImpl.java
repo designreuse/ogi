@@ -26,7 +26,7 @@ import fr.jerep6.ogi.service.ServiceRealProperty;
 @Service("servicePartnerExistence")
 @Transactional(propagation = Propagation.REQUIRED)
 public class ServicePartnerRequestImpl extends AbstractTransactionalService<PartnerRequest, Integer> implements
-		ServicePartnerRequest {
+ServicePartnerRequest {
 	private final Logger		LOGGER	= LoggerFactory.getLogger(ServicePartnerRequestImpl.class);
 
 	@Autowired
@@ -34,18 +34,6 @@ public class ServicePartnerRequestImpl extends AbstractTransactionalService<Part
 
 	@Autowired
 	private ServiceRealProperty	serviceRealProperty;
-
-	@Override
-	public Map<String, List<PartnerRequest>> lastRequests() {
-		List<Object[]> lastRequests = daoPartnerRequest.lastRequests();
-
-		Map<String, List<PartnerRequest>> collect2 = lastRequests.stream().collect(//
-				// Grouping by prp reference and extract only partner request
-				Collectors.groupingBy(o -> ((RealProperty) o[0]).getReference(), //
-						Collectors.mapping(o -> (PartnerRequest) o[1], Collectors.toList())));
-
-		return collect2;
-	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -70,5 +58,22 @@ public class ServicePartnerRequestImpl extends AbstractTransactionalService<Part
 	public boolean lastRequestIs(EnumPartner partner, Integer prpTechid, EnumPartnerRequestType... requestType) {
 		List<EnumPartnerRequestType> l = Arrays.asList(requestType);
 		return daoPartnerRequest.lastRequestIs(partner, prpTechid, l);
+	}
+
+	@Override
+	public Map<String, List<PartnerRequest>> lastRequests() {
+		List<Object[]> lastRequests = daoPartnerRequest.lastRequests();
+
+		Map<String, List<PartnerRequest>> collect2 = lastRequests.stream().collect(
+				// Grouping by prp reference and extract only partner request
+				Collectors.groupingBy(o -> ((RealProperty) o[0]).getReference(), //
+						Collectors.mapping(o -> (PartnerRequest) o[1], Collectors.toList())));
+
+		// Remove null element from map value
+		collect2.entrySet().stream().forEach(e -> e.setValue(//
+				e.getValue().stream().filter(p -> p != null).collect(Collectors.toList())//
+				));
+
+		return collect2;
 	}
 }

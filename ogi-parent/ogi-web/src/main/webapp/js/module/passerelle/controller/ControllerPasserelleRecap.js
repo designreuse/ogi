@@ -3,22 +3,16 @@ function ControllerPasserelleRecap($scope, $http, Page, ServiceConfiguration, Ut
 
 
     // Reads jobs status
-    $scope.passerelles = [];
+    $scope.passerelles;
     $http.get(ServiceConfiguration.API_URL+"/rest/synchronisation/")
         .success(function (data) {
             $scope.passerelles = data;
-    });
-
-    $scope.getPartner = function(arrayOfPartnerRequest, partner) {
-        var a = [];
-        if(arrayOfPartnerRequest) {
-            a = arrayOfPartnerRequest.filter(function (r) {
-                if(r) {
-                    return r.partner == partner
+            for(var key in data){
+                var value = {};
+                for(var i = 0; i < data[key].length ; i++) {
+                    value[data[key][i].partner] =  data[key][i];
                 }
-                return false;
-            });
-        }
-        return Utils.isEmpty(a) ? {"requestType" : "NO"} : a[0];
-    }
+                $scope.passerelles[key]= value;
+            }
+    });
 }

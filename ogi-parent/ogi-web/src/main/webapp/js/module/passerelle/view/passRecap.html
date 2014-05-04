@@ -17,10 +17,12 @@
             <tr ng-repeat="(ref, request) in passerelles">
                 <td>{{ref}}</td>
                 <td>
-                    <a href="#/biens/modifier/{{ref}}" >{{getPartner(request, "ACIMFLO").requestType}}</a>
+                    <a href="#/biens/modifier/{{ref}}" >{{request["ACIMFLO"].requestType}}</a>
                 </td>
-                <td>{{getPartner(request, "DIAPORAMA").requestType}}</td>
-                <td>{{getPartner(request, "SE_LOGER").requestType}}</td>
+                <td>
+                    <a href="#/biens/modifier/{{ref}}" >{{request["DIAPORAMA"].requestType}}</a></td>
+                <td>
+                    <a href="#/biens/modifier/{{ref}}" >{{request["SE_LOGER"].requestType}}</a></td>
             </tr>
         </tbody>
     </table>
