@@ -6,6 +6,7 @@ function ControllerPasserelleRecap($scope, $http, Page, ServiceConfiguration, Ut
     $scope.passerelles;
     $http.get(ServiceConfiguration.API_URL+"/rest/synchronisation/")
         .success(function (data) {
+            // Convert map of list into map of map passerelles["ref1"]["seloger"]
             $scope.passerelles = data;
             for(var key in data){
                 var value = {};
@@ -15,4 +16,16 @@ function ControllerPasserelleRecap($scope, $http, Page, ServiceConfiguration, Ut
                 $scope.passerelles[key]= value;
             }
     });
+
+    /**
+     * In order to not overload table, display only some requests.
+     * --> push
+     * --> push_ack
+     * @param prequest
+     * @returns {boolean}
+     */
+    $scope.isDisplayable = function(prequest) {
+        return prequest && (prequest.requestType == "push" ||prequest.requestType == "push_ack");
+
+    }
 }

@@ -15,14 +15,18 @@
         </thead>
         <tbody>
             <tr ng-repeat="(ref, request) in passerelles">
-                <td>{{ref}}</td>
-                <td>
-                    <a href="#/biens/modifier/{{ref}}" >{{request["ACIMFLO"].requestType}}</a>
+                <td><a href="#/biens/modifier/{{ref}}" >{{ref}}</a></td>
+                <td class="passerelle_recap_{{request['acimflo'].requestType}}">
+                    <span ng-if="isDisplayable(request['acimflo'])">{{request["acimflo"].label}}</span>
                 </td>
-                <td>
-                    <a href="#/biens/modifier/{{ref}}" >{{request["DIAPORAMA"].requestType}}</a></td>
-                <td>
-                    <a href="#/biens/modifier/{{ref}}" >{{request["SE_LOGER"].requestType}}</a></td>
+
+                <td class="passerelle_recap_{{request['diaporama'].requestType}}">
+                    <span ng-if="isDisplayable(request['diaporama'])">{{request["diaporama"].label}}</span>
+                </td>
+
+                <td class="passerelle_recap_{{request['seloger'].requestType}}">
+                    <span ng-if="isDisplayable(request['seloger'])">{{request["seloger"].label}}</span>
+                </td>
             </tr>
         </tbody>
     </table>

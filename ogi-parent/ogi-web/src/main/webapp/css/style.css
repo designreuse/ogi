@@ -189,3 +189,9 @@ ul#list-photos li.highlight {
 .displaytable > div .input-group {
   border-spacing: 0;
 }
+.passerelle_recap_push_ack {
+  color: green;
+}
+.passerelle_recap_push {
+  color: #DEBB33;
+}

@@ -69,6 +69,7 @@ public class DaoPartnerRequestImpl extends AbstractDao<PartnerRequest, Integer> 
 		q.append(" WHERE NOT EXISTS (");
 		q.append(" 		SELECT r2.techid FROM " + PartnerRequest.class.getName() + " r2 ");
 		q.append(" 		WHERE r2.partner = r.partner");
+		q.append(" 		AND r2.property = r.property");
 		q.append(" 		AND r2.modificationDate > r.modificationDate");
 		q.append(")");
 

@@ -3,6 +3,7 @@ package fr.jerep6.ogi.rest.external;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -64,14 +65,18 @@ public class WSSynchronisation extends AbstractJaxRsWS {
 
 	@GET
 	@Produces(APPLICATION_JSON_UTF8)
-	public Map<String, List<PartnerRequest>> listAll() {
+	public Map<String, List<PartnerRequestTo>> listAll() {
 		Map<String, List<PartnerRequest>> lastRequests = servicePartnerRequest.lastRequests();
 
 		// Map<String, List<PartnerRequestTo>> convertMap = mapper.mapAsMap(lastRequests,
 		// new TypeBuilder<Map<String, List<PartnerRequest>>>() {}.build(),
 		// new TypeBuilder<Map<String, List<PartnerRequestTo>>>() {}.build());
 
-		return lastRequests;
+		Map<String, List<PartnerRequestTo>> m = new HashMap<>(lastRequests.size());
+		for (Entry<String, List<PartnerRequest>> e : lastRequests.entrySet()) {
+			m.put(e.getKey(), mapper.mapAsList(e.getValue(), PartnerRequestTo.class));
+		}
+		return m;
 	}
 
 	@POST
