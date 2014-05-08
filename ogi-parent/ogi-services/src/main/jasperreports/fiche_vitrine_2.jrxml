@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="vitrine" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9c93a378-d1d0-4914-b9e5-2435be506bd9">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="297"/>
+	<property name="ireport.y" value="441"/>
 	<parameter name="reference" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -127,7 +127,7 @@ WHERE prp.pro_reference=$P{reference}]]>
 			</frame>
 			<image>
 				<reportElement positionType="FixRelativeToBottom" x="338" y="763" width="217" height="39" uuid="c6e12a79-a7a1-44cd-9926-b8c624f63500"/>
-				<imageExpression><![CDATA[$P{ROOT_DIR} + "img/vitrine_footer.png"]]></imageExpression>
+				<imageExpression><![CDATA[this.getClass().getClassLoader().getResourceAsStream("jasper/img/vitrine_footer.png")]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="515" y="396" width="18" height="35" forecolor="#A01755" uuid="00062701-8f62-446f-a96b-a8d566189363"/>

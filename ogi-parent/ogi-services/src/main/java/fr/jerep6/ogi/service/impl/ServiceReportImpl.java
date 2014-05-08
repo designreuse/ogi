@@ -1,7 +1,6 @@
 package fr.jerep6.ogi.service.impl;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,10 +42,6 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 	@Autowired
 	private DataSource						dataSource;
 
-	/** Folder which are stored jasper reports */
-	@Value("${jasper.directory.root}")
-	private String							jasperRootDirectory;
-
 	/** Folder which are stored documents from properties (photos, dpe ...) */
 	@Value("${document.storage.dir}")
 	private String							jasperDocumentDirectory;
@@ -54,7 +49,7 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 	@Autowired
 	private ServiceRealProperty				serviceRealProperty;
 
-	private static Map<EnumReport, String>	reportsConfig	= new HashMap<>();
+	private static Map<EnumReport, String>	reportsConfig	= new HashMap<>(2);
 	static {
 		reportsConfig.put(EnumReport.CLASSEUR, "fiche_classeur.jasper");
 		reportsConfig.put(EnumReport.VITRINE, "fiche_vitrine$suffixe.jasper");
@@ -105,17 +100,15 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 
 		// Get file name from type
 		String reportName = computeReportName(prpReference, reportType);
-
 		Preconditions.checkArgument(!Strings.isNullOrEmpty(reportName));
 
 		try {
 			// Create report
-			JasperReport report = (JasperReport) JRLoader.loadObject(new FileInputStream(jasperRootDirectory + "/"
-					+ reportName));
+			JasperReport report = (JasperReport) JRLoader.loadObject(this.getClass().getClassLoader()
+					.getResourceAsStream("jasper/" + reportName));
 
 			// Create parameters's report
 			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("ROOT_DIR", jasperRootDirectory);
 			parameters.put("DOC_DIR", jasperDocumentDirectory);
 			parameters.put("reference", prpReference);
 

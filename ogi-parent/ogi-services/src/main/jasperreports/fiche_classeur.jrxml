@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9a11e1e2-d0c2-4943-8003-0108fa505071">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="73"/>
+	<property name="ireport.y" value="0"/>
 	<property name="net.sf.jasperreports.export.character.encoding" value="UTF-8"/>
 	<subDataset name="dataset1" uuid="cf76163f-1bb4-4800-aaba-ca80cffda3cf"/>
 	<parameter name="reference" class="java.lang.String">
@@ -48,7 +48,7 @@ WHERE
 		<band height="80" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="0" width="200" height="80" uuid="b75a065c-a50a-4c1d-997d-82402290cff2"/>
-				<imageExpression><![CDATA[$P{ROOT_DIR}+"/img/logo.png"]]></imageExpression>
+				<imageExpression><![CDATA[this.getClass().getClassLoader().getResourceAsStream("jasper/img/logo.png")]]></imageExpression>
 			</image>
 			<textField>
 				<reportElement x="500" y="20" width="55" height="20" uuid="643dd695-8730-4a89-856f-2631b2bb3bd2"/>
