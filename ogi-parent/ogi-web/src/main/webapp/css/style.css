@@ -103,7 +103,7 @@ ul#list-photos li.highlight {
 /* ROOMS */
 .thumbnail {
   padding: 0px;
-  height: 300px;
+  height: 350px;
 }
 .thumbnail .photo-room {
   height: 160px;
@@ -121,7 +121,11 @@ ul#list-photos li.highlight {
   text-align: center;
 }
 .thumbnail .caption .description-room {
-  height: 40px;
+  height: 80px;
+}
+/* ROOM MODAL */
+.modal-body-room {
+  padding-top: 5px;
 }
 /* NAVIGATION */
 .navbar-default .navbar-brand {

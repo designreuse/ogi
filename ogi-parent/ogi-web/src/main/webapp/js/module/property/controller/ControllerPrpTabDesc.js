@@ -1,4 +1,4 @@
-function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, ServiceObject, ServiceAlert, $http, $log ,$modal) {
+function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, ServiceObject, ServiceAlert, $http, $log ,$modal, ServiceLabel) {
 
     // Get type of current category. Run query only if promise of current type is resolved
     $scope.types = [];
@@ -27,8 +27,9 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
      */
     function getLabels(type, vScope, vSaveData) {
         $scope[vScope] = [];
+
         $scope.httpGetCurrentType.success(function() {
-            $http.get(ServiceConfiguration.API_URL+"/rest/label/"+type).success(function (data) {
+            ServiceLabel.getLabels(type).success(function (data) {
                 $scope[vScope] = data;
                 $scope[vScope].push(labelOther);
 

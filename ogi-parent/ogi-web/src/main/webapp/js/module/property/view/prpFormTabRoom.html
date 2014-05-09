@@ -14,14 +14,14 @@
                         Sol : {{r.floor}}
                     </p>
                     <p class="text-center">
-                        <a href="#" class="btn btn-default" role="button">
+                        <button ng-click="update(r)" class="btn btn-default" role="button">
                             <span class="glyphicon glyphicon-zoom-in"></span>
                             Détails
-                        </a>
-                        <a href="#" class="btn btn-default">
+                        </button>
+                        <button ng-click="delete(r)" class="btn btn-default">
                             <span class="glyphicon glyphicon-remove-circle"></span>
                             Supprimer
-                        </a>
+                        </button>
                     </p>
                 </div>
             </div>
@@ -46,15 +46,14 @@
             </div>
         </div>
     </div>
-
 </div>
 
 
-<script type="text/ng-template" id="modalAddRoom.html">
+<script type="text/ng-template" id="modalRoom.html">
     <div class="modal-header">
         <h3>{{title}}</h3>
     </div>
-    <div class="modal-body">
+    <div class="modal-body modal-body-room">
         <form>
             <fieldset class="row">
                 <legend>Général</legend>
@@ -96,7 +95,7 @@
 
             </fieldset>
 
-            <fieldset class="row">
+            <fieldset class="row" style="margin-top: 20px">
                 <legend>Détails</legend>
                 <div class="col-xs-6">
                     <div class="form-group">
@@ -117,11 +116,10 @@
 
                     <div class="form-group">
                         <label>Sol</label>
-                        <select class="form-control" ng-model="room.floor" ng-options="l.label for l in roofs" ng-change="roofChange()">
-                            <option value="">--- Sélectionner une sol ---</option>
+                        <select class="form-control" ng-model="saveData.floor" ng-options="l.label for l in floors" ng-change="roofChange()">
+                            <option value="">--- Sélectionner un sol ---</option>
                         </select>
                     </div>
-
                 </div>
 
 
@@ -153,11 +151,8 @@
 
 
 
-            <div class="row">
-                <button class="btn btn-success" ng-click="ok()">
-                    <i class="glyphicon glyphicon-plus"></i>
-                    <span>Ajouter</span>
-                </button>
+            <div class="row text-center">
+                <button class="btn btn-success" ng-click="ok()">{{action}}</button>
                 <button class="btn btn-danger" ng-click="$dismiss()">Annuler</button>
             </div>
         </form>

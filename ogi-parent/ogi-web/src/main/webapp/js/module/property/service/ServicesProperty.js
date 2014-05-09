@@ -1,4 +1,4 @@
-myApp.factory('ServiceDPE', function(Utils) {
+angular.module('myApp.property').factory('ServiceDPE', function(Utils) {
     var dpeConfigKWH = [
         {min: 0, classification: "A"},
         {min: 51, classification: "B"},
@@ -35,6 +35,14 @@ myApp.factory('ServiceDPE', function(Utils) {
         },
         getGesClassifiation : function(dpeValue){
             return getClassification(dpeConfigGes, dpeValue);
+        }
+    }
+});
+
+angular.module('myApp.property').factory('ServiceLabel', function($http, ServiceConfiguration) {
+    return {
+        getLabels : function(type){
+            return $http.get(ServiceConfiguration.API_URL+"/rest/label/"+type);
         }
     }
 });
