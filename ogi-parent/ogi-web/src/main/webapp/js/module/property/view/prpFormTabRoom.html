@@ -1,0 +1,167 @@
+<div ng-controller="ControllerPrpTabRoom">
+
+    <div class="row">
+        <div class="col-xs-3" ng-repeat="r in prp.rooms">
+            <div class="thumbnail thumbnail-room">
+                <div class="photo-room">
+                    <img ng-if="r.photo" src="{{r.photo.url}}?size=300,300" />
+                    <img ng-if="!r.photo" src="{{imgDefault}}" />
+                </div>
+                <div class="caption">
+                    <h3>{{r.roomType}}</h3>
+                    <p>
+                        Surface : {{r.area}} m² <br />
+                        Sol : {{r.floor}}
+                    </p>
+                    <p class="text-center">
+                        <a href="#" class="btn btn-default" role="button">
+                            <span class="glyphicon glyphicon-zoom-in"></span>
+                            Détails
+                        </a>
+                        <a href="#" class="btn btn-default">
+                            <span class="glyphicon glyphicon-remove-circle"></span>
+                            Supprimer
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-3">
+            <div class="thumbnail thumbnail-room">
+                <div class="photo-room" style="padding-top:5px">
+                    <img style="width: 130px;" src="img/add.png" />
+                </div>
+                <div class="caption">
+                    <h3>Ajouter une pièce</h3>
+                    <p class="description-room">
+                    </p>
+                    <p class="text-center">
+                        <button ng-click="add()" class="btn btn-default">
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            Ajouter
+                        </button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script type="text/ng-template" id="modalAddRoom.html">
+    <div class="modal-header">
+        <h3>{{title}}</h3>
+    </div>
+    <div class="modal-body">
+        <form>
+            <fieldset class="row">
+                <legend>Général</legend>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Type de pièce</label>
+                        <input class="form-control" type="text" ng-model="room.roomType" />
+                    </div>
+
+                    <div class="form-group input-append">
+                        <label class="control-label">Surface</label>
+                        <div class="input-group">
+                            <input class="form-control" type="number" ng-model="room.area" />
+                            <span class="input-group-addon">m²</span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <label>
+                                <input type="checkbox" value="true" ng-model="room.carrezLaw"> Loi Carrez
+                            </label>
+                        </div>
+                        <div class="col-xs-6">
+                            <label>
+                                <input type="checkbox" value="true" ng-model="room.livable"> Habitable
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea class="form-control" rows="4" ng-model="room.description"></textarea>
+                    </div>
+                </div>
+
+            </fieldset>
+
+            <fieldset class="row">
+                <legend>Détails</legend>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Exposition</label>
+                        <select class="form-control" ng-model="room.orientation">
+                            <option value="">--- Sélectionner une orientation ---</option>
+                            <option value="N">Nord</option>
+                            <option value="S">Sud</option>
+                            <option value="E">Est</option>
+                            <option value="W">Ouest</option>
+
+                            <option value="NE">Nord-Est</option>
+                            <option value="NW">Nord-Ouest</option>
+                            <option value="SE">Sud-Est</option>
+                            <option value="SW">Sud-Ouest</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Sol</label>
+                        <select class="form-control" ng-model="room.floor" ng-options="l.label for l in roofs" ng-change="roofChange()">
+                            <option value="">--- Sélectionner une sol ---</option>
+                        </select>
+                    </div>
+
+                </div>
+
+
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Etage</label>
+                        <div class="input-group" minus-plus>
+                            <span class="input-group-addon glyphicon glyphicon-minus"></span>
+                            <input class="form-control" type="number" ng-model="room.floorLevel" />
+                            <span class="input-group-addon glyphicon glyphicon-plus"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Fenêtres</label>
+                        <div class="input-group" minus-plus>
+                            <span class="input-group-addon glyphicon glyphicon-minus"></span>
+                            <input class="form-control" type="number" ng-model="room.nbWindow" />
+                            <span class="input-group-addon glyphicon glyphicon-plus"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </fieldset>
+
+            <fieldset class="row">
+                <legend>Photo</legend>
+
+            </fieldset>
+
+
+
+            <div class="row">
+                <button class="btn btn-success" ng-click="ok()">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>Ajouter</span>
+                </button>
+                <button class="btn btn-danger" ng-click="$dismiss()">Annuler</button>
+            </div>
+        </form>
+    </div>
+</script>
+
+

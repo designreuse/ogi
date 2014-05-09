@@ -100,6 +100,29 @@ ul#list-photos li.highlight {
 .ui-slider-handle {
   cursor: pointer !important;
 }
+/* ROOMS */
+.thumbnail {
+  padding: 0px;
+  height: 300px;
+}
+.thumbnail .photo-room {
+  height: 160px;
+}
+.thumbnail .photo-room img {
+  margin: auto;
+  display: block;
+  max-height: 160px;
+}
+.thumbnail .caption {
+  padding: 5px;
+}
+.thumbnail .caption h3 {
+  margin-top: 5px;
+  text-align: center;
+}
+.thumbnail .caption .description-room {
+  height: 40px;
+}
 /* NAVIGATION */
 .navbar-default .navbar-brand {
   color: #ffffff;
