@@ -91,7 +91,9 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
      */
     function labelChange(vPrp, vSaveData, fOpenModal) {
         if(vSaveData != null && vSaveData.label == "Autre") {
-            fOpenModal();
+            if(fOpenModal) {
+                fOpenModal();
+            }
         }
         else if(!$scope.utils.isUndefinedOrNull( $scope.saveData[vPrp])) {
             $scope.prp[vPrp] = vSaveData.label;
@@ -117,11 +119,9 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
         });
 
         modalInstance.result.then(function (param) {
-            $log.info('Modal closed');
             $scope.types.push(param);
             $scope.saveData.type = param;
         }, function () {
-            $log.info('Modal dismissed');
             $scope.saveData.type = undefined;
         });
     };
@@ -156,11 +156,10 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
         });
 
         modalInstance.result.then(function (param) {
-            $log.debug('Modal closed');
             $scope[vScopeName].push(param);
             $scope.saveData[vPrpName] = param;
+            labelChange(vPrpName, $scope.saveData[vPrpName], null);
         }, function () {
-            $log.debug('Modal dismissed');
             $scope.saveData[vPrpName] = null;
         });
     }
@@ -186,7 +185,7 @@ var ModalLabelInstanceCtrl = function ($scope, $modalInstance, $http,
     $scope.labels =labels;
 
     $scope.ok = function () {
-        ServiceLabel.saveLabel(currentElt, $scope.newType.label)//
+        ServiceLabel.saveLabel(currentElt, $scope.newType.label)
         .success(function (data) {
             $modalInstance.close(data);
         });
