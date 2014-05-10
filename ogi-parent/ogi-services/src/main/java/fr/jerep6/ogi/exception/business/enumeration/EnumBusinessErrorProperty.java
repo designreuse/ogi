@@ -18,6 +18,7 @@ public enum EnumBusinessErrorProperty implements ErrorCode {
 	NO_RENT_PRICE("NO_RENT_PRICE", "Property haven't price"), //
 	NO_RENT_COMMISSION("NO_RENT_COMMISSION", "Property haven't commission"), //
 	NO_ROOM_NUMBER("NO_ROOM_NUMBER", "Property haven't room number"), //
+	NO_ROOM_TYPE("NO_ROOM_TYPE", "Room haven't type"), //
 	;
 
 	private String	code;

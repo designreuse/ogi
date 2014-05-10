@@ -1,6 +1,7 @@
 package fr.jerep6.ogi.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -14,6 +15,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.Sets;
+import com.google.common.collect.Sets.SetView;
+
+import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessErrorProperty;
+import fr.jerep6.ogi.framework.exception.BusinessException;
+import fr.jerep6.ogi.framework.exception.MultipleBusinessException;
 import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
 import fr.jerep6.ogi.persistance.bo.Document;
 import fr.jerep6.ogi.persistance.bo.Room;
@@ -47,11 +55,11 @@ public class ServiceRoomImpl extends AbstractTransactionalService<Room, Integer>
 		roomBD.clear();
 
 		// Populate set of room.
-		roomModif.stream().forEach(aRoomModif -> {
+		roomModif.forEach(aRoomModif -> {
 			Room r = aRoomModif;
 
 			int index = roomBDBackup.indexOf(r);
-			if (index != -1) { // If room is new => map it
+			if (index != -1) { // Room exist => modify existent
 				// Get existant description to avoid sql insert
 				r = roomBDBackup.get(index);
 				mapper.map(aRoomModif, r);
@@ -62,13 +70,31 @@ public class ServiceRoomImpl extends AbstractTransactionalService<Room, Integer>
 						.filter(d -> finalPhotoRoom != null && finalPhotoRoom.getPath().equals(d.getPath()))
 					.findFirst();
 			r.setPhoto(photo.orElse(null));
+
+				validate(r);
 			roomBD.add(r);
 		});
 
-		// Delete room
-		// roomBDBackup.removeAll(new ArrayList<>(roomBD));
-		// remove(roomBDBackup);
+		// Delete rooms
+		SetView<Room> difference = Sets.difference(new HashSet<>(roomBDBackup), roomBD);
+		remove(difference);
 
 		return roomBD;
 	}
+
+	@Override
+	public void validate(Room bo) throws BusinessException {
+		if (bo == null) {
+			return;
+		}
+		MultipleBusinessException mbe = new MultipleBusinessException();
+
+		if (Strings.isNullOrEmpty(bo.getRoomType())) {
+			mbe.add(EnumBusinessErrorProperty.NO_ROOM_TYPE);
+		}
+
+		mbe.checkErrors();
+
+	}
+
 }
