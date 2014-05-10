@@ -1,5 +1,6 @@
 package fr.jerep6.ogi.persistance.dao.impl;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -37,6 +38,29 @@ public class DaoPropertyImpl extends AbstractDao<RealProperty, Integer> implemen
 	}
 
 	@Override
+	public Collection<RealProperty> listAll() {
+		StringBuilder q = new StringBuilder();
+		q.append("SELECT r ").append(" FROM ").append(RealProperty.class.getName()).append(" r ");
+		// I don't want a select for each many to one : prefer join
+		q.append(" LEFT JOIN fetch r.address");
+		q.append(" LEFT JOIN fetch r.category");
+		q.append(" LEFT JOIN fetch r.type");
+		q.append(" LEFT JOIN fetch r.descriptions");
+		q.append(" LEFT JOIN fetch r.documents");
+		q.append(" LEFT JOIN fetch r.sale");
+		q.append(" LEFT JOIN fetch r.rent");
+		q.append(" LEFT JOIN fetch r.state");
+		q.append(" LEFT JOIN fetch r.rooms");
+		q.append(" LEFT JOIN fetch r.equipments");
+		q.append(" LEFT JOIN fetch r.owners");
+		q.append(" LEFT JOIN fetch r.diagnosisProperty");
+
+		TypedQuery<RealProperty> query = entityManager.createQuery(q.toString(), RealProperty.class);
+
+		return query.getResultList();
+	}
+
+	@Override
 	public List<RealProperty> readByReference(List<String> references) {
 		StringBuilder q = new StringBuilder();
 		q.append("SELECT r ").append(" FROM ").append(RealProperty.class.getName()).append(" r ");
@@ -46,8 +70,13 @@ public class DaoPropertyImpl extends AbstractDao<RealProperty, Integer> implemen
 		q.append(" LEFT JOIN fetch r.type");
 		q.append(" LEFT JOIN fetch r.descriptions");
 		q.append(" LEFT JOIN fetch r.documents");
+		q.append(" LEFT JOIN fetch r.sale");
+		q.append(" LEFT JOIN fetch r.rent");
+		q.append(" LEFT JOIN fetch r.state");
 		q.append(" LEFT JOIN fetch r.rooms");
 		q.append(" LEFT JOIN fetch r.equipments");
+		q.append(" LEFT JOIN fetch r.owners");
+		q.append(" LEFT JOIN fetch r.diagnosisProperty");
 		q.append(" WHERE r.reference IN (:").append(PARAM_REFERENCE).append(")");
 
 		TypedQuery<RealProperty> query = entityManager.createQuery(q.toString(), RealProperty.class);

@@ -1,6 +1,7 @@
 package fr.jerep6.ogi.service.impl;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -54,7 +55,7 @@ import fr.jerep6.ogi.transfert.mapping.OrikaMapperService;
 @Service("serviceRealProperty")
 @Transactional(propagation = Propagation.REQUIRED)
 public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealProperty, Integer> implements
-		ServiceRealProperty {
+ServiceRealProperty {
 	private static Logger		LOGGER	= LoggerFactory.getLogger(ServiceRealPropertyImpl.class);
 
 	@Autowired
@@ -252,6 +253,11 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 	@PostConstruct
 	protected void init() {
 		super.setDao(daoProperty);
+	}
+
+	@Override
+	public Collection<RealProperty> listAll() {
+		return new HashSet<RealProperty>(daoProperty.listAll());
 	}
 
 	@Override
