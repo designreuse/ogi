@@ -77,7 +77,9 @@ public class ServletPhotos extends HttpServlet {
 			img = imgError;
 		}
 		InputStream is = Files.newInputStream(img);
-		return ImageIO.read(is);
+		BufferedImage buffered = ImageIO.read(is);
+		is.close();
+		return buffered;
 	}
 
 	/**
