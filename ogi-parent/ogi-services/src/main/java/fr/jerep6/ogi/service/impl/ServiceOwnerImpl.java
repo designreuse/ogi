@@ -1,5 +1,6 @@
 package fr.jerep6.ogi.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -83,6 +84,39 @@ public class ServiceOwnerImpl extends AbstractTransactionalService<Owner, Intege
 	@PostConstruct
 	protected void init() {
 		super.setDao(daoOwner);
+	}
+
+	@Override
+	public Set<Owner> merge(Set<Owner> ownersBD, Set<Owner> ownersModify) {
+		// Keep owners to reuse it (avoid insert)
+		List<Owner> ownersBDBackup = new ArrayList<>(ownersBD);
+
+		// clear owners in database
+		ownersBD.clear();
+
+		// Populate set of owners.
+		ownersModify.forEach(ownerModif -> {
+			// Find owner corresponding to techid
+				int index = ownersBDBackup.indexOf(ownerModif);
+				// Optional<Owner> roomInBd = ownersBDBackup.stream().filter(o -> techid.equals(o.getTechid()))
+				// .findFirst();
+
+			// If owner exist => reuse it
+				if (index != -1) {
+				Owner o = ownersBDBackup.get(index);
+				ownersBD.add(o);
+			}
+			// Owner doesn't exist in prp => read it into database
+			else {
+				Owner ownerToAdd = read(ownerModif.getTechid());
+				if (ownerToAdd != null) {
+					ownersBD.add(ownerToAdd);
+				}
+			}
+		});
+
+		return ownersBD;
+
 	}
 
 	@Override

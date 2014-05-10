@@ -75,6 +75,10 @@ public class Room {
 	private Integer				nbWindow;
 
 	@ManyToOne
+	@JoinColumn(name = "DOC_ID")
+	private Document			photo;
+
+	@ManyToOne
 	@JoinColumn(name = "PRO_ID", nullable = false)
 	private RealPropertyBuilt	property;
 

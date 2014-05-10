@@ -13,6 +13,7 @@ public enum EnumLabelType {
 	ROOF("ROOF"), //
 	WALL("WALL"), //
 	INSULATION("INSULATION"), //
+	FLOOR("FLOOR"), //
 	PARKING("PARKING");
 
 	/**

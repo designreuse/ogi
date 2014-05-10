@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -31,6 +30,7 @@ import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyBuilt;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 import fr.jerep6.ogi.persistance.bo.Rent;
+import fr.jerep6.ogi.persistance.bo.Room;
 import fr.jerep6.ogi.persistance.bo.Sale;
 import fr.jerep6.ogi.persistance.bo.State;
 import fr.jerep6.ogi.persistance.bo.Type;
@@ -45,6 +45,7 @@ import fr.jerep6.ogi.service.ServiceEquipment;
 import fr.jerep6.ogi.service.ServiceOwner;
 import fr.jerep6.ogi.service.ServiceRealProperty;
 import fr.jerep6.ogi.service.ServiceRent;
+import fr.jerep6.ogi.service.ServiceRoom;
 import fr.jerep6.ogi.service.ServiceSale;
 import fr.jerep6.ogi.service.ServiceState;
 import fr.jerep6.ogi.service.ServiceType;
@@ -53,7 +54,7 @@ import fr.jerep6.ogi.transfert.mapping.OrikaMapperService;
 @Service("serviceRealProperty")
 @Transactional(propagation = Propagation.REQUIRED)
 public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealProperty, Integer> implements
-ServiceRealProperty {
+		ServiceRealProperty {
 	private static Logger		LOGGER	= LoggerFactory.getLogger(ServiceRealPropertyImpl.class);
 
 	@Autowired
@@ -94,6 +95,9 @@ ServiceRealProperty {
 
 	@Autowired
 	private ServiceOwner		serviceOwner;
+
+	@Autowired
+	private ServiceRoom			serviceRoom;
 
 	@Autowired
 	private OrikaMapperService	mapper;
@@ -189,10 +193,17 @@ ServiceRealProperty {
 		// ###### Descriptions ######
 		Set<Description> descriptions = serviceDescription.merge(prp.getDescriptions(),
 				propertyFromJson.getDescriptions());
-		for (Description description : descriptions) {
-			description.setProperty(prp);
-		}
 		prp.setDescriptions(descriptions);
+		descriptions.stream().forEach(d -> d.setProperty(prp));
+
+		// Owners
+		Set<Owner> owners = serviceOwner.merge(prp.getOwners(), propertyFromJson.getOwners());
+		prp.setOwners(owners);
+
+		// Documents
+		Set<Document> documents = serviceDocument.merge(prp.getReference(), prp.getDocuments(),
+				propertyFromJson.getDocuments());
+		prp.setDocuments(documents);
 
 		// ###### SPECIFIC ######
 		if (propertyFromJson instanceof RealPropertyBuilt) {
@@ -211,29 +222,14 @@ ServiceRealProperty {
 		}
 
 		if (propertyFromJson instanceof RealPropertyLivable) {
-			RealPropertyLivable liveable = (RealPropertyLivable) propertyFromJson;
-			/*
-			 * // Room
-			 * if (liveable.getRooms() != null) {
-			 * for (Room aRoom : liveable.getRooms()) {
-			 * // techid to null to force insert
-			 * aRoom.setTechid(null);
-			 * aRoom.setProperty(liveable);
-			 * }
-			 * }
-			 */
+			RealPropertyLivable liveable = (RealPropertyLivable) prp;
+			RealPropertyLivable liveableJson = (RealPropertyLivable) propertyFromJson;
+
+			// Rooms
+			Set<Room> rooms = serviceRoom.merge(liveable.getRooms(), liveableJson.getRooms(), prp.getDocuments());
+			liveable.setRooms(rooms);
+			rooms.stream().forEach(r -> r.setProperty(liveable));
 		}
-
-		// Owners
-		Set<Integer> ownersTechid = propertyFromJson.getOwners().stream().map(o -> o.getTechid())
-				.collect(Collectors.<Integer> toSet());
-		Set<Owner> owners = serviceOwner.read(ownersTechid);
-		prp.setOwners(owners);
-
-		// Documents
-		Set<Document> documents = serviceDocument.merge(prp.getReference(), prp.getDocuments(),
-				propertyFromJson.getDocuments());
-		prp.setDocuments(documents);
 
 		// Save real property into database
 		if (create) {

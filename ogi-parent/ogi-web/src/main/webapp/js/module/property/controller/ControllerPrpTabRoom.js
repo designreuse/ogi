@@ -102,8 +102,8 @@ var ModalRoomInstanceCtrl = function ($scope, $modalInstance, ServiceConfigurati
 
     $scope.ok = function () {
         // Save into prp room only label
-        if( $scope.room.floor) {
-            $scope.room.floor = $scope.room.floor.label;
+        if($scope.saveData.floor) {
+            $scope.room.floor = $scope.saveData.floor.label;
         }
 
         // Spread room to caller

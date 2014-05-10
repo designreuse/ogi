@@ -39,4 +39,6 @@ public interface ServiceOwner extends TransactionalService<Owner, Integer> {
 	void deleteProperty(Integer ownerTechid, String prpRef);
 
 	Set<Owner> read(Set<Integer> techids);
+
+	Set<Owner> merge(Set<Owner> ownersBD, Set<Owner> ownersModify);
 }
