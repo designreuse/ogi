@@ -1,44 +1,59 @@
-function ControllerPrpParent($scope, Page, $log, $http, $routeParams, ServiceConfiguration, Utils, ServiceAlert) {
+function ControllerPrpParent($scope, $log, $http, $routeParams,
+                             Page, ServiceConfiguration, ServiceObject, Utils, ServiceAlert) {
     $scope.formCreate = true;
 
     // Top menu for active item
     $scope.addMenu = {
-        "items" : [
-            { "name" : "owner", "active" : false, "url" : "js/module/property/view/prpFormTabOwner.html"},
-            { "name" : "prp", "active" : false, "url" : "js/module/property/view/prpFormTabGeneral.html"},
-            { "name" : "desc", "active" : false, "url" : "js/module/property/view/prpFormTabDesc.html"},
-            { "name" : "doc", "active" : false, "url" : "js/module/property/view/prpFormTabDocuments.html"},
-            { "name" : "adminis", "active" : false, "url" : "js/module/property/view/prpFormTabAdministratif.html"},
-            { "name" : "equipment", "active" : false, "url" : "js/module/property/view/formPrpTabGeneral.html"},
-            { "name" : "diagnosis", "active" : false, "url" : "js/module/property/view/prpFormTabDiagnosis.html"},
-            { "name" : "room", "active" : false, "url" : "js/module/property/view/prpFormTabRoom.html"},
-            { "name" : "partner", "active" : false, "url" : "js/module/property/view/prpFormTabPartner.html"}
-        ],
+        "items" : {
+            "owner":    {"active" : false, "url" : "js/module/property/view/prpFormTabOwner.html"},
+            "prp":      {"active" : false, "url" : "js/module/property/view/prpFormTabGeneral.html"},
+            "desc":     {"active" : false, "url" : "js/module/property/view/prpFormTabDesc.html"},
+            "doc":      {"active" : false, "url" : "js/module/property/view/prpFormTabDocuments.html"},
+            "adminis":  {"active" : false, "url" : "js/module/property/view/prpFormTabAdministratif.html", "categToHide" : ["PLT"]},
+            "equipment":{"active" : false, "url" : "js/module/property/view/formPrpTabGeneral.html"},
+            "diagnosis":{"active" : false, "url" : "js/module/property/view/prpFormTabDiagnosis.html"},
+            "room":     {"active" : false, "url" : "js/module/property/view/prpFormTabRoom.html", "categToHide" : ["PLT"]},
+            "partner":  {"active" : false, "url" : "js/module/property/view/prpFormTabPartner.html"}
+        },
 
         clean : function () {
-            angular.forEach(this.items, function (value, key) {
-                value.active = false;
+            var items = this.items;
+            Object.keys(items).map(function(value, index) {
+                items[value].active = false;
             });
         },
         select : function (itemName) {
             this.clean();
-            angular.forEach(this.items, function (value, key) {
-                if(value.name == itemName) {
-                    value.active = true;
-                }
-            });
+            this.items[itemName].active = true;
         },
         getActive : function() {
-            var itemActive = null;
-            angular.forEach(this.items, function (value, key) {
-                if(value.active === true) {
-                    itemActive = value;
+            var activeKey = null;
+            var items = this.items;
+            Object.keys(items).map(function(value, index) {
+                if(items[value].active === true) {
+                    activeKey = value;
                 }
             });
-            return itemActive;
+            return activeKey;
         }
     };
-    $scope.addMenu.select("room");
+    $scope.addMenu.select("prp");
+
+    /**
+     * Indicate if tab must be display according to prp category
+     * @param tab name of tab
+     * @returns {boolean}
+     */
+    $scope.displayTab = function(tab) {
+        // Retrieves the list of categories for which the tab is hidden
+        var categToHide = $scope.addMenu.items[tab].categToHide;
+        if($scope.prp.category && categToHide) {
+            // Hide tab when prp category is in tab list
+            return categToHide.filter(function(elt) { return elt == $scope.prp.category.code;}).length == 0;
+        }
+        // Default => display tab
+        else { return true; }
+    }
 
     /**
      * Le flux json doit contenir le type du bien car en java, il y a un héritage. Il faut donc connaitre la classe

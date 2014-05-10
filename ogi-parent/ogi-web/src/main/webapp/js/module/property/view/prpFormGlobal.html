@@ -6,22 +6,20 @@
     </div>
 
     <ul class="nav nav-tabs">
-        <li ng-class="{active: addMenu.getActive().name == 'owner'}"><a ng-click="addMenu.select('owner')" href="javascript:;">Propriétaire</a></li>
-        <li ng-class="{active: addMenu.getActive().name == 'prp'}"><a ng-click="addMenu.select('prp')" href="javascript:;">Bien</a></li>
-        <li ng-class="{active: addMenu.getActive().name == 'desc'}"><a ng-click="addMenu.select('desc')" href="javascript:;">Descriptif</a></li>
-        <li ng-class="{active: addMenu.getActive().name == 'adminis'}"><a ng-click="addMenu.select('adminis')" href="javascript:;">Administratif</a></li>
-        <li ng-class="{active: addMenu.getActive().name == 'diagnosis'}"><a ng-click="addMenu.select('diagnosis')" href="javascript:;">Diagnostics immobiliers</a></li>
+        <li ng-class="{active: addMenu.getActive() == 'owner'}"><a ng-click="addMenu.select('owner')" href="javascript:;">Propriétaire</a></li>
+        <li ng-class="{active: addMenu.getActive()== 'prp'}"><a ng-click="addMenu.select('prp')" href="javascript:;">Bien</a></li>
+        <li ng-class="{active: addMenu.getActive()== 'desc'}"><a ng-click="addMenu.select('desc')" href="javascript:;">Descriptif</a></li>
+        <li ng-if="displayTab('room')" ng-class="{active: addMenu.getActive()== 'room'}"><a ng-click="addMenu.select('room')" href="javascript:;">Pièces</a></li>
+        <li ng-class="{active: addMenu.getActive() == 'adminis'}"><a ng-click="addMenu.select('adminis')" href="javascript:;">Administratif</a></li>
+        <li ng-if="displayTab('diagnosis')" ng-class="{active: addMenu.getActive() == 'diagnosis'}"><a ng-click="addMenu.select('diagnosis')" href="javascript:;">Diagnostics immobiliers</a></li>
 
-        <li ng-class="{active: addMenu.getActive().name == 'doc'}"><a ng-click="addMenu.select('doc')" href="javascript:;">Documents</a></li>
-        <li ng-if="!formCreate" ng-class="{active: addMenu.getActive().name == 'partner'}"><a ng-click="addMenu.select('partner')" href="javascript:;">Sites externes</a></li>
-
-        <li ng-class="{active: addMenu.getActive().name == 'room'}"><a ng-click="addMenu.select('room')" href="javascript:;">Pièces</a></li>
-        <!--<li ng-class="{active: addMenu['prp']}"><a ng-click="addMenu.select('prp')" href="javascript:;">Visites</a></li>-->
+        <!--<li ng-class="{active: addMenu.getActive() == 'doc'}"><a ng-click="addMenu.select('doc')" href="javascript:;">Documents</a></li>-->
+        <li ng-if="!formCreate" ng-class="{active: addMenu.getActive()== 'partner'}"><a ng-click="addMenu.select('partner')" href="javascript:;">Sites externes</a></li>
     </ul>
 
     <!-- name is used by FormController to published form into scope -->
     <form name="formPrp" class="well">
-        <div ng-include="addMenu.getActive().url"></div>
+        <div ng-include="addMenu.items[addMenu.getActive()].url"></div>
     </form>
 
 </div>

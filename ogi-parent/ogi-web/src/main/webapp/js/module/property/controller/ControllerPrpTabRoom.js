@@ -98,7 +98,7 @@ var ModalRoomInstanceCtrl = function ($scope, $modalInstance, $q,
         // Deselect all photos
         Object.keys($scope.photoActive).map(function(value, index) {
             $scope.photoActive[value] = false;
-        })
+        });
         // Selected selected photo
         $scope.photoActive[photo.techid] = true;
 
