@@ -81,7 +81,7 @@ function ControllerPrpParent($scope, $log, $http, $routeParams,
         $scope.prp.address = $scope.saveData.address.isEmpty() ? null : $scope.saveData.address;
         // Send only techid
         $scope.prp.owners = $scope.saveData.ownersProperty.map(function(owner) {return owner.techid});
-
+        $scope.prp.rooms = $scope.prp.rooms || [];
         fn();
     }
 
