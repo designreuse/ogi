@@ -11,7 +11,8 @@
                     <h3>{{r.roomType}}</h3>
                     <p>
                         Surface : {{r.area}} m² <br />
-                        Sol : {{r.floor}}
+                        Sol : {{r.floor}}<br />
+                        Description : {{r.description}}
                     </p>
                     <p class="text-center">
                         <button ng-click="update(r)" class="btn btn-default" role="button">
@@ -146,6 +147,17 @@
 
             <fieldset class="row">
                 <legend>Photo</legend>
+                <ul class="list-unstyled list-inline roomPhotos text-center">
+                    <li ng-repeat="photo in photos"
+                        class="pointer"
+                        ng-click="selectPhoto(photo)"
+                        ng-class="{active: photoActive[photo.techid]}"
+                            >
+                        <img ng-src="{{photo.url}}?size=80,80&crop=80,80&&sizeMode=inversed_automatic" />
+                    </li>
+
+                    </li>
+                </ul>
 
             </fieldset>
 
