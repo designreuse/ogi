@@ -120,6 +120,11 @@ var ModalRoomInstanceCtrl = function ($scope, $modalInstance, $q,
      */
     $scope.displayNewLabel = function (label, displayed) {
         $scope.newLabel[label].display = displayed;
+
+        // When hide input if data input is empty => select none
+        if(!displayed && !$scope.newLabel[label].value) {
+            $scope.saveData.floor = undefined;
+        }
     }
 
     $scope.ok = function () {
