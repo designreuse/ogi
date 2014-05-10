@@ -51,7 +51,8 @@ myApp.factory('ServiceAlert', function(Utils){
             return alerts;
         },
         formatResponse: function(response) {
-            var msg = "[HTTP:"+response.status+"] - ";
+            //var msg = "[HTTP:"+response.status+"] - ";
+            var msg = "";
             msg += this.formatErrors(response.data.errors);
             return msg;
         },
