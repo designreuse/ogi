@@ -124,8 +124,9 @@ var ModalRoomInstanceCtrl = function ($scope, $modalInstance, $q,
 
     $scope.ok = function () {
         // By default save is resolved.
-        var pSave = $q.defer();
-        pSave.resolve();
+        var deferred  = $q.defer();
+        deferred.resolve();
+        var pSave = deferred.promise;
 
         // Input text isn't displayed => save into prp room only label
         if(!$scope.newLabel.floor.display && $scope.saveData.floor) {
@@ -144,7 +145,7 @@ var ModalRoomInstanceCtrl = function ($scope, $modalInstance, $q,
 
 
         // Close modal only when promise is success
-        pSave.success(function() {
+        pSave.then(function() {
             // Spread room to caller
             $modalInstance.close($scope.room);
         });
