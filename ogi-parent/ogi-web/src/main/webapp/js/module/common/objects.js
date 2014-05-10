@@ -32,6 +32,8 @@ var dpe = {
 
 
 function PropertyJS(prpFromAPI) {
+    this.rooms = [];
+
     // Init object from parameter
     for(var key in prpFromAPI){
         // Replace null for undefined. Need to select with angular JS. If value is null angular create a new option instead of select option with value ""

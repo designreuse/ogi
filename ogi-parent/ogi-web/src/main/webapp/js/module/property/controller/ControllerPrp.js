@@ -9,9 +9,9 @@ function ControllerPrpParent($scope, $log, $http, $routeParams,
             "prp":      {"active" : false, "url" : "js/module/property/view/prpFormTabGeneral.html"},
             "desc":     {"active" : false, "url" : "js/module/property/view/prpFormTabDesc.html"},
             "doc":      {"active" : false, "url" : "js/module/property/view/prpFormTabDocuments.html"},
-            "adminis":  {"active" : false, "url" : "js/module/property/view/prpFormTabAdministratif.html", "categToHide" : ["PLT"]},
+            "adminis":  {"active" : false, "url" : "js/module/property/view/prpFormTabAdministratif.html"},
             "equipment":{"active" : false, "url" : "js/module/property/view/formPrpTabGeneral.html"},
-            "diagnosis":{"active" : false, "url" : "js/module/property/view/prpFormTabDiagnosis.html"},
+            "diagnosis":{"active" : false, "url" : "js/module/property/view/prpFormTabDiagnosis.html", "categToHide" : ["PLT"]},
             "room":     {"active" : false, "url" : "js/module/property/view/prpFormTabRoom.html", "categToHide" : ["PLT"]},
             "partner":  {"active" : false, "url" : "js/module/property/view/prpFormTabPartner.html"}
         },
@@ -37,7 +37,7 @@ function ControllerPrpParent($scope, $log, $http, $routeParams,
             return activeKey;
         }
     };
-    $scope.addMenu.select("prp");
+    $scope.addMenu.select("owner");
 
     /**
      * Indicate if tab must be display according to prp category
@@ -81,7 +81,7 @@ function ControllerPrpParent($scope, $log, $http, $routeParams,
         $scope.prp.address = $scope.saveData.address.isEmpty() ? null : $scope.saveData.address;
         // Send only techid
         $scope.prp.owners = $scope.saveData.ownersProperty.map(function(owner) {return owner.techid});
-        $scope.prp.rooms = $scope.prp.rooms || [];
+
         fn();
     }
 
