@@ -61,13 +61,17 @@ function ControllerPrpTabRoom($scope, Page, $modal, ServiceConfiguration, Servic
     };
 };
 
-var ModalRoomInstanceCtrl = function ($scope, $modalInstance, ServiceConfiguration, ServiceObject,
+var ModalRoomInstanceCtrl = function ($scope, $modalInstance, $q,
+                                      ServiceConfiguration, ServiceObject, ServiceLabel,
                                       $http, actionLabel, room, title, floors, photos) {
     $scope.title = title;
     $scope.room = room;
     $scope.floors = floors;
     $scope.action = actionLabel;
     $scope.photos = photos;
+
+    // Convert null to undefined in order to select works
+    $scope.room.orientation = $scope.room.orientation || undefined;
 
     // Extract label of current room to preserve pointer
     var floorLabel = ServiceObject.getObject($scope.floors, {"label":room.floor}, ["label"]);
@@ -85,6 +89,9 @@ var ModalRoomInstanceCtrl = function ($scope, $modalInstance, ServiceConfigurati
     $scope.saveData = {
         floor : floorLabel
     };
+    $scope.newLabel = {
+        "floor" : {"display": false, "value" : "", "type" : "FLOOR"}
+    };
 
     // when user click on a photo
     $scope.selectPhoto = function(photo) {
@@ -99,15 +106,49 @@ var ModalRoomInstanceCtrl = function ($scope, $modalInstance, ServiceConfigurati
         room.photo = photo;
     };
 
+    /** Display input when floor value change to "other" */
+    $scope.floorChange = function () {
+        if($scope.saveData.floor.label == "Autre") {
+            $scope.displayNewLabel("floor", true);
+        }
+    }
+
+    /**
+     * Change display state
+     * @param label type of label to change. Must be a key of $scope.displayNewLabel
+     * @param display true or false
+     */
+    $scope.displayNewLabel = function (label, displayed) {
+        $scope.newLabel[label].display = displayed;
+    }
 
     $scope.ok = function () {
-        // Save into prp room only label
-        if($scope.saveData.floor) {
+        // By default save is resolved.
+        var pSave = $q.defer();
+        pSave.resolve();
+
+        // Input text isn't displayed => save into prp room only label
+        if(!$scope.newLabel.floor.display && $scope.saveData.floor) {
             $scope.room.floor = $scope.saveData.floor.label;
         }
+        // Input text is displayed => consideration of the value
+        if($scope.newLabel.floor.display && $scope.newLabel.floor.value) {
+            // Save label
+            pSave = ServiceLabel.saveLabel($scope.newLabel.floor.type, $scope.newLabel.floor.value)//
+            .success(function(data) {
+                $scope.floors.push(data);
+            });
+            // Write in room value of new label
+            $scope.room.floor = $scope.newLabel.floor.value;
+        }
 
-        // Spread room to caller
-        $modalInstance.close($scope.room);
+
+        // Close modal only when promise is success
+        pSave.success(function() {
+            // Spread room to caller
+            $modalInstance.close($scope.room);
+        });
+
     };
 };
 

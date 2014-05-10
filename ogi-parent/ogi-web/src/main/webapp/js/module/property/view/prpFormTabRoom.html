@@ -12,7 +12,7 @@
                     <p class="description-room">
                         Surface : {{r.area}} m² <br />
                         Sol : {{r.floor}}<br />
-                        Description : {{r.description}}
+                        Description : {{r.description | limitTo:'45'}}...
                     </p>
                     <p class="text-center">
                         <button ng-click="update(r)" class="btn btn-default" role="button">
@@ -102,7 +102,7 @@
                     <div class="form-group">
                         <label>Exposition</label>
                         <select class="form-control" ng-model="room.orientation">
-                            <option value="">--- Sélectionner une orientation ---</option>
+                            <option value="">-- Sélectionner une orientation --</option>
                             <option value="N">Nord</option>
                             <option value="S">Sud</option>
                             <option value="E">Est</option>
@@ -115,11 +115,19 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label>Sol</label>
-                        <select class="form-control" ng-model="saveData.floor" ng-options="l.label for l in floors" ng-change="roofChange()">
+                    <div class="form-group input-append">
+                        <label c>Sol</label>
+                        <select ng-if="!newLabel.floor.display" class="form-control" ng-model="saveData.floor" ng-options="l.label for l in floors" ng-change="floorChange()">
                             <option value="">--- Sélectionner un sol ---</option>
                         </select>
+                        <div ng-if="newLabel.floor.display" class="input-group">
+                            <input class="form-control" type="text" ng-model="newLabel['floor'].value" />
+                            <span tooltip="Afficher la liste déroulante"
+                                  ng-click="displayNewLabel('floor', false)"
+                                  class="pointer input-group-addon glyphicon glyphicon-remove">
+                            </span>
+                        </div>
+
                     </div>
                 </div>
 
@@ -152,10 +160,8 @@
                         class="pointer"
                         ng-click="selectPhoto(photo)"
                         ng-class="{active: photoActive[photo.techid]}"
-                            >
+                    >
                         <img ng-src="{{photo.url}}?size=80,80&crop=80,80&&sizeMode=inversed_automatic" />
-                    </li>
-
                     </li>
                 </ul>
 

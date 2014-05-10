@@ -43,6 +43,14 @@ angular.module('myApp.property').factory('ServiceLabel', function($http, Service
     return {
         getLabels : function(type){
             return $http.get(ServiceConfiguration.API_URL+"/rest/label/"+type);
+        },
+        saveLabel : function(type, label) {
+            var l = {
+                "techid": null,
+                "type": type,
+                "label": label
+            }
+            return $http.post(ServiceConfiguration.API_URL+"/rest/label/", l);
         }
     }
 });
