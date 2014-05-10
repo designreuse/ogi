@@ -179,18 +179,15 @@ var ModalTypeInstanceCtrl = function ($scope, $modalInstance, ServiceConfigurati
     };
 };
 
-var ModalLabelInstanceCtrl = function ($scope, $modalInstance, ServiceConfiguration, $http, currentElt, labels) {
+var ModalLabelInstanceCtrl = function ($scope, $modalInstance, $http,
+                                       ServiceConfiguration, ServiceLabel,
+                                       currentElt, labels) {
     $scope.newType = {"label" : null}; // Have to use object else in function ok value is not up to date
     $scope.labels =labels;
 
     $scope.ok = function () {
-        var label = {
-            "techid": null,
-            "type": currentElt,
-            "label": $scope.newType.label
-        }
-
-        $http.post(ServiceConfiguration.API_URL+"/rest/label/", label).success(function (data) {
+        ServiceLabel.saveLabel(currentElt, $scope.newType.label)//
+        .success(function (data) {
             $modalInstance.close(data);
         });
     };
