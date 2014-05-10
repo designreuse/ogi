@@ -22,6 +22,7 @@ import com.google.common.collect.Iterables;
 import fr.jerep6.ogi.exception.business.RealPropertyNotFoundBusinessException;
 import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessErrorProperty;
 import fr.jerep6.ogi.framework.exception.BusinessException;
+import fr.jerep6.ogi.framework.exception.MultipleBusinessException;
 import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
 import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.Description;
@@ -55,7 +56,7 @@ import fr.jerep6.ogi.transfert.mapping.OrikaMapperService;
 @Service("serviceRealProperty")
 @Transactional(propagation = Propagation.REQUIRED)
 public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealProperty, Integer> implements
-ServiceRealProperty {
+		ServiceRealProperty {
 	private static Logger		LOGGER	= LoggerFactory.getLogger(ServiceRealPropertyImpl.class);
 
 	@Autowired
@@ -132,6 +133,8 @@ ServiceRealProperty {
 	private RealProperty createOrUpdateFromBusinessFields(RealProperty prp, RealProperty propertyFromJson,
 			Boolean create) {
 		Preconditions.checkNotNull(prp);
+
+		validate(prp);
 
 		// ###### Address ######
 		serviceAddress.validate(prp.getAddress());
@@ -299,5 +302,21 @@ ServiceRealProperty {
 		}
 
 		return createOrUpdateFromBusinessFields(prp, propertyFromJson, false);
+	}
+
+	@Override
+	public void validate(RealProperty bo) throws BusinessException {
+		if (bo == null) {
+			return;
+		}
+		MultipleBusinessException mbe = new MultipleBusinessException();
+
+		if (!Strings.isNullOrEmpty(bo.getReference())) {
+			if (readByReference(bo.getReference()) != null) {
+				mbe.add(EnumBusinessErrorProperty.REFERENCE_EXISTS, bo.getReference());
+			}
+		}
+
+		mbe.checkErrors();
 	}
 }
