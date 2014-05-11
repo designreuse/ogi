@@ -7,9 +7,15 @@
 		<Console name="Console" target="SYSTEM_OUT">
 			<PatternLayout pattern="[%d{ISO8601}] - [%p] - [THREAD %t] - %c[%l] - %m %n" />
 		</Console>
-		<File name="R1" fileName="D:/Developpement/Master/Java8/logs/app.log">
+		<RollingFile  name="R1" 
+				fileName="D:/Developpement/Master/Java8/logs/app.log"
+				filePattern="D:/Developpement/Master/Java8/logs/app-app-%d{yyyy-MM-dd}-%i.log">
+				>
 			<PatternLayout pattern="[%d{ISO8601}] - [%p] - [THREAD %t] - %c[%l] - %m %n" />
-		</File>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+			</Policies>
+		</RollingFile >
 	</Appenders>
 	
 	
