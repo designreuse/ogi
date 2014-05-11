@@ -418,27 +418,6 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
-            
-            <!-- Maven release -->
-            <plugin> 
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<version>2.4.2</version>
-				<configuration>
-					<!-- <tagBase>git://github.com:jerep6/ogi.git</tagBase> -->
-					<!-- The tagNameFormat uses @{ and } as delimiters in order to ensure that the default Maven 
-					property interpolation does not substitute the values before the version transformation has taken place. --> 
-					<tagNameFormat>@{project.version}</tagNameFormat>
-					<scmCommentPrefix>Maven release : </scmCommentPrefix>
-					<autoVersionSubmodules>true</autoVersionSubmodules>
-					<preparationGoals>clean</preparationGoals>
-					<!-- during release:perform, enable delivery profile -->							
-					<releaseProfiles>delivery</releaseProfiles>
-					<!-- Desactivate profile release-profile in order to don't generate javadoc -->
-					<useReleaseProfile>false</useReleaseProfile>
-					<goals>deploy -DskipTests</goals>
-				</configuration>
-			</plugin>
 		</plugins>
 		
 		
