@@ -59,9 +59,18 @@
             <fieldset class="row">
                 <legend>Général</legend>
                 <div class="col-xs-6">
-                    <div class="form-group">
+                    <div class="form-group input-append">
                         <label>Type de pièce</label>
-                        <input class="form-control" type="text" ng-model="room.roomType" />
+                        <select ng-if="!newLabel.roomType.display" class="form-control" ng-model="saveData.roomType" ng-options="l.label for l in labels.roomTypes" ng-change="labelChange('roomType')">
+                            <option value="">--- Sélectionner une type ---</option>
+                        </select>
+                        <div ng-if="newLabel.roomType.display" class="input-group">
+                            <input class="form-control" type="text" ng-model="newLabel.roomType.value" />
+                            <span tooltip="Afficher la liste déroulante"
+                                  ng-click="displayNewLabel('roomType', false)"
+                                  class="pointer input-group-addon glyphicon glyphicon-remove">
+                            </span>
+                        </div>
                     </div>
 
                     <div class="form-group input-append">
@@ -116,8 +125,8 @@
                     </div>
 
                     <div class="form-group input-append">
-                        <label c>Sol</label>
-                        <select ng-if="!newLabel.floor.display" class="form-control" ng-model="saveData.floor" ng-options="l.label for l in floors" ng-change="floorChange()">
+                        <label>Sol</label>
+                        <select ng-if="!newLabel.floor.display" class="form-control" ng-model="saveData.floor" ng-options="l.label for l in labels.floors" ng-change="labelChange('floor')">
                             <option value="">--- Sélectionner un sol ---</option>
                         </select>
                         <div ng-if="newLabel.floor.display" class="input-group">
@@ -127,7 +136,20 @@
                                   class="pointer input-group-addon glyphicon glyphicon-remove">
                             </span>
                         </div>
+                    </div>
 
+                    <div class="form-group input-append">
+                        <label>Mur</label>
+                        <select ng-if="!newLabel.wall.display" class="form-control" ng-model="saveData.wall" ng-options="l.label for l in labels.walls" ng-change="labelChange('wall')">
+                            <option value="">--- Sélectionner un mur ---</option>
+                        </select>
+                        <div ng-if="newLabel.wall.display" class="input-group">
+                            <input class="form-control" type="text" ng-model="newLabel['wall'].value" />
+                            <span tooltip="Afficher la liste déroulante"
+                                  ng-click="displayNewLabel('wall', false)"
+                                  class="pointer input-group-addon glyphicon glyphicon-remove">
+                            </span>
+                        </div>
                     </div>
                 </div>
 
