@@ -16,18 +16,21 @@ function ControllerOwnerAdd($scope, Page, $injector, $routeParams, ServiceConfig
                 .success(function(data, status) {
                     $scope.callbackSuccess(data, status);
 
-                    var url = "";
+                    // Redirect only when url parameter are defined
+                    if($location.search().prpReference || $location.search().prpCategory) {
+                        var url = "";
 
-                    // Modification
-                    if($location.search().prpReference) {
-                        url += "/biens/modifier/"+$location.search().prpReference;
+                        // Modification
+                        if($location.search().prpReference) {
+                            url += "/biens/modifier/"+$location.search().prpReference;
+                        }
+                        // Creation
+                        else {
+                            url += "/biens/ajouter/"+$location.search().prpCategory;
+                        }
+                        url +="?ownerTechid="+data.techid;
+                        $location.url(url);
                     }
-                    // Creation
-                    else {
-                        url += "/biens/ajouter/"+$location.search().prpCategory;
-                    }
-                    url +="?ownerTechid="+data.techid;
-                    $location.url(url);
                 })
                 .error($scope.callbackError);
         });

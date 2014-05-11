@@ -3,6 +3,7 @@ package fr.jerep6.ogi.persistance.bo;
 import java.util.Calendar;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -70,10 +71,10 @@ public class Owner {
 	@ManyToMany(mappedBy = "owners")
 	private Set<RealProperty>	properties;
 
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "TJ_OWN_ADD", //
 	joinColumns = @JoinColumn(name = "OWN_ID"), //
 	inverseJoinColumns = @JoinColumn(name = "ADD_ID")//
-			)
+	)
 	private Set<Address>		addresses;
 }

@@ -12,7 +12,7 @@
 		<spring.version>4.0.2.RELEASE</spring.version>
 		<spring.batch.version>3.0.0.M3</spring.batch.version>
 		
-		<hibernate.version>4.3.4.Final</hibernate.version>
+		<hibernate.version>4.3.5.Final</hibernate.version>
 		<aspectj.version>1.7.2</aspectj.version>
 		<guava.version>16.0.1</guava.version>
 		<lombok.version>1.12.6</lombok.version>
