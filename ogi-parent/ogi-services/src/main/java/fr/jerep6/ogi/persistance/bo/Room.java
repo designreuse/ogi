@@ -84,6 +84,7 @@ public class Room {
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(this).add("techid", techid).add("area", area).toString();
+		return Objects.toStringHelper(this).add("techid", techid).add("roomType", roomType).add("area", area)
+				.toString();
 	}
 }

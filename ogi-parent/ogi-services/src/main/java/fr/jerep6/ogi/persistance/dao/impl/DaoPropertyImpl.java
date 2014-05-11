@@ -50,7 +50,10 @@ public class DaoPropertyImpl extends AbstractDao<RealProperty, Integer> implemen
 		q.append(" LEFT JOIN fetch r.sale");
 		q.append(" LEFT JOIN fetch r.rent");
 		q.append(" LEFT JOIN fetch r.state");
-		q.append(" LEFT JOIN fetch r.rooms");
+		// Don't fetch room because it's a list. Hibernate ajoute dans la liste des
+		// rooms à chaque fois quu'ne jointure dupliquante est faite (documents, descriptions ...). Si le bien a 2
+		// documents et 3 pièces, alors la liste contiendra 2 * 3 pièces
+		// q.append(" LEFT JOIN fetch r.rooms");
 		q.append(" LEFT JOIN fetch r.equipments");
 		q.append(" LEFT JOIN fetch r.owners");
 		q.append(" LEFT JOIN fetch r.diagnosisProperty");
@@ -63,7 +66,7 @@ public class DaoPropertyImpl extends AbstractDao<RealProperty, Integer> implemen
 	@Override
 	public List<RealProperty> readByReference(List<String> references) {
 		StringBuilder q = new StringBuilder();
-		q.append("SELECT r ").append(" FROM ").append(RealProperty.class.getName()).append(" r ");
+		q.append("SELECT distinct r ").append(" FROM ").append(RealProperty.class.getName()).append(" r ");
 		// I don't want a select for each many to one : prefer join
 		q.append(" LEFT JOIN fetch r.address");
 		q.append(" LEFT JOIN fetch r.category");
@@ -73,7 +76,10 @@ public class DaoPropertyImpl extends AbstractDao<RealProperty, Integer> implemen
 		q.append(" LEFT JOIN fetch r.sale");
 		q.append(" LEFT JOIN fetch r.rent");
 		q.append(" LEFT JOIN fetch r.state");
-		q.append(" LEFT JOIN fetch r.rooms");
+		// Don't fetch room because it's a list. Hibernate ajoute dans la liste des rooms à chaque fois quu'ne jointure
+		// dupliquante est faite (documents, descriptions ...). Si le bien a 2 documents et 3 pièces, alors la liste
+		// contiendra 2 * 3 pièces
+		// q.append(" LEFT JOIN fetch r.rooms");
 		q.append(" LEFT JOIN fetch r.equipments");
 		q.append(" LEFT JOIN fetch r.owners");
 		q.append(" LEFT JOIN fetch r.diagnosisProperty");

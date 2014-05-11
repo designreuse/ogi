@@ -47,7 +47,7 @@ public class ServiceRoomImpl extends AbstractTransactionalService<Room, Integer>
 	}
 
 	@Override
-	public Set<Room> merge(Set<Room> roomBD, Set<Room> roomModif, Set<Document> documents) {
+	public List<Room> merge(List<Room> roomBD, List<Room> roomModif, Set<Document> documents) {
 		// Keep room to reuse it (avoid insert)
 		List<Room> roomBDBackup = new ArrayList<>(roomBD);
 
@@ -76,7 +76,7 @@ public class ServiceRoomImpl extends AbstractTransactionalService<Room, Integer>
 			});
 
 		// Delete rooms
-		SetView<Room> difference = Sets.difference(new HashSet<>(roomBDBackup), roomBD);
+		SetView<Room> difference = Sets.difference(new HashSet<>(roomBDBackup), new HashSet<>(roomBD));
 		remove(difference);
 
 		return roomBD;

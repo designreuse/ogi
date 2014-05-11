@@ -230,7 +230,7 @@ ServiceRealProperty {
 			RealPropertyLivable liveableJson = (RealPropertyLivable) propertyFromJson;
 
 			// Rooms
-			Set<Room> rooms = serviceRoom.merge(liveable.getRooms(), liveableJson.getRooms(), prp.getDocuments());
+			List<Room> rooms = serviceRoom.merge(liveable.getRooms(), liveableJson.getRooms(), prp.getDocuments());
 			liveable.setRooms(rooms);
 			rooms.stream().forEach(r -> r.setProperty(liveable));
 		}
@@ -266,15 +266,13 @@ ServiceRealProperty {
 	@Override
 	public Set<RealProperty> readByReference(List<String> prpReferences) {
 		Preconditions.checkNotNull(prpReferences);
-
 		return new HashSet<RealProperty>(daoProperty.readByReference(prpReferences));
 	}
 
 	@Override
 	public RealProperty readByReference(String reference) {
 		Preconditions.checkArgument(!Strings.isNullOrEmpty(reference), "Reference is null or empty");
-
-		return Iterables.getFirst(daoProperty.readByReference(Arrays.asList(reference)), null);
+		return Iterables.getFirst(readByReference(Arrays.asList(reference)), null);
 	}
 
 	@Override

@@ -3,11 +3,11 @@ package fr.jerep6.ogi.persistance.bo;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -15,6 +15,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
@@ -78,19 +79,19 @@ public abstract class RealPropertyBuilt extends RealProperty {
 	// side is the owner; the one side is the inverse
 	// Pour que RealPropertyBuilt soit maitre de la relation, il ne faut pas définir le mappedBy et donc indiquer la
 	// joincolumn
-	@OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "property", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	// @JoinColumn(name = "PRO_ID")
-	private Set<Room>		rooms	= new HashSet<>(0);
+	private List<Room>		rooms	= new ArrayList<>(0);
 
 	// The @Embedded annotation is used to specify a persistent field or property of an entity whose value is an
 	// instance of an embeddable class. By default, column definitions specified in the @Embeddable class apply to the
 	// table of the owning entity but you can override them using@AttributeOverride:
 	@Embedded
 	@AttributeOverrides({ //
-		@AttributeOverride(name = "kWh", column = @Column(name = "PRB_DPE_KWH")), //
-		@AttributeOverride(name = "classificationKWh", column = @Column(name = "PRB_DPE_CLASS_KWH")), //
-		@AttributeOverride(name = "ges", column = @Column(name = "PRB_DPE_GES")), //
-		@AttributeOverride(name = "classificationGes", column = @Column(name = "PRB_DPE_CLASS_GES")), //
+	@AttributeOverride(name = "kWh", column = @Column(name = "PRB_DPE_KWH")), //
+			@AttributeOverride(name = "classificationKWh", column = @Column(name = "PRB_DPE_CLASS_KWH")), //
+			@AttributeOverride(name = "ges", column = @Column(name = "PRB_DPE_GES")), //
+			@AttributeOverride(name = "classificationGes", column = @Column(name = "PRB_DPE_CLASS_GES")), //
 	})
 	private DPE				dpe;
 
