@@ -132,7 +132,9 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
 
 
     $scope.$on('fileuploadfail', function(e, data){
-        data.errorThrown =  ServiceAlert.formatErrors(data.result.errors);
+        if(data && data.result) {
+            data.errorThrown =  ServiceAlert.formatErrors(data.result.errors);
+        }
     });
 
     // ##### SORTABLE #####
@@ -181,33 +183,3 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
         }
     }
 };
-
-
-function FileDestroyController($scope, $http) {
-    var file = $scope.file,
-        state;
-    if (file.url) {
-        file.$state = function () {
-            return state;
-        };
-        file.$destroy = function () {
-            state = 'pending';
-            return $http({
-                url: file.deleteUrl,
-                method: file.deleteType
-            }).then(
-                function () {
-                    state = 'resolved';
-                    $scope.clear(file);
-                },
-                function () {
-                    state = 'rejected';
-                }
-            );
-        };
-    } else if (!file.$cancel && !file._index) {
-        file.$cancel = function () {
-            $scope.clear(file);
-        };
-    }
-}
