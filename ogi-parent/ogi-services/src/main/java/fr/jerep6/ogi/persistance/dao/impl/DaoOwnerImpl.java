@@ -59,4 +59,17 @@ public class DaoOwnerImpl extends AbstractDao<Owner, Integer> implements DaoOwne
 		List<Owner> owners = query.getResultList();
 		return owners;
 	}
+
+	/**
+	 * Method call by abstratDao.remove(PK)
+	 */
+	@Override
+	public void remove(Owner o) {
+		if (o == null) {
+			return;
+		}
+		// Delete owner into properties because prp is master of relation
+		o.getProperties().forEach(p -> p.getOwners().remove(o));
+		entityManager.remove(o);
+	}
 }

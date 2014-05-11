@@ -74,10 +74,10 @@ public class WSOwner extends AbstractJaxRsWS {
 	@DELETE
 	@Consumes(APPLICATION_JSON_UTF8)
 	@Produces(APPLICATION_JSON_UTF8)
-	public void deleteOwners(@QueryParam("ref") List<Integer> references) {
-		Preconditions.checkNotNull(references);
+	public void deleteOwners(@QueryParam("ref") List<Integer> techids) {
+		Preconditions.checkNotNull(techids);
 
-		serviceOwner.removeByPrimaryKey(references);
+		serviceOwner.removeByPrimaryKey(techids);
 	}
 
 	@GET

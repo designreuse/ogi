@@ -53,7 +53,7 @@ public class AbstractDao<T, PK extends Serializable> implements DaoCRUD<T, PK> {
 	@Override
 	public void remove(PK pk) {
 		T bo = read(pk);
-		entityManager.remove(bo);
+		remove(bo);
 	}
 
 	@Override
