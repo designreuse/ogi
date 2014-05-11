@@ -56,7 +56,7 @@ import fr.jerep6.ogi.transfert.mapping.OrikaMapperService;
 @Service("serviceRealProperty")
 @Transactional(propagation = Propagation.REQUIRED)
 public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealProperty, Integer> implements
-		ServiceRealProperty {
+ServiceRealProperty {
 	private static Logger		LOGGER	= LoggerFactory.getLogger(ServiceRealPropertyImpl.class);
 
 	@Autowired
@@ -134,7 +134,7 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 			Boolean create) {
 		Preconditions.checkNotNull(prp);
 
-		validate(prp);
+		validate(prp, create);
 
 		// ###### Address ######
 		serviceAddress.validate(prp.getAddress());
@@ -304,16 +304,18 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 		return createOrUpdateFromBusinessFields(prp, propertyFromJson, false);
 	}
 
-	@Override
-	public void validate(RealProperty bo) throws BusinessException {
+	public void validate(RealProperty bo, boolean create) throws BusinessException {
 		if (bo == null) {
 			return;
 		}
 		MultipleBusinessException mbe = new MultipleBusinessException();
 
-		if (!Strings.isNullOrEmpty(bo.getReference())) {
-			if (readByReference(bo.getReference()) != null) {
-				mbe.add(EnumBusinessErrorProperty.REFERENCE_EXISTS, bo.getReference());
+		// Only when create property
+		if (create) {
+			if (!Strings.isNullOrEmpty(bo.getReference())) {
+				if (readByReference(bo.getReference()) != null) {
+					mbe.add(EnumBusinessErrorProperty.REFERENCE_EXISTS, bo.getReference());
+				}
 			}
 		}
 
