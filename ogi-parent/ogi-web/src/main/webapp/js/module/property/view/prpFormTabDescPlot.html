@@ -16,12 +16,9 @@
                 </div>
             </div>
 
-            <div class="form-group input-append">
+            <div class="form-group">
                 <label class="control-label">COS</label>
-                <div class="input-group">
-                    <input class="form-control" type="number" ng-model="prp.cos" />
-                    <span class="input-group-addon">%</span>
-                </div>
+                <input class="form-control" type="number" ng-model="prp.cos" />
             </div>
 
         </fieldset>
@@ -34,11 +31,14 @@
                 </select>
             </div>
 
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" value="true" ng-model="prp.housingEstate"> Lotissement
-                </label>
+            <div class="form-group">
+                <label>Situation</label>
+                <div class="checkbox">
+                    <label class="checkbox-inline"><input type="radio" value="true" ng-model="prp.housingEstate"> Lotissement</label>
+                    <label class="checkbox-inline"><input type="radio" value="false" ng-model="prp.housingEstate"> Hors Lotissement</label>
+                </div>
             </div>
+
 
             <div class="checkbox">
                 <label>
