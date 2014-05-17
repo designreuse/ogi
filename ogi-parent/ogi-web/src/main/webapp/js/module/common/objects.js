@@ -48,14 +48,14 @@ function PropertyJS(prpFromAPI) {
     // Cependant JSON.stringify ne tient pas compte du prototype. La solution que j'ai trouvé est de copier toutes
     // les propriétés de l'object dans sa destination via un extends
     this.descriptions = {};
-    angular.extend(this.descriptions, description);
+    angular.extend(this.descriptions, angular.copy(description));
     if(!utilsObject.isUndefinedOrNull(prpFromAPI.descriptions)) {
         angular.extend(this.descriptions, prpFromAPI.descriptions);
     }
 
     // if address is defined copy attribute into object previously created
     this.address = {};
-    angular.extend(this.address, address); // Populate address field from predefined object
+    angular.extend(this.address, angular.copy(address)); // Populate address field from predefined object
     if(!utilsObject.isUndefinedOrNull(prpFromAPI.address)) {
         angular.extend(this.address, prpFromAPI.address); // override JS values with server values
     }
