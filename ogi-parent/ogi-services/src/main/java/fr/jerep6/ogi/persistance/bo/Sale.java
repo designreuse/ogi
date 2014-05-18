@@ -30,14 +30,15 @@ import fr.jerep6.ogi.utils.VenteUtils;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode(of = { "mandateReference" })
+@EqualsAndHashCode(of = { "techid" })
 public class Sale {
 	@Id
 	@Column(name = "SAL_ID", unique = true, nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer			techid;
 
-	@Column(name = "SAL_MAND_REFERENCE", unique = true, length = 64)
+	// Many properties can have same mandate reference
+	@Column(name = "SAL_MAND_REFERENCE", length = 64)
 	private String			mandateReference;
 
 	@Column(name = "SAL_MAND_START")
