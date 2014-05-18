@@ -13,8 +13,8 @@ import fr.jerep6.ogi.persistance.bo.Address;
 import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.Description;
 import fr.jerep6.ogi.persistance.bo.Diagnosis;
-import fr.jerep6.ogi.persistance.bo.RealPropertyDiagnosis;
 import fr.jerep6.ogi.persistance.bo.Equipment;
+import fr.jerep6.ogi.persistance.bo.RealPropertyDiagnosis;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 import fr.jerep6.ogi.persistance.bo.Type;
 import fr.jerep6.ogi.persistance.bo.id.DiagnosisRealPropertyId;
@@ -88,7 +88,7 @@ public class Data {
 
 		farm = new RealPropertyLivable("ref1", categoryHouse, typeFarm);
 		farm.setEquipments(Sets.newHashSet(eqpt1, eqpt2));
-		farm.setLandArea(3400);
+		farm.setLandArea(3400F);
 		farm.setHousingEstate(false);
 		farm.setDescriptions(Sets.newHashSet(d1, d2));
 		farm.setAddress(addressTyrosse);

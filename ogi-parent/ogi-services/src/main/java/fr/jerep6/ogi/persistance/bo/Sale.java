@@ -68,6 +68,9 @@ public class Sale {
 	@Temporal(TemporalType.DATE)
 	private Calendar		estimationDate;
 
+	@Column(name = "SAL_PROPERTY_TAX")
+	private Float			propertyTax;
+
 	@ManyToOne
 	@JoinColumn(name = "PRO_ID", nullable = false)
 	private RealProperty	property;

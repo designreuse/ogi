@@ -35,13 +35,24 @@
                     </div>
 
                     <div class="form-group">
+                        <span style="margin-top: 20px; font-size: 30px; float:right">{{prp.sale.priceFinal | currency}}</span>
                         <label>Pourcentage des honoraires</label>
-                        <div class="input-group" style="width:160px" minus-plus>
+                        <div class="input-group" style="width:160px;" minus-plus>
                             <span class="input-group-addon glyphicon glyphicon-minus"></span>
                             <input class="form-control" type="number" ng-model="prp.sale.commissionPercent" ng-change="computeCommision()" />
                             <span class="input-group-addon glyphicon glyphicon-plus"></span>
                         </div>
+
                     </div>
+
+                    <div class="form-group">
+                        <label>Taxe foncière</label>
+                        <div class="input-group">
+                            <input class="form-control" type="text" ng-model="prp.sale.propertyTax" />
+                            <span class="input-group-addon">€</span>
+                        </div>
+                    </div>
+
                 </div>
 
                 <!-- right -->
@@ -82,30 +93,24 @@
                     </div>
 
                     <div class="form-group">
-                        <span style="font-size: 30px">{{prp.sale.priceFinal | currency}}</span>
+                        <label>Prix estimation </label>
+                        <div class="input-group">
+                            <input class="form-control" type="text" ng-model="prp.sale.estimationPrice" />
+                            <span class="input-group-addon">€</span>
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- Estimation row -->
-            <div class="row">
-                <div class="col-xs-6 form-group">
-                    <label>Prix estimation </label>
-                    <div class="input-group">
-                        <input class="form-control" type="text" ng-model="prp.sale.estimationPrice" />
-                        <span class="input-group-addon">€</span>
+                    <div class="form-group">
+                        <label>Date estimation</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="prp.sale.estimationDate"
+                                   datepicker-popup="dd/MM/yyyy" show-weeks="false" is-open="open['estimationDate']"
+                                   datepicker-options="dateOptions" show-button-bar="false"
+                                   close-text="Close" />
+                            <span class="input-group-addon glyphicon glyphicon-calendar" ng-click="openCalendar($event, 'estimationDate')"></span>
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-xs-6 form-group">
-                    <label>Date estimation</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" ng-model="prp.sale.estimationDate"
-                               datepicker-popup="dd/MM/yyyy" show-weeks="false" is-open="open['estimationDate']"
-                               datepicker-options="dateOptions" show-button-bar="false"
-                               close-text="Close" />
-                        <span class="input-group-addon glyphicon glyphicon-calendar" ng-click="openCalendar($event, 'estimationDate')"></span>
-                    </div>
                 </div>
             </div>
         </div>
