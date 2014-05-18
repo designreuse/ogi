@@ -58,10 +58,10 @@ public class RealProperty {
 	private String						reference;
 
 	@Column(name = "PRO_LAND_AREA")
-	private Integer						landArea;
+	private Float						landArea;
 
 	@Column(name = "PRO_DEPENDENCY_AREA")
-	private Integer						dependencyArea;
+	private Float						dependencyArea;
 
 	@Column(name = "PRO_COS")
 	private Float						cos;

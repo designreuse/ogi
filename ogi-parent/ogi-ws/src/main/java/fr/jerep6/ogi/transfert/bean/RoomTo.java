@@ -12,7 +12,7 @@ import com.google.common.base.Objects;
 public class RoomTo {
 	private Integer		techid;
 	private String		roomType;
-	private Integer		area;
+	private Float		area;
 	private Boolean		carrezLaw;
 	private Boolean		livable;
 	private String		orientation;

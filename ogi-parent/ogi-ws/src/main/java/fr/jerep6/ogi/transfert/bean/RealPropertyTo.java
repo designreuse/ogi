@@ -21,7 +21,7 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
 // type de l'objet. @JsonSubTypes fait la correspondance entre les classes et les valeurs dans le json
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "mappingType")
 @JsonSubTypes({ @Type(name = "liveable", value = RealPropertyLivableTo.class),
-		@Type(name = "plot", value = RealPropertyPlotTo.class) })
+	@Type(name = "plot", value = RealPropertyPlotTo.class) })
 // lombok
 @Getter
 @Setter
@@ -34,8 +34,8 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
 public class RealPropertyTo {
 	private String							reference;
 	private Set<String>						equipments		= new HashSet<>(0);
-	private Integer							landArea;
-	private Integer							dependencyArea;
+	private Float							landArea;
+	private Float							dependencyArea;
 	private Float							cos;
 	private Boolean							housingEstate;
 	private AddressTo						address;

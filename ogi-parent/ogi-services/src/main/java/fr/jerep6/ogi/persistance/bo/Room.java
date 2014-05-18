@@ -41,7 +41,7 @@ public class Room {
 	private String				roomType;
 
 	@Column(name = "ROO_AREA")
-	private Integer				area;
+	private Float				area;
 
 	@Column(name = "ROO_CARREZ")
 	private Boolean				carrezLaw;

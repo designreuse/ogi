@@ -17,7 +17,7 @@ import fr.jerep6.ogi.transfert.mapping.json.JsonCalendarSerializer;
 @Getter
 @Setter
 public abstract class RealPropertyBuiltTo extends RealPropertyTo {
-	private Integer			area;
+	private Float			area;
 	@JsonSerialize(using = JsonCalendarSerializer.class)
 	@JsonDeserialize(using = JsonCalendarDeserializer.class)
 	private Calendar		buildDate;
