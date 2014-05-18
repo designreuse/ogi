@@ -19,6 +19,10 @@ public class RealPropertyPlot extends RealProperty {
 	@Column(name = "PRP_BUILDING")
 	private Boolean	building;
 
+	// Viabilisé
+	@Column(name = "PRP_SERVICED")
+	private Boolean	serviced;
+
 	@Column(name = "PRP_ZONE", length = 16)
 	private String	zone;
 

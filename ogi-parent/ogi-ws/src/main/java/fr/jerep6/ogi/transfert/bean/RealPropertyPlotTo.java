@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class RealPropertyPlotTo extends RealPropertyTo {
 	private Boolean	building;
+	private Boolean	serviced;
 	private String	zone;
 
 	public RealPropertyPlotTo() {
