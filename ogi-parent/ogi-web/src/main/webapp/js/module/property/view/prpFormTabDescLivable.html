@@ -130,8 +130,8 @@
                 </div>
 
                 <div class="checkbox">
-                    <label class="checkbox-inline"><input type="radio" value="true" ng-model="prp.housingEstate"> Lotissement</label>
-                    <label class="checkbox-inline"><input type="radio" value="false" ng-model="prp.housingEstate"> Hors Lotissement</label>
+                    <label class="checkbox-inline"><input type="radio" ng-value="true" ng-model="prp.housingEstate"> Lotissement</label>
+                    <label class="checkbox-inline"><input type="radio" ng-value="false" ng-model="prp.housingEstate" ng-checked="!prp.housingEstate"> Hors Lotissement</label>
                 </div>
 
             </div>

@@ -34,17 +34,27 @@
             <div class="form-group">
                 <label>Situation</label>
                 <div class="checkbox">
-                    <label class="checkbox-inline"><input type="radio" value="true" ng-model="prp.housingEstate"> Lotissement</label>
-                    <label class="checkbox-inline"><input type="radio" value="false" ng-model="prp.housingEstate"> Hors Lotissement</label>
+                    <label class="checkbox-inline"><input type="radio" ng-value="true" ng-model="prp.housingEstate" /> Lotissement</label>
+                    <label class="checkbox-inline"><input type="radio" ng-value="false"  ng-model="prp.housingEstate" ng-checked="!prp.housingEstate" /> Hors Lotissement</label>
                 </div>
             </div>
 
-
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" value="true" ng-model="prp.building"> Constructible
-                </label>
+            <div class="form-group">
+                <label>Viabilisé</label>
+                <div class="checkbox">
+                    <label class="checkbox-inline"><input type="radio" ng-value="true" ng-model="prp.serviced" /> Oui</label>
+                    <label class="checkbox-inline"><input type="radio" ng-value="false" ng-model="prp.serviced"  ng-checked="!prp.serviced" /> Non</label>
+                </div>
             </div>
+
+            <div class="form-group">
+                <label>Constructible</label>
+                <div class="checkbox">
+                    <label class="checkbox-inline"><input type="radio" ng-value="true" ng-model="prp.building" /> Oui</label>
+                    <label class="checkbox-inline"><input type="radio" ng-value="false" ng-model="prp.building" ng-checked="!prp.building" /> Non</label>
+                </div>
+            </div>
+
         </fieldset>
     </div>
 
