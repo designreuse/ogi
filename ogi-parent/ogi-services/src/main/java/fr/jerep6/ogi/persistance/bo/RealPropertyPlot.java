@@ -26,6 +26,9 @@ public class RealPropertyPlot extends RealProperty {
 	@Column(name = "PRP_ZONE", length = 16)
 	private String	zone;
 
+	@Column(name = "PRP_FLOOR_AREA")
+	private Float	floorArea;
+
 	public RealPropertyPlot() {
 		super(null, null, null);
 	}
