@@ -81,23 +81,33 @@ public abstract class RealPropertyBuilt extends RealProperty {
 	// joincolumn
 	@OneToMany(mappedBy = "property", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	// @JoinColumn(name = "PRO_ID")
-	private List<Room>		rooms	= new ArrayList<>(0);
+	private List<Room>		rooms		= new ArrayList<>(0);
 
 	// The @Embedded annotation is used to specify a persistent field or property of an entity whose value is an
 	// instance of an embeddable class. By default, column definitions specified in the @Embeddable class apply to the
 	// table of the owning entity but you can override them using@AttributeOverride:
 	@Embedded
 	@AttributeOverrides({ //
-		@AttributeOverride(name = "kWh", column = @Column(name = "PRB_DPE_KWH")), //
-		@AttributeOverride(name = "classificationKWh", column = @Column(name = "PRB_DPE_CLASS_KWH")), //
-		@AttributeOverride(name = "ges", column = @Column(name = "PRB_DPE_GES")), //
-		@AttributeOverride(name = "classificationGes", column = @Column(name = "PRB_DPE_CLASS_GES")), //
+	@AttributeOverride(name = "kWh", column = @Column(name = "PRB_DPE_KWH")), //
+			@AttributeOverride(name = "classificationKWh", column = @Column(name = "PRB_DPE_CLASS_KWH")), //
+			@AttributeOverride(name = "ges", column = @Column(name = "PRB_DPE_GES")), //
+			@AttributeOverride(name = "classificationGes", column = @Column(name = "PRB_DPE_CLASS_GES")), //
 	})
 	private DPE				dpe;
 
 	@ManyToOne
 	@JoinColumn(name = "STA_ORDER", nullable = true)
 	private State			state;
+
+	// Copropriété
+	@Column(name = "PRB_COOWNERSHIP")
+	private Boolean			coOwnership	= null;
+
+	@Column(name = "PRB_COOWNERSHIP_CHARGES")
+	private Float			coOwnershipCharges;
+
+	@Column(name = "PRB_COOWNERSHIP_LOT_NUMBER")
+	private Integer			coOwnershipLotNumber;
 
 	protected RealPropertyBuilt(String reference, Category category, fr.jerep6.ogi.persistance.bo.Type type) {
 		super(reference, category, type);

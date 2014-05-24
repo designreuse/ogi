@@ -56,7 +56,7 @@ import fr.jerep6.ogi.transfert.mapping.OrikaMapperService;
 @Service("serviceRealProperty")
 @Transactional(propagation = Propagation.REQUIRED)
 public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealProperty, Integer> implements
-ServiceRealProperty {
+		ServiceRealProperty {
 	private static Logger		LOGGER	= LoggerFactory.getLogger(ServiceRealPropertyImpl.class);
 
 	@Autowired
@@ -213,6 +213,12 @@ ServiceRealProperty {
 		if (propertyFromJson instanceof RealPropertyBuilt) {
 			RealPropertyBuilt builtFromJson = (RealPropertyBuilt) propertyFromJson;
 			RealPropertyBuilt built = (RealPropertyBuilt) prp;
+
+			// If coOwnerShip is null or false => raz coOwnerShip field
+			if (built.getCoOwnership() == null || !built.getCoOwnership()) {
+				built.setCoOwnershipCharges(null);
+				built.setCoOwnershipLotNumber(null);
+			}
 
 			// State
 			State state = null;

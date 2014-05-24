@@ -28,9 +28,10 @@ public abstract class RealPropertyBuiltTo extends RealPropertyTo {
 	private Integer			nbGarage;
 	private StateTo			state;
 	private String			insulation;
-
 	private DPETo			dpe;
-
-	private List<RoomTo>	rooms	= new ArrayList<>(0);
+	private List<RoomTo>	rooms		= new ArrayList<>(0);
+	private Boolean			coOwnership	= null;
+	private Float			coOwnershipCharges;
+	private Integer			coOwnershipLotNumber;
 
 }

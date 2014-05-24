@@ -43,7 +43,7 @@
                 <label>Situation</label>
                 <div class="checkbox">
                     <label class="checkbox-inline"><input type="radio" ng-value="true" ng-model="prp.housingEstate" /> Lotissement</label>
-                    <label class="checkbox-inline"><input type="radio" ng-value="false"  ng-model="prp.housingEstate" ng-checked="!prp.housingEstate" /> Hors Lotissement</label>
+                    <label class="checkbox-inline"><input type="radio" ng-value="false"  ng-model="prp.housingEstate" ng-checked="prp.housingEstate==false" /> Hors Lotissement</label>
                 </div>
             </div>
 
@@ -51,7 +51,7 @@
                 <label>Viabilisé</label>
                 <div class="checkbox">
                     <label class="checkbox-inline"><input type="radio" ng-value="true" ng-model="prp.serviced" /> Oui</label>
-                    <label class="checkbox-inline"><input type="radio" ng-value="false" ng-model="prp.serviced"  ng-checked="!prp.serviced" /> Non</label>
+                    <label class="checkbox-inline"><input type="radio" ng-value="false" ng-model="prp.serviced"  ng-checked="prp.serviced==false" /> Non</label>
                 </div>
             </div>
 
@@ -59,7 +59,7 @@
                 <label>Constructible</label>
                 <div class="checkbox">
                     <label class="checkbox-inline"><input type="radio" ng-value="true" ng-model="prp.building" /> Oui</label>
-                    <label class="checkbox-inline"><input type="radio" ng-value="false" ng-model="prp.building" ng-checked="!prp.building" /> Non</label>
+                    <label class="checkbox-inline"><input type="radio" ng-value="false" ng-model="prp.building" ng-checked="prp.building==false" /> Non</label>
                 </div>
             </div>
 

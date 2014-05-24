@@ -129,14 +129,6 @@
                     </select>
                 </div>
 
-                <div class="form-group">
-                    <label>Situation</label>
-                    <div class="checkbox">
-                        <label class="checkbox-inline"><input type="radio" ng-value="true" ng-model="prp.housingEstate"> Lotissement</label>
-                        <label class="checkbox-inline"><input type="radio" ng-value="false" ng-model="prp.housingEstate" ng-checked="!prp.housingEstate"> Hors Lotissement</label>
-                    </div>
-                </div>
-
             </div>
 
             <div class="col-xs-6">
@@ -177,6 +169,48 @@
                     <div class="center">{{states[saveData.stateOrder].label}}&nbsp;</div>
                 </div>
 
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Situation</legend>
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label>Copropriété</label>
+                    <div class="checkbox">
+                        <label class="checkbox-inline"><input type="radio" ng-value="true" ng-model="prp.coOwnership"> Oui</label>
+                        <label class="checkbox-inline"><input type="radio" ng-value="false" ng-model="prp.coOwnership" ng-checked="prp.coOwnership==false"> Non</label>
+                    </div>
+                </div>
+                <div ng-if="prp.coOwnership">
+                    <div class="form-group">
+                        <label class="control-label">Montant des charges</label>
+                        <div class="input-group">
+                            <input class="form-control" type="number" step="1" ng-model="prp.coOwnershipCharges" />
+                            <span class="input-group-addon">€</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre de lots</label>
+                        <div class="input-group" minus-plus>
+                            <span class="input-group-addon glyphicon glyphicon-minus"></span>
+                            <input class="form-control" type="number" ng-model="prp.coOwnershipLotNumber" />
+                            <span class="input-group-addon glyphicon glyphicon-plus"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label>Lotissement</label>
+                    <div class="checkbox">
+                        <label class="checkbox-inline"><input type="radio" ng-value="true" ng-model="prp.housingEstate"> Lotissement</label>
+                        <label class="checkbox-inline"><input type="radio" ng-value="false" ng-model="prp.housingEstate" ng-checked="prp.housingEstate==false"> Hors Lotissement</label>
+                    </div>
+                </div>
             </div>
         </div>
     </fieldset>
