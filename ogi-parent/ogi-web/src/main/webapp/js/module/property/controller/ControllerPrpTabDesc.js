@@ -39,10 +39,11 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
         });
     }
 
-    // Get all states
     $scope.states = [];
-    $scope.states[0] = null;
     // First state is a NON state
+    $scope.states[0] = null;
+
+    // Get all states
     $scope.httpGetCurrentType.success(function() {
         $http.get(ServiceConfiguration.API_URL+"/rest/state/").success(function (data) {
             // Create array index by order
@@ -53,7 +54,10 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
     });
 
     $scope.$watch('saveData.stateOrder', function() {
-        $scope.prp.state = $scope.states[$scope.saveData.stateOrder];
+        var state = $scope.states[$scope.saveData.stateOrder];
+        if(state) {
+            $scope.prp.state = state;
+        }
     });
 
     // Build date is a date and IHM allow only year. So complete with month and day to create a date
