@@ -98,6 +98,7 @@ var typeOther = {
 }
 
 var sale = {
+    sold : false
 }
 
 var rent = {

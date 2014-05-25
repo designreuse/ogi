@@ -72,6 +72,9 @@ public class Sale {
 	@Column(name = "SAL_PROPERTY_TAX")
 	private Float			propertyTax;
 
+	@Column(name = "SAL_SOLD", columnDefinition = "BIT(1) DEFAULT 0")
+	private Boolean			sold	= false;
+
 	@ManyToOne
 	@JoinColumn(name = "PRO_ID", nullable = false)
 	private RealProperty	property;

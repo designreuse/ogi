@@ -57,16 +57,29 @@
 
                 <!-- right -->
                 <div class="col-xs-6">
-                    <div class="form-group">
-                        <label>Type de mandat</label>
-                        <ul class="list-inline list-unstyled">
-                            <li>
-                               <label class="normal"><input type="radio" name="optionsRadios" value="SI" ng-model="prp.sale.mandateType"> Simple</label>
-                            </li>
-                            <li>
-                                <label class="normal"><input type="radio" name="optionsRadios" value="EX" ng-model="prp.sale.mandateType"> Exclusif</label>
-                            </li>
-                        </ul>
+                    <div class="row">
+                        <div class="col-xs-6 form-group">
+                            <label>Type de mandat</label>
+                            <ul class="list-inline list-unstyled">
+                                <li>
+                                    <label class="normal"><input type="radio" name="optionsRadios" value="SI" ng-model="prp.sale.mandateType"> Simple</label>
+                                </li>
+                                <li>
+                                    <label class="normal"><input type="radio" name="optionsRadios" value="EX" ng-model="prp.sale.mandateType"> Exclusif</label>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-6 form-group">
+                            <label>Vendu</label>
+                            <ul class="list-inline list-unstyled">
+                                <li>
+                                    <label class="normal"><input type="radio" ng-value="true" ng-model="prp.sale.sold"> Oui</label>
+                                </li>
+                                <li>
+                                    <label class="normal"><input type="radio" ng-value="false" ng-model="prp.sale.sold"> Non</label>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
 
                     <div class="form-group">

@@ -35,5 +35,6 @@ public class SaleTo {
 	@JsonDeserialize(using = JsonCalendarDeserializer.class)
 	private Calendar	estimationDate;
 	private Float		propertyTax;
+	private Boolean		sold;
 
 }
