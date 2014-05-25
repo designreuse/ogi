@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -46,7 +45,6 @@ import fr.jerep6.ogi.service.external.ServicePartner;
 import fr.jerep6.ogi.service.external.transfert.AcimfloResultDelete;
 import fr.jerep6.ogi.service.external.transfert.AcimfloResultExist;
 import fr.jerep6.ogi.transfert.WSResult;
-import fr.jerep6.ogi.utils.Functions;
 import fr.jerep6.ogi.utils.HttpClientUtils;
 
 @Service("serviceDiaporama")
@@ -216,22 +214,11 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 		// Connection to diaporama => session id is keeped
 		connect(client);
 
-		WSResult r = new WSResult(prp.getReference(), "OK", "");
-		// Delete sale
-		if (prp.getSale() != null) {
-			r.combine(delete(prp, Functions::computeSaleReference, client));
-		}
-		if (prp.getRent() != null) {
-			r.combine(delete(prp, Functions::computeRentReference, client));
-
-		}
-
-		return r;
-
+		return delete(prp, client);
 	}
 
-	private WSResult delete(RealProperty prp, Function<String, String> computeReference, HttpClient client) {
-		String reference = computeReference.apply(prp.getReference());
+	private WSResult delete(RealProperty prp, HttpClient client) {
+		String reference = prp.getReference();
 
 		// If property doesn't exist => nothing to do
 		if (!exist(prp)) {
@@ -268,7 +255,7 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 		CookieHandler.setDefault(new CookieManager());
 		HttpClient client = HttpClientBuilder.create().setRedirectStrategy(new LaxRedirectStrategy()).build();
 
-		// Connection to acimflo => session id is keeped
+		// Connection to diaporama => session id is keeped
 		connect(client);
 
 		return prpExist(client, prp.getReference());
@@ -320,8 +307,5 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 	}
 
 	@Override
-	public void validate(RealProperty item) throws MultipleBusinessException {
-		// TODO Auto-generated method stub
-
-	}
+	public void validate(RealProperty item) throws MultipleBusinessException {}
 }
