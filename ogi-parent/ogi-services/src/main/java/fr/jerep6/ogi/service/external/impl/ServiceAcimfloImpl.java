@@ -37,6 +37,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
 import fr.jerep6.ogi.enumeration.EnumDPE;
@@ -55,6 +56,7 @@ import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyBuilt;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 import fr.jerep6.ogi.persistance.bo.Rent;
+import fr.jerep6.ogi.persistance.bo.Sale;
 import fr.jerep6.ogi.service.external.ServicePartner;
 import fr.jerep6.ogi.service.external.transfert.AcimfloResultDelete;
 import fr.jerep6.ogi.service.external.transfert.AcimfloResultExist;
@@ -235,6 +237,8 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 	}
 
 	private void buildRent(HttpClient client, RealProperty prp, MultipartEntityBuilder builder) {
+		Preconditions.checkNotNull(prp.getRent());
+
 		Rent rent = prp.getRent();
 		builder.addPart("prix", new StringBody(ObjectUtils.toString(rent.getPrice()), ContentType.TEXT_PLAIN));
 		builder.addPart("disponible", new StringBody(toBoolean(rent.getFreeDate() != null), ContentType.TEXT_PLAIN));
@@ -252,9 +256,11 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 	}
 
 	private void buildSale(HttpClient client, RealProperty prp, MultipartEntityBuilder builder) {
-		builder.addPart("prix", new StringBody(prp.getSale().getPriceFinal().toString(), ContentType.TEXT_PLAIN));
+		Preconditions.checkNotNull(prp.getSale());
+		Sale s = prp.getSale();
+		builder.addPart("prix", new StringBody(s.getPriceFinal().toString(), ContentType.TEXT_PLAIN));
 
-		builder.addPart("vendu", new StringBody("non", ContentType.TEXT_PLAIN));
+		builder.addPart("vendu", new StringBody(toBoolean(s.getSold()), ContentType.TEXT_PLAIN));
 	}
 
 	private void connect(HttpClient client) throws BusinessException {
@@ -308,8 +314,7 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 
 		// Treat sale
 		if (prp.getSale() != null) {
-			String reference = prp.getReference() + suffixSale;
-
+			String reference = Functions.computeSaleReference(prp.getReference());
 			if (prpExist(client, reference)) {
 				// Update property
 				result = result.combine(broadcast(client, prp, reference, MODE_SALE, "update"));
@@ -321,7 +326,7 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 
 		// Treat rent
 		if (prp.getRent() != null) {
-			String reference = prp.getReference() + suffixRent;
+			String reference = Functions.computeRentReference(prp.getReference());
 
 			if (prpExist(client, reference)) {
 				// Update property
