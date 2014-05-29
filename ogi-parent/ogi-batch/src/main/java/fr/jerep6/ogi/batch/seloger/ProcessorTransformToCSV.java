@@ -32,7 +32,6 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractSeLoger, Re
 
 	private static final String					MODE_SALE	= "SALE";
 	private static final String					MODE_RENT	= "RENT";
-	private static final SimpleDateFormat		spFormater	= new SimpleDateFormat("dd/MM/yyyy");
 
 	private ServicePartner						serviceSeLoger;
 
@@ -154,6 +153,7 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractSeLoger, Re
 			}
 
 			if (rent.getFreeDate() != null) {
+				SimpleDateFormat spFormater = new SimpleDateFormat("dd/MM/yyyy");
 				r.setDateDisponibilite(spFormater.format(rent.getFreeDate().getTime()));
 			}
 		}
