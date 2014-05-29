@@ -34,6 +34,11 @@ public class TaskletPrepareTree implements Tasklet {
 	@Override
 	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 
+		// Create directory of not exists
+		if (!rootDirectory.exists()) {
+			Files.createDirectories(rootDirectory.getFile().toPath());
+		}
+
 		// Read file and replace token
 		writeFileAndReplaceToken(config.getFile().toPath());
 		writeFileAndReplaceToken(photosConfig.getFile().toPath());
