@@ -1,9 +1,12 @@
 package fr.jerep6.ogi.batch.seloger;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,34 +17,40 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.core.io.Resource;
 
+import fr.jerep6.ogi.framework.utils.FileUtils;
+
 /**
  * Prepare tree files for seloger.com
  * 
  * @author jerep6 15 mars 2014
  */
 public class TaskletPrepareTree implements Tasklet {
-	private final Logger		LOGGER			= LoggerFactory.getLogger(TaskletPrepareTree.class);
+	private final Logger		LOGGER				= LoggerFactory.getLogger(TaskletPrepareTree.class);
 
-	private static final String	SELOGER_VERSION	= "#SELOGER_VERSION";
-	private static final String	OGI_VERSION		= "#OGI_VERSION";
+	private static final String	SELOGER_VERSION		= "#SELOGER_VERSION";
+	private static final String	OGI_VERSION			= "#OGI_VERSION";
 
 	private Resource			rootDirectory;
 
 	private String				seLogerVersion;
 	private Resource			config;
 	private Resource			photosConfig;
+	private List<Resource>		directoriesToCreate	= new ArrayList<>(0);
 
 	@Override
 	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 
 		// Create directory of not exists
-		if (!rootDirectory.exists()) {
-			Files.createDirectories(rootDirectory.getFile().toPath());
+		directoriesToCreate.add(rootDirectory);
+		for (Resource r : directoriesToCreate) {
+			if (!r.exists()) {
+				Files.createDirectories(r.getFile().toPath());
+			}
 		}
 
 		// Read file and replace token
-		writeFileAndReplaceToken(config.getFile().toPath());
-		writeFileAndReplaceToken(photosConfig.getFile().toPath());
+		writeFileAndReplaceToken(config);
+		writeFileAndReplaceToken(photosConfig);
 
 		contribution.setExitStatus(ExitStatus.COMPLETED);
 		return RepeatStatus.FINISHED;
@@ -53,6 +62,10 @@ public class TaskletPrepareTree implements Tasklet {
 
 	public void setConfig(Resource config) {
 		this.config = config;
+	}
+
+	public void setDirectoriesToCreate(List<Resource> directoriesToCreate) {
+		this.directoriesToCreate = directoriesToCreate;
 	}
 
 	public void setPhotosConfig(Resource photosConfig) {
@@ -67,18 +80,19 @@ public class TaskletPrepareTree implements Tasklet {
 		this.seLogerVersion = seLogerVersion;
 	}
 
-	private void writeFileAndReplaceToken(Path p) throws IOException {
-		LOGGER.debug("Replace token from file {}", p);
+	private void writeFileAndReplaceToken(Resource r) throws IOException {
+		// The resource is in the jar so, I can't use Path or file
+		StringWriter w = new StringWriter();
+		FileUtils.write(r.getInputStream(), w);
 
-		byte[] readAllBytes = Files.readAllBytes(p);
-		String s = new String(readAllBytes, Charset.forName("UTF-8"));
-
+		// Replace token
+		String s = w.toString();
 		s = s.replaceAll(SELOGER_VERSION, seLogerVersion);
 		s = s.replaceAll(OGI_VERSION, getClass().getPackage().getImplementationVersion() == null ? "unknow"
 				: getClass().getPackage().getImplementationVersion());
 
 		// Write content to root directory
 		Path root = rootDirectory.getFile().toPath();
-		Files.write(root.resolve(p.getFileName()), s.getBytes());
+		Files.write(root.resolve(Paths.get(r.getFilename())), s.getBytes());
 	}
 }

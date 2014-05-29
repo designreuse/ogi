@@ -142,6 +142,11 @@
 		<property name="seLogerVersion" value="${seloger.passerelle.version}" />
 		<property name="config" value="classpath:${seloger.extraction.file.tree.config}" />
 		<property name="photosConfig" value="classpath:${seloger.extraction.file.tree.photos}" />
+		<property name="directoriesToCreate">
+			<list>
+				<value>file:${seloger.extraction.file.photos.path}</value>
+			</list>
+		</property>
 	</bean>
 
     <bean id="TaskletPhotosResize" class="fr.jerep6.ogi.batch.seloger.TaskletPhotosResize">
