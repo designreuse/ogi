@@ -7,6 +7,9 @@ import java.util.Collection;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
+import com.google.common.collect.Iterables;
 
 import fr.jerep6.ogi.framework.persistance.dao.DaoCRUD;
 
@@ -21,6 +24,15 @@ public class AbstractDao<T, PK extends Serializable> implements DaoCRUD<T, PK> {
 	public AbstractDao() {
 		this.persistentClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass())
 				.getActualTypeArguments()[0];
+	}
+
+	@Override
+	public Long count() {
+		StringBuilder q = new StringBuilder();
+		q.append("SELECT count(*)").append(" FROM ").append(persistentClass.getName());
+
+		TypedQuery<Long> query = entityManager.createQuery(q.toString(), Long.class);
+		return Iterables.getFirst(query.getResultList(), 0L);
 	}
 
 	@Override

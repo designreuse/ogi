@@ -69,6 +69,44 @@ angular.module('myApp.config').directive('ogiNavigation', function() {
     }
 });
 
+
+angular.module('myApp.config').directive('sortBy', function () {
+    return {
+        templateUrl: 'sort-by.html',
+        restrict: 'E',
+        transclude: true,
+        replace: true,
+        scope: {
+            sortdir: '=',
+            sortedby: '=',
+            sortvalue: '@',
+            onsort: '='
+        },
+        link: function (scope, element, attrs) {
+            scope.sort = function () {
+                if (scope.sortedby == scope.sortvalue)
+                    scope.sortdir = scope.sortdir == 'asc' ? 'desc' : 'asc';
+                else {
+                    scope.sortedby = scope.sortvalue;
+                    scope.sortdir = 'asc';
+                }
+                scope.onsort(scope.sortedby, scope.sortdir);
+            }
+        }
+    };
+});
+
+angular.module("sort-by.html", []).run(["$templateCache", function($templateCache) {
+    $templateCache.put("sort-by.html",  "" +
+        "<a ng-click=\"sort(sortvalue)\" class=\"pointer\">"+
+        "   <span ng-show=\"sortedby == sortvalue\">"+
+        "       <i ng-class=\"{true: 'glyphicon glyphicon-arrow-down', false: 'glyphicon glyphicon-arrow-up'}[sortdir == 'asc']\"></i>"+
+        "   </span>"+
+        "   <span ng-transclude=\"\"></span>"+
+        "</a>" +
+        "");
+}]);
+
 /*
 myApp.directive('minusPlus', function() {
     return {

@@ -1,6 +1,5 @@
 package fr.jerep6.ogi.rest;
 
-import java.util.Collection;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -20,6 +19,7 @@ import com.google.common.base.Preconditions;
 
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.service.ServiceRealProperty;
+import fr.jerep6.ogi.transfert.ListResult;
 import fr.jerep6.ogi.transfert.bean.RealPropertyTo;
 import fr.jerep6.ogi.transfert.mapping.OrikaMapper;
 
@@ -55,11 +55,14 @@ public class WSRealProperty extends AbstractJaxRsWS {
 
 	@GET
 	@Produces(APPLICATION_JSON_UTF8)
-	public Collection<RealPropertyTo> listAll() {
-		Collection<RealProperty> properties = serviceRealProperty.listAll();
+	public ListResult<RealPropertyTo> list(@QueryParam("pageNumber") Integer pageNumber,
+			@QueryParam("itemNumberPerPage") Integer itemNumberPerPage, @QueryParam("sortBy") String sortBy,
+			@QueryParam("sortDir") String sortDir) {
 
-		Collection<RealPropertyTo> rpt = mapper.mapAsList(properties, RealPropertyTo.class);
-		return rpt;
+		// List properties according to criteria
+		ListResult<RealProperty> result = serviceRealProperty.list(pageNumber, itemNumberPerPage, sortBy, sortDir);
+
+		return mapper.map(result, ListResult.class);
 	}
 
 	@GET

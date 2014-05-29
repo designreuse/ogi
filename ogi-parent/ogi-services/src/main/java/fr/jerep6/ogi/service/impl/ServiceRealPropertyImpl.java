@@ -1,7 +1,6 @@
 package fr.jerep6.ogi.service.impl;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,10 +14,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 
+import fr.jerep6.ogi.enumeration.EnumSortByDirection;
 import fr.jerep6.ogi.exception.business.RealPropertyNotFoundBusinessException;
 import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessErrorProperty;
 import fr.jerep6.ogi.framework.exception.BusinessException;
@@ -51,12 +52,13 @@ import fr.jerep6.ogi.service.ServiceRoom;
 import fr.jerep6.ogi.service.ServiceSale;
 import fr.jerep6.ogi.service.ServiceState;
 import fr.jerep6.ogi.service.ServiceType;
+import fr.jerep6.ogi.transfert.ListResult;
 import fr.jerep6.ogi.transfert.mapping.OrikaMapperService;
 
 @Service("serviceRealProperty")
 @Transactional(propagation = Propagation.REQUIRED)
 public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealProperty, Integer> implements
-		ServiceRealProperty {
+ServiceRealProperty {
 	private static Logger		LOGGER	= LoggerFactory.getLogger(ServiceRealPropertyImpl.class);
 
 	@Autowired
@@ -265,8 +267,15 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 	}
 
 	@Override
-	public Collection<RealProperty> listAll() {
-		return new HashSet<RealProperty>(daoProperty.listAll());
+	public ListResult<RealProperty> list(Integer pageNumber, Integer itemNumberPerPage, String sortBy, String sortDir) {
+		pageNumber = Objects.firstNonNull(pageNumber, 1);
+		itemNumberPerPage = Objects.firstNonNull(itemNumberPerPage, 30);
+		sortDir = Objects.firstNonNull(sortDir, "asc");
+
+		List<RealProperty> prpList = daoProperty.list(pageNumber, itemNumberPerPage, sortBy,
+				EnumSortByDirection.valueOfByCode(sortDir));
+
+		return new ListResult<RealProperty>(prpList, daoProperty.count().intValue());
 	}
 
 	@Override

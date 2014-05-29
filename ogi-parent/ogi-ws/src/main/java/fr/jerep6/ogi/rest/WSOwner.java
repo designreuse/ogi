@@ -1,6 +1,5 @@
 package fr.jerep6.ogi.rest;
 
-import java.util.Collection;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -21,6 +20,7 @@ import com.google.common.base.Strings;
 
 import fr.jerep6.ogi.persistance.bo.Owner;
 import fr.jerep6.ogi.service.ServiceOwner;
+import fr.jerep6.ogi.transfert.ListResult;
 import fr.jerep6.ogi.transfert.bean.OwnerTo;
 import fr.jerep6.ogi.transfert.mapping.OrikaMapper;
 
@@ -82,11 +82,14 @@ public class WSOwner extends AbstractJaxRsWS {
 
 	@GET
 	@Produces(APPLICATION_JSON_UTF8)
-	public Collection<OwnerTo> listAll() {
-		Collection<Owner> owners = serviceOwner.listAll();
+	public ListResult<OwnerTo> list(@QueryParam("pageNumber") Integer pageNumber,
+			@QueryParam("itemNumberPerPage") Integer itemNumberPerPage, @QueryParam("sortBy") String sortBy,
+			@QueryParam("sortDir") String sortDir) {
 
-		Collection<OwnerTo> ownersTo = mapper.mapAsList(owners, OwnerTo.class);
-		return ownersTo;
+		// Read owner
+		ListResult<Owner> result = serviceOwner.list(pageNumber, itemNumberPerPage, sortBy, sortDir);
+
+		return mapper.map(result, ListResult.class);
 	}
 
 	@GET

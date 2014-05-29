@@ -49,6 +49,7 @@ import fr.jerep6.ogi.rest.batch.transfert.BatchReportJobExecutionTo;
 import fr.jerep6.ogi.rest.batch.transfert.BatchReportStepExecutionTo;
 import fr.jerep6.ogi.service.ServiceUrl;
 import fr.jerep6.ogi.transfert.FileUpload;
+import fr.jerep6.ogi.transfert.ListResult;
 import fr.jerep6.ogi.transfert.bean.AddressTo;
 import fr.jerep6.ogi.transfert.bean.CategoryTo;
 import fr.jerep6.ogi.transfert.bean.DPETo;
@@ -203,6 +204,8 @@ public class OrikaMapper extends ConfigurableMapper {
 		factory.registerObjectFactory(new FactoryRealProperty(), TypeFactory.valueOf(RealProperty.class));
 
 		// Mapping definition
+		factory.classMap(ListResult.class, ListResult.class).byDefault().register();
+
 		factory.classMap(Category.class, CategoryTo.class).byDefault().register();
 		factory.classMap(Address.class, AddressTo.class).byDefault().register();
 		factory.classMap(Description.class, DescriptionTo.class).byDefault().register();

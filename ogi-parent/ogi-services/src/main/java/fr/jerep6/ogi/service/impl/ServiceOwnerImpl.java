@@ -14,8 +14,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 
+import fr.jerep6.ogi.enumeration.EnumSortByDirection;
 import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessErrorOwner;
 import fr.jerep6.ogi.framework.exception.BusinessException;
 import fr.jerep6.ogi.framework.exception.MultipleBusinessException;
@@ -27,6 +29,7 @@ import fr.jerep6.ogi.persistance.dao.DaoOwner;
 import fr.jerep6.ogi.service.ServiceAddress;
 import fr.jerep6.ogi.service.ServiceOwner;
 import fr.jerep6.ogi.service.ServiceRealProperty;
+import fr.jerep6.ogi.transfert.ListResult;
 import fr.jerep6.ogi.transfert.mapping.OrikaMapperService;
 
 @Service("serviceOwner")
@@ -87,6 +90,18 @@ public class ServiceOwnerImpl extends AbstractTransactionalService<Owner, Intege
 	}
 
 	@Override
+	public ListResult<Owner> list(Integer pageNumber, Integer itemNumberPerPage, String sortBy, String sortDir) {
+		pageNumber = Objects.firstNonNull(pageNumber, 1);
+		itemNumberPerPage = Objects.firstNonNull(itemNumberPerPage, 30);
+		sortDir = Objects.firstNonNull(sortDir, "asc");
+
+		List<Owner> owners = daoOwner.list(pageNumber, itemNumberPerPage, sortBy,
+				EnumSortByDirection.valueOfByCode(sortDir));
+
+		return new ListResult<Owner>(owners, daoOwner.count().intValue());
+	}
+
+	@Override
 	public Set<Owner> merge(Set<Owner> ownersBD, Set<Owner> ownersModify) {
 		// Keep owners to reuse it (avoid insert)
 		List<Owner> ownersBDBackup = new ArrayList<>(ownersBD);
@@ -97,23 +112,23 @@ public class ServiceOwnerImpl extends AbstractTransactionalService<Owner, Intege
 		// Populate set of owners.
 		ownersModify.forEach(ownerModif -> {
 			// Find owner corresponding to techid
-				int index = ownersBDBackup.indexOf(ownerModif);
-				// Optional<Owner> roomInBd = ownersBDBackup.stream().filter(o -> techid.equals(o.getTechid()))
-				// .findFirst();
+			int index = ownersBDBackup.indexOf(ownerModif);
+			// Optional<Owner> roomInBd = ownersBDBackup.stream().filter(o -> techid.equals(o.getTechid()))
+			// .findFirst();
 
-			// If owner exist => reuse it
-				if (index != -1) {
-				Owner o = ownersBDBackup.get(index);
-				ownersBD.add(o);
-			}
-			// Owner doesn't exist in prp => read it into database
-			else {
-				Owner ownerToAdd = read(ownerModif.getTechid());
-				if (ownerToAdd != null) {
-					ownersBD.add(ownerToAdd);
+				// If owner exist => reuse it
+			if (index != -1) {
+					Owner o = ownersBDBackup.get(index);
+					ownersBD.add(o);
 				}
-			}
-		});
+				// Owner doesn't exist in prp => read it into database
+				else {
+					Owner ownerToAdd = read(ownerModif.getTechid());
+					if (ownerToAdd != null) {
+						ownersBD.add(ownerToAdd);
+					}
+				}
+			});
 
 		return ownersBD;
 

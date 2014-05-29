@@ -17,9 +17,6 @@ function ControllerList($scope, $http, Page, ServiceObjectChecked, ServiceAlert,
 
 
     $scope.properties = [];
-    $http.get(ServiceConfiguration.API_URL+"/rest/property/").success(function (data) {
-        $scope.properties = ServiceObjectChecked.addChecked(data, false);
-    });
 
 
     /**
@@ -66,14 +63,37 @@ function ControllerList($scope, $http, Page, ServiceObjectChecked, ServiceAlert,
     };
 
 
-    $scope.synchonizeAcimflo = function() {
-        var references = $scope.selectedProperties().map(function(e) { return e.reference});
-        $http.post(ServiceConfiguration.API_URL+"/rest/synchronisation/", references)
-            .success(function (data, status) {
+    // ###### List properties with pagination ######
+    $scope.filterCriteria = {
+        pageNumber: 1,
+        itemNumberPerPage : 20,
+        sortDir: 'asc',
+        sortBy: 'reference'
+    };
+    $scope.totalItems = 1;
 
 
-            });
+    $scope.selectPage = function() {
+        $scope.fetchResult();
     }
+
+    //The function that is responsible of fetching the result from the server and setting the grid to the new result
+    $scope.fetchResult = function () {
+        $http.get(ServiceConfiguration.API_URL+"/rest/property/", {"params": $scope.filterCriteria})
+            .success(function (data) {
+                $scope.properties = data.items;;
+                $scope.totalItems = data.total;
+            });
+    };
+    $scope.sort = function (sortedBy, sortDir) {
+        $scope.filterCriteria.sortDir = sortDir;
+        $scope.filterCriteria.sortBy = sortedBy;
+        $scope.filterCriteria.pageNumber = 1;
+        $scope.fetchResult();
+    };
+
+    // Run query to fetch data
+    $scope.fetchResult();
 
 }
 

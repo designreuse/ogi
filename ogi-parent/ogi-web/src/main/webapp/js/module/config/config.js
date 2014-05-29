@@ -1,5 +1,5 @@
 /** Module for configuration. Provide ServiceConfiguration */
-angular.module('myApp.config', [])//
+angular.module('myApp.config', ["sort-by.html"])//
     .factory('ServiceConfiguration', function() {
         return {
             API_URL: "http://localhost:8080/ogi-ws",

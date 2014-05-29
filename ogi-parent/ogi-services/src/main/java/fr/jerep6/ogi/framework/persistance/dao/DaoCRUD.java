@@ -27,4 +27,5 @@ public interface DaoCRUD<T, PK extends Serializable> {
 
 	void flush();
 
+	Long count();
 }

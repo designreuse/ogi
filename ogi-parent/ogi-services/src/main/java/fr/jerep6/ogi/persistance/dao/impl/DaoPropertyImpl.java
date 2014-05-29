@@ -1,7 +1,8 @@
 package fr.jerep6.ogi.persistance.dao.impl;
 
-import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -12,8 +13,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
 
+import fr.jerep6.ogi.enumeration.EnumSortByDirection;
 import fr.jerep6.ogi.framework.persistance.dao.impl.AbstractDao;
 import fr.jerep6.ogi.persistance.bo.Book;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
@@ -23,9 +26,16 @@ import fr.jerep6.ogi.transfert.database.CustomObj;
 @Repository("daoProperty")
 @Transactional(propagation = Propagation.MANDATORY)
 public class DaoPropertyImpl extends AbstractDao<RealProperty, Integer> implements DaoProperty {
-	Logger						LOGGER			= LoggerFactory.getLogger(DaoPropertyImpl.class);
+	Logger								LOGGER			= LoggerFactory.getLogger(DaoPropertyImpl.class);
 
-	private static final String	PARAM_REFERENCE	= "REFERENCE";
+	private static final String			PARAM_REFERENCE	= "REFERENCE";
+
+	private static Map<String, String>	allowSortBy		= new HashMap<String, String>();
+	static {
+		allowSortBy.put("reference", "r.reference");
+		allowSortBy.put("type", "categ.label");
+		allowSortBy.put("city", "addr.city");
+	}
 
 	@Override
 	public Integer getMax() {
@@ -38,12 +48,17 @@ public class DaoPropertyImpl extends AbstractDao<RealProperty, Integer> implemen
 	}
 
 	@Override
-	public Collection<RealProperty> listAll() {
+	public List<RealProperty> list(Integer pageNumber, Integer itemNumberPerPage, String sortBy,
+			EnumSortByDirection sortDir) {
+		Preconditions.checkNotNull(pageNumber);
+		Preconditions.checkNotNull(itemNumberPerPage);
+		Preconditions.checkNotNull(sortDir);
+
 		StringBuilder q = new StringBuilder();
-		q.append("SELECT r ").append(" FROM ").append(RealProperty.class.getName()).append(" r ");
+		q.append("SELECT distinct r ").append(" FROM ").append(RealProperty.class.getName()).append(" r ");
 		// I don't want a select for each many to one : prefer join
-		q.append(" LEFT JOIN fetch r.address");
-		q.append(" LEFT JOIN fetch r.category");
+		q.append(" LEFT JOIN fetch r.address addr");
+		q.append(" LEFT JOIN fetch r.category categ");
 		q.append(" LEFT JOIN fetch r.type");
 		q.append(" LEFT JOIN fetch r.descriptions");
 		q.append(" LEFT JOIN fetch r.documents");
@@ -51,14 +66,22 @@ public class DaoPropertyImpl extends AbstractDao<RealProperty, Integer> implemen
 		q.append(" LEFT JOIN fetch r.rent");
 		q.append(" LEFT JOIN fetch r.state");
 		// Don't fetch room because it's a list. Hibernate ajoute dans la liste des
-		// rooms à chaque fois quu'ne jointure dupliquante est faite (documents, descriptions ...). Si le bien a 2
+		// rooms à chaque fois qu'une jointure dupliquante est faite (documents, descriptions ...). Si le bien a 2
 		// documents et 3 pièces, alors la liste contiendra 2 * 3 pièces
 		// q.append(" LEFT JOIN fetch r.rooms");
 		q.append(" LEFT JOIN fetch r.equipments");
 		q.append(" LEFT JOIN fetch r.owners");
 		q.append(" LEFT JOIN fetch r.diagnosisProperty");
 
+		// Check that param sortBy is allow
+		String sanitizedSortBy = allowSortBy.get(sortBy);
+		if (sanitizedSortBy != null) {
+			q.append(" ORDER BY " + sanitizedSortBy + " " + sortDir.getCode());
+		}
+
 		TypedQuery<RealProperty> query = entityManager.createQuery(q.toString(), RealProperty.class);
+		query.setFirstResult(pageNumber * itemNumberPerPage - itemNumberPerPage);
+		query.setMaxResults(itemNumberPerPage);
 
 		return query.getResultList();
 	}

@@ -5,6 +5,7 @@ import java.util.Set;
 
 import fr.jerep6.ogi.framework.service.TransactionalService;
 import fr.jerep6.ogi.persistance.bo.Owner;
+import fr.jerep6.ogi.transfert.ListResult;
 
 public interface ServiceOwner extends TransactionalService<Owner, Integer> {
 	List<Owner> readByProperty(String prpRef);
@@ -41,4 +42,6 @@ public interface ServiceOwner extends TransactionalService<Owner, Integer> {
 	Set<Owner> read(Set<Integer> techids);
 
 	Set<Owner> merge(Set<Owner> ownersBD, Set<Owner> ownersModify);
+
+	ListResult<Owner> list(Integer pageNumber, Integer itemNumberPerPage, String sortBy, String sortDir);
 }

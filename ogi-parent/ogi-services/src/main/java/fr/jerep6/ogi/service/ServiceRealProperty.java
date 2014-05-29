@@ -5,6 +5,7 @@ import java.util.Set;
 
 import fr.jerep6.ogi.framework.service.TransactionalService;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
+import fr.jerep6.ogi.transfert.ListResult;
 
 public interface ServiceRealProperty extends TransactionalService<RealProperty, Integer> {
 	/**
@@ -21,6 +22,21 @@ public interface ServiceRealProperty extends TransactionalService<RealProperty, 
 	 *            properties references to delete
 	 */
 	void delete(List<String> reference);
+
+	/**
+	 * Return property according to criteria into parameters
+	 * 
+	 * @param pageNumber
+	 *            page to display. Between 1 and XXX
+	 * @param itemNumberPerPage
+	 *            number of element to display in a page
+	 * @param sortBy
+	 *            sort by criteria. If null or incorrect => no sort by
+	 * @param sortDir
+	 *            direction of sorting. ASC or DESC. No case sensitive. By default ASC
+	 * @return
+	 */
+	ListResult<RealProperty> list(Integer pageNumber, Integer itemNumberPerPage, String sortBy, String sortDir);
 
 	Set<RealProperty> readByReference(List<String> prpReferences);
 

@@ -185,7 +185,8 @@ ul#list-photos li.highlight {
 .table > tfoot > tr > td {
   border-top: 1px solid #808080;
 }
-.table thead {
+.table thead,
+.table thead a {
   background-color: #585858;
   color: white;
 }
