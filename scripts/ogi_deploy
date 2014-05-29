@@ -119,6 +119,14 @@ if [ $DEPLOY_IHM = true ]; then
 	cp -r $PATH_DELIVERY$ENVELOPPE_NAME/$OGI_IHM_NAME $PATH_TOMCAT_WEBAPP$OGI_IHM_NAME
 fi
 
+#Deploy batchs
+if [ $DEPLOY_BATCHS = true ]; then
+	echo "deploy-batchs"
+	echo -e "\tSuppression des anciens batchs"
+	mv $PATH_OGI_INSTALL$OGI_BATCHS_NAME $ARCHIVE_DIR
+	echo -e "\tCopie du dossier à partir de l'enveloppe"
+	cp -r $PATH_DELIVERY$ENVELOPPE_NAME/$OGI_BATCHS_NAME $PATH_OGI_INSTALL$OGI_BATCHS_NAME
+fi
 
 #Deploy resources
 if [ $DEPLOY_RESOURCES = true ]; then
@@ -130,16 +138,6 @@ if [ $DEPLOY_RESOURCES = true ]; then
 	
 	echo -e "\tRemplacement des variables d'environnement"
 	$PATH_SCRIPT_REPLACE
-fi
-
-
-#Deploy batchs
-if [ $DEPLOY_BATCHS = true ]; then
-	echo "deploy-batchs"
-	echo -e "\tSuppression des anciens batchs"
-	mv $PATH_OGI_INSTALL$OGI_BATCHS_NAME $ARCHIVE_DIR
-	echo -e "\tCopie du dossier à partir de l'enveloppe"
-	cp -r $PATH_DELIVERY$ENVELOPPE_NAME/$OGI_BATCHS_NAME $PATH_OGI_INSTALL$OGI_BATCHS_NAME
 fi
 
 #Start tomcat
