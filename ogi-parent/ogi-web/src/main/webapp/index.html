@@ -139,7 +139,7 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div ng-controller="AlertCtrl">
-                        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">
+                        <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
                             {{alert.date | date:"HH'h 'mm'min 'ss'sec'"}} - <span ng-bind-html="alert.msg"></span>
                         </alert>
                     </div>
