@@ -40,7 +40,10 @@ public class TaskletPrepareTree implements Tasklet {
 	@Override
 	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 
-		// Create directory of not exists
+		// chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext()
+		// .put("POUET", "VALEUR POUET");
+
+		// Create directory if not exists
 		directoriesToCreate.add(rootDirectory);
 		for (Resource r : directoriesToCreate) {
 			if (!r.exists()) {

@@ -42,7 +42,7 @@
 		  </tasklet>
 		</batch:step>
 		
-		<batch:step id="stepWriteCSVRent" next="stepPhotosResize">
+		<batch:step id="stepWriteCSVRent" next="decision">
 		  <tasklet>
 			<batch:chunk reader="jpaItemReaderRent" processor="compositeItemProcessor" writer="cvsFileItemWriter" commit-interval="1" skip-limit="10">
 				<batch:skippable-exception-classes>
@@ -51,6 +51,14 @@
 			</batch:chunk>
 		  </tasklet>
 		</batch:step>
+	    
+	    <!-- If no data => stop job -->
+	    <!-- http://docs.spring.io/spring-batch/reference/html/configureStep.html#conditionalFlow -->
+	    <!-- The 'end' element instructs a Job to stop with a BatchStatus of COMPLETED. A Job that has finished with status COMPLETED cannot be restarted (the framework will throw a JobInstanceAlreadyCompleteException) -->
+	    <batch:decision id="decision" decider="DeciderHasPrpProcessed">
+		    <batch:end on="NO_DATA" exit-code="NO_DATA"/>
+		    <batch:next on="*" to="stepPhotosResize"/>
+	    </batch:decision>
 	    
 	    <batch:step id="stepPhotosResize" next="stepTaskletZip">
 			<tasklet ref="TaskletPhotosResize" />
@@ -148,6 +156,8 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="DeciderHasPrpProcessed" class="fr.jerep6.ogi.batch.seloger.DeciderHasPrpProcessed" />
 
     <bean id="TaskletPhotosResize" class="fr.jerep6.ogi.batch.seloger.TaskletPhotosResize">
 		<property name="photosDirectory" value="file:${seloger.extraction.file.photos.path}" />
