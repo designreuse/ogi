@@ -17,17 +17,23 @@ import org.codehaus.jackson.map.JsonDeserializer;
  * @author jerep6
  */
 public class JsonCalendarDeserializer extends JsonDeserializer<Calendar> {
-	private static final SimpleDateFormat	dateFormatIso8601	= new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
-	private static final SimpleDateFormat	dateFormatDay		= new SimpleDateFormat("yyyy-MM-dd");
+	private static final String	PATTERN_ISO8601	= "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+	private static final String	PATTERN_DAY		= "yyyy-MM-dd";
 
 	@Override
 	public Calendar deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 		Date d = null;
 		try {
-			d = dateFormatIso8601.parse(jp.getText());
+			SimpleDateFormat dateFormatIso8601 = new SimpleDateFormat(PATTERN_ISO8601);
+			String date = jp.getText();
+			if (date.endsWith("Z")) {
+				date = date.substring(0, date.length() - 1) + "+0000";
+			}
+			d = dateFormatIso8601.parse(date);
 		} catch (ParseException pe1) {
 			// Fallback do second date format
 			try {
+				SimpleDateFormat dateFormatDay = new SimpleDateFormat(PATTERN_DAY);
 				d = dateFormatDay.parse(jp.getText());
 			} catch (ParseException pe2) {
 				throw new RuntimeException(pe1);

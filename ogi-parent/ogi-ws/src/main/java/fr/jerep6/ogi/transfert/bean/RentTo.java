@@ -7,6 +7,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import fr.jerep6.ogi.transfert.mapping.json.JsonCalendarDeserializer;
+import fr.jerep6.ogi.transfert.mapping.json.JsonCalendarSerializer;
+
 @Getter
 @Setter
 @ToString
@@ -14,6 +20,8 @@ import lombok.ToString;
 public class RentTo {
 	private Integer		techid;
 	private String		mandateReference;
+	@JsonSerialize(using = JsonCalendarSerializer.class)
+	@JsonDeserialize(using = JsonCalendarDeserializer.class)
 	private Calendar	freeDate;
 	private Boolean		exclusive;
 	private Float		price;

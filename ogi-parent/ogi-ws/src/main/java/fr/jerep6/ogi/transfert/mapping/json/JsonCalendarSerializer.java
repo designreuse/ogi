@@ -10,17 +10,17 @@ import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.SerializerProvider;
 
 /**
- * Used to serialize Java.util.Calendar. Format : yyyy-MM-dd
+ * Used to serialize Java.util.Calendar. Format : yyyy-MM-dd'T'HH:mm:ss.SSSZ
  * 
  * @author jerep6
  */
 public class JsonCalendarSerializer extends JsonSerializer<Calendar> {
-	private static final SimpleDateFormat	dateFormat	= new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
+	private static final String	PATTERN_ISO8601	= "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 
 	@Override
 	public void serialize(Calendar cal, JsonGenerator gen, SerializerProvider provider) throws IOException,
 			JsonProcessingException {
-
+		SimpleDateFormat dateFormat = new SimpleDateFormat(PATTERN_ISO8601);
 		String formattedDate = dateFormat.format(cal.getTime());
 		gen.writeString(formattedDate);
 	}

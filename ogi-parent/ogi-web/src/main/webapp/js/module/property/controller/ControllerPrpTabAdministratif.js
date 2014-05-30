@@ -68,9 +68,9 @@ function ControllerPrpTabAdministratif($scope, Page, $routeParams, ServiceConfig
     };
 
     $scope.dateOptions = {
-        'year-format': "'yyyy'",
-        'starting-day': 1
+        'formatYear': "yyyy",
+        'startingDay': 1
     };
-
+    $scope.dateFormat= "dd/MM/yyyy";
 };
 
