@@ -1,4 +1,4 @@
-function ControllerOwnerList($scope, $http, Page, ServiceAlert, ServiceConfiguration, $modal, $log, $dialogs) {
+function ControllerOwnerList($scope, $http, Page, ServiceAlert, ServiceConfiguration, $modal, $log, $dialogs, ServiceOwner) {
     Page.setTitle("Liste des propriétaires");
 
     $scope.owners = [];
@@ -34,7 +34,7 @@ function ControllerOwnerList($scope, $http, Page, ServiceAlert, ServiceConfigura
 
     //The function that is responsible of fetching the result from the server and setting the grid to the new result
     $scope.fetchResult = function () {
-        $http.get(ServiceConfiguration.API_URL+"/rest/owner/", {"params": $scope.filterCriteria})
+        ServiceOwner.get($scope.filterCriteria)
             .success(function (data) {
                 $scope.owners = data.items;
                 $scope.totalItems = data.total;

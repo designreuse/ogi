@@ -1,11 +1,37 @@
 function ControllerPrpTabOwner($scope, $injector, $routeParams, ServiceConfiguration, ServiceAlert,
-                               $http, ServiceObject, Utils, $location) {
+                               $http, ServiceObject, Utils, $location, ServiceOwner) {
     $scope.owners = [];         // All owners
 
-    // Read all owners to display in a table
-    var readAllOwners = $http.get(ServiceConfiguration.API_URL+"/rest/owner/").success(function (data) {
-        $scope.owners = data;
-    });
+    $scope.filterCriteria = {
+        pageNumber: 1,
+        itemNumberPerPage : 20,
+        sortDir: 'asc',
+        sortBy: 'name'
+    };
+
+    $scope.sort = function (sortedBy, sortDir) {
+        $scope.filterCriteria.sortDir = sortDir;
+        $scope.filterCriteria.sortBy = sortedBy;
+        $scope.filterCriteria.pageNumber = 1;
+        $scope.fetchResult();
+    };
+
+    $scope.selectPage = function() {
+        $scope.fetchResult();
+    }
+
+    //The function that is responsible of fetching the result from the server and setting the grid to the new result
+    $scope.fetchResult = function () {
+        ServiceOwner.get($scope.filterCriteria)
+            .success(function (data) {
+                $scope.owners = data.items;
+                $scope.totalItems = data.total;
+            });
+    };
+    // Run query to fetch data
+    $scope.fetchResult();
+
+
 
     $scope.httpGetCurrentType.success(function() {
         var readOwnerToAssociate;
