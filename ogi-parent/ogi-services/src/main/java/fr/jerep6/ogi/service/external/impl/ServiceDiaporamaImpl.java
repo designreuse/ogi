@@ -83,10 +83,6 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 		WSResult result;
 		HttpPost httpPost = new HttpPost(url);
 		try {
-			if (prp.getSale() == null || prp.getSale().getPriceFinal() == null) {
-				throw new BusinessException(EnumBusinessErrorProperty.NO_SALE, prp.getReference());
-			}
-
 			// FileBody uploadFilePart = new FileBody(uploadFile);
 			MultipartEntityBuilder builder = MultipartEntityBuilder.create();
 			builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
@@ -104,6 +100,7 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 			String urlApercu = imgApercu.replace("$reference", prp.getReference());
 			HttpGet getApercu = new HttpGet(urlApercu);
 			HttpResponse apercuResponse = client.execute(getApercu);
+			getApercu.releaseConnection();
 			LOGGER.info("Response code for {} = {}", urlApercu, apercuResponse.getStatusLine().getStatusCode());
 			boolean uploadApercu = apercuResponse.getStatusLine().getStatusCode() != 200;
 
@@ -187,6 +184,8 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 
 	@Override
 	public WSResult createOrUpdate(RealProperty prp) {
+		validate(prp);
+
 		CookieHandler.setDefault(new CookieManager());
 		HttpClient client = HttpClientBuilder.create().setRedirectStrategy(new LaxRedirectStrategy()).build();
 
@@ -292,8 +291,8 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 		LOGGER.info("Test if reference {} exist on Diaporama.", prpReference);
 		boolean exist = false;
 
+		HttpGet httpget = new HttpGet(verifReference.replace("$reference", prpReference));
 		try {
-			HttpGet httpget = new HttpGet(verifReference.replace("$reference", prpReference));
 			HttpResponse response = client.execute(httpget);
 
 			AcimfloResultExist reponse = HttpClientUtils.convertToJson(response, AcimfloResultExist.class);
@@ -302,10 +301,17 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 			exist = reponse.isReponse();
 		} catch (IOException e) {
 			throw new NetworkTechnicalException(e);
+		} finally {
+			httpget.releaseConnection();
 		}
 		return exist;
 	}
 
 	@Override
-	public void validate(RealProperty item) throws MultipleBusinessException {}
+	public void validate(RealProperty prp) throws MultipleBusinessException {
+		if (prp.getSale() == null || prp.getSale().getPriceFinal() == null) {
+			throw new BusinessException(EnumBusinessErrorProperty.NO_SALE, prp.getReference());
+		}
+
+	}
 }
