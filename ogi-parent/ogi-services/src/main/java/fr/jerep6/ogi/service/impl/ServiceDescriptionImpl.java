@@ -18,6 +18,9 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.Collections2;
 
+import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessErrorDescription;
+import fr.jerep6.ogi.framework.exception.BusinessException;
+import fr.jerep6.ogi.framework.exception.MultipleBusinessException;
 import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
 import fr.jerep6.ogi.persistance.bo.Description;
 import fr.jerep6.ogi.persistance.dao.DaoDescription;
@@ -69,6 +72,7 @@ public class ServiceDescriptionImpl extends AbstractTransactionalService<Descrip
 				d = descriptionsBDBackup.get(indexDesc);
 				mapper.map(aDescriptionModif, d);
 			}
+			validate(d);
 			descriptionsBD.add(d);
 		}
 
@@ -77,6 +81,24 @@ public class ServiceDescriptionImpl extends AbstractTransactionalService<Descrip
 		remove(descriptionsBDBackup);
 
 		return descriptionsBD;
+	}
+
+	@Override
+	public void validate(Description bo) throws BusinessException {
+		if (bo == null) {
+			return;
+		}
+		MultipleBusinessException mbe = new MultipleBusinessException();
+
+		if (Strings.isNullOrEmpty(bo.getLabel())) {
+			mbe.add(EnumBusinessErrorDescription.NO_LABEL, bo.getType());
+		} else {
+			if (bo.getLabel().length() > 2048) {
+				mbe.add(EnumBusinessErrorDescription.LABEL_SIZE, bo.getType(), bo.getLabel().length(), 2048);
+			}
+		}
+
+		mbe.checkErrors();
 	}
 
 }

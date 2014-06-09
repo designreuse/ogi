@@ -39,7 +39,7 @@ public class Description {
 			@Parameter(name = "valueOfMethod", value = "valueOfByCode") })
 	private EnumDescriptionType	type;
 
-	@Column(name = "DSC_LABEL", nullable = false)
+	@Column(name = "DSC_LABEL", nullable = false, length = 2048)
 	private String				label;
 
 	@ManyToOne

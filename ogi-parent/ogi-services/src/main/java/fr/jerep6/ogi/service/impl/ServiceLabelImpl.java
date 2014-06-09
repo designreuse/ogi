@@ -36,7 +36,7 @@ public class ServiceLabelImpl extends AbstractTransactionalService<Label, Intege
 	public Label add(Label label) {
 		Preconditions.checkNotNull(label);
 
-		// CHeck if label is correct
+		// Check if label is correct
 		validate(label);
 
 		if (label.getTechid() != null) {
@@ -81,7 +81,7 @@ public class ServiceLabelImpl extends AbstractTransactionalService<Label, Intege
 		MultipleBusinessException mbe = new MultipleBusinessException();
 
 		if (Strings.isNullOrEmpty(bo.getLabel())) {
-			mbe.add(EnumBusinessErrorLabel.NO_TEXT);
+			mbe.add(EnumBusinessErrorLabel.NO_LABEL, bo.getType());
 		} else {
 			if (bo.getLabel().length() > 255) {
 				mbe.add(EnumBusinessErrorLabel.LABEL_SIZE, bo.getLabel(), bo.getLabel().length(), 255);
