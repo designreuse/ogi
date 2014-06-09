@@ -12,9 +12,13 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 
 import fr.jerep6.ogi.enumeration.EnumLabelType;
 import fr.jerep6.ogi.exception.business.EntityAlreadyExist;
+import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessErrorLabel;
+import fr.jerep6.ogi.framework.exception.BusinessException;
+import fr.jerep6.ogi.framework.exception.MultipleBusinessException;
 import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
 import fr.jerep6.ogi.persistance.bo.Label;
 import fr.jerep6.ogi.persistance.dao.DaoLabel;
@@ -31,6 +35,9 @@ public class ServiceLabelImpl extends AbstractTransactionalService<Label, Intege
 	@Override
 	public Label add(Label label) {
 		Preconditions.checkNotNull(label);
+
+		// CHeck if label is correct
+		validate(label);
 
 		if (label.getTechid() != null) {
 			LOGGER.warn("Receive techid into label {}", label);
@@ -64,6 +71,24 @@ public class ServiceLabelImpl extends AbstractTransactionalService<Label, Intege
 	public List<Label> readByType(EnumLabelType type) {
 		Preconditions.checkNotNull(type);
 		return daoLabel.readByType(type);
+	}
+
+	@Override
+	public void validate(Label bo) throws BusinessException {
+		if (bo == null) {
+			return;
+		}
+		MultipleBusinessException mbe = new MultipleBusinessException();
+
+		if (Strings.isNullOrEmpty(bo.getLabel())) {
+			mbe.add(EnumBusinessErrorLabel.NO_TEXT);
+		} else {
+			if (bo.getLabel().length() > 255) {
+				mbe.add(EnumBusinessErrorLabel.LABEL_SIZE, bo.getLabel(), bo.getLabel().length(), 255);
+			}
+		}
+
+		mbe.checkErrors();
 	}
 
 }

@@ -22,7 +22,7 @@ import fr.jerep6.ogi.enumeration.EnumLabelType;
 @Entity
 @Table(name = "TA_LABEL", //
 uniqueConstraints = { @UniqueConstraint(columnNames = { "LAB_TYPE", "LAB_LABEL" }) }//
-)
+		)
 // Lombok
 @Getter
 @Setter
@@ -40,7 +40,7 @@ public class Label {
 			@Parameter(name = "valueOfMethod", value = "valueOfByCode") })
 	private EnumLabelType	type;
 
-	@Column(name = "LAB_LABEL", nullable = false)
+	@Column(name = "LAB_LABEL", nullable = false, length = 255)
 	private String			label;
 
 	@Override
