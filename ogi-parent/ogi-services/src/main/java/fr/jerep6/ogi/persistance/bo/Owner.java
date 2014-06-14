@@ -34,10 +34,10 @@ public class Owner {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer				techid;
 
-	@Column(name = "OWB_GENDER")
+	@Column(name = "OWN_GENDER")
 	private String				gender;
 
-	@Column(name = "OWB_FIRSTNAME")
+	@Column(name = "OWN_FIRSTNAME")
 	private String				firstname;
 
 	@Column(name = "OWN_SURNAME", nullable = false)
