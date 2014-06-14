@@ -6,6 +6,7 @@ import java.net.CookieManager;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
@@ -69,6 +70,9 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 	@Value("${partner.diaporama.delete.url}")
 	private String			deleteUrl;
 
+	@Value("${partner.diaporama.document.delete.url}")
+	private String			deleteDocumentUrl;
+
 	@Value("${partner.diaporama.exist.url}")
 	private String			verifReference;
 
@@ -94,29 +98,21 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 			// ###### Photos ######
 			builder.addPart("MAX_FILE_SIZE", new StringBody("5010000", HttpClientUtils.TEXT_PLAIN_UTF8));
 
-			// Il ne faut pas uploader l'image d'apercu lors d'une modification car sinon elle sera présente deux fois.
-			// Une fois en Apercu.jpg et une deuxième fois sous son vrai nom
-			String urlApercu = imgApercu.replace("$reference", prp.getReference());
-			HttpGet getApercu = new HttpGet(urlApercu);
-			HttpResponse apercuResponse = client.execute(getApercu);
-			getApercu.releaseConnection();
-			LOGGER.info("Response code for {} = {}", urlApercu, apercuResponse.getStatusLine().getStatusCode());
-			boolean uploadApercu = apercuResponse.getStatusLine().getStatusCode() != 200;
-
+			// Upload 3 images max
 			Integer apercu = 1;
 			Integer i = 1;
-			for (fr.jerep6.ogi.persistance.bo.Document aPhoto : prp.getPhotos()) {
-				Path p = aPhoto.getAbsolutePath();
+			Iterator<fr.jerep6.ogi.persistance.bo.Document> itDocuments = prp.getPhotos().iterator();
+			while (itDocuments.hasNext() && i <= 3) {
+				fr.jerep6.ogi.persistance.bo.Document d = itDocuments.next();
+
+				Path p = d.getAbsolutePath();
 				ContentType mime = ContentType.create(Files.probeContentType(p));
 
-				// Upload photo number 1 only if apercu.jpg doesn't exist
-				if (uploadApercu && aPhoto.getOrder().equals(1) || !aPhoto.getOrder().equals(1)) {
-					builder.addPart("photos[]",
-							new FileBody(p.toFile(), mime, StringUtils.stripAccents(p.getFileName().toString())));
-				}
+				builder.addPart("photos[]",
+						new FileBody(p.toFile(), mime, StringUtils.stripAccents(p.getFileName().toString())));
 
 				// If photo is order 1 (ie apercu) => save its rank
-				if (aPhoto.getOrder().equals(1)) {
+				if (d.getOrder().equals(1)) {
 					apercu = i;
 				}
 				i++;
@@ -125,6 +121,9 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 
 			httpPost.setEntity(builder.build());
 			httpPost.addHeader("Referer", referer);
+
+			// Delete all documents before update/create property on partner. This is for update.
+			deleteDocuments(client, prp.getReference());
 
 			HttpResponse response = client.execute(httpPost);
 			LOGGER.info("Response code for create/update = {}", response.getStatusLine().getStatusCode());
@@ -245,6 +244,16 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 		}
 		return ws;
 
+	}
+
+	private void deleteDocuments(HttpClient client, String reference) throws IOException {
+		String url = deleteDocumentUrl.replace("$reference", reference);
+
+		LOGGER.info("Delete documents of real property {}. Url = {}", reference, url);
+		HttpGet httpGet = new HttpGet(url);
+		client.execute(httpGet);
+
+		httpGet.releaseConnection();
 	}
 
 	@Override
