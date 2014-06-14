@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -99,7 +100,6 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 		HttpPost httpPost = new HttpPost(url);
 		MultipartEntityBuilder builder = MultipartEntityBuilder.create();
 		builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-		// builder.addTextBody("json_text",json_text,ContentType.APPLICATION_JSON);
 
 		// Construct form data
 		buildCommon(client, prp, reference, builder, imgApercu);
@@ -195,17 +195,21 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 			// ###### Photos ######
 			builder.addPart("MAX_FILE_SIZE", new StringBody("5010000", HttpClientUtils.TEXT_PLAIN_UTF8));
 
+			// Upload 6 images max
 			Integer apercu = 1;
 			Integer i = 1;
-			for (fr.jerep6.ogi.persistance.bo.Document aPhoto : prp.getPhotos()) {
-				Path p = aPhoto.getAbsolutePath();
+			Iterator<fr.jerep6.ogi.persistance.bo.Document> itDocuments = prp.getPhotos().iterator();
+			while (itDocuments.hasNext() && i <= 6) {
+				fr.jerep6.ogi.persistance.bo.Document d = itDocuments.next();
+
+				Path p = d.getAbsolutePath();
 				ContentType mime = ContentType.create(Files.probeContentType(p));
 
 				builder.addPart("photos[]",
 						new FileBody(p.toFile(), mime, StringUtils.stripAccents(p.getFileName().toString())));
 
 				// If photo is order 1 (ie apercu) => save its rank
-				if (aPhoto.getOrder().equals(1)) {
+				if (d.getOrder().equals(1)) {
 					apercu = i;
 				}
 				i++;
@@ -386,6 +390,7 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 	private void deleteDocuments(HttpClient client, String mode, String reference) throws IOException {
 		String url = config.get(mode).get("document.delete.url").replace("$reference", reference);
 
+		LOGGER.info("Delete documents of real property {}. Url = {}", reference, url);
 		HttpGet httpGet = new HttpGet(url);
 		client.execute(httpGet);
 
