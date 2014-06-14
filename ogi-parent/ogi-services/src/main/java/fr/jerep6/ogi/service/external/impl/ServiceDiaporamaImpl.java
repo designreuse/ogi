@@ -19,8 +19,6 @@ import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.message.BasicNameValuePair;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -87,13 +85,14 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 			MultipartEntityBuilder builder = MultipartEntityBuilder.create();
 			builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 
-			builder.addPart("prix", new StringBody(prp.getSale().getPriceFinal().toString(), ContentType.TEXT_PLAIN));
-			builder.addPart("reference", new StringBody(prp.getReference(), ContentType.TEXT_PLAIN));
-			builder.addPart("referenceOriginale", new StringBody(prp.getReference(), ContentType.TEXT_PLAIN));
-			builder.addPart("idType", new StringBody(getType(prp.getCategory()), ContentType.TEXT_PLAIN));
+			builder.addPart("prix", new StringBody(prp.getSale().getPriceFinal().toString(),
+					HttpClientUtils.TEXT_PLAIN_UTF8));
+			builder.addPart("reference", new StringBody(prp.getReference(), HttpClientUtils.TEXT_PLAIN_UTF8));
+			builder.addPart("referenceOriginale", new StringBody(prp.getReference(), HttpClientUtils.TEXT_PLAIN_UTF8));
+			builder.addPart("idType", new StringBody(getType(prp.getCategory()), HttpClientUtils.TEXT_PLAIN_UTF8));
 
 			// ###### Photos ######
-			builder.addPart("MAX_FILE_SIZE", new StringBody("5010000", ContentType.TEXT_PLAIN));
+			builder.addPart("MAX_FILE_SIZE", new StringBody("5010000", HttpClientUtils.TEXT_PLAIN_UTF8));
 
 			// Il ne faut pas uploader l'image d'apercu lors d'une modification car sinon elle sera présente deux fois.
 			// Une fois en Apercu.jpg et une deuxième fois sous son vrai nom
@@ -122,7 +121,7 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 				}
 				i++;
 			}
-			builder.addPart("apercu", new StringBody(apercu.toString(), ContentType.TEXT_PLAIN));
+			builder.addPart("apercu", new StringBody(apercu.toString(), HttpClientUtils.TEXT_PLAIN_UTF8));
 
 			httpPost.setEntity(builder.build());
 			httpPost.addHeader("Referer", referer);
@@ -187,7 +186,7 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 		validate(prp);
 
 		CookieHandler.setDefault(new CookieManager());
-		HttpClient client = HttpClientBuilder.create().setRedirectStrategy(new LaxRedirectStrategy()).build();
+		HttpClient client = HttpClientUtils.buildClient();
 
 		// Connection to acimflo => session id is keeped
 		connect(client);
@@ -208,7 +207,7 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 	@Override
 	public WSResult delete(RealProperty prp) {
 		CookieHandler.setDefault(new CookieManager());
-		HttpClient client = HttpClientBuilder.create().setRedirectStrategy(new LaxRedirectStrategy()).build();
+		HttpClient client = HttpClientUtils.buildClient();
 
 		// Connection to diaporama => session id is keeped
 		connect(client);
@@ -252,7 +251,7 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 	public Boolean exist(RealProperty prp) {
 		Preconditions.checkNotNull(prp);
 		CookieHandler.setDefault(new CookieManager());
-		HttpClient client = HttpClientBuilder.create().setRedirectStrategy(new LaxRedirectStrategy()).build();
+		HttpClient client = HttpClientUtils.buildClient();
 
 		// Connection to diaporama => session id is keeped
 		connect(client);
@@ -309,9 +308,18 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 
 	@Override
 	public void validate(RealProperty prp) throws MultipleBusinessException {
+		MultipleBusinessException mbe = new MultipleBusinessException();
+
 		if (prp.getSale() == null || prp.getSale().getPriceFinal() == null) {
-			throw new BusinessException(EnumBusinessErrorProperty.NO_SALE, prp.getReference());
+			mbe.add(EnumBusinessErrorProperty.NO_SALE, prp.getReference());
 		}
 
+		if (prp.getSale() != null) {
+			if (prp.getSale().getPrice() == null || prp.getSale().getPrice() <= 0F) {
+				mbe.add(EnumBusinessErrorProperty.NO_SALE_PRICE, prp.getReference());
+			}
+		}
+
+		mbe.checkErrors();
 	}
 }

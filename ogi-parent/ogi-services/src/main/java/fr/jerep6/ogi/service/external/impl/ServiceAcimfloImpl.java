@@ -16,7 +16,6 @@ import javax.annotation.Resource;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -26,8 +25,6 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.message.BasicNameValuePair;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -92,12 +89,6 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 	@Resource(name = "mapAcimfloUrl")
 	private Map<String, Map<String, String>>	config;
 
-	@Value("${httpclient.timeout.connection}")
-	private Integer								timeoutConnection;
-
-	@Value("${httpclient.timeout.socket}")
-	private Integer								timeoutSocket;
-
 	private WSResult broadcast(HttpClient client, RealProperty prp, String reference, String mode, String prefixeMap) {
 		String referer = config.get(mode).get(prefixeMap + ".referer").replace("$reference", reference);
 		String url = config.get(mode).get(prefixeMap + ".url").replace("$reference", reference);
@@ -108,6 +99,7 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 		HttpPost httpPost = new HttpPost(url);
 		MultipartEntityBuilder builder = MultipartEntityBuilder.create();
 		builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+		// builder.addTextBody("json_text",json_text,ContentType.APPLICATION_JSON);
 
 		// Construct form data
 		buildCommon(client, prp, reference, builder, imgApercu);
@@ -159,21 +151,25 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 			if (prp instanceof RealPropertyLivable) {
 				RealPropertyLivable liv = (RealPropertyLivable) prp;
 				builder.addPart("surfaceHabitable", new StringBody(Objects.firstNonNull(liv.getArea(), "").toString(),
-						ContentType.TEXT_PLAIN));
+						HttpClientUtils.TEXT_PLAIN_UTF8));
 				builder.addPart("nbreChambre", new StringBody(Objects.firstNonNull(liv.getNbBedRoom(), "").toString(),
-						ContentType.TEXT_PLAIN));
-				builder.addPart("nbreSDB", new StringBody(Objects.firstNonNull(liv.getNbBathRoom(), "").toString(),
-						ContentType.TEXT_PLAIN));
+						HttpClientUtils.TEXT_PLAIN_UTF8));
+				// Acimflo handle only bathroom. Sum of bathroom and showerroom
+				Integer showerRoom = liv.getNbShowerRoom() == null ? 0 : liv.getNbShowerRoom();
+				Integer bathRoom = liv.getNbBathRoom() == null ? 0 : liv.getNbBathRoom();
+				builder.addPart("nbreSDB", new StringBody(Integer.valueOf(bathRoom + showerRoom).toString(),
+						HttpClientUtils.TEXT_PLAIN_UTF8));
+
 				builder.addPart("nbreWC", new StringBody(Objects.firstNonNull(liv.getNbWC(), "").toString(),
-						ContentType.TEXT_PLAIN));
+						HttpClientUtils.TEXT_PLAIN_UTF8));
 			}
 
 			builder.addPart("surfaceTerrain", new StringBody(Objects.firstNonNull(prp.getLandArea(), "").toString(),
-					ContentType.TEXT_PLAIN));
+					HttpClientUtils.TEXT_PLAIN_UTF8));
 
-			builder.addPart("reference", new StringBody(reference, ContentType.TEXT_PLAIN));
-			builder.addPart("referenceOriginale", new StringBody(reference, ContentType.TEXT_PLAIN));
-			builder.addPart("idType", new StringBody(getType(prp.getCategory()), ContentType.TEXT_PLAIN));
+			builder.addPart("reference", new StringBody(reference, HttpClientUtils.TEXT_PLAIN_UTF8));
+			builder.addPart("referenceOriginale", new StringBody(reference, HttpClientUtils.TEXT_PLAIN_UTF8));
+			builder.addPart("idType", new StringBody(getType(prp.getCategory()), HttpClientUtils.TEXT_PLAIN_UTF8));
 			builder.addPart("surfaceDependance", new StringBody(Objects.firstNonNull(prp.getDependencyArea(), "")
 					.toString(), ContentType.TEXT_PLAIN));
 
@@ -181,23 +177,23 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 			if (prp.getAddress() != null) {
 				addr = Objects.firstNonNull(prp.getAddress().getCity(), "");
 			}
-			builder.addPart("nomVille", new StringBody(addr, ContentType.TEXT_PLAIN));
+			builder.addPart("nomVille", new StringBody(addr, HttpClientUtils.TEXT_PLAIN_UTF8));
 
 			String style = "";
 			if (prp.getType() != null) {
 				style = Objects.firstNonNull(prp.getType().getLabel(), "");
 			}
-			builder.addPart("nomStyle", new StringBody(style, ContentType.TEXT_PLAIN));
+			builder.addPart("nomStyle", new StringBody(style, HttpClientUtils.TEXT_PLAIN_UTF8));
 
 			Description description = prp.getDescription(EnumDescriptionType.WEBSITE_OWN);
 			String desc = "";
 			if (description != null) {
 				desc = Objects.firstNonNull(description.getLabel(), "");
 			}
-			builder.addPart("commentaire", new StringBody(desc, ContentType.TEXT_PLAIN));
+			builder.addPart("commentaire", new StringBody(desc, HttpClientUtils.TEXT_PLAIN_UTF8));
 
 			// ###### Photos ######
-			builder.addPart("MAX_FILE_SIZE", new StringBody("5010000", ContentType.TEXT_PLAIN));
+			builder.addPart("MAX_FILE_SIZE", new StringBody("5010000", HttpClientUtils.TEXT_PLAIN_UTF8));
 
 			Integer apercu = 1;
 			Integer i = 1;
@@ -214,12 +210,12 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 				}
 				i++;
 			}
-			builder.addPart("apercu", new StringBody(apercu.toString(), ContentType.TEXT_PLAIN));
+			builder.addPart("apercu", new StringBody(apercu.toString(), HttpClientUtils.TEXT_PLAIN_UTF8));
 
 			if (prp instanceof RealPropertyBuilt) {
 				RealPropertyBuilt built = (RealPropertyBuilt) prp;
 
-				ContentBody dpeBody = new StringBody("", ContentType.TEXT_PLAIN);
+				ContentBody dpeBody = new StringBody("", HttpClientUtils.TEXT_PLAIN_UTF8);
 				Path dpeKwh = built.getDpeFile().get(EnumDPE.KWH_260);
 				if (dpeKwh != null) {
 					ContentType mime = ContentType.create(Files.probeContentType(dpeKwh));
@@ -229,7 +225,7 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 				builder.addPart("dpe", dpeBody);
 
 				builder.addPart("nbreGarage", new StringBody(Objects.firstNonNull(built.getNbGarage(), "").toString(),
-						ContentType.TEXT_PLAIN));
+						HttpClientUtils.TEXT_PLAIN_UTF8));
 			}
 		} catch (IOException e) {
 			LOGGER.error("", e);
@@ -240,27 +236,28 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 		Preconditions.checkNotNull(prp.getRent());
 
 		Rent rent = prp.getRent();
-		builder.addPart("prix", new StringBody(ObjectUtils.toString(rent.getPrice()), ContentType.TEXT_PLAIN));
-		builder.addPart("disponible", new StringBody(toBoolean(rent.getFreeDate() != null), ContentType.TEXT_PLAIN));
-		builder.addPart("prix", new StringBody(ObjectUtils.toString(rent.getPrice()), ContentType.TEXT_PLAIN));
-		builder.addPart("honoraires",
-				new StringBody(ObjectUtils.toString(rent.getCommission()), ContentType.TEXT_PLAIN));
-		builder.addPart("charges",
-				new StringBody(ObjectUtils.toString(rent.getServiceCharge()), ContentType.TEXT_PLAIN));
+		builder.addPart("prix", new StringBody(ObjectUtils.toString(rent.getPrice()), HttpClientUtils.TEXT_PLAIN_UTF8));
+		builder.addPart("disponible", new StringBody(toBoolean(rent.getFreeDate() != null),
+				HttpClientUtils.TEXT_PLAIN_UTF8));
+		builder.addPart("prix", new StringBody(ObjectUtils.toString(rent.getPrice()), HttpClientUtils.TEXT_PLAIN_UTF8));
+		builder.addPart("honoraires", new StringBody(ObjectUtils.toString(rent.getCommission()),
+				HttpClientUtils.TEXT_PLAIN_UTF8));
+		builder.addPart("charges", new StringBody(ObjectUtils.toString(rent.getServiceCharge()),
+				HttpClientUtils.TEXT_PLAIN_UTF8));
 
 		if (rent.getFreeDate() != null) {
 			SimpleDateFormat spFormater = new SimpleDateFormat("dd/MM/yyyy");
 			builder.addPart("libre_le", new StringBody(spFormater.format(rent.getFreeDate().getTime()),
-					ContentType.TEXT_PLAIN));
+					HttpClientUtils.TEXT_PLAIN_UTF8));
 		}
 	}
 
 	private void buildSale(HttpClient client, RealProperty prp, MultipartEntityBuilder builder) {
 		Preconditions.checkNotNull(prp.getSale());
 		Sale s = prp.getSale();
-		builder.addPart("prix", new StringBody(s.getPriceFinal().toString(), ContentType.TEXT_PLAIN));
+		builder.addPart("prix", new StringBody(s.getPriceFinal().toString(), HttpClientUtils.TEXT_PLAIN_UTF8));
 
-		builder.addPart("vendu", new StringBody(toBoolean(s.getSold()), ContentType.TEXT_PLAIN));
+		builder.addPart("vendu", new StringBody(toBoolean(s.getSold()), HttpClientUtils.TEXT_PLAIN_UTF8));
 	}
 
 	private void connect(HttpClient client) throws BusinessException {
@@ -298,14 +295,8 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 		validate(prp);
 
 		CookieHandler.setDefault(new CookieManager());
-		RequestConfig config = RequestConfig.custom()//
-				.setSocketTimeout(timeoutConnection * 1000)//
-				.setConnectTimeout(timeoutSocket * 1000)//
-				.setConnectionRequestTimeout(timeoutSocket * 1000)//
-				.build();
 
-		HttpClient client = HttpClientBuilder.create().setRedirectStrategy(new LaxRedirectStrategy())
-				.setDefaultRequestConfig(config).build();
+		HttpClient client = HttpClientUtils.buildClient();
 
 		// Connection to acimflo => session id is keeped
 		connect(client);
@@ -343,7 +334,7 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 	@Override
 	public WSResult delete(RealProperty prp) {
 		CookieHandler.setDefault(new CookieManager());
-		HttpClient client = HttpClientBuilder.create().setRedirectStrategy(new LaxRedirectStrategy()).build();
+		HttpClient client = HttpClientUtils.buildClient();
 
 		// Connection to acimflo => session id is keeped
 		connect(client);
@@ -404,7 +395,7 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 	@Override
 	public Boolean exist(RealProperty prp) {
 		CookieHandler.setDefault(new CookieManager());
-		HttpClient client = HttpClientBuilder.create().setRedirectStrategy(new LaxRedirectStrategy()).build();
+		HttpClient client = HttpClientUtils.buildClient();
 
 		// Connection to acimflo => session id is keeped
 		connect(client);
@@ -490,6 +481,12 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 
 			if (prp.getRent().getCommission() == null || prp.getRent().getCommission() < 0F) {
 				mbe.add(EnumBusinessErrorProperty.NO_RENT_COMMISSION, prp.getReference());
+			}
+		}
+
+		if (prp.getSale() != null) {
+			if (prp.getSale().getPrice() == null || prp.getSale().getPrice() <= 0F) {
+				mbe.add(EnumBusinessErrorProperty.NO_SALE_PRICE, prp.getReference());
 			}
 		}
 

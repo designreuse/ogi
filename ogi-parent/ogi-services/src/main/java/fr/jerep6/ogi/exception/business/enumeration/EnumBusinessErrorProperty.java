@@ -16,7 +16,8 @@ public enum EnumBusinessErrorProperty implements ErrorCode {
 	NO_ADDRESS_POSTAL_CODE("NO_ADDRESS_POSTAL_CODE", "Postal code is mandatory"), //
 	NO_TYPE("NO_TYPE", "Property haven't type"), //
 	NO_MANDAT_REFERENCE_SALE("NO_MANDAT_REFERENCE_SALE", "Property haven't mandat reference"), //
-	NO_RENT_PRICE("NO_RENT_PRICE", "Property haven't price"), //
+	NO_SALE_PRICE("NO_SALE_PRICE", "Property sale haven't price"), //
+	NO_RENT_PRICE("NO_RENT_PRICE", "Property rent haven't price"), //
 	NO_RENT_COMMISSION("NO_RENT_COMMISSION", "Property haven't commission"), //
 	NO_ROOM_NUMBER("NO_ROOM_NUMBER", "Property haven't room number"), //
 	NO_ROOM_TYPE("NO_ROOM_TYPE", "Room haven't type"), //
