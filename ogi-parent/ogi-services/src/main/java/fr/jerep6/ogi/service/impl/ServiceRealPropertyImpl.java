@@ -332,6 +332,12 @@ ServiceRealProperty {
 			}
 		}
 
+		// Check if reference is correct
+		if (Strings.isNullOrEmpty(bo.getReference()) || bo.getReference().contains("-")) {
+			mbe.add(EnumBusinessErrorProperty.REFERENCE_MALFORMED, bo.getReference());
+
+		}
+
 		mbe.checkErrors();
 	}
 }

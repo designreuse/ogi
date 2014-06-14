@@ -7,6 +7,7 @@ public enum EnumBusinessErrorProperty implements ErrorCode {
 
 	NO_REFERENCE("NO_REFERENCE", "Property haven't reference"), //
 	REFERENCE_EXISTS("REFERENCE_EXISTS", "Property reference already exist"), //
+	REFERENCE_MALFORMED("REFERENCE_MALFORMED", "Property reference is malformed"), //
 	NO_SALE("NO_SALE", "Property haven't sale"), //
 	NO_RENT("NO_RENT", "Property haven't rent"), //
 	NO_DESCRIPTION_WEBSITE_OWN("NO_DESCRIPTION_WEBSITE_OWN", "Property haven't description WEBSITE_OWN"), //
