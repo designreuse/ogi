@@ -3,9 +3,9 @@
 input[type=number] {
   -moz-appearance: textfield;
 }
-.alert {
+.alert-dismissable {
   margin-bottom: 5px;
-  padding: 5px;
+  padding: 5px 35px 5px 5px;
 }
 .modal-header {
   background: #F1F1F1;
