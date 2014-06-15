@@ -65,9 +65,8 @@ public class ServiceRoomImpl extends AbstractTransactionalService<Room, Integer>
 					mapper.map(aRoomModif, r);
 				}
 				// Photo must be an existing photo.
-				final Document finalPhotoRoom = r.getPhoto();
-				Optional<Document> photo = documents.stream()
-					.filter(d -> finalPhotoRoom != null && finalPhotoRoom.getPath().equals(d.getPath()))
+				final Document roomPhoto = r.getPhoto();
+				Optional<Document> photo = documents.stream().filter(d -> roomPhoto != null && roomPhoto.equals(d))
 						.findFirst();
 				r.setPhoto(photo.orElse(null));
 

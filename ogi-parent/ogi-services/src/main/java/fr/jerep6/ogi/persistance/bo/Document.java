@@ -31,7 +31,7 @@ import fr.jerep6.ogi.utils.DocumentUtils;
 @Getter
 @Setter
 @EqualsAndHashCode(of = { "path" })
-@ToString
+@ToString(of = { "techid", "name", "order", "type", "path" })
 /**
  * Document are comparable according to order
  * @author jerep6 1 févr. 2014
@@ -58,7 +58,7 @@ public class Document implements Comparable<Document> {
 			@Parameter(name = "valueOfMethod", value = "valueOfByCode") })
 	private EnumDocumentType	type;
 
-	@ManyToMany(mappedBy = "documents")
+	@ManyToMany(mappedBy = "documents", targetEntity = RealProperty.class)
 	private Set<RealProperty>	property;
 
 	public Document() {

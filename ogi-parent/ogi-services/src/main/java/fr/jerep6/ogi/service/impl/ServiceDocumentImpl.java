@@ -127,15 +127,15 @@ public class ServiceDocumentImpl extends AbstractTransactionalService<Document, 
 		Files.copy(is, doc);
 
 		FileUpload f = new FileUpload.Builder() //
-		.name(fileName) //
-		.size(Files.size(doc)) //
-		.type(Files.probeContentType(doc)) //
-		.url(DocumentUtils.buildUrl(doc)) //
-		.thumbnailUrl(DocumentUtils.buildUrl(doc, "?size=200,200")) //
-		.deleteUrl(DocumentUtils.buildUrl(doc)) //
-		.deleteType("DELETE") //
-		.document(new Document(DocumentUtils.relativize(doc).toString(), fileName, 1, type)) //
-		.build();
+				.name(fileName) //
+				.size(Files.size(doc)) //
+				.type(Files.probeContentType(doc)) //
+				.url(DocumentUtils.buildUrl(doc)) //
+				.thumbnailUrl(DocumentUtils.buildUrl(doc, "?size=200,200")) //
+				.deleteUrl(DocumentUtils.buildUrl(doc)) //
+				.deleteType("DELETE") //
+				.document(new Document(DocumentUtils.relativize(doc).toString(), fileName, 1, type)) //
+				.build();
 
 		return f;
 	}
@@ -193,13 +193,14 @@ public class ServiceDocumentImpl extends AbstractTransactionalService<Document, 
 		List<Document> documentsBDBackup = new ArrayList<>(documentsBD);
 
 		// Modify existing document with data from JSON
+		// Clear to avoid delete and insert into tj_prp_doc
 		documentsBD.clear();
 		for (Document aDoc : nonTmpDoc) {
 			Document d = aDoc;
 
 			int indexDesc = documentsBDBackup.indexOf(d);
 			if (indexDesc != -1) {
-				// Get existant document to avoid sql insert
+				// Get existent document to avoid sql insert
 				d = documentsBDBackup.get(indexDesc);
 				mapper.map(aDoc, d);
 			}
