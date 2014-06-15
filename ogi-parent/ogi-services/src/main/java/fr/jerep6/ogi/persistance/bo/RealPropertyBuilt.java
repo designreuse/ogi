@@ -88,7 +88,7 @@ public abstract class RealPropertyBuilt extends RealProperty {
 	// table of the owning entity but you can override them using@AttributeOverride:
 	@Embedded
 	@AttributeOverrides({ //
-		@AttributeOverride(name = "kWh", column = @Column(name = "PRB_DPE_KWH")), //
+	@AttributeOverride(name = "kwh", column = @Column(name = "PRB_DPE_KWH")), //
 		@AttributeOverride(name = "classificationKWh", column = @Column(name = "PRB_DPE_CLASS_KWH")), //
 		@AttributeOverride(name = "ges", column = @Column(name = "PRB_DPE_GES")), //
 		@AttributeOverride(name = "classificationGes", column = @Column(name = "PRB_DPE_CLASS_GES")), //
