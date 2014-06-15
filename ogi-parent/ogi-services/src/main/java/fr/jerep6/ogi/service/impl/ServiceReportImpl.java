@@ -9,7 +9,6 @@ import javax.sql.DataSource;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -17,6 +16,8 @@ import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +53,7 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 	private static Map<EnumReport, String>	reportsConfig	= new HashMap<>(2);
 	static {
 		reportsConfig.put(EnumReport.CLASSEUR, "fiche_classeur.jasper");
-		reportsConfig.put(EnumReport.VITRINE, "fiche_vitrine$suffixe.jasper");
+		reportsConfig.put(EnumReport.VITRINE, "fiche_vitrine_A4$suffixe.jasper");
 	}
 
 	private String computeReportName(String prpReference, EnumReport reportType) {
@@ -61,7 +62,7 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 		switch (reportType) {
 			case VITRINE: // Template différent en fonction du nombre de photos
 				RealProperty prp = serviceRealProperty.readByReference(prpReference);
-				reportName = reportName.replace("$suffixe", prp.getPhotos().size() >= 2 ? "_2" : "_1");
+				reportName = reportName.replace("$suffixe", prp.getPhotos().size() >= 2 ? "_3" : "_1");
 				break;
 		}
 
@@ -87,8 +88,8 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 		}
 
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, print);
-		exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, bos);
+		exporter.setExporterInput(new SimpleExporterInput(print));
+		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(bos));
 		exporter.exportReport();
 		return bos;
 	}

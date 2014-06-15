@@ -10,6 +10,10 @@
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>fr.jerep6.jasperreports.fonts</groupId>
+			<artifactId>my-arial</artifactId>
+		</dependency>
 	
 		<dependency>
 			<groupId>org.springframework</groupId>

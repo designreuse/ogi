@@ -22,7 +22,7 @@
 		<mockito.version>1.9.5</mockito.version>
 		<fest.version>2.0M10</fest.version>
 		<httpclient.version>4.3.2</httpclient.version>
-		<jasperReport.version>5.5.2</jasperReport.version>
+		<jasperReport.version>5.6.0</jasperReport.version>
 		<servlet.version>3.0.1</servlet.version>
 		<jsoup.version>1.7.3</jsoup.version>
 		<commonnet.version>3.3</commonnet.version>
@@ -345,6 +345,14 @@
 				<artifactId>jasperreports</artifactId>
 				<version>${jasperReport.version}</version>
 			</dependency>
+			
+			<!-- Custom font to export into PDF -->
+			<dependency>
+				<groupId>fr.jerep6.jasperreports.fonts</groupId>
+				<artifactId>my-arial</artifactId>
+				<version>1.0</version>
+			</dependency>
+	
 			
 			<!--Scalr (image manipulation) -->
 			<dependency>
