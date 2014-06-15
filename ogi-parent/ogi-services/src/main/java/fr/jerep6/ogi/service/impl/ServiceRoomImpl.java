@@ -60,19 +60,19 @@ public class ServiceRoomImpl extends AbstractTransactionalService<Room, Integer>
 
 			int index = roomBDBackup.indexOf(r);
 			if (index != -1) { // Room exist => modify existent
-					// Get existant description to avoid sql insert
-					r = roomBDBackup.get(index);
-					mapper.map(aRoomModif, r);
-				}
-				// Photo must be an existing photo.
-				final Document roomPhoto = r.getPhoto();
-				Optional<Document> photo = documents.stream().filter(d -> roomPhoto != null && roomPhoto.equals(d))
-						.findFirst();
-				r.setPhoto(photo.orElse(null));
+				// Get existant description to avoid sql insert
+				r = roomBDBackup.get(index);
+				mapper.map(aRoomModif, r);
+			}
+			// Photo must be an existing photo.
+			final Document roomPhoto = aRoomModif.getPhoto();
+			Optional<Document> photo = documents.stream().filter(d -> roomPhoto != null && roomPhoto.equals(d))
+					.findFirst();
+			r.setPhoto(photo.orElse(null));
 
-			validate(r);
-				roomBD.add(r);
-			});
+				validate(r);
+			roomBD.add(r);
+		});
 
 		// Delete rooms
 		SetView<Room> difference = Sets.difference(new HashSet<>(roomBDBackup), new HashSet<>(roomBD));
