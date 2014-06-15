@@ -69,7 +69,7 @@ public abstract class RealPropertyBuilt extends RealProperty {
 	@Column(name = "PRB_PARKING", length = 255)
 	private String			parking;
 
-	@Column(name = "PRL_NB_GARAGE")
+	@Column(name = "PRB_NB_GARAGE")
 	private Integer			nbGarage;
 
 	@Column(name = "PRB_INSULATION", length = 255)
@@ -88,10 +88,10 @@ public abstract class RealPropertyBuilt extends RealProperty {
 	// table of the owning entity but you can override them using@AttributeOverride:
 	@Embedded
 	@AttributeOverrides({ //
-	@AttributeOverride(name = "kWh", column = @Column(name = "PRB_DPE_KWH")), //
-			@AttributeOverride(name = "classificationKWh", column = @Column(name = "PRB_DPE_CLASS_KWH")), //
-			@AttributeOverride(name = "ges", column = @Column(name = "PRB_DPE_GES")), //
-			@AttributeOverride(name = "classificationGes", column = @Column(name = "PRB_DPE_CLASS_GES")), //
+		@AttributeOverride(name = "kWh", column = @Column(name = "PRB_DPE_KWH")), //
+		@AttributeOverride(name = "classificationKWh", column = @Column(name = "PRB_DPE_CLASS_KWH")), //
+		@AttributeOverride(name = "ges", column = @Column(name = "PRB_DPE_GES")), //
+		@AttributeOverride(name = "classificationGes", column = @Column(name = "PRB_DPE_CLASS_GES")), //
 	})
 	private DPE				dpe;
 
