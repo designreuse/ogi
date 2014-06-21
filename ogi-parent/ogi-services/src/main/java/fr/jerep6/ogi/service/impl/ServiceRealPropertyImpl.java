@@ -58,7 +58,7 @@ import fr.jerep6.ogi.transfert.mapping.OrikaMapperService;
 @Service("serviceRealProperty")
 @Transactional(propagation = Propagation.REQUIRED)
 public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealProperty, Integer> implements
-		ServiceRealProperty {
+ServiceRealProperty {
 	private static Logger		LOGGER	= LoggerFactory.getLogger(ServiceRealPropertyImpl.class);
 
 	@Autowired
@@ -333,7 +333,8 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 		}
 
 		// Check if reference is correct
-		if (Strings.isNullOrEmpty(bo.getReference()) || bo.getReference().contains("-")) {
+		if (Strings.isNullOrEmpty(bo.getReference()) || bo.getReference().contains("-")
+				|| bo.getReference().contains(" ")) {
 			mbe.add(EnumBusinessErrorProperty.REFERENCE_MALFORMED, bo.getReference());
 		}
 
