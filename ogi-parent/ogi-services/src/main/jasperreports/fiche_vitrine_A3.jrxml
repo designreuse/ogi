@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fiche_vitrine_A3" pageWidth="1190" pageHeight="842" orientation="Landscape" columnWidth="1150" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="880702b2-f6b1-499a-8c90-1e573d17a77d">
+	<property name="ireport.zoom" value="0.5644739300537779"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="reference" class="java.lang.String"/>
+	<parameter name="DOC_DIR" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+(SELECT DOC_PATH
+FROM TA_DOCUMENT DOC
+JOIN TJ_PRP_DOC TJ ON DOC.DOC_ID=TJ.DOC_ID
+JOIN TA_PROPERTY PRP ON PRP.PRO_ID=TJ.PRO_ID
+WHERE
+PRP.PRO_REFERENCE=$P{reference}
+AND DOC_ORDER=1) AS PHOTO1,
+(SELECT DOC_PATH
+FROM TA_DOCUMENT DOC
+JOIN TJ_PRP_DOC TJ ON DOC.DOC_ID=TJ.DOC_ID
+JOIN TA_PROPERTY PRP ON PRP.PRO_ID=TJ.PRO_ID
+WHERE
+PRP.PRO_REFERENCE=$P{reference}
+AND DOC_ORDER=2)  AS PHOTO2,
+(SELECT DOC_PATH
+FROM TA_DOCUMENT DOC
+JOIN TJ_PRP_DOC TJ ON DOC.DOC_ID=TJ.DOC_ID
+JOIN TA_PROPERTY PRP ON PRP.PRO_ID=TJ.PRO_ID
+WHERE
+PRP.PRO_REFERENCE=$P{reference}
+AND DOC_ORDER=3)  AS PHOTO3,
+
+ta_address.ADD_CITY AS CITY,
+
+SUBSTRING(DSC_LABEL, 1, IF(INSTR(DSC_LABEL,'\n\n')<>0, INSTR(DSC_LABEL,'\n\n')+1,LENGTH(DSC_LABEL))) AS DSC_LABEL1,
+SUBSTRING(DSC_LABEL, INSTR(DSC_LABEL,'\n\n') + 2, LENGTH(DSC_LABEL)) AS DSC_LABEL2,
+
+sal.sal_mand_type AS MANDAT_TYPE,
+IFNULL(sal.`SAL_PRICE`, 0) + IFNULL(sal.`SAL_COMMISSION`, 0) AS PRIX
+
+FROM TA_PROPERTY prp
+LEFT JOIN TA_SALE sal ON sal.pro_id=prp.pro_id
+LEFT JOIN ta_address ON ta_address.`ADD_ID` = prp.`ADD_ID`
+LEFT JOIN TA_DESCRIPTION DESCRIPTION ON DESCRIPTION.PRO_ID=PRP.PRO_ID AND DESCRIPTION.DSC_TYPE='VITRINE'
+
+WHERE prp.pro_reference=$P{reference}]]>
+	</queryString>
+	<field name="PHOTO1" class="java.lang.String"/>
+	<field name="PHOTO2" class="java.lang.String"/>
+	<field name="PHOTO3" class="java.lang.String"/>
+	<field name="CITY" class="java.lang.String"/>
+	<field name="DSC_LABEL1" class="java.lang.String"/>
+	<field name="DSC_LABEL2" class="java.lang.String"/>
+	<field name="MANDAT_TYPE" class="java.lang.String"/>
+	<field name="PRIX" class="java.lang.Double"/>
+	<detail>
+		<band height="802" splitType="Stretch">
+			<image scaleImage="FillFrame">
+				<reportElement mode="Opaque" x="0" y="0" width="664" height="528" isPrintWhenDetailOverflows="true" uuid="a6e973be-25e6-4616-91ee-bb70e6a64d9c">
+					<printWhenExpression><![CDATA[java.nio.file.Files.exists(java.nio.file.Paths.get($P{DOC_DIR} + $F{PHOTO1}))]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.5" lineColor="#771B60"/>
+					<topPen lineWidth="1.5" lineColor="#771B60"/>
+					<leftPen lineWidth="1.5" lineColor="#771B60"/>
+					<bottomPen lineWidth="1.5" lineColor="#771B60"/>
+					<rightPen lineWidth="1.5" lineColor="#771B60"/>
+				</box>
+				<imageExpression><![CDATA[$P{DOC_DIR} + $F{PHOTO1}]]></imageExpression>
+			</image>
+			<image>
+				<reportElement positionType="Float" x="346" y="561" width="318" height="241" uuid="264e3fc2-4610-4d31-ae0f-ef1eaf6f3e37">
+					<printWhenExpression><![CDATA[java.nio.file.Files.exists(java.nio.file.Paths.get($P{DOC_DIR} + $F{PHOTO3}))]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.5" lineColor="#771B60"/>
+					<topPen lineWidth="1.5" lineColor="#771B60"/>
+					<leftPen lineWidth="1.5" lineColor="#771B60"/>
+					<bottomPen lineWidth="1.5" lineColor="#771B60"/>
+					<rightPen lineWidth="1.5" lineColor="#771B60"/>
+				</box>
+				<imageExpression><![CDATA[$P{DOC_DIR} + $F{PHOTO3}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement mode="Transparent" x="744" y="2" width="370" height="94" forecolor="#484545" uuid="df0e71e1-59e1-44ac-8f3a-27eb3a3ae2bf"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="36" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CITY}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="742" y="0" width="372" height="96" forecolor="#FFFF00" uuid="8c108a89-3ed1-4806-a110-2a81a5e5941b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="36" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CITY}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement positionType="Float" x="0" y="561" width="318" height="241" uuid="9d386f79-c5da-4ac9-a8e1-896bd1054bc0">
+					<printWhenExpression><![CDATA[java.nio.file.Files.exists(java.nio.file.Paths.get($P{DOC_DIR} + $F{PHOTO2}))]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.5" lineColor="#771B60"/>
+					<topPen lineWidth="1.5" lineColor="#771B60"/>
+					<leftPen lineWidth="1.5" lineColor="#771B60"/>
+					<bottomPen lineWidth="1.5" lineColor="#771B60"/>
+					<rightPen lineWidth="1.5" lineColor="#771B60"/>
+				</box>
+				<imageExpression><![CDATA[$P{DOC_DIR} + $F{PHOTO2}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="1049" y="115" width="35" height="59" forecolor="#A01755" uuid="b5854089-1067-4228-8e70-1a1c90cdc3e9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="42" isBold="true"/>
+				</textElement>
+				<text><![CDATA[€]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="#,##0">
+				<reportElement x="860" y="115" width="185" height="59" forecolor="#A01755" uuid="119bfe42-ac44-45c9-ade6-f34f6a24df3c"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="42" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRIX}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement mode="Transparent" x="759" y="221" width="325" height="147" forecolor="#00FF66" backcolor="#66CC00" uuid="49847d32-8410-49f1-aa27-6356b68b4b23"/>
+				<box>
+					<pen lineWidth="0.25" lineColor="#666666"/>
+					<topPen lineWidth="0.25" lineColor="#666666"/>
+					<leftPen lineWidth="0.25" lineColor="#666666"/>
+					<bottomPen lineWidth="0.25" lineColor="#666666"/>
+					<rightPen lineWidth="0.25" lineColor="#666666"/>
+				</box>
+				<textField>
+					<reportElement x="11" y="7" width="304" height="140" forecolor="#999999" uuid="89e9980e-97ff-482a-adf0-0ab5a182d2a9"/>
+					<textElement>
+						<font fontName="Arial" size="22" isBold="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DSC_LABEL1}.replaceAll("->","→");]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement mode="Transparent" x="759" y="409" width="325" height="119" forecolor="#00FF66" backcolor="#66CC00" uuid="e68543c3-55b1-4bf4-b6bf-c5ec1415eae2"/>
+				<box>
+					<pen lineWidth="0.25" lineColor="#990099"/>
+					<topPen lineWidth="0.25" lineColor="#990099"/>
+					<leftPen lineWidth="0.25" lineColor="#990099"/>
+					<bottomPen lineWidth="0.25" lineColor="#990099"/>
+					<rightPen lineWidth="0.25" lineColor="#990099"/>
+				</box>
+				<textField>
+					<reportElement x="11" y="33" width="304" height="86" forecolor="#A01755" uuid="2fa84d1b-43f8-48f0-b612-7b796982f37e"/>
+					<box topPadding="0"/>
+					<textElement>
+						<font fontName="Arial" size="22" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DSC_LABEL2}.replaceAll("->","→")]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="11" y="0" width="203" height="33" forecolor="#A01755" uuid="4e81a169-a27c-4c3a-a929-d70bc5ed0a53"/>
+					<textElement>
+						<font fontName="Arial" size="22" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Les points forts :]]></text>
+				</staticText>
+			</frame>
+			<image>
+				<reportElement x="914" y="561" width="170" height="170" uuid="c605634f-22d8-4d00-bdef-018e2680dd30">
+					<printWhenExpression><![CDATA[java.nio.file.Files.exists(java.nio.file.Paths.get($P{DOC_DIR} + $P{reference}+ "/dpe/kwh-260.png"))]]></printWhenExpression>
+				</reportElement>
+				<imageExpression><![CDATA[$P{DOC_DIR} + $P{reference}+ "/dpe/kwh-260.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement positionType="FixRelativeToBottom" x="762" y="761" width="388" height="41" uuid="cdaf3eb2-9a8e-4e50-90d9-0c242fd3bbbd"/>
+				<imageExpression><![CDATA[this.getClass().getClassLoader().getResourceAsStream("jasper/img/vitrine_footer_A3.png")]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+</jasperReport>

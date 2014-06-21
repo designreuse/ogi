@@ -16,6 +16,9 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.google.common.base.Strings;
+
+import fr.jerep6.ogi.enumeration.EnumPageSize;
 import fr.jerep6.ogi.enumeration.EnumReport;
 import fr.jerep6.ogi.service.ServiceReport;
 
@@ -52,15 +55,21 @@ public class WSReport extends AbstractJaxRsWS {
 
 	@GET
 	@Path("/{prpRef}")
-	public Response generateShopFront(@PathParam("prpRef") String prpReference, @QueryParam("type") String type,
-			@QueryParam("format") String format) throws Exception {
+	public Response generateShopFront(//
+			@PathParam("prpRef") String prpReference, //
+			@QueryParam("type") String type, //
+			@QueryParam("format") String format, //
+			@QueryParam("pageSize") String pageSize) throws Exception {
+
+		EnumPageSize enumPageFormat = Strings.isNullOrEmpty(pageSize) ? null : EnumPageSize.valueOfByCode(pageSize);
 		ByteArrayOutputStream generateShopFront = serviceReport.generate(prpReference, EnumReport.valueOfByName(type),
-				format);
+				format, enumPageFormat);
+
 		return Response
 				.ok(generateShopFront.toByteArray())
 				.type(mimeType.get(format).getMime())
 				.header("Content-Disposition",
 						"attachment; filename=" + prpReference + "." + mimeType.get(format).getExtension())//
-				.build();
+						.build();
 	}
 }

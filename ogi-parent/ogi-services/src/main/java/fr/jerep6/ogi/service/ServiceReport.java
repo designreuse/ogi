@@ -2,6 +2,7 @@ package fr.jerep6.ogi.service;
 
 import java.io.ByteArrayOutputStream;
 
+import fr.jerep6.ogi.enumeration.EnumPageSize;
 import fr.jerep6.ogi.enumeration.EnumReport;
 import fr.jerep6.ogi.framework.exception.TechnicalException;
 import fr.jerep6.ogi.framework.service.Service;
@@ -20,10 +21,13 @@ public interface ServiceReport extends Service {
 	 *            type of report (classeur, vitrine)
 	 * @param format
 	 *            format name (pdf or docx)
+	 * @param pageSize
+	 *            size of page (A4, A3)
 	 * @return bytes of generates reports
 	 * @throws TechnicalException
 	 *             if error during generation
 	 */
-	ByteArrayOutputStream generate(String prpReference, EnumReport reportType, String format) throws TechnicalException;
+	ByteArrayOutputStream generate(String prpReference, EnumReport reportType, String format, EnumPageSize pageSize)
+			throws TechnicalException;
 
 }

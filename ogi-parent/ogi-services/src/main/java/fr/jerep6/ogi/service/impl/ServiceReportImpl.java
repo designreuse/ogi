@@ -29,6 +29,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
 import fr.jerep6.ogi.enumeration.EnumCategory;
+import fr.jerep6.ogi.enumeration.EnumPageSize;
 import fr.jerep6.ogi.enumeration.EnumReport;
 import fr.jerep6.ogi.exception.technical.JasperTechnicalException;
 import fr.jerep6.ogi.framework.exception.TechnicalException;
@@ -54,17 +55,28 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 	private static Map<EnumReport, String>	reportsConfig	= new HashMap<>(2);
 	static {
 		reportsConfig.put(EnumReport.CLASSEUR, "fiche_classeur.jasper");
-		reportsConfig.put(EnumReport.VITRINE, "fiche_vitrine_A4$suffixe.jasper");
+		reportsConfig.put(EnumReport.VITRINE, "fiche_vitrine_$FORMAT$SUFFIXE.jasper");
 	}
 
-	private String computeReportName(String prpReference, EnumReport reportType) {
+	private String computeReportName(String prpReference, EnumReport reportType, EnumPageSize pageSize) {
+		// If no format => A4
+		pageSize = pageSize == null ? EnumPageSize.A4 : pageSize;
+
 		String reportName = reportsConfig.get(reportType);
+
+		// Replace format
+		reportName = reportName.replace("$FORMAT", pageSize.getCode());
 
 		switch (reportType) {
 			case VITRINE: // Template différent en fonction du nombre de photos
 				RealProperty prp = serviceRealProperty.readByReference(prpReference);
-				reportName = reportName.replace("$suffixe", EnumCategory.PLOT == prp.getCategory().getCode() ? "_T"
-						: "_3");
+				// Suffixe only with A4
+				if (pageSize == EnumPageSize.A4) {
+					reportName = reportName.replace("$SUFFIXE", EnumCategory.PLOT == prp.getCategory().getCode() ? "_T"
+							: "_3");
+				} else {
+					reportName = reportName.replace("$SUFFIXE", "");
+				}
 				break;
 		}
 
@@ -97,12 +109,12 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 	}
 
 	@Override
-	public ByteArrayOutputStream generate(String prpReference, EnumReport reportType, String format)
-			throws TechnicalException {
+	public ByteArrayOutputStream generate(String prpReference, EnumReport reportType, String format,
+			EnumPageSize pageSize) throws TechnicalException {
 		Preconditions.checkArgument(!Strings.isNullOrEmpty(prpReference));
 
 		// Get file name from type
-		String reportName = computeReportName(prpReference, reportType);
+		String reportName = computeReportName(prpReference, reportType, pageSize);
 		Preconditions.checkArgument(!Strings.isNullOrEmpty(reportName));
 
 		try {
