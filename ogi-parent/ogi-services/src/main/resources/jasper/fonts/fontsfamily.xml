@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fontFamilies>
+
+   <fontFamily name="Arial">
+       <normal><![CDATA[jasper/fonts/arial.ttf]]></normal>
+       <bold><![CDATA[jasper/fonts/arialbd.ttf]]></bold>
+       <italic><![CDATA[jasper/fonts/ariali.ttf]]></italic>
+       <boldItalic><![CDATA[jasper/fonts/arialbi.ttf]]></boldItalic>
+       <pdfEncoding><![CDATA[Identity-H]]></pdfEncoding>
+       <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+   </fontFamily>
+
+
+</fontFamilies>

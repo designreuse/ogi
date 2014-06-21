@@ -346,14 +346,6 @@
 				<version>${jasperReport.version}</version>
 			</dependency>
 			
-			<!-- Custom font to export into PDF -->
-			<dependency>
-				<groupId>fr.jerep6.jasperreports.fonts</groupId>
-				<artifactId>my-arial</artifactId>
-				<version>1.0</version>
-			</dependency>
-	
-			
 			<!--Scalr (image manipulation) -->
 			<dependency>
 				<groupId>org.imgscalr</groupId>
