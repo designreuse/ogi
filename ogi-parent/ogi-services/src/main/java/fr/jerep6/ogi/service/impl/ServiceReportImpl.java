@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
+import fr.jerep6.ogi.enumeration.EnumCategory;
 import fr.jerep6.ogi.enumeration.EnumReport;
 import fr.jerep6.ogi.exception.technical.JasperTechnicalException;
 import fr.jerep6.ogi.framework.exception.TechnicalException;
@@ -62,7 +63,8 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 		switch (reportType) {
 			case VITRINE: // Template différent en fonction du nombre de photos
 				RealProperty prp = serviceRealProperty.readByReference(prpReference);
-				reportName = reportName.replace("$suffixe", prp.getPhotos().size() >= 2 ? "_3" : "_1");
+				reportName = reportName.replace("$suffixe", EnumCategory.PLOT == prp.getCategory().getCode() ? "_T"
+						: "_3");
 				break;
 		}
 
