@@ -131,6 +131,23 @@ ul#list-photos li.highlight {
   border: 02px solid #428BCA;
   box-shadow: 5px 5px 5px #898B8D;
 }
+.thumbnail-document {
+  height: 300px;
+}
+.thumbnail-document .preview-document {
+  height: 140px;
+}
+.thumbnail-document .preview-document img {
+  margin: auto;
+  display: block;
+  max-height: 140px;
+}
+.thumbnail-document .page-size {
+  height: 40px;
+}
+.logo-dl img {
+  width: 40px;
+}
 /* NAVIGATION */
 .navbar-default .navbar-brand {
   color: #ffffff;
