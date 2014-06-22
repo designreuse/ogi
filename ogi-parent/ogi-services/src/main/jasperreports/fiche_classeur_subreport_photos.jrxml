@@ -38,7 +38,7 @@ FROM DUAL;]]>
 		<band splitType="Stretch"/>
 	</background>
 	<detail>
-		<band height="399">
+		<band height="398">
 			<image>
 				<reportElement x="0" y="0" width="250" height="200" uuid="da8c9c6d-f469-4acf-8d61-dad5b3ad7705"/>
 				<imageExpression><![CDATA[$P{DOC_DIR} + $F{PHOTO1}]]></imageExpression>

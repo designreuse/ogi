@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="vitrine" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9c93a378-d1d0-4914-b9e5-2435be506bd9">
 	<property name="ireport.zoom" value="1.2100000000000006"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="652"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="reference" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -47,6 +47,13 @@ WHERE prp.pro_reference=$P{reference}]]>
 				<reportElement mode="Opaque" x="87" y="15" width="379" height="313" isPrintWhenDetailOverflows="true" uuid="b5b68dc5-524c-4d4f-9565-6ada447307f6">
 					<printWhenExpression><![CDATA[java.nio.file.Files.exists(java.nio.file.Paths.get($P{DOC_DIR} + $F{PHOTO1}))]]></printWhenExpression>
 				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#771B60"/>
+					<topPen lineWidth="1.0" lineColor="#771B60"/>
+					<leftPen lineWidth="1.0" lineColor="#771B60"/>
+					<bottomPen lineWidth="1.0" lineColor="#771B60"/>
+					<rightPen lineWidth="1.0" lineColor="#771B60"/>
+				</box>
 				<imageExpression><![CDATA[$P{DOC_DIR} + $F{PHOTO1}]]></imageExpression>
 			</image>
 			<textField>

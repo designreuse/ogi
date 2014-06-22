@@ -6,13 +6,15 @@ function ControllerPrpTabDocuments($scope, Page, $routeParams, ServiceConfigurat
             "type" : "vitrine",
             "availablePageSize" : ["A4", "A3"],
             "selectedPageSize" : "A4"
-        },
+        }
+        /*
         {
             "name" : "Fiche Classeur",
             "type" : "classeur",
             "availablePageSize" : ["A4"],
             "selectedPageSize" : "A4"
         }
+        */
     ]
 
     $scope.httpGetCurrentType.success(function() {

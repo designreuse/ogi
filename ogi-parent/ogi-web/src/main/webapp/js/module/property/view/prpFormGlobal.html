@@ -13,7 +13,7 @@
         <li ng-class="{active: addMenu.getActive() == 'adminis'}"><a ng-click="addMenu.select('adminis')" href="javascript:;">Administratif</a></li>
         <li ng-if="displayTab('diagnosis')" ng-class="{active: addMenu.getActive() == 'diagnosis'}"><a ng-click="addMenu.select('diagnosis')" href="javascript:;">Diagnostics immobiliers</a></li>
 
-        <!--<li ng-class="{active: addMenu.getActive() == 'doc'}"><a ng-click="addMenu.select('doc')" href="javascript:;">Documents</a></li>-->
+        <li ng-if="!formCreate" ng-class="{active: addMenu.getActive() == 'doc'}"><a ng-click="addMenu.select('doc')" href="javascript:;">Documents</a></li>
         <li ng-if="!formCreate" ng-class="{active: addMenu.getActive()== 'partner'}"><a ng-click="addMenu.select('partner')" href="javascript:;">Sites externes</a></li>
     </ul>
 
