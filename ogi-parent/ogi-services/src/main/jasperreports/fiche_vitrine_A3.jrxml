@@ -30,6 +30,7 @@ PRP.PRO_REFERENCE=$P{reference}
 AND DOC_ORDER=3)  AS PHOTO3,
 
 addr.ADD_CITY AS CITY,
+sal.SAL_MAND_TYPE AS MANDAT_TYPE,
 
 SUBSTRING(DSC_LABEL, 1, IF(INSTR(DSC_LABEL,'\n\n')<>0, INSTR(DSC_LABEL,'\n\n')+1,LENGTH(DSC_LABEL))) AS DSC_LABEL1,
 SUBSTRING(DSC_LABEL, INSTR(DSC_LABEL,'\n\n') + 2, LENGTH(DSC_LABEL)) AS DSC_LABEL2,
@@ -173,6 +174,15 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 				<reportElement positionType="FixRelativeToBottom" x="762" y="761" width="388" height="41" uuid="cdaf3eb2-9a8e-4e50-90d9-0c242fd3bbbd"/>
 				<imageExpression><![CDATA[this.getClass().getClassLoader().getResourceAsStream("jasper/img/vitrine_footer_A3.png")]]></imageExpression>
 			</image>
+			<staticText>
+				<reportElement x="0" y="2" width="664" height="59" forecolor="#FFFF00" uuid="1c1ac711-00f3-4ad0-8058-bc8b99648d03">
+					<printWhenExpression><![CDATA["EX".equals($F{MANDAT_TYPE})]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="40"/>
+				</textElement>
+				<text><![CDATA[EXCLUSIVITE]]></text>
+			</staticText>
 		</band>
 	</detail>
 </jasperReport>
