@@ -3,12 +3,14 @@ package fr.jerep6.ogi.service.impl;
 import java.io.ByteArrayOutputStream;
 import java.sql.Connection;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.sql.DataSource;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -126,6 +128,7 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("DOC_DIR", jasperDocumentDirectory);
 			parameters.put("reference", prpReference);
+			parameters.put(JRParameter.REPORT_LOCALE, Locale.FRANCE);
 
 			Connection connection = dataSource.getConnection();
 			JasperPrint print = JasperFillManager.fillReport(report, parameters, connection);
