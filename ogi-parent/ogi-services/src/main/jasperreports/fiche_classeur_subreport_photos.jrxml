@@ -12,14 +12,14 @@ FROM TA_DOCUMENT DOC
 JOIN TJ_PRP_DOC TJ ON DOC.DOC_ID=TJ.DOC_ID
 JOIN TA_PROPERTY PRP ON PRP.PRO_ID=TJ.PRO_ID
 WHERE
-PRP.PRO_REFERENCE='ref1'
+PRP.PRO_REFERENCE=$P{reference}
 AND DOC_ORDER=1) AS PHOTO1,
 (SELECT DOC_PATH
 FROM TA_DOCUMENT DOC
 JOIN TJ_PRP_DOC TJ ON DOC.DOC_ID=TJ.DOC_ID
 JOIN TA_PROPERTY PRP ON PRP.PRO_ID=TJ.PRO_ID
 WHERE
-PRP.PRO_REFERENCE='ref1'
+PRP.PRO_REFERENCE=$P{reference}
 AND DOC_ORDER=2)  AS PHOTO2,
 (SELECT DOC_PATH
 FROM TA_DOCUMENT DOC
@@ -38,17 +38,17 @@ FROM DUAL;]]>
 		<band splitType="Stretch"/>
 	</background>
 	<detail>
-		<band height="398">
-			<image>
-				<reportElement x="0" y="0" width="250" height="200" uuid="da8c9c6d-f469-4acf-8d61-dad5b3ad7705"/>
+		<band height="347">
+			<image scaleImage="FillFrame">
+				<reportElement x="0" y="0" width="265" height="200" uuid="da8c9c6d-f469-4acf-8d61-dad5b3ad7705"/>
 				<imageExpression><![CDATA[$P{DOC_DIR} + $F{PHOTO1}]]></imageExpression>
 			</image>
-			<image>
-				<reportElement stretchType="RelativeToTallestObject" x="0" y="200" width="120" height="117" uuid="742c9340-679f-4a4f-bd1c-277f5c2703e6"/>
+			<image scaleImage="FillFrame">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="207" width="130" height="100" uuid="742c9340-679f-4a4f-bd1c-277f5c2703e6"/>
 				<imageExpression><![CDATA[$P{DOC_DIR} + $F{PHOTO2}]]></imageExpression>
 			</image>
-			<image>
-				<reportElement x="130" y="200" width="120" height="117" uuid="2a41edac-3f8d-41eb-b04e-e95aa0511165"/>
+			<image scaleImage="FillFrame">
+				<reportElement x="135" y="207" width="130" height="100" uuid="2a41edac-3f8d-41eb-b04e-e95aa0511165"/>
 				<imageExpression><![CDATA[$P{DOC_DIR} + $F{PHOTO3}]]></imageExpression>
 			</image>
 		</band>
