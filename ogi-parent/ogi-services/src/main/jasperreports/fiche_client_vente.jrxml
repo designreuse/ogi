@@ -270,7 +270,7 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 					<subreportParameterExpression><![CDATA[$P{DOC_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "fiche_classeur_subreport_photos1.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "fiche_client_subreport_photos1.jasper"]]></subreportExpression>
 			</subreport>
 			<componentElement>
 				<reportElement key="table 2" style="table 2" x="279" y="360" width="275" height="75" uuid="2773e884-efd8-4278-8f59-ae44d3ab6840"/>
@@ -446,7 +446,7 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 					<subreportParameterExpression><![CDATA[$P{DOC_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "fiche_classeur_subreport_photos2.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "fiche_client_subreport_photos2.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
