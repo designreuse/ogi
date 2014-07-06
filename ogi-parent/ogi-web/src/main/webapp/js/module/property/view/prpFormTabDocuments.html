@@ -12,19 +12,9 @@
                     </select>
                 </p>
                 <ul class="list-inline text-center logo-dl">
-                    <li>
-                        <a ng-click="computeLink(doc, 'pdf')" href="">
-                            <img src="img/logo-pdf.png" alt="pdf" title="Télécharger en PDF" />
-                        </a>
-                    </li>
-                    <li>
-                        <a ng-click="computeLink(doc, 'docx')" href="">
-                            <img src="img/logo-word.png" alt="word" title="Télécharger au format Word" />
-                        </a>
-                    </li>
-                    <li>
-                        <a ng-click="computeLink(doc, 'odt')" href="">
-                            <img src="img/logo-writer.png" alt="libre office" title="Télécharger au format Libre Office" />
+                    <li ng-repeat="f in doc.formats">
+                        <a ng-click="computeLink(doc, f)" href="">
+                            <img src="{{availableFormats[f].img}}" alt="pdf" title="{{availableFormats[f].title}}" />
                         </a>
                     </li>
                 </ul>

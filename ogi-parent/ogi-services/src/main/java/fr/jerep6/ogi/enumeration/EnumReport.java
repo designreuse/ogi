@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum EnumReport {
 	VITRINE("vitrine"), //
-	CLASSEUR("classeur"); //
+	CLIENT("client"); //
 
 	/**
 	 * Get the enumeration from this code

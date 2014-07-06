@@ -56,8 +56,8 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 
 	private static Map<EnumReport, String>	reportsConfig	= new HashMap<>(2);
 	static {
-		reportsConfig.put(EnumReport.CLASSEUR, "fiche_classeur.jasper");
-		reportsConfig.put(EnumReport.VITRINE, "fiche_vitrine_$FORMAT$SUFFIXE.jasper");
+		reportsConfig.put(EnumReport.CLIENT, "fiche_client_vente.jasper");
+		reportsConfig.put(EnumReport.VITRINE, "fiche_vitrine_$PAGESIZE$SUFFIXE.jasper");
 	}
 
 	private String computeReportName(String prpReference, EnumReport reportType, EnumPageSize pageSize) {
@@ -67,7 +67,7 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 		String reportName = reportsConfig.get(reportType);
 
 		// Replace format
-		reportName = reportName.replace("$FORMAT", pageSize.getCode());
+		reportName = reportName.replace("$PAGESIZE", pageSize.getCode());
 
 		switch (reportType) {
 			case VITRINE: // Template différent en fonction du nombre de photos
@@ -79,6 +79,8 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 				} else {
 					reportName = reportName.replace("$SUFFIXE", "");
 				}
+				break;
+			case CLIENT:
 				break;
 		}
 
