@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="classeur_photos" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="54b371ab-3643-49e2-9d81-758c1251c096">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="reference" class="java.lang.String"/>
+	<parameter name="DOC_DIR" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+(SELECT DOC_PATH
+FROM TA_DOCUMENT DOC
+JOIN TJ_PRP_DOC TJ ON DOC.DOC_ID=TJ.DOC_ID
+JOIN TA_PROPERTY PRP ON PRP.PRO_ID=TJ.PRO_ID
+WHERE
+PRP.PRO_REFERENCE=$P{reference}
+AND DOC_ORDER=4)  AS PHOTO4,
+
+(SELECT DOC_PATH
+FROM TA_DOCUMENT DOC
+JOIN TJ_PRP_DOC TJ ON DOC.DOC_ID=TJ.DOC_ID
+JOIN TA_PROPERTY PRP ON PRP.PRO_ID=TJ.PRO_ID
+WHERE
+PRP.PRO_REFERENCE=$P{reference}
+AND DOC_ORDER=5)  AS PHOTO5
+
+FROM DUAL;]]>
+	</queryString>
+	<field name="PHOTO4" class="java.lang.String"/>
+	<field name="PHOTO5" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="109">
+			<image scaleImage="FillFrame">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="130" height="100" uuid="742c9340-679f-4a4f-bd1c-277f5c2703e6">
+					<printWhenExpression><![CDATA[java.nio.file.Files.exists(java.nio.file.Paths.get($P{DOC_DIR} + $F{PHOTO4}))]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0" lineColor="#771B60"/>
+					<topPen lineWidth="0.0" lineColor="#771B60"/>
+					<leftPen lineWidth="0.0" lineColor="#771B60"/>
+					<bottomPen lineWidth="0.0" lineColor="#771B60"/>
+					<rightPen lineWidth="0.0" lineColor="#771B60"/>
+				</box>
+				<imageExpression><![CDATA[$P{DOC_DIR} + $F{PHOTO4}]]></imageExpression>
+			</image>
+			<image scaleImage="FillFrame">
+				<reportElement x="142" y="0" width="130" height="100" uuid="2a41edac-3f8d-41eb-b04e-e95aa0511165">
+					<printWhenExpression><![CDATA[java.nio.file.Files.exists(java.nio.file.Paths.get($P{DOC_DIR} + $F{PHOTO5}))]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0" lineColor="#771B60"/>
+					<topPen lineWidth="0.0" lineColor="#771B60"/>
+					<leftPen lineWidth="0.0" lineColor="#771B60"/>
+					<bottomPen lineWidth="0.0" lineColor="#771B60"/>
+					<rightPen lineWidth="0.0" lineColor="#771B60"/>
+				</box>
+				<imageExpression><![CDATA[$P{DOC_DIR} + $F{PHOTO5}]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+</jasperReport>

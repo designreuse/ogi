@@ -38,17 +38,44 @@ FROM DUAL;]]>
 		<band splitType="Stretch"/>
 	</background>
 	<detail>
-		<band height="347">
+		<band height="307">
 			<image scaleImage="FillFrame">
-				<reportElement x="0" y="0" width="265" height="200" uuid="da8c9c6d-f469-4acf-8d61-dad5b3ad7705"/>
+				<reportElement x="0" y="0" width="275" height="200" uuid="da8c9c6d-f469-4acf-8d61-dad5b3ad7705">
+					<printWhenExpression><![CDATA[java.nio.file.Files.exists(java.nio.file.Paths.get($P{DOC_DIR} + $F{PHOTO1}))]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0" lineColor="#771B60"/>
+					<topPen lineWidth="0.0" lineColor="#771B60"/>
+					<leftPen lineWidth="0.0" lineColor="#771B60"/>
+					<bottomPen lineWidth="0.0" lineColor="#771B60"/>
+					<rightPen lineWidth="0.0" lineColor="#771B60"/>
+				</box>
 				<imageExpression><![CDATA[$P{DOC_DIR} + $F{PHOTO1}]]></imageExpression>
 			</image>
 			<image scaleImage="FillFrame">
-				<reportElement stretchType="RelativeToTallestObject" x="0" y="207" width="130" height="100" uuid="742c9340-679f-4a4f-bd1c-277f5c2703e6"/>
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="207" width="130" height="100" uuid="742c9340-679f-4a4f-bd1c-277f5c2703e6">
+					<printWhenExpression><![CDATA[java.nio.file.Files.exists(java.nio.file.Paths.get($P{DOC_DIR} + $F{PHOTO2}))]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0" lineColor="#771B60"/>
+					<topPen lineWidth="0.0" lineColor="#771B60"/>
+					<leftPen lineWidth="0.0" lineColor="#771B60"/>
+					<bottomPen lineWidth="0.0" lineColor="#771B60"/>
+					<rightPen lineWidth="0.0" lineColor="#771B60"/>
+				</box>
 				<imageExpression><![CDATA[$P{DOC_DIR} + $F{PHOTO2}]]></imageExpression>
 			</image>
 			<image scaleImage="FillFrame">
-				<reportElement x="135" y="207" width="130" height="100" uuid="2a41edac-3f8d-41eb-b04e-e95aa0511165"/>
+				<reportElement x="145" y="207" width="130" height="100" uuid="2a41edac-3f8d-41eb-b04e-e95aa0511165">
+					<printWhenExpression><![CDATA[java.nio.file.Files.exists(java.nio.file.Paths.get($P{DOC_DIR} + $F{PHOTO3}))]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0" lineColor="#771B60"/>
+					<topPen lineWidth="0.0" lineColor="#771B60"/>
+					<leftPen lineWidth="0.0" lineColor="#771B60"/>
+					<bottomPen lineWidth="0.0" lineColor="#771B60"/>
+					<rightPen lineWidth="0.0" lineColor="#771B60"/>
+				</box>
 				<imageExpression><![CDATA[$P{DOC_DIR} + $F{PHOTO3}]]></imageExpression>
 			</image>
 		</band>

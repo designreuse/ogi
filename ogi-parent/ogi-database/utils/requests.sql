@@ -18,4 +18,8 @@ JOIN TA_PROPERTY p ON r.PRO_ID=p.PRO_ID
 WHERE p.PRO_REFERENCE='M8'
 ORDER BY REQ_MODIFICATION_DATE ASC;
 	
-	
+
+
+-- Replace / to \ (import linux --> windows)
+UPDATE TA_DOCUMENT SET
+DOC_PATH=REPLACE(DOC_PATH, '/', '\\');
