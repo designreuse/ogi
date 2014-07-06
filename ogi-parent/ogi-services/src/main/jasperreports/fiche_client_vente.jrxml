@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="20" uuid="96540068-ead6-4274-af4c-90fbe87736a3">
 	<property name="ireport.zoom" value="0.8264462809917363"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="192"/>
 	<property name="ireport.background.image.properties" value="false,false,0.25,0,0,0,0,0,0"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
 	<style name="table">
@@ -271,7 +271,7 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 					<subreportParameterExpression><![CDATA[$P{DOC_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "fiche_client_subreport_photos1.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[this.getClass().getClassLoader().getResourceAsStream("jasper/fiche_client_subreport_photos1.jasper")]]></subreportExpression>
 			</subreport>
 			<componentElement>
 				<reportElement key="table 2" style="table 2" x="279" y="360" width="275" height="75" uuid="2773e884-efd8-4278-8f59-ae44d3ab6840"/>
@@ -447,7 +447,7 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 					<subreportParameterExpression><![CDATA[$P{DOC_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "fiche_client_subreport_photos2.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[this.getClass().getClassLoader().getResourceAsStream("jasper/fiche_client_subreport_photos2.jasper")]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
