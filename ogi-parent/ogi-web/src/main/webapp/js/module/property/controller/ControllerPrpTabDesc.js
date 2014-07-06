@@ -62,8 +62,11 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
 
     // Build date is a date and IHM allow only year. So complete with month and day to create a date
     $scope.$watch('saveData.buildDate', function() {
-        if(!$scope.utils.isUndefinedOrNull($scope.saveData.buildDate)) {
+        if(!$scope.utils.isEmpty($scope.saveData.buildDate)) {
             $scope.prp.buildDate = $scope.saveData.buildDate+"-01-01";
+        }
+        else {
+            $scope.prp.buildDate = null;
         }
     });
     // SAve only label in property type
