@@ -11,7 +11,7 @@ function ControllerPrpTabDocuments($scope, Page, $routeParams, ServiceConfigurat
             "type" : "vitrine",
             "availablePageSize" : ["A4", "A3"],
             "selectedPageSize" : "A4",
-            "formats": ["pdf", "docx", "odt"]
+            "formats": ["pdf"]
         },
 
         {
