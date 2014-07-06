@@ -75,7 +75,7 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 				// Suffixe only with A4
 				if (pageSize == EnumPageSize.A4) {
 					reportName = reportName.replace("$SUFFIXE", EnumCategory.PLOT == prp.getCategory().getCode() ? "_T"
-							: "_3");
+							: "");
 				} else {
 					reportName = reportName.replace("$SUFFIXE", "");
 				}

@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="20" uuid="96540068-ead6-4274-af4c-90fbe87736a3">
 	<property name="ireport.zoom" value="0.8264462809917363"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="15"/>
+	<property name="ireport.y" value="0"/>
 	<property name="ireport.background.image.properties" value="false,false,0.25,0,0,0,0,0,0"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
 	<style name="table">
@@ -93,7 +93,8 @@ FROM
  JOIN TA_PROPERTY p ON p.PRO_ID=r.PRO_ID
 
  WHERE p.PRO_REFERENCE=$P{reference}
-ORDER BY ROO_TYPE]]>
+ORDER BY ROO_TYPE
+LIMIT 0, 15]]>
 		</queryString>
 		<field name="ROO_AREA" class="java.lang.Float">
 			<fieldDescription><![CDATA[]]></fieldDescription>
@@ -229,7 +230,7 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 				<text><![CDATA[€]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" pattern="#,##0">
-				<reportElement x="371" y="0" width="154" height="60" forecolor="#A01755" uuid="8689a9b3-5c9d-470e-85e7-0fe666ab2cf7"/>
+				<reportElement x="397" y="0" width="128" height="60" forecolor="#A01755" uuid="8689a9b3-5c9d-470e-85e7-0fe666ab2cf7"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Arial" size="26" isBold="true"/>
 				</textElement>
@@ -375,11 +376,11 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 				<imageExpression><![CDATA[$P{DOC_DIR} + $P{reference}+ "/dpe/ges-260.png"]]></imageExpression>
 			</image>
 			<textField isStretchWithOverflow="true">
-				<reportElement stretchType="RelativeToTallestObject" x="279" y="30" width="275" height="52" forecolor="#A01755" uuid="27acf7df-82a2-4fc5-aa50-712a7a8e2165"/>
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="279" y="30" width="275" height="52" forecolor="#A01755" backcolor="#FFFFFF" uuid="27acf7df-82a2-4fc5-aa50-712a7a8e2165"/>
 				<box topPadding="10" leftPadding="10" bottomPadding="10" rightPadding="10">
 					<pen lineWidth="0.25" lineColor="#990099"/>
-					<topPen lineWidth="0.25" lineColor="#990099"/>
-					<leftPen lineWidth="0.25" lineColor="#990099"/>
+					<topPen lineWidth="0.0" lineColor="#990099"/>
+					<leftPen lineWidth="0.0" lineColor="#990099"/>
 					<bottomPen lineWidth="0.25" lineColor="#990099"/>
 					<rightPen lineWidth="0.25" lineColor="#990099"/>
 				</box>
