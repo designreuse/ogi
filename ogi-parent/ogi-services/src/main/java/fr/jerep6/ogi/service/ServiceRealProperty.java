@@ -1,6 +1,7 @@
 package fr.jerep6.ogi.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import fr.jerep6.ogi.framework.service.TransactionalService;
@@ -13,7 +14,7 @@ public interface ServiceRealProperty extends TransactionalService<RealProperty, 
 	 * 
 	 * @param reference
 	 */
-	RealProperty readByReference(String reference);
+	Optional<RealProperty> readByReference(String reference);
 
 	/**
 	 * Delete properties

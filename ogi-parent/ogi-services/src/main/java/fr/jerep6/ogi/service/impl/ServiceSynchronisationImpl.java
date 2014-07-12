@@ -89,7 +89,7 @@ public class ServiceSynchronisationImpl extends AbstractService implements Servi
 				// insert in database add/update request. It will be ack when property will be really updat on partner
 				servicePartnerRequest.addRequest(prt, prpTechid, EnumPartnerRequestType.DELETE);
 
-				WSResult ws = servicePartner.delete(serviceRealProperty.readByReference(aRef));
+				WSResult ws = servicePartner.delete(serviceRealProperty.readByReference(aRef).get());
 				if (ws.isSuccess()) {
 					servicePartnerRequest.addRequest(prt, prpTechid, EnumPartnerRequestType.DELETE_ACK);
 				}
@@ -109,7 +109,7 @@ public class ServiceSynchronisationImpl extends AbstractService implements Servi
 			// Predicate : if enumPartner exist, servicePartner have to exist
 			ServicePartner servicePartner = partners.get(prt);
 
-			result = servicePartner.exist(serviceRealProperty.readByReference(prpReference));
+			result = servicePartner.exist(serviceRealProperty.readByReference(prpReference).get());
 		} catch (IllegalArgumentException iae) {
 			LOGGER.warn("Unknow partner {}. Exception = ", partner, iae.getMessage());
 

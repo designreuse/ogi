@@ -23,7 +23,7 @@ import fr.jerep6.ogi.utils.Data;
  * @author jerep6
  */
 @ContextConfiguration(locations = { "classpath:META-INF/spring/tu-web-context.xml",
-		"classpath:META-INF/spring/web-context.xml" })
+"classpath:META-INF/spring/web-context.xml" })
 public class WSRealPropertyTest extends AbstractTest {
 
 	@Autowired
@@ -63,6 +63,6 @@ public class WSRealPropertyTest extends AbstractTest {
 
 	@Before
 	public void setup() {
-		when(serviceRealProperty.readByReference("ref1")).thenReturn(Data.getFarm());
+		when(serviceRealProperty.readByReference("ref1").get()).thenReturn(Data.getFarm());
 	}
 }

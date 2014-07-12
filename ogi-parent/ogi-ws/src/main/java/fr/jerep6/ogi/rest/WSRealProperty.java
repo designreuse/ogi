@@ -69,7 +69,7 @@ public class WSRealProperty extends AbstractJaxRsWS {
 	@Path("/{reference}")
 	@Produces(APPLICATION_JSON_UTF8)
 	public RealPropertyTo read(@PathParam("reference") String reference) {
-		RealProperty realProperty = serviceRealProperty.readByReference(reference);
+		RealProperty realProperty = serviceRealProperty.readByReference(reference).get();
 
 		RealPropertyTo rpt = mapper.map(realProperty, RealPropertyTo.class);
 		return rpt;

@@ -7,6 +7,9 @@ input[type=number] {
   margin-bottom: 5px;
   padding: 5px 35px 5px 5px;
 }
+.navbar-form.navbar-right:last-child {
+  margin-right: 0;
+}
 .modal-header {
   background: #F1F1F1;
   padding: 10px;

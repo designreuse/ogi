@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -71,11 +72,12 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 
 		switch (reportType) {
 			case VITRINE: // Template différent en fonction du nombre de photos
-				RealProperty prp = serviceRealProperty.readByReference(prpReference);
+				Optional<RealProperty> prp = serviceRealProperty.readByReference(prpReference);
+
 				// Suffixe only with A4
 				if (pageSize == EnumPageSize.A4) {
-					reportName = reportName.replace("$SUFFIXE", EnumCategory.PLOT == prp.getCategory().getCode() ? "_T"
-							: "");
+					reportName = reportName.replace("$SUFFIXE",
+							EnumCategory.PLOT == prp.get().getCategory().getCode() ? "_T" : "");
 				} else {
 					reportName = reportName.replace("$SUFFIXE", "");
 				}

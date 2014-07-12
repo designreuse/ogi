@@ -97,16 +97,3 @@ myApp.factory('ServiceObject', function(Utils) {
         }
     }
 });
-
-
-myApp.factory('ServiceUrl', function() {
-    var alerts = [ ];
-    return {
-        urlProperty : function(reference){
-            return "#/biens/modifier/"+reference;
-        },
-        urlOwner : function(techid){
-            return "#/proprietaires/modifier/"+techid;
-        }
-    }
-});

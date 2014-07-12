@@ -3,6 +3,7 @@ package fr.jerep6.ogi.service.impl;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -58,7 +59,7 @@ import fr.jerep6.ogi.transfert.mapping.OrikaMapperService;
 @Service("serviceRealProperty")
 @Transactional(propagation = Propagation.REQUIRED)
 public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealProperty, Integer> implements
-ServiceRealProperty {
+		ServiceRealProperty {
 	private static Logger		LOGGER	= LoggerFactory.getLogger(ServiceRealPropertyImpl.class);
 
 	@Autowired
@@ -255,8 +256,8 @@ ServiceRealProperty {
 	@Override
 	public void delete(List<String> reference) {
 		for (String aReference : reference) {
-			RealProperty rp = readByReference(aReference);
-			daoProperty.remove(rp);
+			Optional<RealProperty> rp = readByReference(aReference);
+			daoProperty.remove(rp.get());
 		}
 	}
 
@@ -285,9 +286,9 @@ ServiceRealProperty {
 	}
 
 	@Override
-	public RealProperty readByReference(String reference) {
+	public Optional<RealProperty> readByReference(String reference) {
 		Preconditions.checkArgument(!Strings.isNullOrEmpty(reference), "Reference is null or empty");
-		return Iterables.getFirst(readByReference(Arrays.asList(reference)), null);
+		return Optional.ofNullable(Iterables.getFirst(readByReference(Arrays.asList(reference)), null));
 	}
 
 	@Override
@@ -297,24 +298,24 @@ ServiceRealProperty {
 
 	@Override
 	public RealProperty updateFromBusinessFields(String reference, RealProperty propertyFromJson) {
-		RealProperty prp = propertyFromJson;
+		Optional<RealProperty> prp = Optional.of(propertyFromJson);
 
 		// If json reference is not null => try to read property into database
 		if (!Strings.isNullOrEmpty(reference)) {
 			prp = readByReference(reference);
 			// If reference is supply, prp must exist
-			if (prp == null) {
+			if (!prp.isPresent()) {
 				throw new RealPropertyNotFoundBusinessException(propertyFromJson.getReference());
 			}
 
 			// Map into object read from BD simples fields
-			mapper.map(propertyFromJson, prp);
+			mapper.map(propertyFromJson, prp.get());
 
 		} else {
 			throw new BusinessException(EnumBusinessErrorProperty.NO_REFERENCE);
 		}
 
-		return createOrUpdateFromBusinessFields(prp, propertyFromJson, false);
+		return createOrUpdateFromBusinessFields(prp.get(), propertyFromJson, false);
 	}
 
 	public void validate(RealProperty bo, boolean create) throws BusinessException {

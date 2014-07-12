@@ -51,7 +51,7 @@ public class ServiceOwnerImpl extends AbstractTransactionalService<Owner, Intege
 
 	@Override
 	public void addProperty(Integer techid, String prpRef) {
-		RealProperty prp = serviceRealProperty.readByReference(prpRef);
+		RealProperty prp = serviceRealProperty.readByReference(prpRef).get();
 
 		Owner owner = read(techid);
 		owner.getProperties().add(prp);
@@ -77,7 +77,7 @@ public class ServiceOwnerImpl extends AbstractTransactionalService<Owner, Intege
 
 	@Override
 	public void deleteProperty(Integer ownerTechid, String prpRef) {
-		RealProperty prp = serviceRealProperty.readByReference(prpRef);
+		RealProperty prp = serviceRealProperty.readByReference(prpRef).get();
 
 		Owner owner = read(ownerTechid);
 		owner.getProperties().remove(prp);
