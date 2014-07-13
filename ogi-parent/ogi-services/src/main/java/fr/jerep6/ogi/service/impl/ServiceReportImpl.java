@@ -37,6 +37,7 @@ import fr.jerep6.ogi.enumeration.EnumReport;
 import fr.jerep6.ogi.exception.technical.JasperTechnicalException;
 import fr.jerep6.ogi.framework.exception.TechnicalException;
 import fr.jerep6.ogi.framework.service.impl.AbstractService;
+import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.service.ServiceRealProperty;
 import fr.jerep6.ogi.service.ServiceReport;
@@ -57,7 +58,7 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 
 	private static Map<EnumReport, String>	reportsConfig	= new HashMap<>(2);
 	static {
-		reportsConfig.put(EnumReport.CLIENT, "fiche_client_vente.jasper");
+		reportsConfig.put(EnumReport.CLIENT, "fiche_client_vente$SUFFIXE.jasper");
 		reportsConfig.put(EnumReport.VITRINE, "fiche_vitrine_$PAGESIZE$SUFFIXE.jasper");
 	}
 
@@ -67,22 +68,22 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 
 		String reportName = reportsConfig.get(reportType);
 
+		Optional<RealProperty> prp = serviceRealProperty.readByReference(prpReference);
+
 		// Replace format
 		reportName = reportName.replace("$PAGESIZE", pageSize.getCode());
 
 		switch (reportType) {
-			case VITRINE: // Template différent en fonction du nombre de photos
-				Optional<RealProperty> prp = serviceRealProperty.readByReference(prpReference);
-
+			case VITRINE:
 				// Suffixe only with A4
 				if (pageSize == EnumPageSize.A4) {
-					reportName = reportName.replace("$SUFFIXE",
-							EnumCategory.PLOT == prp.get().getCategory().getCode() ? "_T" : "");
+					reportName = replaceSuffix(reportName, prp.get().getCategory());
 				} else {
 					reportName = reportName.replace("$SUFFIXE", "");
 				}
 				break;
 			case CLIENT:
+				reportName = replaceSuffix(reportName, prp.get().getCategory());
 				break;
 		}
 
@@ -145,5 +146,9 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 			LOGGER.error("Error generating report for property " + prpReference, e);
 			throw new JasperTechnicalException(e.getMessage(), e);
 		}
+	}
+
+	private String replaceSuffix(String reportName, Category categ) {
+		return reportName.replace("$SUFFIXE", EnumCategory.PLOT == categ.getCode() ? "_T" : "");
 	}
 }
