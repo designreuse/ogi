@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="20" uuid="96540068-ead6-4274-af4c-90fbe87736a3">
-	<property name="ireport.zoom" value="0.7513148009015784"/>
+	<property name="ireport.zoom" value="0.8264462809917368"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="288"/>
+	<property name="ireport.y" value="336"/>
 	<property name="ireport.background.image.properties" value="false,false,0.25,0,0,0,0,0,0"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
 	<style name="table">
@@ -144,10 +144,18 @@ where r.PRO_REFERENCE=$P{reference}
 UNION ALL
 
 select
-'Viabilisé' AS CLE,
+'Constructible' AS CLE,
 CASE PRP_BUILDING WHEN 1 THEN 'oui' WHEN 0 THEN  'non' ELSE '-' end AS VALEUR
 from TA_PROPERTY r
 JOIN TA_PROPERTY_PLOT rp ON r.PRO_ID=rp.PRO_ID
+where r.PRO_REFERENCE=$P{reference}
+
+UNION ALL
+
+select
+'Exclusivité' AS CLE, 'oui' AS VALEUR
+from TA_PROPERTY r
+JOIN TA_SALE sal ON sal.pro_id=r.pro_id AND sal.SAL_MAND_TYPE='EX'
 where r.PRO_REFERENCE=$P{reference}
 
 ;]]>
@@ -200,7 +208,7 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 	<title>
 		<band height="60" splitType="Stretch">
 			<staticText>
-				<reportElement x="527" y="0" width="27" height="60" forecolor="#A01755" uuid="d99199a1-759b-4ee6-ae33-df022722a9af"/>
+				<reportElement x="526" y="0" width="27" height="60" forecolor="#A01755" uuid="d99199a1-759b-4ee6-ae33-df022722a9af"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="26" isBold="true"/>
 				</textElement>
@@ -238,7 +246,7 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 		</band>
 	</title>
 	<detail>
-		<band height="706" splitType="Stretch">
+		<band height="711" splitType="Stretch">
 			<subreport>
 				<reportElement x="0" y="87" width="275" height="305" uuid="b1ec2ca9-335f-45ca-8715-fc7f46d51414"/>
 				<subreportParameter name="reference">
@@ -251,7 +259,7 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 				<subreportExpression><![CDATA[this.getClass().getClassLoader().getResourceAsStream("jasper/fiche_client_subreport_photos1.jasper")]]></subreportExpression>
 			</subreport>
 			<staticText>
-				<reportElement x="201" y="686" width="156" height="20" uuid="a8bf8ef3-6688-4cfe-915d-f9b9311cad0c"/>
+				<reportElement x="201" y="691" width="156" height="20" uuid="a8bf8ef3-6688-4cfe-915d-f9b9311cad0c"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial"/>
 				</textElement>
@@ -272,7 +280,7 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 				<textFieldExpression><![CDATA[$F{DSC_LABEL}.replaceAll("->","→").replace("\n", "<br />")]]></textFieldExpression>
 			</textField>
 			<componentElement>
-				<reportElement key="table 2" style="table 2" x="34" y="421" width="480" height="75" uuid="a36e5df8-99f4-4a47-906b-b250014230bd"/>
+				<reportElement key="table 2" style="table 2" x="34" y="421" width="480" height="75" isRemoveLineWhenBlank="true" uuid="a36e5df8-99f4-4a47-906b-b250014230bd"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="General Dataset" uuid="30198a80-b96e-474e-8d1e-3a7d8d5ac400">
 						<datasetParameter name="reference">
@@ -358,11 +366,11 @@ Fax : 05.58.77.32.63]]></text>
 Site : www.acimflo.com]]></text>
 			</staticText>
 			<image scaleImage="FillFrame">
-				<reportElement x="525" y="1" width="30" height="22" uuid="96aa467c-533f-49ae-820b-d9ec20419850"/>
+				<reportElement x="525" y="3" width="30" height="22" uuid="96aa467c-533f-49ae-820b-d9ec20419850"/>
 				<imageExpression><![CDATA[this.getClass().getClassLoader().getResourceAsStream("jasper/img/fnaim.png")]]></imageExpression>
 			</image>
 			<image scaleImage="FillFrame">
-				<reportElement x="514" y="23" width="41" height="22" uuid="988b7864-38a5-4108-8c36-c2263b410fc7"/>
+				<reportElement x="514" y="25" width="41" height="22" uuid="988b7864-38a5-4108-8c36-c2263b410fc7"/>
 				<imageExpression><![CDATA[this.getClass().getClassLoader().getResourceAsStream("jasper/img/amepi.png")]]></imageExpression>
 			</image>
 		</band>
