@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="20" uuid="96540068-ead6-4274-af4c-90fbe87736a3">
 	<property name="ireport.zoom" value="0.8264462809917363"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="480"/>
+	<property name="ireport.y" value="7"/>
 	<property name="ireport.background.image.properties" value="false,false,0.25,0,0,0,0,0,0"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
 	<style name="table">
@@ -111,7 +111,10 @@ LIMIT 0, 15]]>
 			<defaultValueExpression><![CDATA[$P{reference}]]></defaultValueExpression>
 		</parameter>
 		<queryString>
-			<![CDATA[select
+			<![CDATA[SELECT *
+
+FROM
+(select
 'Type' AS CLE,
 CAST(TYP_LABEL AS CHAR) AS VALEUR
 from TA_PROPERTY r
@@ -133,28 +136,7 @@ select
 'Surface Terrain' AS CLE,
 CAST(IFNULL(PRO_LAND_AREA,'-') AS CHAR) AS VALEUR
 from TA_PROPERTY r
-where r.PRO_REFERENCE=$P{reference}
-
-UNION ALL
-
-select
-'Nb de pièces' AS CLE,
-CAST(IFNULL(PRL_NB_ROOM, '-') AS CHAR) AS VALEUR
-from TA_PROPERTY r
-JOIN TA_PROPERTY_LIVABLE rl ON r.PRO_ID=rl.PRO_ID
-where r.PRO_REFERENCE=$P{reference}
-
-UNION ALL
-
-select
-'Nb de salles de bain' AS CLE,
-CASE
-   WHEN PRL_NB_BATHROOM IS NULL AND PRL_NB_SHOWERROOM IS NULL THEN '-'
-   ELSE CAST(IFNULL(PRL_NB_BATHROOM, 0) + IFNULL(PRL_NB_SHOWERROOM, 0) AS CHAR)
-   END AS VALEUR
-from TA_PROPERTY r
-JOIN TA_PROPERTY_LIVABLE rl ON r.PRO_ID=rl.PRO_ID
-where r.PRO_REFERENCE=$P{reference}
+where r.PRO_REFERENCE=$P{reference} AND PRO_LAND_AREA IS NOT NULL
 
 UNION ALL
 
@@ -168,11 +150,75 @@ where r.PRO_REFERENCE=$P{reference}
 UNION ALL
 
 select
+'Copropriété' AS CLE,
+CAST(
+  concat(
+	IF(PRB_COOWNERSHIP_LOT_NUMBER IS NULL,
+		'',
+		concat(PRB_COOWNERSHIP_LOT_NUMBER, ' lots')
+	)
+  ,
+	IF(PRB_COOWNERSHIP_LOT_NUMBER IS NULL, '', ' - ')
+   ,
+   	IF(PRB_COOWNERSHIP_CHARGES IS NULL,
+		'',
+		concat('Charges ', PRB_COOWNERSHIP_CHARGES*12, ' €/an')
+	)
+   )
+AS CHAR) AS VALEUR
+from TA_PROPERTY r
+JOIN TA_PROPERTY_BUILT rb ON r.PRO_ID=rb.PRO_ID
+	AND (PRB_COOWNERSHIP_LOT_NUMBER IS NOT NULL OR PRB_COOWNERSHIP_CHARGES IS NOT NULL )
+where r.PRO_REFERENCE=$P{reference}
+
+UNION ALL
+
+select
+'Taxe foncière' AS CLE,
+CAST(IF(SAL_PROPERTY_TAX IS NULL, '-', concat(SAL_PROPERTY_TAX, ' €')) AS CHAR) AS VALEUR
+from TA_PROPERTY r
+JOIN TA_SALE sal ON sal.PRO_ID=r.PRO_ID AND SAL_PROPERTY_TAX IS NOT NULL
+where r.PRO_REFERENCE=$P{reference}
+
+UNION ALL
+
+select
 'Lotissement' AS CLE,
 CASE PRO_HOUSING_ESTATE WHEN 1 THEN 'oui' ELSE 'non' end AS VALEUR
 from TA_PROPERTY r
 where r.PRO_REFERENCE=$P{reference}
 
+
+UNION ALL
+
+select
+'Chauffage' AS CLE,
+CAST(IFNULL(PRL_HEATING, '-') AS CHAR) AS VALEUR
+from TA_PROPERTY r
+JOIN TA_PROPERTY_LIVABLE rl ON r.PRO_ID=rl.PRO_ID AND PRL_HEATING IS NOT NULL
+where r.PRO_REFERENCE=$P{reference}
+
+UNION ALL
+
+select
+'Assainissement' AS CLE,
+CAST(IFNULL(PRO_SANITATION, '-') AS CHAR) AS VALEUR
+from TA_PROPERTY r
+where
+r.PRO_REFERENCE=$P{reference} AND PRO_SANITATION IS NOT NULL
+
+
+UNION ALL
+
+select
+'Isolation' AS CLE,
+CAST(IFNULL(PRB_INSULATION, '-') AS CHAR) AS VALEUR
+from TA_PROPERTY r
+JOIN TA_PROPERTY_BUILT rb ON r.PRO_ID=rb.PRO_ID AND PRB_INSULATION IS NOT NULL
+where r.PRO_REFERENCE=$P{reference}
+) general
+
+LIMIT 0,9
 ;]]>
 		</queryString>
 		<field name="CLE" class="java.lang.String"/>
@@ -223,14 +269,18 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 	<title>
 		<band height="60" splitType="Stretch">
 			<staticText>
-				<reportElement x="527" y="0" width="27" height="60" forecolor="#A01755" uuid="d99199a1-759b-4ee6-ae33-df022722a9af"/>
+				<reportElement x="527" y="0" width="27" height="60" forecolor="#A01755" uuid="d99199a1-759b-4ee6-ae33-df022722a9af">
+					<printWhenExpression><![CDATA[$F{PRIX} != 0]]></printWhenExpression>
+				</reportElement>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="26" isBold="true"/>
 				</textElement>
 				<text><![CDATA[€]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" pattern="#,##0">
-				<reportElement x="397" y="0" width="128" height="60" forecolor="#A01755" uuid="8689a9b3-5c9d-470e-85e7-0fe666ab2cf7"/>
+				<reportElement x="399" y="0" width="128" height="60" forecolor="#A01755" uuid="8689a9b3-5c9d-470e-85e7-0fe666ab2cf7">
+					<printWhenExpression><![CDATA[$F{PRIX} != 0]]></printWhenExpression>
+				</reportElement>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Arial" size="26" isBold="true"/>
 				</textElement>
@@ -261,7 +311,7 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 		</band>
 	</title>
 	<detail>
-		<band height="706" splitType="Stretch">
+		<band height="712" splitType="Stretch">
 			<subreport>
 				<reportElement x="0" y="30" width="275" height="305" uuid="b1ec2ca9-335f-45ca-8715-fc7f46d51414"/>
 				<subreportParameter name="reference">
@@ -357,20 +407,20 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 				</jr:table>
 			</componentElement>
 			<image>
-				<reportElement x="0" y="548" width="120" height="120" uuid="1a2640f9-3625-460d-b3bb-2f2a15c2b226">
+				<reportElement x="0" y="568" width="120" height="120" uuid="1a2640f9-3625-460d-b3bb-2f2a15c2b226">
 					<printWhenExpression><![CDATA[java.nio.file.Files.exists(java.nio.file.Paths.get($P{DOC_DIR} + $P{reference}+ "/dpe/kwh-260.png"))]]></printWhenExpression>
 				</reportElement>
 				<imageExpression><![CDATA[$P{DOC_DIR} + $P{reference}+ "/dpe/kwh-260.png"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="201" y="686" width="156" height="20" uuid="a8bf8ef3-6688-4cfe-915d-f9b9311cad0c"/>
+				<reportElement x="201" y="691" width="156" height="20" uuid="a8bf8ef3-6688-4cfe-915d-f9b9311cad0c"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial"/>
 				</textElement>
 				<text><![CDATA[Document non contractuel]]></text>
 			</staticText>
 			<image>
-				<reportElement x="150" y="548" width="120" height="120" uuid="d25ed525-1b8b-4962-a7a4-c58b392cb03c">
+				<reportElement x="150" y="568" width="120" height="120" uuid="d25ed525-1b8b-4962-a7a4-c58b392cb03c">
 					<printWhenExpression><![CDATA[java.nio.file.Files.exists(java.nio.file.Paths.get($P{DOC_DIR} + $P{reference}+ "/dpe/ges-260.png"))]]></printWhenExpression>
 				</reportElement>
 				<imageExpression><![CDATA[$P{DOC_DIR} + $P{reference}+ "/dpe/ges-260.png"]]></imageExpression>
