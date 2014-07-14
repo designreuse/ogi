@@ -30,15 +30,16 @@ public class ProcessorPhotos implements ItemProcessor<RealPropertyCSV, RealPrope
 
 	private void copyPhoto(String relativePathFile) throws IOException {
 
-		// Compute absolute path for this file
 		// ProcesorTransformToCSV save into cvs photo path with "photos" leading directory. Remove it to access original
 		// file into OGI directory
-		Path absPhotoPath = DocumentUtils.absolutize(Paths.get(photoDirName).relativize(Paths.get(relativePathFile)));
+		Path relativePathComputed = Paths.get(photoDirName).relativize(Paths.get(relativePathFile));
+		// Compute absolute path for this file
+		Path absPhotoPath = DocumentUtils.absolutize(relativePathComputed);
 
 		// Folder into copy photos
-		Path destinationDirectory = absPhotosDirectory.resolve(Paths.get(relativePathFile).getParent());
+		Path destinationDirectory = absPhotosDirectory.resolve(relativePathComputed.getParent());
 		Files.createDirectories(destinationDirectory);
-		Files.copy(absPhotoPath, destinationDirectory.resolve(Paths.get(relativePathFile).getFileName()),
+		Files.copy(absPhotoPath, destinationDirectory.resolve(relativePathComputed.getFileName()),
 				StandardCopyOption.REPLACE_EXISTING);
 	}
 
