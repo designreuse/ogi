@@ -43,7 +43,9 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractSeLoger, Re
 		mapTypeBien.put(EnumCategory.HOUSE, "Maison");
 		mapTypeBien.put(EnumCategory.PLOT, "Terrain");
 	}
+
 	private String								estateCode;
+	private String								photoDirName;
 
 	private void populateCommon(RealProperty item, RealPropertyCSV r) {
 		r.setBienTechid(item.getTechid().toString());
@@ -108,26 +110,31 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractSeLoger, Re
 		}
 	}
 
+	/**
+	 * Populate only six photos max
+	 * 
+	 * @param item
+	 * @param r
+	 */
 	private void populatePhotos(RealProperty item, RealPropertyCSV r) {
 		List<Document> photos = item.getPhotos();
-
 		if (photos.size() >= 1) {
-			r.setPhoto1(photos.get(0).getPath());
+			r.setPhoto1(photoDirName + "/" + photos.get(0).getPath());
 		}
 		if (photos.size() >= 2) {
-			r.setPhoto2(photos.get(1).getPath());
+			r.setPhoto2(photoDirName + "/" + photos.get(1).getPath());
 		}
 		if (photos.size() >= 3) {
-			r.setPhoto3(photos.get(2).getPath());
+			r.setPhoto3(photoDirName + "/" + photos.get(2).getPath());
 		}
 		if (photos.size() >= 4) {
-			r.setPhoto4(photos.get(3).getPath());
+			r.setPhoto4(photoDirName + "/" + photos.get(3).getPath());
 		}
 		if (photos.size() >= 5) {
-			r.setPhoto5(photos.get(4).getPath());
+			r.setPhoto5(photoDirName + "/" + photos.get(4).getPath());
 		}
 		if (photos.size() >= 6) {
-			r.setPhoto6(photos.get(5).getPath());
+			r.setPhoto6(photoDirName + "/" + photos.get(5).getPath());
 		}
 
 	}
@@ -209,6 +216,10 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractSeLoger, Re
 
 	public void setEstateCode(String estateCode) {
 		this.estateCode = estateCode;
+	}
+
+	public void setPhotoDirName(String photoDirName) {
+		this.photoDirName = photoDirName;
 	}
 
 	public void setServiceSeLoger(ServicePartner serviceSeLoger) {

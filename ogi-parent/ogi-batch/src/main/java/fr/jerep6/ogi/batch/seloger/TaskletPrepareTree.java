@@ -25,17 +25,19 @@ import fr.jerep6.ogi.framework.utils.FileUtils;
  * @author jerep6 15 mars 2014
  */
 public class TaskletPrepareTree implements Tasklet {
-	private final Logger		LOGGER				= LoggerFactory.getLogger(TaskletPrepareTree.class);
+	private final Logger		LOGGER					= LoggerFactory.getLogger(TaskletPrepareTree.class);
 
-	private static final String	SELOGER_VERSION		= "#SELOGER_VERSION";
-	private static final String	OGI_VERSION			= "#OGI_VERSION";
+	private static final String	SELOGER_VERSION			= "#SELOGER_VERSION";
+	private static final String	OGI_VERSION				= "#OGI_VERSION";
 
 	private Resource			rootDirectory;
 
 	private String				seLogerVersion;
 	private Resource			config;
 	private Resource			photosConfig;
-	private List<Resource>		directoriesToCreate	= new ArrayList<>(0);
+
+	/** List of directory to create. Path relative to rootDirectory */
+	private List<Resource>		subDirectoriesToCreate	= new ArrayList<>(0);
 
 	@Override
 	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
@@ -43,11 +45,14 @@ public class TaskletPrepareTree implements Tasklet {
 		// chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext()
 		// .put("POUET", "VALEUR POUET");
 
-		// Create directory if not exists
-		directoriesToCreate.add(rootDirectory);
-		for (Resource r : directoriesToCreate) {
+		// Create root
+		Path root = rootDirectory.getFile().toPath();
+		Files.createDirectories(root);
+
+		// Create sub directory
+		for (Resource r : subDirectoriesToCreate) {
 			if (!r.exists()) {
-				Files.createDirectories(r.getFile().toPath());
+				Files.createDirectories(root.resolve(r.getFile().toPath()));
 			}
 		}
 
@@ -67,10 +72,6 @@ public class TaskletPrepareTree implements Tasklet {
 		this.config = config;
 	}
 
-	public void setDirectoriesToCreate(List<Resource> directoriesToCreate) {
-		this.directoriesToCreate = directoriesToCreate;
-	}
-
 	public void setPhotosConfig(Resource photosConfig) {
 		this.photosConfig = photosConfig;
 	}
@@ -81,6 +82,10 @@ public class TaskletPrepareTree implements Tasklet {
 
 	public void setSeLogerVersion(String seLogerVersion) {
 		this.seLogerVersion = seLogerVersion;
+	}
+
+	public void setSubDirectoriesToCreate(List<Resource> subDirectoriesToCreate) {
+		this.subDirectoriesToCreate = subDirectoriesToCreate;
 	}
 
 	private void writeFileAndReplaceToken(Resource r) throws IOException {

@@ -117,10 +117,12 @@
 	        <list>
 	            <bean class="fr.jerep6.ogi.batch.seloger.ProcessorTransformToCSV" >
 					<property name="estateCode" value="${seloger.agence.code}" />
+					<property name="photoDirName" value="${seloger.extraction.file.photos.directory}" />
 					<property name="serviceSeLoger" ref="serviceSeLoger" />
 	            </bean>
-	            <bean class="fr.jerep6.ogi.batch.seloger.ProcessorPhotos" >
-	            	<property name="photosDirectory" value="file:${seloger.extraction.file.photos.path}" />
+	            <bean class="fr.jerep6.ogi.batch.seloger.ProcessorPhotos" init-method="init" >
+					<property name="rootDirectory" value="file:${seloger.extraction.file.root.path}" />
+					<property name="photoDirName" value="${seloger.extraction.file.photos.directory}" />
 	            </bean>
 	        </list>
 	    </property>
@@ -150,9 +152,9 @@
 		<property name="seLogerVersion" value="${seloger.passerelle.version}" />
 		<property name="config" value="classpath:${seloger.extraction.file.tree.config}" />
 		<property name="photosConfig" value="classpath:${seloger.extraction.file.tree.photos}" />
-		<property name="directoriesToCreate">
+		<property name="subDirectoriesToCreate">
 			<list>
-				<value>file:${seloger.extraction.file.photos.path}</value>
+				<value>file:${seloger.extraction.file.photos.directory}</value>
 			</list>
 		</property>
 	</bean>
@@ -160,7 +162,7 @@
 	<bean id="DeciderHasPrpProcessed" class="fr.jerep6.ogi.batch.seloger.DeciderHasPrpProcessed" />
 
     <bean id="TaskletPhotosResize" class="fr.jerep6.ogi.batch.seloger.TaskletPhotosResize">
-		<property name="photosDirectory" value="file:${seloger.extraction.file.photos.path}" />
+		<property name="photosDirectory" value="file:${seloger.extraction.file.root.path}${seloger.extraction.file.photos.directory}" />
 		<property name="photoSize" value="${seloger.extraction.file.photos.size}" />
 	</bean>
 	

@@ -2,13 +2,11 @@ package fr.jerep6.ogi.batch.seloger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import com.google.common.collect.ImmutableList;
-
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 
 @Getter
@@ -20,7 +18,7 @@ public class RealPropertyCSV {
 	// 1 -- 10
 	@Setter
 	private String			agenceId;									// OBLI. Identifiant agence fourni par nos
-																		// services
+	// services
 	@Setter
 	private String			bienReference;								// OBLI. Reference fonctionnelle du bien
 	@Setter
@@ -45,8 +43,7 @@ public class RealPropertyCSV {
 	private String			loyerHT;									// loyer hors taxe OUI NON
 	@Setter
 	private String			honoraires;								// OBLIG. Montant des honoraires en euros TTC
-																		// pour une
-																		// location
+	// pour une location
 	@Setter
 	private String			surface;
 	@Setter
@@ -57,13 +54,13 @@ public class RealPropertyCSV {
 	private String			nbreChambre;
 	@Setter
 	private String			libelle;									// OBLI (64 CHAR). Libellé court. Exemple :
-																		// Maison 3
-																		// pièces
+	// Maison 3
+	// pièces
 
 	// 21 -- 30
 	@Setter
 	private String			descriptif;								// OBLI (4000 CHAR). Ne pas mettre de caractères
-																		// spéciaux
+	// spéciaux
 	@Setter
 	private String			dateDisponibilite;							// Format JJ/MM/AAAA
 	@Setter
@@ -116,7 +113,7 @@ public class RealPropertyCSV {
 	private String			prixMoisHaute;
 	private String			nbrePersonnes;
 	private String			typeResidence;								// (3 CHAR). Uniquement pour location de
-																		// vacances
+	// vacances
 	private String			situation;									// mer, montagne, campagne ...
 	private String			nbreCouvert;
 	private String			nbreLitsDouble;
@@ -187,11 +184,7 @@ public class RealPropertyCSV {
 	private String			adresseReelleCP;
 	private String			adresseReelleVille;
 	private String			intercabinet;								// Utilisé dans le cas ou l’agence dispose d’un
-																		// site
-																		// géré
-																		// par
-																		// Seloger.com
-																		// avec l’option d’intercabinet
+	// site géré par Seloger.com avec l’option d’intercabinet
 
 	// 111 -- 120
 	private String			intercabinePrive;
@@ -362,8 +355,8 @@ public class RealPropertyCSV {
 	private String			montantRapport;
 	@Setter
 	private String			natureBail;								// Uniquement pour les location. Exemple :
-																		// Location
-																		// meublée
+	// Location
+	// meublée
 	private String			natureBailCommercial;
 	private String			nbreTerrase;
 	private String			prixHT;									// OUI NON
@@ -408,15 +401,6 @@ public class RealPropertyCSV {
 		lWithNull.add(photo19);
 		lWithNull.add(photo20);
 
-		List<String> lWithoutNull = new ArrayList<>(20);
-
-		for (String string : lWithNull) {
-			if (string != null) {
-				lWithoutNull.add(string);
-			}
-		}
-
-		ImmutableList<String> immutable = ImmutableList.copyOf(lWithoutNull);
-		return immutable;
+		return lWithNull.stream().filter(p -> p != null).collect(Collectors.<String> toList());
 	}
 }

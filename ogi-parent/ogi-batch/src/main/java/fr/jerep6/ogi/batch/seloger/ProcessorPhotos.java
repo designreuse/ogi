@@ -23,18 +23,28 @@ import fr.jerep6.ogi.utils.DocumentUtils;
 public class ProcessorPhotos implements ItemProcessor<RealPropertyCSV, RealPropertyCSV> {
 	private static Logger	LOGGER	= LoggerFactory.getLogger(ProcessorPhotos.class);
 
-	private Resource		photosDirectory;
+	private Resource		rootDirectory;
+	private String			photoDirName;
+
+	private Path			absPhotosDirectory;
 
 	private void copyPhoto(String relativePathFile) throws IOException {
 
 		// Compute absolute path for this file
-		Path absPhotoPath = DocumentUtils.absolutize(Paths.get(relativePathFile));
+		// ProcesorTransformToCSV save into cvs photo path with "photos" leading directory. Remove it to access original
+		// file into OGI directory
+		Path absPhotoPath = DocumentUtils.absolutize(Paths.get(photoDirName).relativize(Paths.get(relativePathFile)));
 
 		// Folder into copy photos
-		Path destinationDirectory = photosDirectory.getFile().toPath().resolve(Paths.get(relativePathFile).getParent());
+		Path destinationDirectory = absPhotosDirectory.resolve(Paths.get(relativePathFile).getParent());
 		Files.createDirectories(destinationDirectory);
 		Files.copy(absPhotoPath, destinationDirectory.resolve(Paths.get(relativePathFile).getFileName()),
 				StandardCopyOption.REPLACE_EXISTING);
+	}
+
+	// Spring call this method
+	private void init() throws IOException {
+		absPhotosDirectory = rootDirectory.getFile().toPath().resolve(Paths.get(photoDirName));
 	}
 
 	@Override
@@ -48,8 +58,12 @@ public class ProcessorPhotos implements ItemProcessor<RealPropertyCSV, RealPrope
 		return item;
 	}
 
-	public void setPhotosDirectory(Resource photosDirectory) {
-		this.photosDirectory = photosDirectory;
+	public void setPhotoDirName(String photoDirName) {
+		this.photoDirName = photoDirName;
+	}
+
+	public void setRootDirectory(Resource rootDirectory) {
+		this.rootDirectory = rootDirectory;
 	}
 
 }
