@@ -9,6 +9,7 @@ PATH_TOMCAT_WEBAPPS=${PATTERN_PATH_TOMCAT_WEBAPPS/VERSION/$TOMCAT_VERSION}
 
 #log4j file
 LOG4J_FILE=$PATH_OGI_INSTALL"resources/log4j2.xml"
+sed -i '/.*ref="Console"/d' $LOG4J_FILE
 sed -i 's/fileName=".*"/filename="\/home\/jerep6\/install\/ogi\/logs\/app.log"/g' $LOG4J_FILE
 sed -i 's/filePattern=".*"/filePattern="\/home\/jerep6\/install\/ogi\/logs\/app-%d{yyyy-MM-dd}-%i.log"/g' $LOG4J_FILE
 
