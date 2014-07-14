@@ -3,7 +3,7 @@
 #Tous les chemins doivent finir par un slash
 
 #Version de tomcat. Utile pour calculer le chemin de tomcat
-TOMCAT_VERSION=7.0.52
+TOMCAT_VERSION=8.0.9
 #Nom de l'enveoppe de livraison. VERSION sera remplacé par la valeur saisie par l'utilisateur
 PATTERN_ENVELOPPE="OGI-VERSION"
 PATTERN_PATH_TOMCAT_DIR="/home/jerep6/install/apache-tomcat-VERSION/"
@@ -17,6 +17,7 @@ PATH_TOMCAT_WEBAPP=$PATH_TOMCAT_DIR"webapps/"
 PATH_SCRIPT_REPLACE="ogi_replace"
 ENVELOPPE_NAME=""
 OGI_WS_NAME="ogi-ws.war"
+OGI_WS_FOLDER="ogi-ws"
 OGI_IHM_NAME="ogi-web"
 OGI_RESOURCES_NAME="resources"
 OGI_BATCHS_NAME="batchs"
@@ -105,6 +106,10 @@ mkdir -p "$ARCHIVE_DIR"
 if [ $DEPLOY_WS = true ]; then
 	echo "deploy-ws"
 	echo -e "\tSuppression de l'ancien war"
+	if [ -d $PATH_TOMCAT_WEBAPP$OGI_WS_FOLDER ]; then
+		echo -e "\tSuppression du dossier de deploiement apache $OGI_WS_FOLDER"
+		rm -r $PATH_TOMCAT_WEBAPP$OGI_WS_FOLDER
+	fi
 	mv $PATH_TOMCAT_WEBAPP$OGI_WS_NAME $ARCHIVE_DIR
 	echo -e "\tCopie du war à partir de l'enveloppe"
 	cp $PATH_DELIVERY$ENVELOPPE_NAME/$OGI_WS_NAME $PATH_TOMCAT_WEBAPP$OGI_WS_NAME
