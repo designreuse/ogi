@@ -34,8 +34,8 @@ sed -i 's/API_URL:.*,/API_URL:window.location.protocol+"\/\/"+window.location.ho
 
 #batchs
 ENVIRONMENT_BATCH_FILE=$PATH_OGI_INSTALL"resources/batch/properties/environment-batch.properties"
+sed -i 's/db.url.*$/db.url=jdbc:mysql:\/\/localhost:3306\/ogi/g' $ENVIRONMENT_BATCH_FILE
 sed -i 's/seloger.extraction.file.root.path.*$/seloger.extraction.file.root.path =\/home\/jerep6\/install\/ogi\/tmp\/seloger\//g' $ENVIRONMENT_BATCH_FILE
-sed -i 's/seloger.extraction.file.photos.path.*$/seloger.extraction.file.photos.path =\/home\/jerep6\/install\/ogi\/tmp\/seloger\/photos\//g' $ENVIRONMENT_BATCH_FILE
 sed -i 's/seloger.ftp.host.*$/seloger.ftp.host =seloger.com/g' $ENVIRONMENT_BATCH_FILE
 sed -i 's/seloger.ftp.directory.*$/seloger.ftp.directory =\//g' $ENVIRONMENT_BATCH_FILE
 sed -i 's/seloger.ftp.login.*$/seloger.ftp.login =jerep6/g' $ENVIRONMENT_BATCH_FILE
