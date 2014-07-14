@@ -14,6 +14,8 @@ public interface ServiceDPE extends TransactionalService<DPE, Integer> {
 
 	/**
 	 * Write to disk dpe images into dpe folder of property.
+	 * If dpe is null write an image without value
+	 * 
 	 * Images names :
 	 * <ul>
 	 * <li>kwh-180.png</li>

@@ -42,6 +42,8 @@ import fr.jerep6.ogi.utils.DocumentUtils;
 @Service("serviceDPE")
 @Transactional(propagation = Propagation.REQUIRED)
 public class ServiceDPEImpl extends AbstractTransactionalService<DPE, Integer> implements ServiceDPE {
+	private static final String		DPE_DIRECTORY		= "dpe";
+
 	private final Logger			LOGGER				= LoggerFactory.getLogger(ServiceDPEImpl.class);
 
 	/** Size of generated image if not provided */
@@ -52,20 +54,20 @@ public class ServiceDPEImpl extends AbstractTransactionalService<DPE, Integer> i
 
 	/** Configuration for kwh dpe */
 	private static List<DPEStep>	DPE_KWH_STEPS		= Arrays.asList(new DPEStep(1, 0, 50),//
-																new DPEStep(2, 51, 39),//
-																new DPEStep(3, 91, 59),//
-																new DPEStep(4, 151, 79),//
-																new DPEStep(5, 231, 99),//
-																new DPEStep(6, 331, 119),//
-																new DPEStep(7, 451, 100));
+			new DPEStep(2, 51, 39),//
+			new DPEStep(3, 91, 59),//
+			new DPEStep(4, 151, 79),//
+			new DPEStep(5, 231, 99),//
+			new DPEStep(6, 331, 119),//
+			new DPEStep(7, 451, 100));
 	/** Configuration for ges dpe */
 	private static List<DPEStep>	DPE_GES_STEPS		= Arrays.asList(new DPEStep(1, 0, 5),//
-																new DPEStep(2, 6, 4),//
-																new DPEStep(3, 11, 9),//
-																new DPEStep(4, 21, 14),//
-																new DPEStep(5, 36, 19),//
-																new DPEStep(6, 56, 24),//
-																new DPEStep(7, 81, 20));
+			new DPEStep(2, 6, 4),//
+			new DPEStep(3, 11, 9),//
+			new DPEStep(4, 21, 14),//
+			new DPEStep(5, 36, 19),//
+			new DPEStep(6, 56, 24),//
+			new DPEStep(7, 81, 20));
 
 	@Autowired
 	private DaoDPE					daoDpe;
@@ -99,8 +101,8 @@ public class ServiceDPEImpl extends AbstractTransactionalService<DPE, Integer> i
 					}
 				}
 			} else { // No dpe given => arrow in middle width no text
-				step = DPE_GES_STEPS.get(3);
-				dpe = 35;
+				step = DPE_GES_STEPS.get(0);
+				dpe = -1;
 				sDpe = "";
 			}
 
@@ -155,8 +157,8 @@ public class ServiceDPEImpl extends AbstractTransactionalService<DPE, Integer> i
 					}
 				}
 			} else { // No dpe given => arrow in middle width no text
-				step = DPE_KWH_STEPS.get(3);
-				dpe = 230;
+				step = DPE_KWH_STEPS.get(0);
+				dpe = -1;
 				sDpe = "";
 			}
 
@@ -206,31 +208,22 @@ public class ServiceDPEImpl extends AbstractTransactionalService<DPE, Integer> i
 	public void writeDPEFiles(String prpReference, DPE dpe) {
 		Preconditions.checkNotNull(prpReference);
 
-		// If no dpe => do nothing
-		if (dpe == null) {
-			return;
-		}
-
 		try {
-			Path dpeDirectory = DocumentUtils.getDirectory(prpReference).resolve(Paths.get("dpe"));
+			Path dpeDirectory = DocumentUtils.getDirectory(prpReference).resolve(Paths.get(DPE_DIRECTORY));
 			Files.createDirectories(dpeDirectory);
 
-			if (dpe.getKwh() != null) {
-				for (EnumDPE aDpe : EnumDPE.getKwh()) {
-					// Compute file path
-					Path p = DocumentUtils.absolutize(dpeDirectory.resolve(aDpe.getFileName()));
-					FileOutputStream fos = new FileOutputStream(p.toString());
-					generateDPEkWhImage(fos, dpe.getKwh(), aDpe.getSize());
-				}
+			for (EnumDPE aDpe : EnumDPE.getKwh()) {
+				// Compute file path
+				Path p = DocumentUtils.absolutize(dpeDirectory.resolve(aDpe.getFileName()));
+				FileOutputStream fos = new FileOutputStream(p.toString());
+				generateDPEkWhImage(fos, dpe.getKwh(), aDpe.getSize());
 			}
 
-			if (dpe.getGes() != null) {
-				for (EnumDPE aDpe : EnumDPE.getGes()) {
-					// Compute file path
-					Path p = DocumentUtils.absolutize(dpeDirectory.resolve(aDpe.getFileName()));
-					FileOutputStream fos = new FileOutputStream(p.toString());
-					generateDPEGesImage(fos, dpe.getGes(), aDpe.getSize());
-				}
+			for (EnumDPE aDpe : EnumDPE.getGes()) {
+				// Compute file path
+				Path p = DocumentUtils.absolutize(dpeDirectory.resolve(aDpe.getFileName()));
+				FileOutputStream fos = new FileOutputStream(p.toString());
+				generateDPEGesImage(fos, dpe.getGes(), aDpe.getSize());
 			}
 
 		} catch (IOException ioe) {
@@ -284,8 +277,9 @@ public class ServiceDPEImpl extends AbstractTransactionalService<DPE, Integer> i
 
 		Graphics g = combined.getGraphics();
 		g.drawImage(dpeTemplate, 0, 0, null);
-		g.drawImage(dpeValue, conf.get("widthPasteArrow"), pxDpe, null);
-
+		if (dpe >= 0) { // Draw value on righ only if dpe is valid
+			g.drawImage(dpeValue, conf.get("widthPasteArrow"), pxDpe, null);
+		}
 		combined = Scalr.resize(combined, width);
 
 		return combined;
