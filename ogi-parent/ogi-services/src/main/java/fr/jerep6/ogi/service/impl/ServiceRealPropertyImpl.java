@@ -327,7 +327,7 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 		// Only when create property
 		if (create) {
 			if (!Strings.isNullOrEmpty(bo.getReference())) {
-				if (readByReference(bo.getReference()) != null) {
+				if (readByReference(bo.getReference()).isPresent()) {
 					mbe.add(EnumBusinessErrorProperty.REFERENCE_EXISTS, bo.getReference());
 				}
 			}
