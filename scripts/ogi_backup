@@ -33,3 +33,8 @@ cd $DIRECTORY_DOCUMENT
 tar czf $DIRECTORY_BACKUP$DIRECTORY_TAR_FILE_NAME --exclude="temp" *
 cd $ORIGINAL_DIRECTORY
 
+
+#rsync vers la vm backup.
+# Utilisation de la variable RSYNC_PASSWORD fonctionnant pour le protocole rsync. Autre solution => --password-file
+export RSYNC_PASSWORD=acimflopasswd
+rsync -ahv --delete /home/jerep6/install/ogi/backup/ acimflo@192.168.1.71::OGI/
