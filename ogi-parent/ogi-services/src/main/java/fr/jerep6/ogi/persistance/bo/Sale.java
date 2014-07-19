@@ -86,6 +86,10 @@ public class Sale {
 		return null;
 	}
 
+	public boolean getExclusive() {
+		return mandateType == EnumMandateType.EXCLUSIF;
+	}
+
 	public Float getPriceFinal() {
 		if (commission != null || price != null) {
 			Float c = commission == null ? 0 : commission;

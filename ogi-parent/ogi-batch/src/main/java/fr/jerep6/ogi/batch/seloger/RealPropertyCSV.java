@@ -54,8 +54,7 @@ public class RealPropertyCSV {
 	private String			nbreChambre;
 	@Setter
 	private String			libelle;									// OBLI (64 CHAR). Libellé court. Exemple :
-	// Maison 3
-	// pièces
+	// Maison 3 pièces
 
 	// 21 -- 30
 	@Setter
@@ -146,6 +145,7 @@ public class RealPropertyCSV {
 	// 81 -- 90
 	private String			duplex;
 	private String			publication;
+	@Setter
 	private String			mandatExclusif;
 	private String			coupDeCoeur;
 	@Setter

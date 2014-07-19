@@ -19,6 +19,11 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
+
+import fr.jerep6.ogi.enumeration.EnumMandateType;
 import fr.jerep6.ogi.utils.VenteUtils;
 
 @Entity
@@ -40,8 +45,12 @@ public class Rent {
 	@Temporal(TemporalType.DATE)
 	private Calendar		freeDate;
 
-	@Column(name = "REN_EXCLUSIVE")
-	private Boolean			exclusive;
+	@Column(name = "REN_MAND_TYPE", length = 2)
+	@Type(type = "fr.jerep6.ogi.framework.persistance.GenericEnumUserType", parameters = {
+			@Parameter(name = "enumClass", value = "fr.jerep6.ogi.enumeration.EnumMandateType"),
+			@Parameter(name = "identifierMethod", value = "getCode"),
+			@Parameter(name = "valueOfMethod", value = "valueOfByCode") })
+	private EnumMandateType	mandateType;
 
 	@Column(name = "REN_PRICE")
 	private Float			price;
@@ -73,6 +82,10 @@ public class Rent {
 			return VenteUtils.roundPrice(commission / price * 100);
 		}
 		return null;
+	}
+
+	public boolean getExclusive() {
+		return mandateType == EnumMandateType.EXCLUSIF;
 	}
 
 	public Float getPriceFinal() {

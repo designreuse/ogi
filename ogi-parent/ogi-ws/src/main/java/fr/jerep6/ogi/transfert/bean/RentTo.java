@@ -23,7 +23,7 @@ public class RentTo {
 	@JsonSerialize(using = JsonCalendarSerializer.class)
 	@JsonDeserialize(using = JsonCalendarDeserializer.class)
 	private Calendar	freeDate;
-	private Boolean		exclusive;
+	private String		mandateType;
 	private Float		price;
 	private Float		commission;
 	private Float		commissionManagement;

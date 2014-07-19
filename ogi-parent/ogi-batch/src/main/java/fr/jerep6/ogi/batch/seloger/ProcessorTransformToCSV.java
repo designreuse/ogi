@@ -23,6 +23,7 @@ import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 import fr.jerep6.ogi.persistance.bo.RealPropertyPlot;
 import fr.jerep6.ogi.persistance.bo.Rent;
+import fr.jerep6.ogi.persistance.bo.Sale;
 import fr.jerep6.ogi.service.external.ServicePartner;
 
 public class ProcessorTransformToCSV implements ItemProcessor<ExtractSeLoger, RealPropertyCSV> {
@@ -112,7 +113,7 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractSeLoger, Re
 
 	/**
 	 * Populate only six photos max
-	 * 
+	 *
 	 * @param item
 	 * @param r
 	 */
@@ -154,6 +155,7 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractSeLoger, Re
 			r.setHonoraires(ObjectUtils.toString(rent.getCommission()));
 			r.setCharges(ObjectUtils.toString(rent.getServiceCharge()));
 			r.setDepotDeGarantie(ObjectUtils.toString(rent.getDeposit()));
+			r.setMandatExclusif(toBoolean(rent.getExclusive()));
 
 			if (rent.getFurnished()) {
 				r.setNatureBail(MEUBLEE);
@@ -168,9 +170,11 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractSeLoger, Re
 	}
 
 	private void populateSale(RealProperty item, RealPropertyCSV r) {
-		if (item.getSale() != null) {
-			r.setPrix(item.getSale().getPriceFinal().toString());
-			r.setMandatNumero(item.getSale().getMandateReference());
+		Sale sale = item.getSale();
+		if (sale != null) {
+			r.setPrix(sale.getPriceFinal().toString());
+			r.setMandatNumero(sale.getMandateReference());
+			r.setMandatExclusif(toBoolean(sale.getExclusive()));
 		}
 	}
 
