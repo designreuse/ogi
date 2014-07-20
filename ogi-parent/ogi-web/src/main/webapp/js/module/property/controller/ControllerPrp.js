@@ -82,6 +82,15 @@ function ControllerPrpParent($scope, $log, $http, $routeParams,
         // Send only techid
         $scope.prp.owners = $scope.saveData.ownersProperty.map(function(owner) {return owner.techid});
 
+        // Send description only if value is not default
+        var desc = {}
+        for(var key in $scope.prp.descriptions) {
+            if($scope.prp.descriptions[key].label != description[key].label) {
+                desc[key] = $scope.prp.descriptions[key];
+            }
+        }
+        $scope.prp.descriptions = desc;
+
         fn();
     }
 

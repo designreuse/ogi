@@ -16,8 +16,8 @@ var address = {
 
 var description = {
     APP : {"type": "APP", "label": ""},
-    CLIENT : {"type": "CLIENT", "label": ""},
-    VITRINE : {"type": "VITRINE", "label": ""},
+    CLIENT : {"type": "CLIENT", "label": "<b>Les points forts : </b>\n-> \n-> \n-> \n \n<i>Informations complémentaires</i>\n-> \n->"},
+    VITRINE : {"type": "VITRINE", "label": "<b>Les points forts :</b>\n-> \n-> \n\n-> m² habitable\n-> \n-> \n-> \n-> "},
     WEBSITE_PERSO : {"type": "WEBSITE_PERSO", "label": ""},
     WEBSITE_AUTRE : {"type": "WEBSITE_AUTRE", "label": ""}
 };
