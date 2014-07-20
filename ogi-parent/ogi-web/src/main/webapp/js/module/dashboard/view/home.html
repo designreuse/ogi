@@ -1,7 +1,7 @@
 <br /><br />
 <div class="col-xs-4">
-    <h4>Mandats expirés</h4>
-    <table class="table table-condensed">
+    <h4>Mandats expirés <span class="label label-default">{{numberExpiredMandates()}}</span></h4>
+    <table class="table table-condensed" ng-if="numberExpiredMandates() > 0">
         <thead>
             <tr>
                 <th>Bien</th>
