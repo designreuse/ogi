@@ -75,6 +75,7 @@
     <!-- Module dashboard -->
     <script src="js/module/dashboard/dashboard.js"></script>
     <script src="js/module/dashboard/controller/ControllerDashboard.js"></script>
+    <script src="js/module/dashboard/controller/ControllerHome.js"></script>
 
     <!-- Module passerelle -->
     <script src="js/module/passerelle/passerelle.js"></script>
@@ -97,7 +98,7 @@
     <div id="wrapper">
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
-                <a class="navbar-brand" href="index.html">OGI</a>
+                <a class="navbar-brand" href="#/accueil">OGI</a>
             </div>
             <form class="navbar-form navbar-right" ng-controller="ControllerSearch" ng-submit="submitSearch()">
                 <div class="input-group custom-search-form">
@@ -116,7 +117,7 @@
         <nav class="navbar-default navbar-static-side" role="navigation" ogi-navigation>
             <div class="sidebar-collapse">
                 <ul class="nav" id="side-menu">
-                    <!--<li><a href="index.html"><i class="glyphicon glyphicon-home"></i> Accueil</a></li>-->
+                    <li><a ogi-navigation-url href="#/accueil"><i class="glyphicon glyphicon-home"></i> Accueil</a></li>
                     <li><a ogi-navigation-url href="#/biens"><i class="glyphicon glyphicon-tower"></i> Biens</a></li>
                     <li><a ogi-navigation-url href="#/proprietaires/"><i class="glyphicon glyphicon-user"></i> Propriétaires</a></li>
                     <!--<li><a ogi-navigation-url href="#/dashboard"><i class="glyphicon glyphicon-tasks"></i> Traitements</a></li>-->

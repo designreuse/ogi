@@ -39,19 +39,29 @@ myApp.filter('address', function() {
 });
 
 myApp.filter('prpLink', function(Utils, ServiceUrl) {
-    return function(properties) {
-        // If array empty return empty string
-        if(Utils.isUndefinedOrNull(properties) || properties.length == 0) {  return ""; }
-
-        // else return first address
-        var s = "";
-        properties.forEach(function(elt, index) {
-            s += "<a href=\"#"+ServiceUrl.urlPropertyEdit(elt.reference)+"\">"+elt.reference+"</a><br />";
-        });
-
-        return s;
+    return function(reference) {
+        return technicalPrpLink([{"reference": reference}], Utils, ServiceUrl);
     };
 });
+
+myApp.filter('prpLinks', function(Utils, ServiceUrl) {
+    return function(properties) {
+        return technicalPrpLink(properties, Utils, ServiceUrl);
+    };
+});
+
+function technicalPrpLink(properties, Utils, ServiceUrl) {
+    // If array empty return empty string
+    if(Utils.isUndefinedOrNull(properties) || properties.length == 0) {  return ""; }
+
+    // else return first address
+    var s = "";
+    properties.forEach(function(elt, index) {
+        s += "<a href=\"#"+ServiceUrl.urlPropertyEdit(elt.reference)+"\">"+elt.reference+"</a><br />";
+    });
+
+    return s;
+};
 
 /** Filter to display area. Add m² to end */
 myApp.filter('area', function(Utils) {

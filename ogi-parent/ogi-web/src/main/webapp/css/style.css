@@ -64,6 +64,12 @@ div[minus-plus=""] > span {
   color: red;
   font-weight: bold;
 }
+.expired {
+  color: red;
+}
+.soon_expired {
+  color: orange;
+}
 /* bootstrap sets max-width on img to 100% and broke google maps controls */
 #map img {
   max-width: none;

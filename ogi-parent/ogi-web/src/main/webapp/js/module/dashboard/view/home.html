@@ -1,0 +1,26 @@
+<br /><br />
+<div class="col-xs-4">
+    <h4>Mandats expirés</h4>
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th>Bien</th>
+                <th>Mandat</th>
+                <th>Date de fin</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="m in expiredMandates['EXPIRED']">
+                <td><span ng-bind-html="m.propertyReference | prpLink"></span></td>
+                <td>{{m.mandateReference}}</td>
+                <td class="expired">{{m.endDate | date:'dd/MM/yyyy'}}</td>
+            </tr>
+
+            <tr ng-repeat="m in expiredMandates['SOON_EXPIRED']">
+                <td><span ng-bind-html="m.propertyReference | prpLink"></span></td>
+                <td>{{m.mandateReference}}</td>
+                <td class="soon_expired">{{m.endDate | date:'dd/MM/yyyy'}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

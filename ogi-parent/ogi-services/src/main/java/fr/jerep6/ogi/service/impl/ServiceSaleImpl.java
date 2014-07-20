@@ -1,8 +1,15 @@
 package fr.jerep6.ogi.service.impl;
 
+import java.time.ZonedDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,11 +20,15 @@ import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
 import fr.jerep6.ogi.persistance.bo.Sale;
 import fr.jerep6.ogi.persistance.dao.DaoSale;
 import fr.jerep6.ogi.service.ServiceSale;
+import fr.jerep6.ogi.transfert.ExpiredMandate;
 import fr.jerep6.ogi.transfert.mapping.OrikaMapperService;
 
 @Service("serviceSale")
 @Transactional(propagation = Propagation.REQUIRED)
 public class ServiceSaleImpl extends AbstractTransactionalService<Sale, Integer> implements ServiceSale {
+
+	@Value("${mandat.soonexpired.days}")
+	private Integer				nbDaySoonExpired;
 
 	@Autowired
 	private DaoSale				daoSale;
@@ -29,6 +40,19 @@ public class ServiceSaleImpl extends AbstractTransactionalService<Sale, Integer>
 	@PostConstruct
 	protected void init() {
 		super.setDao(daoSale);
+	}
+
+	@Override
+	public Map<String, List<ExpiredMandate>> listExpiredMandates() {
+		Map<String, List<ExpiredMandate>> result = new HashMap<>();
+		// Expired => mandatEndDate is over
+		result.put("EXPIRED", daoSale.listMandats(Optional.empty(), Optional.of(ZonedDateTime.now())));
+		// soon expired => mandatEndDate is over in 15 days
+		result.put(
+				"SOON_EXPIRED",
+				daoSale.listMandats(Optional.of(ZonedDateTime.now()),
+						Optional.of(ZonedDateTime.now().plusDays(nbDaySoonExpired))));
+		return result;
 	}
 
 	@Override
