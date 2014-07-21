@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.jerep6.ogi</groupId>
 	<artifactId>ogi-parent</artifactId>
@@ -10,7 +11,7 @@
 		<javassist.version>3.18.2-GA</javassist.version>
 		<spring.version>4.0.5.RELEASE</spring.version>
 		<spring.batch.version>3.0.0.RELEASE</spring.batch.version>
-		
+
 		<hibernate.version>4.3.5.Final</hibernate.version>
 		<aspectj.version>1.7.2</aspectj.version>
 		<guava.version>16.0.1</guava.version>
@@ -26,10 +27,10 @@
 		<servlet.version>3.0.1</servlet.version>
 		<jsoup.version>1.7.3</jsoup.version>
 		<commonnet.version>3.3</commonnet.version>
-		
+
 		<log4j.version>2.0-rc1</log4j.version>
 		<slf4j.version>1.7.6</slf4j.version>
-		
+
 		<maven.compiler.source>8</maven.compiler.source>
 		<maven.compiler.target>8</maven.compiler.target>
 		<sourceEncoding>UTF-8</sourceEncoding>
@@ -47,60 +48,27 @@
 
 	<dependencyManagement>
 		<dependencies>
-		
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-framework-bom</artifactId>
+				<version>${spring.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
 			<!-- Force version because when packaging batch bad version is packaged -->
 			<dependency>
-			    <groupId>org.javassist</groupId>
-			    <artifactId>javassist</artifactId>
-			    <version>${javassist.version}</version>
+				<groupId>org.javassist</groupId>
+				<artifactId>javassist</artifactId>
+				<version>${javassist.version}</version>
 			</dependency>
 
-			<!-- ###### Spring ###### -->
+			<!-- Spring Batch -->
 			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-tx</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-			
-			<!-- ClassPathXmlApplicationContext -->
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-context</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-aop</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-
-			<!-- Batch -->
-			<dependency>
-		        <groupId>org.springframework.batch</groupId>
-		        <artifactId>spring-batch-core</artifactId>
-		        <version>${spring.batch.version}</version>
-		    </dependency>
-
-			<!-- JPA -->
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-orm</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-
-			<!-- Database datasource -->
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-jdbc</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-
-			<!-- Test -->
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-test</artifactId>
-				<version>${spring.version}</version>
+				<groupId>org.springframework.batch</groupId>
+				<artifactId>spring-batch-core</artifactId>
+				<version>${spring.batch.version}</version>
 			</dependency>
 
 			<!-- To jersey : Failed to start component [StandardEngine[Catalina].StandardHost[localhost].StandardContext[/ogi-ws]] 
@@ -150,50 +118,50 @@
 			<!-- LOGS -->
 			<!-- Application use slf4j to log -->
 			<dependency>
-			    <groupId>org.slf4j</groupId>
-			    <artifactId>slf4j-api</artifactId>
-			    <version>${slf4j.version}</version>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j.version}</version>
 			</dependency>
 			<dependency>
-			    <groupId>org.slf4j</groupId>
-			    <artifactId>jul-to-slf4j</artifactId>
-			    <version>${slf4j.version}</version>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jul-to-slf4j</artifactId>
+				<version>${slf4j.version}</version>
 			</dependency>
-			
+
 			<!-- log4j2 and adapters to slf4j, common logging -->
-		    <dependency>
-			    <groupId>org.apache.logging.log4j</groupId>
-			    <artifactId>log4j-api</artifactId>
-			    <version>${log4j.version}</version>
-		    </dependency>
-		    <dependency>
-			    <groupId>org.apache.logging.log4j</groupId>
-			    <artifactId>log4j-core</artifactId>
-			    <version>${log4j.version}</version>
-		    </dependency>
-		    <!-- Adapter to log4j 1 -->
-   		    <dependency>
-			    <groupId>org.apache.logging.log4j</groupId>
-			    <artifactId>log4j-1.2-api</artifactId>
-			    <version>${log4j.version}</version>
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-api</artifactId>
+				<version>${log4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-core</artifactId>
+				<version>${log4j.version}</version>
+			</dependency>
+			<!-- Adapter to log4j 1 -->
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-1.2-api</artifactId>
+				<version>${log4j.version}</version>
 			</dependency>
 			<!-- Adapter to common logging -->
 			<dependency>
-			    <groupId>org.apache.logging.log4j</groupId>
-			    <artifactId>log4j-jcl</artifactId>
-			    <version>${log4j.version}</version>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-jcl</artifactId>
+				<version>${log4j.version}</version>
 			</dependency>
 			<!-- Adapter to slf4j -->
 			<dependency>
-			    <groupId>org.apache.logging.log4j</groupId>
-			    <artifactId>log4j-slf4j-impl</artifactId>
-			    <version>${log4j.version}</version>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-slf4j-impl</artifactId>
+				<version>${log4j.version}</version>
 			</dependency>
 			<!-- Fixe version to hibernate and log4j2 -->
 			<dependency>
-			    <groupId>org.jboss.logging</groupId>
-			    <artifactId>jboss-logging</artifactId>
-			    <version>3.1.4.GA</version>
+				<groupId>org.jboss.logging</groupId>
+				<artifactId>jboss-logging</artifactId>
+				<version>3.1.4.GA</version>
 			</dependency>
 
 
@@ -226,15 +194,15 @@
 				<artifactId>orika-core</artifactId>
 				<version>${orika.version}</version>
 				<exclusions>
-			      <exclusion>
-			        <groupId>org.slf4j</groupId>
-			        <artifactId>*</artifactId>
-			      </exclusion>
-			      <exclusion> <!-- javassist is to old -->
-			        <groupId>org.javassist</groupId>
-			        <artifactId>*</artifactId>
-			      </exclusion>
-			    </exclusions>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion> <!-- javassist is to old -->
+						<groupId>org.javassist</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 
 			<!-- ###### TESTS ###### -->
@@ -249,11 +217,11 @@
 				<artifactId>dbunit</artifactId>
 				<version>${dbunit.version}</version>
 				<exclusions>
-			      <exclusion>
-			        <groupId>org.slf4j</groupId>
-			        <artifactId>*</artifactId>
-			      </exclusion>
-			    </exclusions>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 
 			<!-- Powerful assertion -->
@@ -322,7 +290,7 @@
 			<!-- Servlet API -->
 			<dependency>
 				<groupId>javax.servlet</groupId>
-        		<artifactId>javax.servlet-api</artifactId>
+				<artifactId>javax.servlet-api</artifactId>
 				<version>${servlet.version}</version>
 				<scope>provided</scope>
 			</dependency>
@@ -334,44 +302,44 @@
 				<version>${httpclient.version}</version>
 			</dependency>
 			<dependency>
-			    <groupId>org.apache.httpcomponents</groupId>
-			    <artifactId>httpmime</artifactId>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpmime</artifactId>
 				<version>${httpclient.version}</version>
 			</dependency>
-			
+
 			<!-- Jasper report -->
 			<dependency>
 				<groupId>net.sf.jasperreports</groupId>
 				<artifactId>jasperreports</artifactId>
 				<version>${jasperReport.version}</version>
 			</dependency>
-			
+
 			<!--Scalr (image manipulation) -->
 			<dependency>
 				<groupId>org.imgscalr</groupId>
 				<artifactId>imgscalr-lib</artifactId>
 				<version>4.2</version>
 			</dependency>
-			
+
 			<!-- HTML parser -->
 			<dependency>
-			    <groupId>org.jsoup</groupId>
-			    <artifactId>jsoup</artifactId>
-			    <version>${jsoup.version}</version>
+				<groupId>org.jsoup</groupId>
+				<artifactId>jsoup</artifactId>
+				<version>${jsoup.version}</version>
 			</dependency>
-			
+
 			<!-- FTP support -->
 			<dependency>
-			    <groupId>commons-net</groupId>
-			    <artifactId>commons-net</artifactId>
-			    <version>${commonnet.version}</version>
+				<groupId>commons-net</groupId>
+				<artifactId>commons-net</artifactId>
+				<version>${commonnet.version}</version>
 			</dependency>
-	
+
 		</dependencies>
 
 	</dependencyManagement>
-	
-	
+
+
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -381,11 +349,10 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-		
+
 		<plugins>
-		<!-- http://stackoverflow.com/questions/2712970/how-to-get-maven-artifact-version-at-runtime
-			getClass().getPackage().getImplementationVersion()
-		 -->
+			<!-- http://stackoverflow.com/questions/2712970/how-to-get-maven-artifact-version-at-runtime 
+				getClass().getPackage().getImplementationVersion() -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -399,46 +366,47 @@
 					</archive>
 				</configuration>
 			</plugin>
-		
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-			    <artifactId>maven-war-plugin</artifactId>
-			    <version>2.4</version>
-			    <configuration>
-			        <archive>                   
-			            <manifest>
-			                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-			                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-			            </manifest>
-			        </archive>
-			        <archiveClasses>true</archiveClasses>
-			    </configuration>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+						</manifest>
+					</archive>
+					<archiveClasses>true</archiveClasses>
+				</configuration>
 			</plugin>
-			
-			<!-- Skip deploy. Deploy need to define repository in distributionManagement. With this configuration, when
-			perform a release (goal deploy) only upload envelope to ssh server. -->
+
+			<!-- Skip deploy. Deploy need to define repository in distributionManagement. 
+				With this configuration, when perform a release (goal deploy) only upload 
+				envelope to ssh server. -->
 			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>2.8.1</version>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.8.1</version>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
 		</plugins>
-		
-		
+
+
 	</build>
-	
-	
+
+
 	<profiles>
-        <profile>
-            <id>delivery</id>
-            <!-- Include this module to generate envelope -->
-            <modules>
-                <module>ogi-delivery</module>
-            </modules>
-            <build>
+		<profile>
+			<id>delivery</id>
+			<!-- Include this module to generate envelope -->
+			<modules>
+				<module>ogi-delivery</module>
+			</modules>
+			<build>
 				<plugins>
 					<!-- Maven release -->
 					<plugin>
@@ -447,36 +415,38 @@
 						<version>2.4.2</version>
 						<configuration>
 							<!-- <tagBase>git://github.com:jerep6/ogi.git</tagBase> -->
-							<!-- The tagNameFormat uses @{ and } as delimiters in order to ensure that the default Maven property interpolation does 
-								not substitute the values before the version transformation has taken place. -->
+							<!-- The tagNameFormat uses @{ and } as delimiters in order to ensure 
+								that the default Maven property interpolation does not substitute the values 
+								before the version transformation has taken place. -->
 							<tagNameFormat>@{project.version}</tagNameFormat>
 							<scmCommentPrefix>Maven release : </scmCommentPrefix>
 							<autoVersionSubmodules>true</autoVersionSubmodules>
 							<preparationGoals>clean</preparationGoals>
 							<!-- during release:perform, enable delivery profile -->
 							<releaseProfiles>delivery</releaseProfiles>
-							<!-- Desactivate profile release-profile in order to don't generate javadoc -->
+							<!-- Desactivate profile release-profile in order to don't generate 
+								javadoc -->
 							<useReleaseProfile>false</useReleaseProfile>
 							<goals>deploy -DskipTests</goals>
 						</configuration>
 					</plugin>
 				</plugins>
 			</build>
-        </profile>
-    </profiles>
-	
+		</profile>
+	</profiles>
+
 	<scm>
-        <connection>scm:git:ssh://git@github.com/jerep6/ogi.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/jerep6/ogi.git</developerConnection>       
-      <tag>HEAD</tag>
-  </scm>
-    
-    <distributionManagement>
-        <site> <!-- Need to define credentials in settings.xml -->
-            <id>delivery_ssh</id>
-        </site>
-    </distributionManagement>
-    
+		<connection>scm:git:ssh://git@github.com/jerep6/ogi.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/jerep6/ogi.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+
+	<distributionManagement>
+		<site> <!-- Need to define credentials in settings.xml -->
+			<id>delivery_ssh</id>
+		</site>
+	</distributionManagement>
+
 	<repositories>
 		<repository>
 			<id>spring-milestones</id>
