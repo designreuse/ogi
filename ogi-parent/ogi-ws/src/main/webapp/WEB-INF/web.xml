@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
-	xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	id="WebApp_ID" version="3.0">
 	<display-name>ogi-ws</display-name>
 	<welcome-file-list>
@@ -18,13 +19,14 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:META-INF/spring/spring-context.xml, classpath:META-INF/spring/web-context.xml</param-value>
 	</context-param>
-	
-	<!-- To not specify the parameter -Dspring.profiles.active in server command line  -->
+
+	<!-- To not specify the parameter -Dspring.profiles.active in server command 
+		line -->
 	<context-param>
-	    <param-name>spring.profiles.active</param-name>
-	    <param-value>web</param-value>
+		<param-name>spring.profiles.active</param-name>
+		<param-value>web</param-value>
 	</context-param>
-	
+
 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -35,22 +37,62 @@
 		<filter-name>OpenEntityManagerInViewFilter</filter-name>
 		<filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
 	</filter>
+	
+	<filter>
+		<filter-name>RequestContext</filter-name>
+		<filter-class>fr.jerep6.ogi.filter.FilterRequestContext</filter-class>
+	</filter>
+	
+	<filter>
+		<filter-name>CORS</filter-name>
+		<filter-class>fr.jerep6.ogi.filter.FilterCORS</filter-class>
+	</filter>
+	
 
 	<filter-mapping>
 		<filter-name>OpenEntityManagerInViewFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
-	<filter>
-		<filter-name>RequestContext</filter-name>
-		<filter-class>fr.jerep6.ogi.filter.FilterRequestContext</filter-class>
-	</filter>
-
 	<filter-mapping>
 		<filter-name>RequestContext</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
+	<filter-mapping>
+		<filter-name>CORS</filter-name>
+		<url-pattern>/rest/*</url-pattern>
+	</filter-mapping>
+
+
+
+	<servlet>
+		<servlet-name>springmvc-servlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<!-- Upon initialization of a DispatcherServlet, Spring MVC looks for a file named [servlet-name]-servlet.xml in the WEB-INF directory 
+			 and creates the beans defined there.
+			 It is also possible to have just one root context for single DispatcherServlet scenarios by setting an empty contextConfigLocation servlet init parameter
+		-->
+		<init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value></param-value>
+        </init-param>
+		<load-on-startup>1</load-on-startup>
+		
+		<!-- Since File Upload is a common task in web applications, Servlet Specs 3.0 provided additional support for uploading files to 
+		server and we don’t have to depend on any third party APIs for this  -->
+		<multipart-config>
+			<!-- An absolute path to a directory on the file system. The location attribute does not support a path relative to the application context. 
+			This location is used to store files temporarily while the parts are processed or when the size of the file exceeds the specified fileSizeThreshold setting. The default location is "". -->
+	      <location>/tmp</location>
+	      <!-- The maximum size allowed for uploaded files, in bytes. If the size of any uploaded file is greater than this size, the web container will throw an exception (IllegalStateException). The default size is unlimited. -->
+	      <max-file-size>10485760</max-file-size><!-- 10mo -->
+	      <!-- The maximum size allowed for a multipart/form-data request, in bytes. The web container will throw an exception if the overall size of all uploaded files exceeds this threshold. The default size is unlimited. -->
+	      <max-request-size>10485760</max-request-size>
+	      <!-- The file size in bytes after which the file will be temporarily stored on disk. The default size is 0 bytes. -->
+	      <file-size-threshold>1048576</file-size-threshold>
+	</multipart-config>
+	</servlet>
 
 	<servlet>
 		<servlet-name>jersey-servlet</servlet-name>
@@ -73,7 +115,7 @@
 		<!-- Enable Cors support -->
 		<init-param>
 			<param-name>com.sun.jersey.spi.container.ContainerResponseFilters</param-name>
-			<param-value>fr.jerep6.ogi.filter.CrossDomainFilter</param-value>
+			<param-value>fr.jerep6.ogi.filter.JerseyCrossDomainFilter</param-value>
 		</init-param>
 
 		<load-on-startup>1</load-on-startup>
@@ -88,9 +130,14 @@
 
 	<servlet-mapping>
 		<servlet-name>jersey-servlet</servlet-name>
+		<url-pattern>/rest2/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>springmvc-servlet</servlet-name>
 		<url-pattern>/rest/*</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>ServletPhotos</servlet-name>
 		<url-pattern>/photos/*</url-pattern>

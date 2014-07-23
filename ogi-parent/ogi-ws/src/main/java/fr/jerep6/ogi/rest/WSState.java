@@ -3,13 +3,10 @@ package fr.jerep6.ogi.rest;
 import java.util.Collection;
 import java.util.List;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import fr.jerep6.ogi.persistance.bo.State;
 import fr.jerep6.ogi.service.ServiceState;
@@ -19,9 +16,9 @@ import fr.jerep6.ogi.transfert.mapping.OrikaMapper;
 /**
  * @author jerep6
  */
-@Controller
-@Path("/state")
-public class WSState extends AbstractJaxRsWS {
+@RestController
+@RequestMapping(value = "/state", produces = "application/json;charset=UTF-8")
+public class WSState extends AbtractWS {
 
 	@Autowired
 	private ServiceState	serviceState;
@@ -29,9 +26,8 @@ public class WSState extends AbstractJaxRsWS {
 	@Autowired
 	private OrikaMapper		mapper;
 
-	@GET
-	@Produces(APPLICATION_JSON_UTF8)
-	public List<StateTo> readbyCode(@PathParam("type") String code) {
+	@RequestMapping(method = RequestMethod.GET)
+	public List<StateTo> list() {
 		Collection<State> states = serviceState.listAll();
 
 		List<StateTo> statesTo = mapper.mapAsList(states, StateTo.class);
