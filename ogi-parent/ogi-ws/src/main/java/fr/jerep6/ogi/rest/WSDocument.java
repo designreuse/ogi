@@ -1,25 +1,22 @@
 package fr.jerep6.ogi.rest;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.core.MediaType;
+import javax.servlet.http.Part;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.base.Preconditions;
-import com.sun.jersey.core.header.FormDataContentDisposition;
-import com.sun.jersey.multipart.FormDataParam;
 
 import fr.jerep6.ogi.enumeration.EnumDocumentType;
 import fr.jerep6.ogi.service.ServiceDocument;
@@ -27,9 +24,9 @@ import fr.jerep6.ogi.transfert.FileUpload;
 import fr.jerep6.ogi.transfert.bean.FileUploadTo;
 import fr.jerep6.ogi.transfert.mapping.OrikaMapper;
 
-@Controller
-@Path("/document")
-public class WSDocument extends AbstractJaxRsWS {
+@RestController
+@RequestMapping(value = "/document", produces = "application/json;charset=UTF-8")
+public class WSDocument extends AbtractWS {
 	Logger					LOGGER	= LoggerFactory.getLogger(WSDocument.class);
 
 	@Autowired
@@ -38,9 +35,18 @@ public class WSDocument extends AbstractJaxRsWS {
 	@Autowired
 	private OrikaMapper		mapper;
 
+	private String getFileName(Part part) {
+		for (String cd : part.getHeader("content-disposition").split(";")) {
+			if (cd.trim().startsWith("filename")) {
+				return cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * Note that the response should always be a JSON object containing a files array even if only one file is uploaded.
-	 * 
+	 *
 	 * @param uploadedInputStream
 	 * @param fileDetail
 	 * @param reference
@@ -48,13 +54,12 @@ public class WSDocument extends AbstractJaxRsWS {
 	 * @return
 	 * @throws IOException
 	 */
-	@POST
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@RequestMapping(method = RequestMethod.POST, headers = "content-type=multipart/form-data")
 	public Map<String, List<FileUploadTo>> uploadFile( //
-			@FormDataParam("file[]") InputStream uploadedInputStream,//
-			@FormDataParam("file[]") FormDataContentDisposition fileDetail, //
-			@FormDataParam("reference") String reference,//
-			@FormDataParam("type") String type) throws IOException {
+			@RequestParam("file[]") Part part, //
+			@RequestParam("reference") String reference,//
+			@RequestParam("type") String type) throws IOException {
+
 		Preconditions.checkNotNull(reference);
 		Preconditions.checkNotNull(type);
 
@@ -62,8 +67,8 @@ public class WSDocument extends AbstractJaxRsWS {
 
 		// Copy uploaded file into photo directory
 		// Convert iso filename in utf8. Je ne suis pas arrivé à envoyer le nom du fichier en utf8
-		String fileName = new String(fileDetail.getFileName().getBytes("iso-8859-1"), "UTF-8");
-		FileUpload f = serviceDocument.copyToDirectory(uploadedInputStream, fileName, reference, enumType);
+		String fileName = new String(getFileName(part).getBytes("iso-8859-1"), "UTF-8");
+		FileUpload f = serviceDocument.copyToDirectory(part.getInputStream(), fileName, reference, enumType);
 
 		Map<String, List<FileUploadTo>> m = new HashMap<>();
 		m.put("files", Arrays.asList(mapper.map(f, FileUploadTo.class)));

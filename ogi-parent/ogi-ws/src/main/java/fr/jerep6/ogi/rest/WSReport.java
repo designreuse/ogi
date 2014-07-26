@@ -4,17 +4,19 @@ import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Response;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.base.Strings;
 
@@ -25,9 +27,9 @@ import fr.jerep6.ogi.service.ServiceReport;
 /**
  * @author jerep6
  */
-@Controller
-@Path("/report")
-public class WSReport extends AbstractJaxRsWS {
+@RestController
+@RequestMapping(value = "/report", produces = "application/json;charset=UTF-8")
+public class WSReport extends AbtractWS {
 
 	@Getter
 	@AllArgsConstructor
@@ -53,23 +55,23 @@ public class WSReport extends AbstractJaxRsWS {
 	@Autowired
 	private ServiceReport							serviceReport;
 
-	@GET
-	@Path("/{prpRef}")
-	public Response generateShopFront(//
-			@PathParam("prpRef") String prpReference, //
-			@QueryParam("type") String type, //
-			@QueryParam("format") String format, //
-			@QueryParam("pageSize") String pageSize) throws Exception {
+	@RequestMapping(value = "/{prpRef}", method = RequestMethod.GET)
+	public ResponseEntity<byte[]> generateShopFront(//
+			@PathVariable("prpRef") String prpReference, //
+			@RequestParam("type") String type, //
+			@RequestParam("format") String format, //
+			@RequestParam("pageSize") String pageSize) throws Exception {
 
 		EnumPageSize enumPageFormat = Strings.isNullOrEmpty(pageSize) ? null : EnumPageSize.valueOfByCode(pageSize);
 		ByteArrayOutputStream generateShopFront = serviceReport.generate(prpReference, EnumReport.valueOfByName(type),
 				format, enumPageFormat);
 
-		return Response
-				.ok(generateShopFront.toByteArray())
-				.type(mimeType.get(format).getMime())
-				.header("Content-Disposition",
-						"attachment; filename=" + prpReference + "." + mimeType.get(format).getExtension())//
-						.build();
+		String fileName = prpReference + "." + mimeType.get(format).getExtension();
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.valueOf(mimeType.get(format).getMime()));
+		headers.setContentDispositionFormData(fileName, fileName);
+		return new ResponseEntity<byte[]>(generateShopFront.toByteArray(), headers, HttpStatus.OK);
+
 	}
 }

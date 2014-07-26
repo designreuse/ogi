@@ -5,30 +5,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import fr.jerep6.ogi.enumeration.EnumPartner;
 import fr.jerep6.ogi.persistance.bo.PartnerRequest;
-import fr.jerep6.ogi.rest.AbstractJaxRsWS;
 import fr.jerep6.ogi.service.ServicePartnerRequest;
 import fr.jerep6.ogi.service.ServiceSynchronisation;
 import fr.jerep6.ogi.transfert.WSResult;
 import fr.jerep6.ogi.transfert.bean.PartnerRequestTo;
 import fr.jerep6.ogi.transfert.mapping.OrikaMapper;
 
-@Controller
-@Path("/synchronisation")
-public class WSSynchronisation extends AbstractJaxRsWS {
+@RestController
+@RequestMapping(value = "/synchronisation", produces = "application/json;charset=UTF-8")
+public class WSSynchronisation {
 
 	@Autowired
 	private ServiceSynchronisation	serviceSynchronisation;
@@ -39,18 +34,15 @@ public class WSSynchronisation extends AbstractJaxRsWS {
 	@Autowired
 	private OrikaMapper				mapper;
 
-	@DELETE
-	@Path("/{partner}")
-	@Produces(APPLICATION_JSON_UTF8)
-	public List<WSResult> delete(@PathParam("partner") String partner, @QueryParam("ref") List<String> prpReferences) {
+	@RequestMapping(value = "/{partner}", method = RequestMethod.DELETE)
+	public List<WSResult> delete(@PathVariable("partner") String partner,
+			@RequestParam("ref") List<String> prpReferences) {
 		List<WSResult> results = serviceSynchronisation.delete(partner, prpReferences);
 		return results;
 	}
 
-	@GET
-	@Path("/{partner}/{ref}")
-	@Produces(APPLICATION_JSON_UTF8)
-	public Map<String, Object> get(@PathParam("partner") String partner, @PathParam("ref") String prpReference) {
+	@RequestMapping(value = "/{partner}/{ref}", method = RequestMethod.GET)
+	public Map<String, Object> get(@PathVariable("partner") String partner, @PathVariable("ref") String prpReference) {
 		Boolean b = serviceSynchronisation.exist(partner, prpReference);
 
 		PartnerRequest lastRequest = servicePartnerRequest
@@ -63,8 +55,7 @@ public class WSSynchronisation extends AbstractJaxRsWS {
 		return result;
 	}
 
-	@GET
-	@Produces(APPLICATION_JSON_UTF8)
+	@RequestMapping(method = RequestMethod.GET)
 	public Map<String, List<PartnerRequestTo>> listAll() {
 		Map<String, List<PartnerRequest>> lastRequests = servicePartnerRequest.lastRequests();
 
@@ -79,11 +70,8 @@ public class WSSynchronisation extends AbstractJaxRsWS {
 		return m;
 	}
 
-	@POST
-	@Path("/{partner}")
-	@Consumes(APPLICATION_JSON_UTF8)
-	@Produces(APPLICATION_JSON_UTF8)
-	public List<WSResult> synchronise(@PathParam("partner") String partner, List<String> prpReferences) {
+	@RequestMapping(value = "/{partner}", method = RequestMethod.POST, consumes = "application/json;charset=UTF-8")
+	public List<WSResult> synchronise(@PathVariable("partner") String partner, @RequestBody List<String> prpReferences) {
 		List<WSResult> results = serviceSynchronisation.createOrUpdate(partner, prpReferences);
 		return results;
 	}

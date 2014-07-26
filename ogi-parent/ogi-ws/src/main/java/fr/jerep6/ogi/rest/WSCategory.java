@@ -3,16 +3,13 @@ package fr.jerep6.ogi.rest;
 import java.util.Collection;
 import java.util.List;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-
 import ma.glasnost.orika.metadata.TypeFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import fr.jerep6.ogi.enumeration.EnumCategory;
 import fr.jerep6.ogi.persistance.bo.Category;
@@ -26,12 +23,12 @@ import fr.jerep6.ogi.transfert.mapping.OrikaMapper;
 
 /**
  * Property's categories are read only
- * 
+ *
  * @author jerep6
  */
-@Controller
-@Path("/category")
-public class WSCategory extends AbstractJaxRsWS {
+@RestController
+@RequestMapping(value = "/category", produces = "application/json;charset=UTF-8")
+public class WSCategory extends AbtractWS {
 
 	@Autowired
 	private ServiceCategory	serviceCategory;
@@ -44,8 +41,7 @@ public class WSCategory extends AbstractJaxRsWS {
 	/**
 	 * @return all categories in the system
 	 */
-	@GET
-	@Produces(APPLICATION_JSON_UTF8)
+	@RequestMapping(method = RequestMethod.GET)
 	public Collection<CategoryTo> listAll() {
 		Collection<Category> categoriesBo = serviceCategory.listAll();
 
@@ -58,10 +54,8 @@ public class WSCategory extends AbstractJaxRsWS {
 	 *            category code
 	 * @return
 	 */
-	@GET
-	@Path("/{code}")
-	@Produces(APPLICATION_JSON_UTF8)
-	public CategoryTo readbyCode(@PathParam("code") String code) {
+	@RequestMapping(value = "/{code}", method = RequestMethod.GET)
+	public CategoryTo readbyCode(@PathVariable("code") String code) {
 		Category categoryBo = serviceCategory.readByCode(EnumCategory.valueOfByCode(code));
 
 		CategoryTo categoryTo = mapper.map(categoryBo, CategoryTo.class);
@@ -69,10 +63,8 @@ public class WSCategory extends AbstractJaxRsWS {
 	}
 
 	/** @return all equipments from a category */
-	@GET
-	@Path("/{code}/equipments")
-	@Produces(APPLICATION_JSON_UTF8)
-	public List<String> readEquipements(@PathParam("code") String code) {
+	@RequestMapping(value = "/{code}/equipments", method = RequestMethod.GET)
+	public List<String> readEquipements(@PathVariable("code") String code) {
 		List<Equipment> eqpts = serviceCategory.readEquipments(EnumCategory.valueOfByCode(code));
 
 		// https://groups.google.com/forum/#!topic/orika-discuss/s5tsPHZvFEA
@@ -82,12 +74,10 @@ public class WSCategory extends AbstractJaxRsWS {
 	}
 
 	/** @return add types from a category */
-	@PUT
-	@Path("/{code}/types/{label}")
-	@Produces(APPLICATION_JSON_UTF8)
+	@RequestMapping(value = "/{code}/types/{label}", method = RequestMethod.PUT)
 	public TypeTo typeAdd( //
-			@PathParam("code") String categoryCode, //
-			@PathParam("label") String typeLabel) {
+			@PathVariable("code") String categoryCode, //
+			@PathVariable("label") String typeLabel) {
 
 		// Insert
 		Category category = serviceCategory.readByCode(EnumCategory.valueOfByCode(categoryCode));
@@ -97,10 +87,8 @@ public class WSCategory extends AbstractJaxRsWS {
 	}
 
 	/** @return all types from a category */
-	@GET
-	@Path("/{code}/types")
-	@Produces(APPLICATION_JSON_UTF8)
-	public List<TypeTo> typesRead(@PathParam("code") String code) {
+	@RequestMapping(value = "/{code}/types", method = RequestMethod.GET)
+	public List<TypeTo> typesRead(@PathVariable("code") String code) {
 		List<Type> types = serviceType.readByCategory(EnumCategory.valueOfByCode(code));
 
 		// https://groups.google.com/forum/#!topic/orika-discuss/s5tsPHZvFEA

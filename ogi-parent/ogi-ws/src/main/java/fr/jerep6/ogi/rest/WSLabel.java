@@ -2,15 +2,12 @@ package fr.jerep6.ogi.rest;
 
 import java.util.List;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import fr.jerep6.ogi.enumeration.EnumLabelType;
 import fr.jerep6.ogi.exception.business.EntityAlreadyExist;
@@ -22,9 +19,9 @@ import fr.jerep6.ogi.transfert.mapping.OrikaMapper;
 /**
  * @author jerep6
  */
-@Controller
-@Path("/label")
-public class WSLabel extends AbstractJaxRsWS {
+@RestController
+@RequestMapping(value = "/label", produces = "application/json;charset=UTF-8")
+public class WSLabel extends AbtractWS {
 
 	@Autowired
 	private ServiceLabel	serviceLabel;
@@ -32,10 +29,8 @@ public class WSLabel extends AbstractJaxRsWS {
 	@Autowired
 	private OrikaMapper		mapper;
 
-	@POST
-	@Consumes(APPLICATION_JSON_UTF8)
-	@Produces(APPLICATION_JSON_UTF8)
-	public LabelTo labelAdd(LabelTo label) {
+	@RequestMapping(method = RequestMethod.POST, consumes = "application/json;charset=UTF-8")
+	public LabelTo labelAdd(@RequestBody LabelTo label) {
 		Label l = null;
 		Label bo = mapper.map(label, Label.class);
 		try {
@@ -52,10 +47,8 @@ public class WSLabel extends AbstractJaxRsWS {
 	 *            category code
 	 * @return
 	 */
-	@GET
-	@Path("/{type}")
-	@Produces(APPLICATION_JSON_UTF8)
-	public List<LabelTo> readbyCode(@PathParam("type") String code) {
+	@RequestMapping(value = "/{type}", method = RequestMethod.GET)
+	public List<LabelTo> readbyCode(@PathVariable("type") String code) {
 		List<Label> labels = serviceLabel.readByType(EnumLabelType.valueOfByCode(code));
 
 		List<LabelTo> LabelTo = mapper.mapAsList(labels, LabelTo.class);

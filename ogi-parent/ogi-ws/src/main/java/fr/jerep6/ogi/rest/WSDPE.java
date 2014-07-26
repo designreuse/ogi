@@ -3,13 +3,15 @@ package fr.jerep6.ogi.rest;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Response;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import fr.jerep6.ogi.enumeration.EnumDPE;
 import fr.jerep6.ogi.service.ServiceDPE;
@@ -19,9 +21,9 @@ import fr.jerep6.ogi.transfert.mapping.OrikaMapper;
 /**
  * @author jerep6
  */
-@Controller
-@Path("/dpe")
-public class WSDPE extends AbstractJaxRsWS {
+@RestController
+@RequestMapping(value = "/dpe", produces = "application/json;charset=UTF-8")
+public class WSDPE extends AbtractWS {
 
 	@Autowired
 	private ServiceDPE			serviceDPE;
@@ -32,24 +34,28 @@ public class WSDPE extends AbstractJaxRsWS {
 	@Autowired
 	private OrikaMapper			mapper;
 
-	@GET
-	@Path("/ges")
-	public Response generateImgGes(@QueryParam("dpe") Integer dpeValue, @QueryParam("width") Integer width)
-			throws IOException {
+	@RequestMapping(value = "/ges", method = RequestMethod.GET)
+	public ResponseEntity<byte[]> generateImgGes(@RequestParam("dpe") Integer dpeValue,
+			@RequestParam("width") Integer width) throws IOException {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		serviceDPE.generateDPEGesImage(baos, dpeValue, width);
-		return Response.ok(baos.toByteArray()).type(EnumDPE.getImageMimeType()).build();
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.valueOf(EnumDPE.getImageMimeType()));
+		return new ResponseEntity<byte[]>(baos.toByteArray(), headers, HttpStatus.OK);
 	}
 
-	@GET
-	@Path("/kwh")
-	public Response generateImgKwh(@QueryParam("dpe") Integer dpeValue, @QueryParam("width") Integer width)
-			throws IOException {
+	@RequestMapping(value = "/kwh", method = RequestMethod.GET)
+	public ResponseEntity<byte[]> generateImgKwh(@RequestParam("dpe") Integer dpeValue,
+			@RequestParam("width") Integer width) throws IOException {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		serviceDPE.generateDPEkWhImage(baos, dpeValue, width);
-		return Response.ok(baos.toByteArray()).type(EnumDPE.getImageMimeType()).build();
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.valueOf(EnumDPE.getImageMimeType()));
+		return new ResponseEntity<byte[]>(baos.toByteArray(), headers, HttpStatus.OK);
 	}
 
 }
