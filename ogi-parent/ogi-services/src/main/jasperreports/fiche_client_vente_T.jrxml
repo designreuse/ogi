@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="20" uuid="96540068-ead6-4274-af4c-90fbe87736a3">
-	<property name="ireport.zoom" value="0.8264462809917368"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="336"/>
+	<property name="ireport.zoom" value="1.3310000000000057"/>
+	<property name="ireport.x" value="76"/>
+	<property name="ireport.y" value="818"/>
 	<property name="ireport.background.image.properties" value="false,false,0.25,0,0,0,0,0,0"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
 	<style name="table">
@@ -178,7 +178,8 @@ sal.sal_mand_type AS MANDAT_TYPE,
 IFNULL(sal.`SAL_PRICE`, 0) + IFNULL(sal.`SAL_COMMISSION`, 0) AS PRIX,
 prp.PRO_LAND_AREA AS LAND_AREA,
 prp.PRO_HOUSING_ESTATE AS HOUSING_ESTATE,
-prp.PRO_REFERENCE AS REFERENCE
+prp.PRO_REFERENCE AS REFERENCE,
+prp.PRO_INDEPENDENT_CONSULTANT AS INDEPENDANT_CONSULTANT
 
 FROM TA_PROPERTY prp
 LEFT JOIN TA_SALE sal ON sal.pro_id=prp.pro_id
@@ -197,6 +198,7 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 	<field name="LAND_AREA" class="java.lang.Float"/>
 	<field name="HOUSING_ESTATE" class="java.lang.Boolean"/>
 	<field name="REFERENCE" class="java.lang.String"/>
+	<field name="INDEPENDANT_CONSULTANT" class="java.lang.Boolean"/>
 	<background>
 		<band height="500" splitType="Stretch">
 			<image scaleImage="FillFrame">
@@ -246,7 +248,7 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 		</band>
 	</title>
 	<detail>
-		<band height="711" splitType="Stretch">
+		<band height="712" splitType="Stretch">
 			<subreport>
 				<reportElement x="0" y="87" width="275" height="305" uuid="b1ec2ca9-335f-45ca-8715-fc7f46d51414"/>
 				<subreportParameter name="reference">
@@ -259,7 +261,7 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 				<subreportExpression><![CDATA[this.getClass().getClassLoader().getResourceAsStream("jasper/fiche_client_subreport_photos1.jasper")]]></subreportExpression>
 			</subreport>
 			<staticText>
-				<reportElement x="201" y="691" width="156" height="20" uuid="a8bf8ef3-6688-4cfe-915d-f9b9311cad0c"/>
+				<reportElement x="202" y="699" width="156" height="13" uuid="a8bf8ef3-6688-4cfe-915d-f9b9311cad0c"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial"/>
 				</textElement>
@@ -328,6 +330,16 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 					</jr:column>
 				</jr:table>
 			</componentElement>
+			<staticText>
+				<reportElement x="457" y="689" width="98" height="23" uuid="55987c88-fde5-4d52-a390-5d2b8b6c6f91">
+					<printWhenExpression><![CDATA[$F{INDEPENDANT_CONSULTANT} !=null && $F{INDEPENDANT_CONSULTANT} == true]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Conseiller indépendant
+RSAC Dax 422900555]]></text>
+			</staticText>
 		</band>
 	</detail>
 	<pageFooter>

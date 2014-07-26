@@ -3,9 +3,17 @@
     <div class="row">
         <div class="col-xs-7">
 
-            <div class="form-group" style="width: 250px">
-                <label tooltip="Une fois renseignée, la référence ne peut pas être modifiée">Référence</label>
-                <input class="form-control" type="text" ng-model="prp.reference" ng-disabled="!formCreate" />
+            <div class="row">
+                <div class="form-group col-xs-6" style="width: 250px">
+                    <label tooltip="Une fois renseignée, la référence ne peut pas être modifiée">Référence</label>
+                    <input class="form-control" type="text" ng-model="prp.reference" ng-disabled="!formCreate" />
+                </div>
+
+                <div class="col-xs-6">
+                    <label  tooltip="Si coché une mention apparaîtra sur la fiche client">
+                        <input type="checkbox" ng-model="prp.independentConsultant"> Conseiller indépendant
+                    </label>
+                </div>
             </div>
 
             <fieldset>
@@ -44,6 +52,7 @@
                     <tab heading="Interne"><textarea class="form-control" rows="6" ng-model="prp.descriptions['APP'].label"></textarea></tab>
                 </tabset>
             </fieldset>
+
         </div>
         <div id="map" class="col-xs-5">
             <div id="map_canvas" ui-map="map"

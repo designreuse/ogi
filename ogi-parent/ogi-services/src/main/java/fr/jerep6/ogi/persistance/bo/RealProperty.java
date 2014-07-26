@@ -70,6 +70,9 @@ public class RealProperty {
 	@Column(name = "PRO_HOUSING_ESTATE")
 	private Boolean						housingEstate;
 
+	@Column(name = "PRO_INDEPENDENT_CONSULTANT")
+	private Boolean						independentConsultant;					;
+
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "ADD_ID")
 	private Address						address;
@@ -91,7 +94,7 @@ public class RealProperty {
 	@JoinTable(name = "TJ_PRP_EQP", //
 	joinColumns = @JoinColumn(name = "PRO_ID"), //
 	inverseJoinColumns = @JoinColumn(name = "EQP_ID")//
-			)
+	)
 	private Set<Equipment>				equipments			= new HashSet<>(0);
 
 	@ManyToOne
@@ -106,7 +109,7 @@ public class RealProperty {
 	@JoinTable(name = "TJ_PRP_DOC",//
 	joinColumns = @JoinColumn(name = "PRO_ID"),//
 	inverseJoinColumns = @JoinColumn(name = "DOC_ID")//
-			)
+	)
 	private Set<Document>				documents			= new HashSet<>(0);
 
 	@OneToMany(mappedBy = "pk.property", cascade = CascadeType.ALL)
@@ -116,7 +119,7 @@ public class RealProperty {
 	@JoinTable(name = "TJ_PRP_OWN",//
 	joinColumns = @JoinColumn(name = "PRP_ID"),//
 	inverseJoinColumns = @JoinColumn(name = "OWN_ID")//
-			)
+	)
 	private Set<Owner>					owners				= new HashSet<>(0);
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "property")
@@ -159,6 +162,9 @@ public class RealProperty {
 	@PrePersist
 	private void setDefaultValue() {
 		modificationDate = Calendar.getInstance();
+		if (independentConsultant == null) {
+			independentConsultant = false;
+		}
 	}
 
 	@Override
