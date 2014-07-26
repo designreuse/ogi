@@ -375,11 +375,11 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 								<reportElement x="0" y="0" width="85" height="20" uuid="cca6a4dd-4238-4553-9a26-0c9f1f4c079e">
 									<printWhenExpression><![CDATA[$F{ROO_AREA} != null]]></printWhenExpression>
 								</reportElement>
-								<box leftPadding="4"/>
-								<textElement verticalAlignment="Middle">
+								<box leftPadding="4" rightPadding="30"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font fontName="Arial"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{ROO_AREA}+" m²"]]></textFieldExpression>
+								<textFieldExpression><![CDATA[new DecimalFormat("###0.00").format($F{ROO_AREA})+" m²"]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
