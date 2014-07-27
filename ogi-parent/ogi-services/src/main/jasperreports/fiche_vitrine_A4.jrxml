@@ -120,7 +120,7 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 				<imageExpression><![CDATA[$P{DOC_DIR} + $F{PHOTO3}]]></imageExpression>
 			</image>
 			<textField>
-				<reportElement x="0" y="515" width="310" height="79" forecolor="#A01755" uuid="a8a3976b-9c4e-4c62-b060-93490407e867"/>
+				<reportElement x="0" y="515" width="310" height="95" forecolor="#A01755" uuid="a8a3976b-9c4e-4c62-b060-93490407e867"/>
 				<box topPadding="10" leftPadding="10" bottomPadding="10" rightPadding="10">
 					<pen lineWidth="0.25" lineColor="#990099"/>
 					<topPen lineWidth="0.25" lineColor="#990099"/>
