@@ -19,7 +19,7 @@ import fr.jerep6.ogi.transfert.bean.RealPropertyTo;
 import fr.jerep6.ogi.transfert.mapping.OrikaMapper;
 
 @RestController
-@RequestMapping("/property")
+@RequestMapping(value = "/property", produces = "application/json;charset=UTF-8")
 public class WSRealProperty extends AbtractWS {
 
 	@Autowired
@@ -28,7 +28,7 @@ public class WSRealProperty extends AbtractWS {
 	@Autowired
 	private OrikaMapper			mapper;
 
-	@RequestMapping(method = RequestMethod.POST, consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
+	@RequestMapping(method = RequestMethod.POST, consumes = "application/json;charset=UTF-8")
 	public RealPropertyTo create(@RequestBody RealPropertyTo rp) {
 		// Map into business object. Fulfill only business field. I.E technical field will be retrieve on database
 		// before record. I should have proceed with a another dto but afterwards
@@ -38,14 +38,14 @@ public class WSRealProperty extends AbtractWS {
 		return mapper.map(property, RealPropertyTo.class);
 	}
 
-	@RequestMapping(method = RequestMethod.DELETE, consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
+	@RequestMapping(method = RequestMethod.DELETE)
 	public void delete(@RequestParam("ref") List<String> reference) {
 		Preconditions.checkNotNull(reference);
 
 		serviceRealProperty.delete(reference);
 	}
 
-	@RequestMapping(method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	@RequestMapping(method = RequestMethod.GET)
 	public ListResult<RealPropertyTo> list(//
 			@RequestParam(value = "pageNumber", required = false) Integer pageNumber, //
 			@RequestParam(value = "itemNumberPerPage", required = false) Integer itemNumberPerPage, //
@@ -58,7 +58,7 @@ public class WSRealProperty extends AbtractWS {
 		return mapper.map(result, ListResult.class);
 	}
 
-	@RequestMapping(value = "/{reference}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "/{reference}", method = RequestMethod.GET)
 	public RealPropertyTo read(@PathVariable("reference") String reference) {
 		RealProperty realProperty = serviceRealProperty.readByReference(reference).get();
 
@@ -66,7 +66,7 @@ public class WSRealProperty extends AbtractWS {
 		return rpt;
 	}
 
-	@RequestMapping(value = "/{reference}", method = RequestMethod.PUT, consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "/{reference}", method = RequestMethod.PUT, consumes = "application/json;charset=UTF-8")
 	public RealPropertyTo update(@RequestBody RealPropertyTo rp, @PathVariable("reference") String reference) {
 		// Map into business object. Fulfill only business field. I.E technical field will be retrieve on database
 		// before record. I should have proceed with a another dto but afterwards
