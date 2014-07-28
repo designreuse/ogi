@@ -93,7 +93,7 @@ FROM
  JOIN TA_PROPERTY p ON p.PRO_ID=r.PRO_ID
 
  WHERE p.PRO_REFERENCE=$P{reference}
-ORDER BY ROO_TYPE
+ORDER BY ROO_ID
 LIMIT 0, 15]]>
 		</queryString>
 		<field name="ROO_AREA" class="java.lang.Float">
