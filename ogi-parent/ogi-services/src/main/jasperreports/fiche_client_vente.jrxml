@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="20" uuid="96540068-ead6-4274-af4c-90fbe87736a3">
-	<property name="ireport.zoom" value="1.7715610000000086"/>
-	<property name="ireport.x" value="161"/>
-	<property name="ireport.y" value="1134"/>
+	<property name="ireport.zoom" value="1.0000000000000044"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="56"/>
 	<property name="ireport.background.image.properties" value="false,false,0.25,0,0,0,0,0,0"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
 	<style name="table">
@@ -450,10 +450,10 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
-					<jr:column width="138" uuid="df94d2d6-1b8b-47c3-8cba-85b2b4bc0706">
+					<jr:column width="135" uuid="df94d2d6-1b8b-47c3-8cba-85b2b4bc0706">
 						<jr:tableHeader height="20" rowSpan="1">
 							<staticText>
-								<reportElement style="Table TH 2" x="0" y="0" width="138" height="20" forecolor="#FFFFFF" uuid="176fbdd2-c5fe-4f66-9d83-b3e751508ad4"/>
+								<reportElement style="Table TH 2" x="0" y="0" width="135" height="20" forecolor="#FFFFFF" uuid="176fbdd2-c5fe-4f66-9d83-b3e751508ad4"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font fontName="Arial" size="12" isBold="true"/>
 								</textElement>
@@ -462,17 +462,17 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 						</jr:tableHeader>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="138" height="20" uuid="bf1b2bec-2b06-49e5-97f0-5bdd05952b44"/>
+								<reportElement x="0" y="0" width="135" height="20" uuid="bf1b2bec-2b06-49e5-97f0-5bdd05952b44"/>
 								<box leftPadding="4"/>
 								<textElement verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{CLE}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="137" uuid="1bc5d9aa-da2b-4640-a04e-330fe16f532b">
+					<jr:column width="140" uuid="1bc5d9aa-da2b-4640-a04e-330fe16f532b">
 						<jr:tableHeader height="20" rowSpan="1">
 							<staticText>
-								<reportElement style="Table TH 2" x="0" y="0" width="137" height="20" forecolor="#FFFFFF" uuid="d80c658a-18bf-4168-b8bd-19c8c0b77664"/>
+								<reportElement style="Table TH 2" x="0" y="0" width="140" height="20" forecolor="#FFFFFF" uuid="d80c658a-18bf-4168-b8bd-19c8c0b77664"/>
 								<textElement verticalAlignment="Middle">
 									<font fontName="Arial" size="12" isBold="true"/>
 								</textElement>
@@ -480,9 +480,9 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 							</staticText>
 						</jr:tableHeader>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
-							<textField>
-								<reportElement x="0" y="0" width="137" height="20" uuid="e263143d-0f84-4c7f-90cd-80fbd6e07273"/>
-								<box leftPadding="4"/>
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="140" height="20" uuid="e263143d-0f84-4c7f-90cd-80fbd6e07273"/>
+								<box leftPadding="4" rightPadding="0"/>
 								<textElement verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{VALEUR}]]></textFieldExpression>
 							</textField>
