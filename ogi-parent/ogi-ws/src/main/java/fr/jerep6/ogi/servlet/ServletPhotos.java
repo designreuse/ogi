@@ -58,6 +58,8 @@ public class ServletPhotos extends HttpServlet {
 				img = operation.compute(img);
 			}
 
+			// One year cache
+			response.setHeader("Cache-Control", "max-age=1314000");
 			ImageIO.write(img, "jpeg", response.getOutputStream());
 		} catch (Exception e) {
 			LOGGER.error("Error for serving image " + request.getRequestURI(), e);
@@ -85,7 +87,7 @@ public class ServletPhotos extends HttpServlet {
 	/**
 	 * Get photo path into url <br />
 	 * Exemple : http://localhost:8080/ogi-ws/photos/ref1/a?size=thumb return ref1/a
-	 * 
+	 *
 	 * @param request
 	 * @return
 	 */
