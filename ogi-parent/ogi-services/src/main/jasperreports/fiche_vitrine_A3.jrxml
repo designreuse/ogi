@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fiche_vitrine_A3" pageWidth="1190" pageHeight="842" orientation="Landscape" columnWidth="1150" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="880702b2-f6b1-499a-8c90-1e573d17a77d">
 	<property name="ireport.zoom" value="0.6209213230591558"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="155"/>
+	<property name="ireport.y" value="151"/>
 	<parameter name="reference" class="java.lang.String"/>
 	<parameter name="DOC_DIR" class="java.lang.String"/>
 	<queryString>
@@ -36,7 +36,8 @@ SUBSTRING(DSC_LABEL, 1, IF(INSTR(DSC_LABEL,'\n\n')<>0, INSTR(DSC_LABEL,'\n\n')-1
 SUBSTRING(DSC_LABEL, INSTR(DSC_LABEL,'\n\n') + 2, LENGTH(DSC_LABEL)) AS DSC_LABEL2,
 
 sal.sal_mand_type AS MANDAT_TYPE,
-IFNULL(sal.`SAL_PRICE`, 0) + IFNULL(sal.`SAL_COMMISSION`, 0) AS PRIX
+IFNULL(sal.`SAL_PRICE`, 0) + IFNULL(sal.`SAL_COMMISSION`, 0) AS PRIX,
+prp.PRO_INDEPENDENT_CONSULTANT AS INDEPENDANT_CONSULTANT
 
 FROM TA_PROPERTY prp
 LEFT JOIN TA_SALE sal ON sal.pro_id=prp.pro_id
@@ -49,10 +50,11 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 	<field name="PHOTO2" class="java.lang.String"/>
 	<field name="PHOTO3" class="java.lang.String"/>
 	<field name="CITY" class="java.lang.String"/>
+	<field name="MANDAT_TYPE" class="java.lang.String"/>
 	<field name="DSC_LABEL1" class="java.lang.String"/>
 	<field name="DSC_LABEL2" class="java.lang.String"/>
-	<field name="MANDAT_TYPE" class="java.lang.String"/>
 	<field name="PRIX" class="java.lang.Double"/>
+	<field name="INDEPENDANT_CONSULTANT" class="java.lang.Boolean"/>
 	<detail>
 		<band height="802" splitType="Stretch">
 			<image scaleImage="FillFrame">
@@ -168,6 +170,15 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 					<font fontName="Arial" size="40"/>
 				</textElement>
 				<text><![CDATA[EXCLUSIVITE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="897" y="738" width="217" height="23" uuid="5e63be2a-35de-4abc-8875-f76c26b6c8bf">
+					<printWhenExpression><![CDATA[$F{INDEPENDANT_CONSULTANT} !=null && $F{INDEPENDANT_CONSULTANT} == true]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Conseiller indépendant RSAC Dax 422900555]]></text>
 			</staticText>
 		</band>
 	</detail>
