@@ -3,8 +3,6 @@ function ControllerSearch($scope, $location, ServiceAlert, ServiceSearch, Servic
 
     $scope.submitSearch = function() {
         ServiceSearch.search($scope.keyword).success(function (data, status) {
-            console.log(data);
-
             // If only one result => redirect to it
             if(data.total == 1) {
                 var urlToRedirect = ServiceUrl.urlPropertyEdit(data.prp[0].reference);
