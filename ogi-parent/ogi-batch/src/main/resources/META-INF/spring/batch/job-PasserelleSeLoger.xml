@@ -214,6 +214,8 @@
 	<bean id="jdbcWriterAckCreateUpdate" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
 		<property name="dataSource" ref="dataSource" />
 		<property name="sql" value="${seloger.write.ack.createupdate.sql}" />
+		<!-- In order to avoid EmptyResultDataAccessException if last partner request isn't push -->
+		<property name="assertUpdates" value="false" />
 		<!-- It will take care matching between object property and sql name parameter -->
 		<property name="itemSqlParameterSourceProvider">
 			<bean class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider" />
