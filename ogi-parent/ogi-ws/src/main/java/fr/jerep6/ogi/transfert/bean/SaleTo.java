@@ -36,5 +36,6 @@ public class SaleTo {
 	private Calendar	estimationDate;
 	private Float		propertyTax;
 	private Boolean		sold;
+	private Boolean		commissionSeller;
 
 }

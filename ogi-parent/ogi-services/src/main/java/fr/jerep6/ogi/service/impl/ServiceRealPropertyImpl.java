@@ -109,9 +109,9 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 
 	/**
 	 * Compute new reference for a property.
-	 * 
+	 *
 	 * WARNING : Not thread safe
-	 * 
+	 *
 	 * @param categ
 	 * @return
 	 */
@@ -221,6 +221,12 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 			if (built.getCoOwnership() == null || !built.getCoOwnership()) {
 				built.setCoOwnershipCharges(null);
 				built.setCoOwnershipLotNumber(null);
+				built.setCoOwnershipSyndicateProceedings(false);
+			} else {
+				// Force false value if null
+				if (built.getCoOwnershipSyndicateProceedings() == null) {
+					built.setCoOwnershipSyndicateProceedings(false);
+				}
 			}
 
 			// State

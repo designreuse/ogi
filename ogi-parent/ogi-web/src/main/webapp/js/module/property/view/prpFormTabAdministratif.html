@@ -25,12 +25,29 @@
                         </div>
                     </div>
 
+                    <div class="row">
+                        <div class="col-xs-6 form-group" style="margin-bottom:0">
+                            <div class="form-group">
+                                <label>Honoraires</label>
+                                <div class="input-group">
+                                    <input class="form-control" type="text" ng-model="prp.sale.commission" ng-change="computePriceFinal()" />
+                                    <span class="input-group-addon">€</span>
+                                </div>
+                            </div>
+                        </div>
 
-                    <div class="form-group">
-                        <label>Honoraires</label>
-                        <div class="input-group">
-                            <input class="form-control" type="text" ng-model="prp.sale.commission" ng-change="computePriceFinal()" />
-                            <span class="input-group-addon">€</span>
+                        <div class="col-xs-6 form-group" style="margin-bottom:0">
+                            <div class="form-group">
+                                <label>A la charge du vendeur ?</label>
+                                <ul class="list-inline list-unstyled">
+                                    <li>
+                                        <label class="normal"><input type="radio" ng-value="true" ng-model="prp.sale.commissionSeller"> Oui</label>
+                                    </li>
+                                    <li>
+                                        <label class="normal"><input type="radio" ng-value="false" ng-model="prp.sale.commissionSeller"> Non</label>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
 

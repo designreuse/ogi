@@ -366,12 +366,64 @@ public class RealPropertyCSV {
 	private String			immeubleDeTypeBureau;						// OUI NON
 	private String			terrainViabilise;							// OUI NON
 
-	// 251 -- 255
+	// 251 -- 260
 	private String			equipementVideo;							// OUI NON
 	private String			surfaceCave;
 	private String			surfaceSalleAManger;
 	private String			situationCommerciale;
 	private String			surfaceBureauMax;
+	@Setter
+	private String			honoraireChargeAcquereur;					// OUI NON
+	private String			pourcentageHonoraireAcquereur;
+	@Setter
+	private String			copropriete;								// OUI NON
+	@Setter
+	private String			coproprieteNbreLots;
+	@Setter
+	private String			coproprieteChargeAnnuelle;
+
+	// 261 -- 270
+	@Setter
+	private String			coproprieteSyndicatProcedure;				// OUI NON
+	private String			coproprieteSyndicatProcedureDetail;
+	private String			champPersonnalise26;
+	private String			photo21;
+	private String			photo22;
+	private String			photo23;
+	private String			photo24;
+	private String			photo25;
+	private String			photo26;
+	private String			photo27;
+
+	// 271 -- 280
+	private String			photo28;
+	private String			photo29;
+	private String			photo30;
+	private String			titrePhoto10;
+	private String			titrePhoto11;
+	private String			titrePhoto12;
+	private String			titrePhoto13;
+	private String			titrePhoto14;
+	private String			titrePhoto15;
+	private String			titrePhoto16;
+
+	// 281 -- 290
+	private String			titrePhoto17;
+	private String			titrePhoto18;
+	private String			titrePhoto19;
+	private String			titrePhoto20;
+	private String			titrePhoto21;
+	private String			titrePhoto22;
+	private String			titrePhoto23;
+	private String			titrePhoto24;
+	private String			titrePhoto25;
+	private String			titrePhoto26;
+
+	// 291 -- 294
+	private String			titrePhoto27;
+	private String			titrePhoto28;
+	private String			titrePhoto29;
+	private String			titrePhoto30;
 
 	public RealPropertyCSV(RealProperty property) {
 		super();

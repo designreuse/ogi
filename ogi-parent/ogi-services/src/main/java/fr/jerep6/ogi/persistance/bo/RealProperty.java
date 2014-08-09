@@ -160,7 +160,7 @@ public class RealProperty {
 
 	@PreUpdate
 	@PrePersist
-	private void setDefaultValue() {
+	private void beforePersist() {
 		modificationDate = Calendar.getInstance();
 		if (independentConsultant == null) {
 			independentConsultant = false;

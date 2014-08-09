@@ -33,5 +33,6 @@ public abstract class RealPropertyBuiltTo extends RealPropertyTo {
 	private Boolean			coOwnership	= null;
 	private Float			coOwnershipCharges;
 	private Integer			coOwnershipLotNumber;
+	private Boolean			coOwnershipSyndicateProceedings;
 
 }

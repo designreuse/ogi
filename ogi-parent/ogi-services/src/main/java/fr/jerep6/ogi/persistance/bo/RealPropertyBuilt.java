@@ -88,10 +88,10 @@ public abstract class RealPropertyBuilt extends RealProperty {
 	// table of the owning entity but you can override them using@AttributeOverride:
 	@Embedded
 	@AttributeOverrides({ //
-	@AttributeOverride(name = "kwh", column = @Column(name = "PRB_DPE_KWH")), //
-		@AttributeOverride(name = "classificationKWh", column = @Column(name = "PRB_DPE_CLASS_KWH")), //
-		@AttributeOverride(name = "ges", column = @Column(name = "PRB_DPE_GES")), //
-		@AttributeOverride(name = "classificationGes", column = @Column(name = "PRB_DPE_CLASS_GES")), //
+		@AttributeOverride(name = "kwh", column = @Column(name = "PRB_DPE_KWH")), //
+			@AttributeOverride(name = "classificationKWh", column = @Column(name = "PRB_DPE_CLASS_KWH")), //
+			@AttributeOverride(name = "ges", column = @Column(name = "PRB_DPE_GES")), //
+			@AttributeOverride(name = "classificationGes", column = @Column(name = "PRB_DPE_CLASS_GES")), //
 	})
 	private DPE				dpe;
 
@@ -108,6 +108,9 @@ public abstract class RealPropertyBuilt extends RealProperty {
 
 	@Column(name = "PRB_COOWNERSHIP_LOT_NUMBER")
 	private Integer			coOwnershipLotNumber;
+
+	@Column(name = "PRB_COOWNERSHIP_SYNDICATE_PROCEEDING")
+	private Boolean			coOwnershipSyndicateProceedings;
 
 	protected RealPropertyBuilt(String reference, Category category, fr.jerep6.ogi.persistance.bo.Type type) {
 		super(reference, category, type);

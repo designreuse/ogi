@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -62,6 +64,9 @@ public class Sale {
 	@Column(name = "SAL_COMMISSION")
 	private Float			commission;
 
+	@Column(name = "SAL_COMMISSION_SELLER")
+	private Boolean			commissionSeller;
+
 	@Column(name = "SAL_ESTI_PRICE")
 	private Float			estimationPrice;
 
@@ -78,6 +83,17 @@ public class Sale {
 	@ManyToOne
 	@JoinColumn(name = "PRO_ID", nullable = false)
 	private RealProperty	property;
+
+	@PreUpdate
+	@PrePersist
+	private void beforePersist() {
+		if (sold == null) {
+			sold = false;
+		}
+		if (commissionSeller == null) {
+			commissionSeller = false;
+		}
+	}
 
 	public Float getCommissionPercent() {
 		if (commission != null && price != null) {

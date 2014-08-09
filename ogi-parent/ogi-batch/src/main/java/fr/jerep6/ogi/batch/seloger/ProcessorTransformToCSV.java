@@ -108,6 +108,14 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractSeLoger, Re
 				r.setDpeGes(ObjectUtils.toString(dpe.getGes()));
 				r.setDpeKwh(ObjectUtils.toString(dpe.getKwh()));
 			}
+
+			// Copropriété
+			if (liv.getCoOwnership() != null && liv.getCoOwnership()) {
+				r.setCopropriete(toBoolean(liv.getCoOwnership()));
+				r.setCoproprieteChargeAnnuelle(ObjectUtils.toString(liv.getCoOwnershipCharges()));
+				r.setCoproprieteNbreLots(ObjectUtils.toString(liv.getCoOwnershipLotNumber()));
+				r.setCoproprieteSyndicatProcedure(toBoolean(liv.getCoOwnershipSyndicateProceedings()));
+			}
 		}
 	}
 
