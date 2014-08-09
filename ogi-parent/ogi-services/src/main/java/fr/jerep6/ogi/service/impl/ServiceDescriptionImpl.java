@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.Collections2;
 
@@ -49,12 +48,8 @@ public class ServiceDescriptionImpl extends AbstractTransactionalService<Descrip
 	public Set<Description> merge(Set<Description> descriptionsBD, Set<Description> descriptionsModif) {
 		// If label is empty => ignore it
 		// New descriptions
-		Collection<Description> descriptionsNew = Collections2.filter(descriptionsModif, new Predicate<Description>() {
-			@Override
-			public boolean apply(Description p) {
-				return !Strings.isNullOrEmpty(p.getLabel()) && p.getType() != null;
-			}
-		});
+		Collection<Description> descriptionsNew = Collections2.filter(descriptionsModif,
+				p -> !Strings.isNullOrEmpty(p.getLabel()) && p.getType() != null);
 
 		// Keep description to reuse it (avoid insert)
 		List<Description> descriptionsBDBackup = new ArrayList<>(descriptionsBD);
@@ -93,8 +88,9 @@ public class ServiceDescriptionImpl extends AbstractTransactionalService<Descrip
 		if (Strings.isNullOrEmpty(bo.getLabel())) {
 			mbe.add(EnumBusinessErrorDescription.NO_LABEL, bo.getType());
 		} else {
-			if (bo.getLabel().length() > 2048) {
-				mbe.add(EnumBusinessErrorDescription.LABEL_SIZE, bo.getType(), bo.getLabel().length(), 2048);
+			if (bo.getLabel().length() > bo.getType().getMaxLength()) {
+				mbe.add(EnumBusinessErrorDescription.LABEL_SIZE, bo.getType(), bo.getLabel().length(), bo.getType()
+						.getMaxLength());
 			}
 		}
 

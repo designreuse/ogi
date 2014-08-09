@@ -6,15 +6,15 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum EnumDescriptionType {
-	SHOP_FRONT("VITRINE"), //
-	WEBSITE_OWN("WEBSITE_PERSO"), //
-	WEBSITE_OTHER("WEBSITE_AUTRE"), //
-	APP("APP"), //
-	CLIENT("CLIENT"); //
+	SHOP_FRONT("VITRINE", 2048), //
+	WEBSITE_OWN("WEBSITE_PERSO", 300), //
+	WEBSITE_OTHER("WEBSITE_AUTRE", 2048), //
+	APP("APP", 2048), //
+	CLIENT("CLIENT", 2048); //
 
 	/**
 	 * Get the enumeration from this code
-	 * 
+	 *
 	 * @param code
 	 * @return
 	 */
@@ -29,5 +29,6 @@ public enum EnumDescriptionType {
 	}
 
 	private String	code;
+	private Integer	maxLength;
 
 }
