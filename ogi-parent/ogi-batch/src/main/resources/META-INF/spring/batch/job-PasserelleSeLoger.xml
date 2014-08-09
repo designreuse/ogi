@@ -132,6 +132,7 @@
 		<property name="resource" value="file:${seloger.extraction.file.root.path}${seloger.extraction.file.csv.name}" />
 		<property name="shouldDeleteIfExists" value="false" />
 		<property name="appendAllowed" value="true" />
+		<property name="encoding" value="ISO-8859-1" />
 		
 		<property name="lineAggregator">
 			<bean class="fr.jerep6.ogi.batch.common.writer.AdvancedDelimitedLineAggregator">
