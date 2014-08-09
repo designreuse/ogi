@@ -38,8 +38,7 @@ public class WSDPE extends AbtractWS {
 	public ResponseEntity<byte[]> generateImgGes(@RequestParam("dpe") Integer dpeValue,
 			@RequestParam("width") Integer width) throws IOException {
 
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		serviceDPE.generateDPEGesImage(baos, dpeValue, width);
+		ByteArrayOutputStream baos = serviceDPE.generateDPEGesImage(dpeValue, width);
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.valueOf(EnumDPE.getImageMimeType()));
@@ -50,8 +49,7 @@ public class WSDPE extends AbtractWS {
 	public ResponseEntity<byte[]> generateImgKwh(@RequestParam("dpe") Integer dpeValue,
 			@RequestParam("width") Integer width) throws IOException {
 
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		serviceDPE.generateDPEkWhImage(baos, dpeValue, width);
+		ByteArrayOutputStream baos = serviceDPE.generateDPEkWhImage(dpeValue, width);
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.valueOf(EnumDPE.getImageMimeType()));

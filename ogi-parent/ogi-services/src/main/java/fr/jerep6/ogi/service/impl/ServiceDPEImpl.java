@@ -3,9 +3,9 @@ package fr.jerep6.ogi.service.impl;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -21,6 +21,7 @@ import org.imgscalr.Scalr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -72,7 +73,7 @@ public class ServiceDPEImpl extends AbstractTransactionalService<DPE, Integer> i
 	@Autowired
 	private DaoDPE					daoDpe;
 
-	private BufferedImage generateDPEGesImage(Integer dpe, Integer width) throws TechnicalException {
+	private BufferedImage generateDPEGesBufferedImage(Integer dpe, Integer width) throws TechnicalException {
 		// If width not provided => 260px
 		Integer w = Objects.firstNonNull(width, DEFAULT_IMG_SIZE);
 
@@ -115,20 +116,23 @@ public class ServiceDPEImpl extends AbstractTransactionalService<DPE, Integer> i
 	}
 
 	@Override
-	public void generateDPEGesImage(OutputStream output, Integer dpe, Integer width) throws TechnicalException {
-		Preconditions.checkNotNull(output);
-		BufferedImage img = generateDPEGesImage(dpe, width);
+	// By default key uses only parameter.
+	@Cacheable(value = "dpe", key = "{#root.method.name,#dpe,#width}")
+	public ByteArrayOutputStream generateDPEGesImage(Integer dpe, Integer width) throws TechnicalException {
+		BufferedImage img = generateDPEGesBufferedImage(dpe, width);
 		try {
-			ImageIO.write(img, EnumDPE.getImageFormatName(), output);
-			output.flush();
-			output.close();
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageIO.write(img, EnumDPE.getImageFormatName(), baos);
+			baos.flush();
+			baos.close();
+			return baos;
 		} catch (IOException ioe) {
 			throw new TechnicalException(EnumTechnicalError.DPE, ioe);
 		}
 
 	}
 
-	private BufferedImage generateDPEkWhImage(Integer dpe, Integer width) throws TechnicalException {
+	private BufferedImage generateDPEkWhBufferedImage(Integer dpe, Integer width) throws TechnicalException {
 		// If width not provided => 250px
 		Integer w = Objects.firstNonNull(width, DEFAULT_IMG_SIZE);
 
@@ -171,17 +175,18 @@ public class ServiceDPEImpl extends AbstractTransactionalService<DPE, Integer> i
 	}
 
 	@Override
-	public void generateDPEkWhImage(OutputStream output, Integer dpe, Integer width) throws TechnicalException {
-		Preconditions.checkNotNull(output);
-		BufferedImage img = generateDPEkWhImage(dpe, width);
+	@Cacheable(value = "dpe", key = "{#root.method.name,#dpe,#width}")
+	public ByteArrayOutputStream generateDPEkWhImage(Integer dpe, Integer width) throws TechnicalException {
+		BufferedImage img = generateDPEkWhBufferedImage(dpe, width);
 		try {
-			ImageIO.write(img, EnumDPE.getImageFormatName(), output);
-			output.flush();
-			output.close();
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageIO.write(img, EnumDPE.getImageFormatName(), baos);
+			baos.flush();
+			baos.close();
+			return baos;
 		} catch (IOException ioe) {
 			throw new TechnicalException(EnumTechnicalError.DPE, ioe);
 		}
-
 	}
 
 	@Override
@@ -215,15 +220,25 @@ public class ServiceDPEImpl extends AbstractTransactionalService<DPE, Integer> i
 			for (EnumDPE aDpe : EnumDPE.getKwh()) {
 				// Compute file path
 				Path p = DocumentUtils.absolutize(dpeDirectory.resolve(aDpe.getFileName()));
+				ByteArrayOutputStream output = generateDPEkWhImage(dpe.getKwh(), aDpe.getSize());
+				// Write to file
 				FileOutputStream fos = new FileOutputStream(p.toString());
-				generateDPEkWhImage(fos, dpe.getKwh(), aDpe.getSize());
+				output.writeTo(fos);
+				fos.flush();
+				fos.close();
+
 			}
 
 			for (EnumDPE aDpe : EnumDPE.getGes()) {
 				// Compute file path
 				Path p = DocumentUtils.absolutize(dpeDirectory.resolve(aDpe.getFileName()));
+				ByteArrayOutputStream output = generateDPEGesImage(dpe.getGes(), aDpe.getSize());
+
+				// Write to file
 				FileOutputStream fos = new FileOutputStream(p.toString());
-				generateDPEGesImage(fos, dpe.getGes(), aDpe.getSize());
+				output.writeTo(fos);
+				fos.flush();
+				fos.close();
 			}
 
 		} catch (IOException ioe) {
@@ -232,7 +247,7 @@ public class ServiceDPEImpl extends AbstractTransactionalService<DPE, Integer> i
 	}
 
 	/**
-	 * 
+	 *
 	 * @param step
 	 *            step du DPE (A, B, C ...)
 	 * @param sDpe
