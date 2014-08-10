@@ -134,7 +134,7 @@ ul#list-photos li.highlight {
 }
 /* ROOM MODAL */
 .modal-body-room {
-  padding-top: 5px;
+  padding: 5px 20px 20px 20px;
 }
 .roomPhotos .active img {
   border: 02px solid #428BCA;
