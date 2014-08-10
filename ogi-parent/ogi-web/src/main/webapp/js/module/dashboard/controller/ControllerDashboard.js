@@ -1,5 +1,5 @@
-angular.module('myApp.common').controller("ControllerDashboard", ["$scope", "$http", "Page", "ServiceConfiguration",
-    function($scope, $http, Page, ServiceConfiguration) {
+angular.module('myApp.common').controller("ControllerDashboard",
+function($scope, $http, Page, ServiceConfiguration) {
     Page.setTitle("Batch");
 
     // Read jobs status
@@ -9,4 +9,4 @@ angular.module('myApp.common').controller("ControllerDashboard", ["$scope", "$ht
         ).success(function (data) {
             $scope.jobs= data;
     });
-}]);
+});

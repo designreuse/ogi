@@ -1,4 +1,5 @@
-function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, ServiceObject, ServiceAlert, $http, $log ,$modal, ServiceLabel) {
+angular.module('myApp.property').controller("ControllerPrpTabDesc",
+function ($scope, Page, $routeParams, ServiceConfiguration, ServiceObject, ServiceAlert, $http, $log ,$modal, ServiceLabel) {
 
     // Get type of current category. Run query only if promise of current type is resolved
     $scope.types = [];
@@ -111,7 +112,7 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
     $scope.openModalType = function () {
         var modalInstance = $modal.open({
             templateUrl: 'modalAddType.html',
-            controller: ModalTypeInstanceCtrl,
+            controller:"ModalTypeInstanceCtrl",
             resolve: {
                 labels: function(){
                     return {
@@ -151,7 +152,7 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
     function openLabelOther(labelType, labels, vScopeName, vPrpName) {
         var modalInstance = $modal.open({
             templateUrl: 'modalAddType.html',
-            controller: ModalLabelInstanceCtrl,
+            controller: "ModalLabelInstanceCtrl",
             resolve: {
                 labels: function(){
                     return labels;
@@ -170,9 +171,10 @@ function ControllerPrpTabDesc($scope, Page, $routeParams, ServiceConfiguration, 
             $scope.saveData[vPrpName] = null;
         });
     }
-}
+});
 
-var ModalTypeInstanceCtrl = function ($scope, $modalInstance, ServiceConfiguration, $http, currentElt, labels) {
+angular.module('myApp.property').controller("ModalTypeInstanceCtrl",
+function ($scope, $modalInstance, ServiceConfiguration, $http, currentElt, labels) {
     $scope.newType = {"label" : null}; // Have to use object else in function ok value is not up to date
     $scope.labels =labels;
 
@@ -183,9 +185,10 @@ var ModalTypeInstanceCtrl = function ($scope, $modalInstance, ServiceConfigurati
             $modalInstance.close(data);
         });
     };
-};
+});
 
-var ModalLabelInstanceCtrl = function ($scope, $modalInstance, $http,
+angular.module('myApp.property').controller("ModalLabelInstanceCtrl",
+function ($scope, $modalInstance, $http,
                                        ServiceConfiguration, ServiceLabel,
                                        currentElt, labels) {
     $scope.newType = {"label" : null}; // Have to use object else in function ok value is not up to date
@@ -197,5 +200,5 @@ var ModalLabelInstanceCtrl = function ($scope, $modalInstance, $http,
             $modalInstance.close(data);
         });
     };
-};
+});
 

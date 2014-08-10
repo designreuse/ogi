@@ -1,4 +1,5 @@
-function ControllerList($scope, $http, Page, ServiceObjectChecked, ServiceAlert, ServiceConfiguration, $modal, $log, $dialogs) {
+angular.module('myApp.property').controller("ControllerList",
+function ($scope, $http, Page, ServiceObjectChecked, ServiceAlert, ServiceConfiguration, $modal, $log, $dialogs) {
     Page.setTitle("Liste des biens");
 
     $scope.confirmDeletion = function(index) {
@@ -41,7 +42,7 @@ function ControllerList($scope, $http, Page, ServiceObjectChecked, ServiceAlert,
         } else {
             var modalInstance = $modal.open({
                 templateUrl: 'modalPrpDelete.html',
-                controller: ControllerModalDeleteInstance,
+                controller: "ControllerModalDeleteInstance",
                 resolve: {
                     selectedProperties: function () {
                         return selected;
@@ -95,10 +96,11 @@ function ControllerList($scope, $http, Page, ServiceObjectChecked, ServiceAlert,
     // Run query to fetch data
     $scope.fetchResult();
 
-}
+});
 
 /** Controller for delete modal. Expose selected properties and delete it */
-function ControllerModalDeleteInstance($scope, $modalInstance, ServiceConfiguration, ServiceAlert, $http, $log, selectedProperties) {
+angular.module('myApp.property').controller("ControllerModalDeleteInstance",
+function ($scope, $modalInstance, ServiceConfiguration, ServiceAlert, $http, $log, selectedProperties) {
     $scope.selectedProperties = selectedProperties;
     $scope.delete = function() {
         // Extract reference to selected items
@@ -121,4 +123,4 @@ function ControllerModalDeleteInstance($scope, $modalInstance, ServiceConfigurat
         $modalInstance.close();
     }
 
-}
+});

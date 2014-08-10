@@ -1,4 +1,5 @@
-function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log) {
+angular.module('myApp.property').controller("ControllerPrpTabGeneral",
+function ($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log) {
 
     // ##### MAP #####
     $scope.markers = [];
@@ -182,4 +183,4 @@ function ControllerPrpTabGeneral($scope, Page, $routeParams, ServiceConfiguratio
             }
         }
     }
-};
+});

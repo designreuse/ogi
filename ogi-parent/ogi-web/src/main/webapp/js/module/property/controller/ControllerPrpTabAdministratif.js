@@ -1,4 +1,5 @@
-function ControllerPrpTabAdministratif($scope, Page, $routeParams, ServiceConfiguration, ServiceObject, ServiceAlert, $http, $log, Utils) {
+angular.module('myApp.property').controller("ControllerPrpTabAdministratif",
+function ($scope, Page, $routeParams, ServiceConfiguration, ServiceObject, ServiceAlert, $http, $log, Utils) {
 
     // Init
     $scope.httpGetCurrentType.success(function() {
@@ -72,5 +73,5 @@ function ControllerPrpTabAdministratif($scope, Page, $routeParams, ServiceConfig
         'startingDay': 1
     };
     $scope.dateFormat= "dd/MM/yyyy";
-};
+});
 

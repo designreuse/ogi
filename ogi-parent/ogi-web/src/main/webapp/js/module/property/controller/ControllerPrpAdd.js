@@ -1,4 +1,5 @@
-function ControllerPrpAdd($scope, Page, $injector, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log, $location) {
+angular.module('myApp.property').controller("ControllerPrpAdd",
+function ($scope, Page, $injector, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log, $location) {
     $injector.invoke(ControllerPrpParent, this, {$scope: $scope, Page:Page, $log:$log, $http:$http, ServiceConfiguration:ServiceConfiguration});
 
     // Get information about current type
@@ -30,7 +31,7 @@ function ControllerPrpAdd($scope, Page, $injector, $routeParams, ServiceConfigur
         $scope.urlOwnerCreate = url;
     });
 
-}
+});
 
 
 

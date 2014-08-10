@@ -1,6 +1,6 @@
-function ControllerPasserelleRecap($scope, $http, Page, ServiceConfiguration, Utils) {
+angular.module('myApp.passerelle').controller("ControllerPasserelleRecap",
+function ($scope, $http, Page, ServiceConfiguration, Utils) {
     Page.setTitle("Récapitulatif des passerelles");
-
 
     // Reads jobs status
     $scope.passerelles;
@@ -28,4 +28,4 @@ function ControllerPasserelleRecap($scope, $http, Page, ServiceConfiguration, Ut
         return prequest && (prequest.requestType == "push" ||prequest.requestType == "push_ack");
 
     }
-}
+});

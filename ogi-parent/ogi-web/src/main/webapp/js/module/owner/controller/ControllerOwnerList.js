@@ -1,4 +1,5 @@
-function ControllerOwnerList($scope, $http, Page, ServiceAlert, ServiceConfiguration, $modal, $log, $dialogs, ServiceOwner) {
+angular.module('myApp.owner').controller("ControllerOwnerList",
+function ($scope, $http, Page, ServiceAlert, ServiceConfiguration, $modal, $log, $dialogs, ServiceOwner) {
     Page.setTitle("Liste des propriétaires");
 
     $scope.owners = [];
@@ -50,4 +51,4 @@ function ControllerOwnerList($scope, $http, Page, ServiceAlert, ServiceConfigura
 
     // Run query to fetch data
     $scope.fetchResult();
-}
+});

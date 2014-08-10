@@ -1,3 +1,4 @@
+angular.module('myApp.common').controller("ControllerSearch",
 function ControllerSearch($scope, $location, ServiceAlert, ServiceSearch, ServiceUrl) {
     $scope.keyword = "";
 
@@ -15,4 +16,4 @@ function ControllerSearch($scope, $location, ServiceAlert, ServiceSearch, Servic
         });
     }
 
-}
+});

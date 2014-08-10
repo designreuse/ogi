@@ -9,7 +9,7 @@ angular.module('myApp.property',
 // ###### ROUTES ######
 angular.module('myApp.property').config(['$routeProvider', function($routeProvider) {
     $routeProvider.
-        when('/biens', {templateUrl: 'js/module/property/view/prpList.html', controller: ControllerList}).
-        when('/biens/modifier/:prpRef', {templateUrl: 'js/module/property/view/prpFormGlobal.html', controller: ControllerPrpModify}).
-        when('/biens/ajouter/:type', {templateUrl: 'js/module/property/view/prpFormGlobal.html', controller: ControllerPrpAdd});
+        when('/biens', {templateUrl: 'js/module/property/view/prpList.html', controller: "ControllerList"}).
+        when('/biens/modifier/:prpRef', {templateUrl: 'js/module/property/view/prpFormGlobal.html', controller: "ControllerPrpModify"}).
+        when('/biens/ajouter/:type', {templateUrl: 'js/module/property/view/prpFormGlobal.html', controller: "ControllerPrpAdd"});
 }]);

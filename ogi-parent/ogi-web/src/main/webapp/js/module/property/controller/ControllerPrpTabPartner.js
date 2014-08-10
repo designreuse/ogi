@@ -1,4 +1,5 @@
-function ControllerPrpTabPartner($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log, Utils) {
+angular.module('myApp.property').controller("ControllerPrpTabPartner",
+function ($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log, Utils) {
 
     // Name must matches witch EnumPartner.code
     $scope.partners = [];
@@ -88,5 +89,5 @@ function ControllerPrpTabPartner($scope, Page, $routeParams, ServiceConfiguratio
                 partner.disable = false;
             });
     }
-};
+});
 

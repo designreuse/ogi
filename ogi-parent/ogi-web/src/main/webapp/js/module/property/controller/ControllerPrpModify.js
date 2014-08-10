@@ -1,4 +1,5 @@
-function ControllerPrpModify($scope, Page, $injector, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log, $filter) {
+angular.module('myApp.property').controller("ControllerPrpModify",
+function ($scope, Page, $injector, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log, $filter) {
     $injector.invoke(ControllerPrpParent, this, {$scope: $scope, Page:Page, $log:$log, $http:$http, ServiceConfiguration:ServiceConfiguration});
     $scope.formCreate = false;
 
@@ -56,7 +57,7 @@ function ControllerPrpModify($scope, Page, $injector, $routeParams, ServiceConfi
         url += "&prpReference="+$scope.prp.reference;
         $scope.urlOwnerCreate = url;
     });
-}
+});
 
 
 

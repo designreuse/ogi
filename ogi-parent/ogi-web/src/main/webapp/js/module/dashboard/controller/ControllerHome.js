@@ -1,5 +1,5 @@
-angular.module('myApp.common').controller("ControllerHome", ["$scope", "$http", "Page", "ServiceConfiguration",
-    function($scope, $http, Page, ServiceConfiguration) {
+angular.module('myApp.common').controller("ControllerHome",
+function($scope, $http, Page, ServiceConfiguration) {
     Page.setTitle("Accueil");
 
     // List expired mandates
@@ -12,4 +12,4 @@ angular.module('myApp.common').controller("ControllerHome", ["$scope", "$http", 
     return ($scope.expiredMandates["EXPIRED"] ? $scope.expiredMandates["EXPIRED"].length : 0) +
         ($scope.expiredMandates["SOON_EXPIRED"] ? $scope.expiredMandates["SOON_EXPIRED"].length : 0);
     }
-}]);
+});

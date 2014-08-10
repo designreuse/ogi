@@ -1,5 +1,5 @@
-function ControllerOwnerAdd($scope, Page, $injector, $routeParams, ServiceConfiguration,
-                            ServiceAlert, $http, $log, Utils, $location) {
+angular.module('myApp.owner').controller("ControllerOwnerAdd",
+function($scope, Page, $injector, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log, Utils, $location) {
     $injector.invoke(ControllerOwnerParent, this, {$scope: $scope, $log:$log, $http:$http, ServiceConfiguration:ServiceConfiguration});
 
     Page.setTitle("Ajouter un propriétaire");
@@ -35,4 +35,4 @@ function ControllerOwnerAdd($scope, Page, $injector, $routeParams, ServiceConfig
                 .error($scope.callbackError);
         });
     }
-}
+});

@@ -1,4 +1,5 @@
-function ControllerPrpTabOwner($scope, $injector, $routeParams, ServiceConfiguration, ServiceAlert,
+angular.module('myApp.property').controller("ControllerPrpTabOwner",
+function ($scope, $injector, $routeParams, ServiceConfiguration, ServiceAlert,
                                $http, ServiceObject, Utils, $location, ServiceOwner) {
     $scope.owners = [];         // All owners
 
@@ -84,4 +85,4 @@ function ControllerPrpTabOwner($scope, $injector, $routeParams, ServiceConfigura
     $scope.displayZoneOwnerLink = function() {
         return $scope.saveData.ownersProperty.length > 0;
     }
-}
+});

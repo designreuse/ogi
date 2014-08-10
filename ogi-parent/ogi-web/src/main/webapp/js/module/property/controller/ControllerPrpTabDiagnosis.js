@@ -1,4 +1,5 @@
-function ControllerPrpTabDiagnosis($scope, Page, $routeParams, ServiceConfiguration, ServiceDPE) {
+angular.module('myApp.property').controller("ControllerPrpTabDiagnosis",
+function ($scope, Page, $routeParams, ServiceConfiguration, ServiceDPE) {
 
     $scope.API_URL = ServiceConfiguration.API_URL;
 
@@ -9,5 +10,5 @@ function ControllerPrpTabDiagnosis($scope, Page, $routeParams, ServiceConfigurat
     $scope.$watch('prp.dpe.ges', function(newVal, oldVal) {
         $scope.prp.dpe.classificationGes = ServiceDPE.getGesClassifiation(newVal);
     });
-};
+});
 

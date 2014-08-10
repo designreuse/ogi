@@ -1,4 +1,5 @@
-function ControllerPrpTabDocuments($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log) {
+angular.module('myApp.property').controller("ControllerPrpTabDocuments",
+function ($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log) {
     $scope.availableFormats = {
         "docx" : {"title" : "Télécharger au format Word", "img": "img/logo-word.png"},
         "odt" : {"title" : "Télécharger au format Livre Office", "img": "img/logo-writer.png"},
@@ -36,4 +37,4 @@ function ControllerPrpTabDocuments($scope, Page, $routeParams, ServiceConfigurat
     $scope.displayPageSize = function(doc) {
         return doc.availablePageSize.length > 1;
     }
-}
+});

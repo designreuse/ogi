@@ -1,4 +1,5 @@
-function ControllerPrpTabRoom($scope, Page, $modal, ServiceConfiguration, ServiceLabel, ServiceObject) {
+angular.module('myApp.property').controller("ControllerPrpTabRoom",
+function ($scope, Page, $modal, ServiceConfiguration, ServiceLabel, ServiceObject) {
     $scope.labels = {};
     getLabels("room", "roomTypes");
     getLabels("floor", "floors");
@@ -20,7 +21,7 @@ function ControllerPrpTabRoom($scope, Page, $modal, ServiceConfiguration, Servic
     $scope.add = function() {
        var modalInstance = $modal.open({
            templateUrl: 'modalRoom.html',
-           controller: ModalRoomInstanceCtrl,
+           controller: "ModalRoomInstanceCtrl",
            resolve: {
                title: function(){ return "Ajouter une pièce"; },
                actionLabel: function(){ return "Ajouter"; },
@@ -42,7 +43,7 @@ function ControllerPrpTabRoom($scope, Page, $modal, ServiceConfiguration, Servic
         var roomToModify = angular.copy(room);
         var modalInstance = $modal.open({
             templateUrl: 'modalRoom.html',
-            controller: ModalRoomInstanceCtrl,
+            controller: "ModalRoomInstanceCtrl",
             resolve: {
                 title: function(){ return "Modifier la pièce";},
                 actionLabel: function(){ return "Modifier"; },
@@ -64,9 +65,10 @@ function ControllerPrpTabRoom($scope, Page, $modal, ServiceConfiguration, Servic
             $scope.prp.rooms.splice(index, 1);
         }
     };
-};
+});
 
-var ModalRoomInstanceCtrl = function ($scope, $modalInstance, $q,
+angular.module('myApp.property').controller("ModalRoomInstanceCtrl",
+function ($scope, $modalInstance, $q,
                                       ServiceConfiguration, ServiceObject, ServiceLabel,
                                       $http, actionLabel, room, title, labels, photos) {
     $scope.title = title;
@@ -190,5 +192,5 @@ var ModalRoomInstanceCtrl = function ($scope, $modalInstance, $q,
         }
         return pSave;
     }
-};
+});
 

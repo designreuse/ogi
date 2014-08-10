@@ -1,5 +1,5 @@
-function ControllerOwnerModify($scope, Page, $injector, $routeParams, ServiceConfiguration,
-                               ServiceAlert, $http, $log, Utils) {
+angular.module('myApp.owner').controller("ControllerOwnerModify",
+function ($scope, Page, $injector, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log, Utils) {
     $injector.invoke(ControllerOwnerParent, this, {$scope: $scope, $log:$log, $http:$http, ServiceConfiguration:ServiceConfiguration});
 
     // Lecture du propriétaire
@@ -23,4 +23,4 @@ function ControllerOwnerModify($scope, Page, $injector, $routeParams, ServiceCon
         });
     }
 
-}
+});
