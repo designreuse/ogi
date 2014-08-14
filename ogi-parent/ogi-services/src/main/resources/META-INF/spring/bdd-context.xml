@@ -13,8 +13,16 @@
 
     <!-- JPA entity manager -->
     <bean id="emFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="packagesToScan" value="fr.jerep6.ogi.persistance" />
+		<property name="packagesToScan" value="fr.jerep6.ogi.persistance, fr.jerep6.ogi.framework.persistance" />
 		<property name="dataSource" ref="dataSource" />
+		<property name="jpaPropertyMap">
+			<props>
+				<prop key="hibernate.ejb.interceptor.session_scoped">
+					fr.jerep6.ogi.persistance.AuditInterceptor
+				</prop>
+			</props>
+		</property>
+		
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 				<property name="databasePlatform" value="${db.dialect}" />

@@ -35,7 +35,13 @@ import com.google.common.base.Objects;
 
 import fr.jerep6.ogi.enumeration.EnumDescriptionType;
 import fr.jerep6.ogi.enumeration.EnumDocumentType;
+import fr.jerep6.ogi.persistance.annotation.Audit;
 
+/**
+ * Classe non abstraite pour orika. Sinon, il faudrait déclarer un mapping pour chaque classe concrete
+ *
+ * @author jerep6
+ */
 // Hibernate use the name of then entity to determine the table name. But the purpose of this name is to use in JPQL
 @Entity
 @Table(name = "TA_PROPERTY")
@@ -44,10 +50,7 @@ import fr.jerep6.ogi.enumeration.EnumDocumentType;
 @Getter
 @Setter
 @EqualsAndHashCode(of = { "reference" })
-/**
- * Classe non abstraite pour orika. Sinon, il faudrait déclarer un mapping pour chaque classe concrete
- * @author jerep6
- */
+@Audit(excludes = { "modificationDate", "version" })
 public class RealProperty {
 	@Id
 	@Column(name = "PRO_ID", unique = true, nullable = false)
@@ -142,6 +145,15 @@ public class RealProperty {
 		this.type = type;
 	}
 
+	@PreUpdate
+	@PrePersist
+	private void beforePersist() {
+		modificationDate = Calendar.getInstance();
+		if (independentConsultant == null) {
+			independentConsultant = false;
+		}
+	}
+
 	public Description getDescription(EnumDescriptionType type) {
 		for (Description desc : descriptions) {
 			if (desc.getType().equals(type)) {
@@ -156,15 +168,6 @@ public class RealProperty {
 				.sorted()//
 				.collect(Collectors.<Document> toList());
 		return photos;
-	}
-
-	@PreUpdate
-	@PrePersist
-	private void beforePersist() {
-		modificationDate = Calendar.getInstance();
-		if (independentConsultant == null) {
-			independentConsultant = false;
-		}
 	}
 
 	@Override
