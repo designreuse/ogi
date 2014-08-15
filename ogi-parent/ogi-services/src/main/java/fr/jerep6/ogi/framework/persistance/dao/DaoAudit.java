@@ -4,6 +4,4 @@ import fr.jerep6.ogi.framework.persistance.bo.Audit;
 
 public interface DaoAudit extends DaoCRUD<Audit, Integer> {
 
-	void log(Integer parentId, Class parentClass, Object oldValue, Object newValue, String propertyName);
-
 }
