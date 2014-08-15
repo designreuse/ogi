@@ -60,6 +60,7 @@ public class OrikaMapperService extends ConfigurableMapper {
 				.exclude("documents")//
 				.exclude("type")//
 				.exclude("owners")// exclusion des propriétaires car ils sont traités ailleurs
+				.exclude("partnersRequests")//
 				.byDefault().register();
 
 		factory.classMap(RealPropertyLivable.class, RealPropertyLivable.class)//
@@ -77,6 +78,7 @@ public class OrikaMapperService extends ConfigurableMapper {
 				.exclude("documents")//
 				.exclude("type")//
 				.exclude("owners")//
+				.exclude("partnersRequests")//
 				.exclude("state")//
 				.exclude("dpeFile")//
 				.byDefault().register();
@@ -96,6 +98,7 @@ public class OrikaMapperService extends ConfigurableMapper {
 				.exclude("documents")//
 				.exclude("type")//
 				.exclude("owners")//
+				.exclude("partnersRequests")//
 				.exclude("state")//
 				.byDefault().register();
 
