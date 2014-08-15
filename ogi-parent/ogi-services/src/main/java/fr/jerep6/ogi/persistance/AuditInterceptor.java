@@ -2,7 +2,6 @@ package fr.jerep6.ogi.persistance;
 
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.hibernate.EmptyInterceptor;
@@ -51,30 +50,30 @@ public class AuditInterceptor extends EmptyInterceptor {
 	public boolean onFlushDirty(Object entity, Serializable id, Object[] currentState, Object[] previousState,
 			String[] propertyNames, Type[] types) {
 
-		// Extract data from annotation
-		List<String> includes;
-		List<String> excludes;
-
+		// Read @Audit annotation
 		Audit findAnnotation = AnnotationUtils.findAnnotation(entity.getClass(), Audit.class);
-		if (findAnnotation != null) {
-			excludes = Arrays.asList(findAnnotation.excludes());
-			includes = Arrays.asList(findAnnotation.includes());
-		} else {
-			excludes = Collections.EMPTY_LIST;
-			includes = Collections.EMPTY_LIST;
-		}
 
-		for (int i = 0; i < currentState.length; i++) {
-			if (isPropertyAuditable(propertyNames[i], includes, excludes)
-					&& //
-					previousState[i] != null
-					&& currentState[i] != null //
-					&& (previousState[i] == null && currentState[i] != null || !previousState[i]
-							.equals(currentState[i]))) {
-				daoAudit.log((Integer) id, entity.getClass(), previousState[i], currentState[i], propertyNames[i]);
+		// Handle only class with @Audit annotation
+		if (findAnnotation != null) {
+			// Extract data from annotation
+			List<String> excludes = Arrays.asList(findAnnotation.excludes());
+			List<String> includes = Arrays.asList(findAnnotation.includes());
+
+			for (int i = 0; i < currentState.length; i++) {
+				boolean log = false;
+				if (currentState[i] == null) {
+					if (previousState[i] != null) {
+						log = true;
+					}
+				} else if (!currentState[i].equals(previousState[i])) {
+					log = true;
+				}
+				// Log only if field is modify
+				if (log && isPropertyAuditable(propertyNames[i], includes, excludes)) {
+					daoAudit.log((Integer) id, entity.getClass(), previousState[i], currentState[i], propertyNames[i]);
+				}
 			}
 		}
 		return false;
 	}
-
 }
