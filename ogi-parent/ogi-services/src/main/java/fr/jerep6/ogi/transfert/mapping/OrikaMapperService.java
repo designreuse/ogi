@@ -35,72 +35,72 @@ public class OrikaMapperService extends ConfigurableMapper {
 	@PostConstruct
 	private void postConstruct() {
 		factory.classMap(Document.class, Document.class).exclude("techid").exclude("property").exclude("absolutePath")
-				.byDefault().register();
-		factory.classMap(Address.class, Address.class).exclude("techid").byDefault().register();
+		.byDefault().register();
+		factory.classMap(Address.class, Address.class).exclude("techid").exclude("properties").byDefault().register();
 		factory.classMap(Owner.class, Owner.class).exclude("techid").exclude("properties").exclude("addresses")
-				.byDefault().register();
+		.byDefault().register();
 		factory.classMap(Sale.class, Sale.class).exclude("techid").byDefault().register();
 		factory.classMap(Rent.class, Rent.class).exclude("techid").byDefault().register();
 		factory.classMap(Description.class, Description.class).exclude("techid").exclude("property").byDefault()
-		.register();
+				.register();
 		factory.classMap(Room.class, Room.class).exclude("techid").exclude("photo").exclude("property").byDefault()
-		.register();
+				.register();
 
 		// Map only basic type (string, integer ...)
 		factory.classMap(RealProperty.class, RealProperty.class)//
-				.exclude("techid")//
-				.exclude("descriptions")//
-				.exclude("modificationDate")//
-				.exclude("version")//
-				.exclude("category")//
-				.exclude("diagnosisProperty")//
-				.exclude("equipments")//
-				.exclude("sale")//
-				.exclude("rent")//
-				.exclude("documents")//
-				.exclude("type")//
-				.exclude("owners")// exclusion des propriétaires car ils sont traités ailleurs
-				.exclude("partnersRequests")//
-				.byDefault().register();
+		.exclude("techid")//
+		.exclude("descriptions")//
+		.exclude("modificationDate")//
+		.exclude("version")//
+		.exclude("category")//
+		.exclude("diagnosisProperty")//
+		.exclude("equipments")//
+		.exclude("sale")//
+		.exclude("rent")//
+		.exclude("documents")//
+		.exclude("type")//
+		.exclude("owners")// exclusion des propriétaires car ils sont traités ailleurs
+		.exclude("partnersRequests")//
+		.byDefault().register();
 
 		factory.classMap(RealPropertyLivable.class, RealPropertyLivable.class)//
-				.use(RealProperty.class, RealProperty.class)//
-				.exclude("rooms")//
-				.exclude("techid")//
-				.exclude("descriptions")//
-				.exclude("equipments")//
-				.exclude("modificationDate")//
-				.exclude("version")//
-				.exclude("category")//
-				.exclude("diagnosisProperty")//
-				.exclude("sale")//
-				.exclude("rent")//
-				.exclude("documents")//
-				.exclude("type")//
-				.exclude("owners")//
-				.exclude("partnersRequests")//
-				.exclude("state")//
-				.exclude("dpeFile")//
-				.byDefault().register();
+		.use(RealProperty.class, RealProperty.class)//
+		.exclude("rooms")//
+		.exclude("techid")//
+		.exclude("descriptions")//
+		.exclude("equipments")//
+		.exclude("modificationDate")//
+		.exclude("version")//
+		.exclude("category")//
+		.exclude("diagnosisProperty")//
+		.exclude("sale")//
+		.exclude("rent")//
+		.exclude("documents")//
+		.exclude("type")//
+		.exclude("owners")//
+		.exclude("partnersRequests")//
+		.exclude("state")//
+		.exclude("dpeFile")//
+		.byDefault().register();
 
 		factory.classMap(RealPropertyPlot.class, RealPropertyPlot.class)//
-				.use(RealProperty.class, RealProperty.class)//
-				.exclude("rooms")//
-				.exclude("techid")//
-				.exclude("descriptions")//
-				.exclude("equipments")//
-				.exclude("modificationDate")//
-				.exclude("version")//
-				.exclude("category")//
-				.exclude("diagnosisProperty")//
-				.exclude("sale")//
-				.exclude("rent")//
-				.exclude("documents")//
-				.exclude("type")//
-				.exclude("owners")//
-				.exclude("partnersRequests")//
-				.exclude("state")//
-				.byDefault().register();
+		.use(RealProperty.class, RealProperty.class)//
+		.exclude("rooms")//
+		.exclude("techid")//
+		.exclude("descriptions")//
+		.exclude("equipments")//
+		.exclude("modificationDate")//
+		.exclude("version")//
+		.exclude("category")//
+		.exclude("diagnosisProperty")//
+		.exclude("sale")//
+		.exclude("rent")//
+		.exclude("documents")//
+		.exclude("type")//
+		.exclude("owners")//
+		.exclude("partnersRequests")//
+		.exclude("state")//
+		.byDefault().register();
 
 	}
 }

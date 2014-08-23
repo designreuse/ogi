@@ -1,10 +1,14 @@
 package fr.jerep6.ogi.persistance.bo;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.EqualsAndHashCode;
@@ -23,29 +27,32 @@ public class Address {
 	@Id
 	@Column(name = "ADD_ID", unique = true, nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer	techid;
+	private Integer				techid;
 
 	@Column(name = "ADD_NUMBER")
-	private String	number;
+	private String				number;
 
 	@Column(name = "ADD_STREET")
-	private String	street;
+	private String				street;
 
 	@Column(name = "ADD_ADDITIONAL")
-	private String	additional;
+	private String				additional;
 
 	@Column(name = "ADD_POSTALCODE", nullable = false)
-	private String	postalCode;
+	private String				postalCode;
 
 	@Column(name = "ADD_CITY", nullable = false)
-	private String	city;
+	private String				city;
 
 	@Column(name = "ADD_COUNTRY")
-	private String	country;
+	private String				country;
 
 	@Column(name = "ADD_LATITUDE")
-	private String	latitude;
+	private String				latitude;
 
 	@Column(name = "ADD_LONGITUDE")
-	private String	longitude;
+	private String				longitude;
+
+	@OneToMany(mappedBy = "address")
+	private Set<RealProperty>	properties	= new HashSet<>(0);
 }

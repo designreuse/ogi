@@ -77,6 +77,7 @@ public class AuditInterceptor extends EmptyInterceptor {
 				} else if (!currentState[i].equals(previousState[i])) {
 					log = true;
 				}
+
 				// Log only if field is modify
 				if (log && isPropertyAuditable(propertyNames[i], includes, excludes)) {
 					Audit audit = new Audit((Integer) id, entity.getClass(), previousState[i], currentState[i],
@@ -85,8 +86,8 @@ public class AuditInterceptor extends EmptyInterceptor {
 					// Find audit with same entity, id, propertyName
 					Optional<Audit> findFirst = audits.stream().filter(//
 							a -> a.getEntityId().equals(audit.getEntityId()) && //
-							a.getEntityClass().equals(audit.getEntityClass()) && //
-							a.getPropertyName().equals(a.getPropertyName()))//
+									a.getEntityClass().equals(audit.getEntityClass()) && //
+									a.getPropertyName().equals(a.getPropertyName()))//
 							.findFirst();
 
 					if (!findFirst.isPresent()) {
