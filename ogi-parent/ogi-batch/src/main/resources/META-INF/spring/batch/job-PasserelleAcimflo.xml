@@ -1,0 +1,52 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/batch
+		http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	">
+
+	<import resource="spring-batch-context.xml" />
+
+	<!-- Once you’ve configured JobParametersIncrementer you need to add the configuration for a JobExplorer implementation. 
+		Chapter 5 goes into detail about what JobExplorer is and how to use it. -->
+	<bean id="jobExplorer" class="org.springframework.batch.core.explore.support.JobExplorerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- JobParametersIncrementer affects how you call your job. When you want to increment a parameter, you need to add the 
+		parameter –next to the command when you call your job -->
+	<bean id="idIncrementer" class="org.springframework.batch.core.launch.support.RunIdIncrementer" />
+
+
+
+	<!-- Job definition -->
+	<batch:job id="jobPasserelle-acimflo" incrementer="idIncrementer">
+		<batch:step id="stepTaskletHello" next="stepHTTPUpdate">
+			<tasklet ref="TaskletHello" />
+		</batch:step>
+		
+		<batch:step id="stepHTTPUpdate">
+		  <tasklet>
+			<batch:chunk reader="readerPrpChanged" writer="DummyWriter" commit-interval="1" skip-limit="10">
+				<batch:skippable-exception-classes>
+					<batch:include class="fr.jerep6.ogi.framework.exception.AbstractException" />
+				</batch:skippable-exception-classes>
+			</batch:chunk>
+		  </tasklet>
+		</batch:step>
+
+	</batch:job>
+
+	<bean id="TaskletHello" class="fr.jerep6.ogi.batch.acimflo.TaskletHello" />
+	<bean id="DummyWriter" class="fr.jerep6.ogi.batch.common.writer.DummyWriter" />
+
+	<bean id="readerPrpChanged" class="org.springframework.batch.item.database.JdbcCursorItemReader">
+		<property name="dataSource" ref="dataSource" />
+		<property name="sql" value="${acimflo.extraction.sql}" />
+		<property name="rowMapper">
+			<bean class="fr.jerep6.ogi.batch.acimflo.RowMapperPrp" />
+		</property>
+	</bean>
+
+
+</beans>
