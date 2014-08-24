@@ -27,7 +27,7 @@
 		</Root>
 	 	
 	 	<Logger name="fr.jerep6.ogi" level="INFO" additivity="true" />
-	 	<Logger name="org.springframework.web" level="TRACE" additivity="true" />
+	 	<Logger name="org.springframework.web" level="WARN" additivity="true" />
 		
 		<!-- #Log JDBC bind parameter runtime arguments -->
 		<Logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="WARN" additivity="true">
