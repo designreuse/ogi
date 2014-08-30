@@ -1,0 +1,33 @@
+<br /><br />
+<script type='text/ng-template' id="templateBatch">
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th>Job</th>
+            <th>Début</th>
+            <th>Fin</th>
+            <th>Etat</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="j in jobs[jobName]">
+            <td>{{j.jobName}}</td>
+            <td>{{j.jobExecutions[0].startTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+            <td>{{j.jobExecutions[0].endTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+            <td  ng-class="{batchSuccess : j.isSuccess, batchError : !j.isSuccess}">{{j.jobExecutions[0].status.code}}</td>
+        </tr>
+        </tbody>
+    </table>
+</script>
+
+<div class="col-xs-6">
+    <h2>SeLoger.com</h2>
+    <ng-include ng-repeat="jobName in ['seloger']"src="'templateBatch'"></ng-include>
+</div>
+
+<div class="col-xs-6">
+    <h2>Acimflo</h2>
+    <ng-include ng-repeat="jobName in ['acimflo']"src="'templateBatch'"></ng-include>
+</div>
+
+
