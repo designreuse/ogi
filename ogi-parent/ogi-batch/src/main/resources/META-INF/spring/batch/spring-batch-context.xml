@@ -36,9 +36,9 @@
 	<!-- 	</bean> -->
 	
 	<!-- ##### Database configuration ##### -->
-	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
+<!-- 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> -->
+<!-- 		<property name="dataSource" ref="dataSource" /> -->
+<!-- 	</bean> -->
 	
 	<!--
 	When you use the job-repository tag from the Spring Batch namespace, Spring Batch uses Spring’s
@@ -51,7 +51,7 @@
 	for-create attribute of the job-repository tag. Listing 5-5 shows how to lower the isolation level
 	when using the job-repository tag.
 	-->
-	<batch:job-repository id="jobRepository" transaction-manager="transactionManager"  data-source="dataSource" isolation-level-for-create="READ_COMMITTED"/>
+	<batch:job-repository id="jobRepository" transaction-manager="transactionManager"  data-source="dataSource" isolation-level-for-create="DEFAULT"/>
 	<!--
 	<bean id="jobRepository" 	class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
 		<property name="dataSource" ref="dataSource" />
