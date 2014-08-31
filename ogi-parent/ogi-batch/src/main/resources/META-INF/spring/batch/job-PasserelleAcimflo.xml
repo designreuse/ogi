@@ -21,31 +21,48 @@
 
 	<!-- Job definition -->
 	<batch:job id="jobPasserelle-acimflo" incrementer="idIncrementer">
-		<batch:step id="stepTaskletHello" next="stepHTTPUpdate">
-			<tasklet ref="TaskletHello" />
+		<!-- Create or update modified real properties -->
+		<batch:step id="stepHTTPUpdate" next="stepHTTPDelete">
+		  <batch:tasklet>
+<!-- 		  	<batch:transaction-attributes isolation="DEFAULT" /> -->
+			<batch:chunk reader="readerPrpChanged" writer="writerUpdateAcimflo" commit-interval="1">
+			</batch:chunk>
+		  </batch:tasklet>
 		</batch:step>
 		
-		<batch:step id="stepHTTPUpdate">
-		  <tasklet>
-			<batch:chunk reader="readerPrpChanged" writer="DummyWriter" commit-interval="1" skip-limit="10">
-				<batch:skippable-exception-classes>
-					<batch:include class="fr.jerep6.ogi.framework.exception.AbstractException" />
-				</batch:skippable-exception-classes>
+		<!-- Delete real properties -->
+		<batch:step id="stepHTTPDelete">
+		  <batch:tasklet>
+			<batch:chunk reader="readerPrpToDeleted" writer="writerDeleteAcimflo" commit-interval="1">
 			</batch:chunk>
-		  </tasklet>
+		  </batch:tasklet>
 		</batch:step>
 
 	</batch:job>
 
-	<bean id="TaskletHello" class="fr.jerep6.ogi.batch.acimflo.TaskletHello" />
-	<bean id="DummyWriter" class="fr.jerep6.ogi.batch.common.writer.DummyWriter" />
-
+	<!-- Created/update -->
 	<bean id="readerPrpChanged" class="org.springframework.batch.item.database.JdbcCursorItemReader">
 		<property name="dataSource" ref="dataSource" />
-		<property name="sql" value="${acimflo.extraction.sql}" />
+		<property name="sql" value="${acimflo.extraction.update.sql}" />
 		<property name="rowMapper">
 			<bean class="fr.jerep6.ogi.batch.acimflo.RowMapperPrp" />
 		</property>
+	</bean>
+	<bean id="writerUpdateAcimflo" class="fr.jerep6.ogi.batch.acimflo.WriterUpdateAcimflo">
+		<property name="serviceSynchronisation" ref="serviceSynchronisation" />
+	</bean>
+	
+	
+	<!-- Delete -->
+	<bean id="readerPrpToDeleted" class="org.springframework.batch.item.database.JdbcCursorItemReader">
+		<property name="dataSource" ref="dataSource" />
+		<property name="sql" value="${acimflo.extraction.delete.sql}" />
+		<property name="rowMapper">
+			<bean class="fr.jerep6.ogi.batch.acimflo.RowMapperPrp" />
+		</property>
+	</bean>
+	<bean id="writerDeleteAcimflo" class="fr.jerep6.ogi.batch.acimflo.WriterDeleteAcimflo">
+		<property name="serviceSynchronisation" ref="serviceSynchronisation" />
 	</bean>
 
 

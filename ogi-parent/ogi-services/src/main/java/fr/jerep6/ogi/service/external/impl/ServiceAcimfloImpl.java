@@ -294,16 +294,21 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 		}
 	}
 
-	@Override
-	public WSResult createOrUpdate(RealProperty prp) {
-		validate(prp);
-
+	public HttpClient createAndConnect() {
 		CookieHandler.setDefault(new CookieManager());
-
 		HttpClient client = HttpClientUtils.buildClient();
 
 		// Connection to acimflo => session id is keeped
 		connect(client);
+
+		return client;
+	}
+
+	@Override
+	public WSResult createOrUpdate(RealProperty prp) {
+		validate(prp);
+
+		HttpClient client = createAndConnect();
 
 		WSResult result = new WSResult(prp.getReference(), WSResult.RESULT_OK, "");
 
@@ -337,11 +342,7 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 
 	@Override
 	public WSResult delete(RealProperty prp) {
-		CookieHandler.setDefault(new CookieManager());
-		HttpClient client = HttpClientUtils.buildClient();
-
-		// Connection to acimflo => session id is keeped
-		connect(client);
+		HttpClient client = createAndConnect();
 
 		WSResult r = new WSResult(prp.getReference(), "OK", "");
 		// Delete sale
@@ -399,11 +400,7 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 
 	@Override
 	public Boolean exist(RealProperty prp) {
-		CookieHandler.setDefault(new CookieManager());
-		HttpClient client = HttpClientUtils.buildClient();
-
-		// Connection to acimflo => session id is keeped
-		connect(client);
+		HttpClient client = createAndConnect();
 
 		Boolean existSale = false;
 		if (prp.getSale() != null) {
@@ -420,7 +417,7 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 
 	/**
 	 * Convert OGI type into acimflo type.
-	 * 
+	 *
 	 * @param category
 	 * @return
 	 */
@@ -438,7 +435,7 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 
 	/**
 	 * Determine if property exist on Acimflo.
-	 * 
+	 *
 	 * @param client
 	 *            http client
 	 * @param prpReference

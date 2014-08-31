@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:util="http://www.springframework.org/schema/util"
-    xmlns:cache="http://www.springframework.org/schema/cache"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:cache="http://www.springframework.org/schema/cache"
 	xsi:schemaLocation="
 			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
 			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
@@ -21,22 +20,15 @@
 	<!-- ignore-resource-not-found="true"/> -->
 
 
-	<!-- The PropertyPlaceholderConfigurer not only looks for properties in 
-		the Properties file you specify. By default it also checks against the Java 
-		System properties if it cannot find a property in the specified properties 
-		files. You can customize this behavior by setting the systemPropertiesMode 
-		property of the configurer with one of the following three supported integer 
-		values: -> never (0): Never check system properties -> fallback (1): Check 
-		system properties if not resolvable in the specified properties files. This 
-		is the default. -> override (2): Check system properties first, before trying 
-		the specified properties files. This allows system properties to override 
-		any other property source. -->
-	<bean
-		class="fr.jerep6.ogi.framework.spring.CryptablePropertyPlaceholderConfigurer">
-		<!-- Password is set with -D parameter -DpropertyConfigurerPassword=secret 
-			key -->
-		<constructor-arg index="0"
-			value="#{systemProperties.propertyConfigurerPassword}" />
+	<!-- The PropertyPlaceholderConfigurer not only looks for properties in the Properties file you specify. By default it also 
+		checks against the Java System properties if it cannot find a property in the specified properties files. You can customize 
+		this behavior by setting the systemPropertiesMode property of the configurer with one of the following three supported integer 
+		values: -> never (0): Never check system properties -> fallback (1): Check system properties if not resolvable in the specified 
+		properties files. This is the default. -> override (2): Check system properties first, before trying the specified properties 
+		files. This allows system properties to override any other property source. -->
+	<bean class="fr.jerep6.ogi.framework.spring.CryptablePropertyPlaceholderConfigurer">
+		<!-- Password is set with -D parameter -DpropertyConfigurerPassword=secret key -->
+		<constructor-arg index="0" value="#{systemProperties.propertyConfigurerPassword}" />
 		<property name="locations">
 			<list>
 				<value>classpath:properties/environment.properties</value>
@@ -63,21 +55,14 @@
 
 
 	<util:map id="mapPartners" map-class="java.util.HashMap">
-		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).ACIMFLO}"
-			value-ref="serviceAcimflo" />
-		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).DIAPORAMA}"
-			value-ref="serviceDiaporama" />
-		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).SE_LOGER}"
-			value-ref="serviceSeLoger" />
+		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).ACIMFLO}" value-ref="serviceAcimflo" />
+		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).DIAPORAMA}" value-ref="serviceDiaporama" />
+		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).SE_LOGER}" value-ref="serviceSeLoger" />
 	</util:map>
 
 	<util:map id="mapAcimfloUrl">
-		<entry
-			key="#{T(fr.jerep6.ogi.service.external.impl.ServiceAcimfloImpl).MODE_SALE}"
-			value-ref="acimfloMapSale" />
-		<entry
-			key="#{T(fr.jerep6.ogi.service.external.impl.ServiceAcimfloImpl).MODE_RENT}"
-			value-ref="acimfloMapRent" />
+		<entry key="#{T(fr.jerep6.ogi.service.external.impl.ServiceAcimfloImpl).MODE_SALE}" value-ref="acimfloMapSale" />
+		<entry key="#{T(fr.jerep6.ogi.service.external.impl.ServiceAcimfloImpl).MODE_RENT}" value-ref="acimfloMapRent" />
 	</util:map>
 
 	<util:map id="acimfloMapSale">
@@ -102,16 +87,15 @@
 	<!-- Classe initialisant la redirection java.util.logging vers slf4j -->
 	<bean class="fr.jerep6.ogi.framework.log.JULInitializer" />
 
-	<bean id="jobExplorer"
-		class="org.springframework.batch.core.explore.support.JobExplorerFactoryBean">
+	<bean id="jobExplorer" class="org.springframework.batch.core.explore.support.JobExplorerFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
 
 	<!-- Cache -->
-	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager" p:cache-manager-ref="ehcache"/>
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager" p:cache-manager-ref="ehcache" />
 
 	<!-- EhCache library setup -->
-	<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:config-location="classpath:ehcache.xml"/>
+	<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:config-location="classpath:ehcache.xml" />
 
 </beans>
