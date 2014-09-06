@@ -31,6 +31,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -40,9 +41,12 @@ import com.google.common.base.Strings;
 
 import fr.jerep6.ogi.enumeration.EnumDPE;
 import fr.jerep6.ogi.enumeration.EnumDescriptionType;
+import fr.jerep6.ogi.enumeration.EnumPartner;
+import fr.jerep6.ogi.enumeration.EnumPartnerRequestType;
 import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessErrorPartner;
 import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessErrorProperty;
 import fr.jerep6.ogi.exception.technical.NetworkTechnicalException;
+import fr.jerep6.ogi.exception.technical.PartnerTechnicalException;
 import fr.jerep6.ogi.framework.exception.BusinessException;
 import fr.jerep6.ogi.framework.exception.MultipleBusinessException;
 import fr.jerep6.ogi.framework.service.impl.AbstractService;
@@ -55,6 +59,7 @@ import fr.jerep6.ogi.persistance.bo.RealPropertyBuilt;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 import fr.jerep6.ogi.persistance.bo.Rent;
 import fr.jerep6.ogi.persistance.bo.Sale;
+import fr.jerep6.ogi.service.ServicePartnerRequest;
 import fr.jerep6.ogi.service.external.ServicePartner;
 import fr.jerep6.ogi.service.external.transfert.AcimfloResultDelete;
 import fr.jerep6.ogi.service.external.transfert.AcimfloResultExist;
@@ -90,7 +95,11 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 	@Resource(name = "mapAcimfloUrl")
 	private Map<String, Map<String, String>>	config;
 
-	private WSResult broadcast(HttpClient client, RealProperty prp, String reference, String mode, String prefixeMap) {
+	@Autowired
+	private ServicePartnerRequest				servicePartnerRequest;
+
+	private void broadcast(HttpClient client, RealProperty prp, String reference, String mode, String prefixeMap)
+			throws PartnerTechnicalException {
 		String referer = config.get(mode).get(prefixeMap + ".referer").replace("$reference", reference);
 		String url = config.get(mode).get(prefixeMap + ".url").replace("$reference", reference);
 		String imgApercu = config.get(mode).get("apercu.url").replace("$reference", reference);
@@ -113,7 +122,6 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 		}
 
 		// Send request
-		WSResult result;
 		try {
 			httpPost.setEntity(builder.build());
 			httpPost.addHeader("Referer", referer);
@@ -129,19 +137,15 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 			String msg = doc.select(".msg").html();
 			LOGGER.info("Result msg = " + msg);
 			if (Strings.isNullOrEmpty(msg) || msg.toLowerCase().contains("erreur")) {
-				LOGGER.error("Empty result msg :" + doc.toString());
-				result = new WSResult(prp.getReference(), "KO", msg);
-			} else {
-				result = new WSResult(prp.getReference(), "OK", msg);
+				LOGGER.error("Error upadting acimflo for real property {} : ", reference, msg);
+				throw new PartnerTechnicalException("Erreur acimflo webservice", msg);
 			}
 		} catch (IOException e) {
 			LOGGER.error("Error broadcast property " + prp.getReference() + " on acimflo", e);
-			result = new WSResult(prp.getReference(), "KO", e.getMessage());
+			throw new NetworkTechnicalException(e);
 		} finally {
 			httpPost.releaseConnection();
 		}
-		return result;
-
 	}
 
 	private void buildCommon(HttpClient client, RealProperty prp, String reference, MultipartEntityBuilder builder,
@@ -304,65 +308,63 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 		return client;
 	}
 
-	@Override
-	public WSResult createOrUpdate(RealProperty prp) {
+	public void createOrUpdate(RealProperty prp) throws PartnerTechnicalException {
 		validate(prp);
 
-		HttpClient client = createAndConnect();
+		try {
+			HttpClient client = createAndConnect();
 
-		WSResult result = new WSResult(prp.getReference(), WSResult.RESULT_OK, "");
-
-		// Treat sale
-		if (prp.getSale() != null) {
-			String reference = Functions.computeSaleReference(prp.getReference());
-			if (prpExist(client, reference)) {
-				// Update property
-				result = result.combine(broadcast(client, prp, reference, MODE_SALE, "update"));
-			} else {
-				// Create property
-				result = result.combine(broadcast(client, prp, reference, MODE_SALE, "create"));
+			// Treat sale
+			if (prp.getSale() != null) {
+				String reference = Functions.computeSaleReference(prp.getReference());
+				if (existSale(client, prp.getReference())) {
+					// Update property
+					broadcast(client, prp, reference, MODE_SALE, "update");
+				} else {
+					// Create property
+					broadcast(client, prp, reference, MODE_SALE, "create");
+				}
 			}
-		}
 
-		// Treat rent
-		if (prp.getRent() != null) {
-			String reference = Functions.computeRentReference(prp.getReference());
+			// Treat rent
+			if (prp.getRent() != null) {
+				String reference = Functions.computeRentReference(prp.getReference());
 
-			if (prpExist(client, reference)) {
-				// Update property
-				result = result.combine(broadcast(client, prp, reference, MODE_RENT, "update"));
-			} else {
-				// Create property
-				result = result.combine(broadcast(client, prp, reference, MODE_RENT, "create"));
+				if (existRent(client, prp.getReference())) {
+					// Update property
+					broadcast(client, prp, reference, MODE_RENT, "update");
+				} else {
+					// Create property
+					broadcast(client, prp, reference, MODE_RENT, "create");
+				}
 			}
-		}
 
-		return result;
+			// write ack into database
+			servicePartnerRequest.addRequest(EnumPartner.ACIMFLO, prp.getTechid(),
+					EnumPartnerRequestType.ADD_UPDATE_ACK);
+
+		} catch (Exception e) {
+			servicePartnerRequest.addRequest(EnumPartner.ACIMFLO, prp.getTechid(), EnumPartnerRequestType.ADD_UPDATE);
+			throw e;
+		}
 	}
 
-	@Override
-	public WSResult delete(RealProperty prp) {
+	public void delete(RealProperty prp) {
 		HttpClient client = createAndConnect();
 
-		WSResult r = new WSResult(prp.getReference(), "OK", "");
 		// Delete sale
-		if (prp.getSale() != null) {
-			r = r.combine(delete(prp, Functions::computeSaleReference, client));
+		if (existSale(client, prp.getReference())) {
+			delete(prp, Functions::computeSaleReference, client);
 		}
-		if (prp.getRent() != null) {
-			r = r.combine(delete(prp, Functions::computeRentReference, client));
+		if (existRent(client, prp.getReference())) {
+			delete(prp, Functions::computeRentReference, client);
 		}
 
-		return r;
+		servicePartnerRequest.addRequest(EnumPartner.ACIMFLO, prp.getTechid(), EnumPartnerRequestType.DELETE_ACK);
 	}
 
-	private WSResult delete(RealProperty prp, Function<String, String> computeReference, HttpClient client) {
+	private void delete(RealProperty prp, Function<String, String> computeReference, HttpClient client) {
 		String reference = computeReference.apply(prp.getReference());
-
-		// If property doesn't exist => nothing to do
-		if (!prpExist(client, reference)) {
-			return new WSResult(prp.getReference(), "OK", "Le bien n'existe pas sur le site acimflo");
-		}
 
 		HttpGet httpGet = new HttpGet(deleteUrl.replace("$reference", reference));
 		WSResult ws;
@@ -373,19 +375,15 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 			LOGGER.info("Delete of reference {} : {}. Msg = {}", new Object[] { prp.getReference(),
 					result.getSuccess(), result.getPhrase() });
 
-			if (result.getSuccess()) {
-				ws = new WSResult(prp.getReference(), "OK", result.getPhrase());
-			} else {
+			if (!result.getSuccess()) {
 				ws = new WSResult(prp.getReference(), "KO", result.getPhrase());
+				throw new PartnerTechnicalException("Error delete real property on acimflo");
 			}
-
 		} catch (IOException e) {
 			throw new NetworkTechnicalException(e);
 		} finally {
 			httpGet.releaseConnection();
 		}
-
-		return ws;
 	}
 
 	private void deleteDocuments(HttpClient client, String mode, String reference) throws IOException {
@@ -398,21 +396,28 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 		httpGet.releaseConnection();
 	}
 
-	@Override
 	public Boolean exist(RealProperty prp) {
 		HttpClient client = createAndConnect();
 
 		Boolean existSale = false;
 		if (prp.getSale() != null) {
-			existSale = prpExist(client, Functions.computeSaleReference(prp.getReference()));
+			existSale = existSale(client, prp.getReference());
 		}
 
 		Boolean existRent = false;
 		if (prp.getRent() != null) {
-			existRent = prpExist(client, Functions.computeRentReference(prp.getReference()));
+			existRent = existRent(client, prp.getReference());
 		}
 
 		return existSale || existRent;
+	}
+
+	private Boolean existRent(HttpClient client, String reference) {
+		return prpExist(client, Functions.computeRentReference(reference));
+	}
+
+	private Boolean existSale(HttpClient client, String reference) {
+		return prpExist(client, Functions.computeSaleReference(reference));
 	}
 
 	/**

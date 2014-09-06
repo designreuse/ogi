@@ -1,9 +1,7 @@
 package fr.jerep6.ogi.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -22,7 +20,6 @@ import fr.jerep6.ogi.service.ServicePartnerRequest;
 import fr.jerep6.ogi.service.ServiceRealProperty;
 import fr.jerep6.ogi.service.ServiceSynchronisation;
 import fr.jerep6.ogi.service.external.ServicePartner;
-import fr.jerep6.ogi.transfert.WSResult;
 
 @Service("serviceSynchronisation")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -40,44 +37,7 @@ public class ServiceSynchronisationImpl extends AbstractService implements Servi
 	private Map<EnumPartner, ServicePartner>	partners;
 
 	@Override
-	public List<WSResult> createOrUpdate(String partner, List<String> prpReferences) {
-		List<WSResult> results = new ArrayList<>(prpReferences.size());
-
-		try {
-			EnumPartner prt = EnumPartner.valueOfByCode(partner);
-			// Predicate : if enumPartner exist, servicePartner have to exist
-			ServicePartner servicePartner = partners.get(prt);
-
-			// Read properties
-			Set<RealProperty> properties = serviceRealProperty.readByReference(prpReferences);
-
-			for (RealProperty prp : properties) {
-				// Validate if property is valid for partner
-				servicePartner.validate(prp);
-
-				// insert in database add/update request. It will be ack when property will be really updat on partner
-				servicePartnerRequest.addRequest(prt, prp.getTechid(), EnumPartnerRequestType.ADD_UPDATE);
-
-				// Create or update property on external website
-				WSResult ws = servicePartner.createOrUpdate(prp);
-				// Add ack
-				if (ws.isSuccess()) {
-					servicePartnerRequest.addRequest(prt, prp.getTechid(), EnumPartnerRequestType.ADD_UPDATE_ACK);
-				}
-
-				results.add(ws);
-			}
-		} catch (IllegalArgumentException iae) {
-			LOGGER.warn("Unknow partner {}. Exception = ", partner, iae.getMessage());
-
-		}
-
-		return results;
-	}
-
-	@Override
-	public List<WSResult> delete(String partner, List<String> prpReferences) {
-		List<WSResult> results = new ArrayList<>(prpReferences.size());
+	public void createOrUpdate(String partner, List<String> prpReferences) {
 
 		try {
 			EnumPartner prt = EnumPartner.valueOfByCode(partner);
@@ -85,34 +45,44 @@ public class ServiceSynchronisationImpl extends AbstractService implements Servi
 			ServicePartner servicePartner = partners.get(prt);
 
 			for (String aRef : prpReferences) {
-				Integer prpTechid = serviceRealProperty.readTechid(aRef);
-				// insert in database add/update request. It will be ack when property will be really updat on partner
-				servicePartnerRequest.addRequest(prt, prpTechid, EnumPartnerRequestType.DELETE);
 
-				WSResult ws = servicePartner.delete(serviceRealProperty.readByReference(aRef).get());
-				if (ws.isSuccess()) {
-					servicePartnerRequest.addRequest(prt, prpTechid, EnumPartnerRequestType.DELETE_ACK);
-				}
-				results.add(ws);
+				// Validate real property according to partner specification
+				RealProperty prp = serviceRealProperty.readByReference(aRef).get();
+				servicePartner.validate(prp);
+
+				// Write demand on database
+				servicePartnerRequest.addRequest(EnumPartner.valueOfByCode(partner), prp.getTechid(),
+						EnumPartnerRequestType.ADD_UPDATE);
+			}
+		} catch (IllegalArgumentException iae) {
+			LOGGER.warn("Unknow partner {}. Exception = ", partner, iae.getMessage());
+
+		}
+
+	}
+
+	@Override
+	public void delete(String partner, List<String> prpReferences) {
+		try {
+			for (String aRef : prpReferences) {
+				Integer prpTechid = serviceRealProperty.readTechid(aRef);
+				servicePartnerRequest.addRequest(EnumPartner.valueOfByCode(partner), prpTechid,
+						EnumPartnerRequestType.DELETE);
 			}
 		} catch (IllegalArgumentException iae) {
 			LOGGER.warn("Unknow partner {}. Exception = ", partner, iae.getMessage());
 		}
-		return results;
 	}
 
 	@Override
 	public Boolean exist(String partner, String prpReference) {
 		Boolean result = false;
 		try {
-			EnumPartner prt = EnumPartner.valueOfByCode(partner);
-			// Predicate : if enumPartner exist, servicePartner have to exist
-			ServicePartner servicePartner = partners.get(prt);
-
-			result = servicePartner.exist(serviceRealProperty.readByReference(prpReference).get());
+			Integer prpTechid = serviceRealProperty.readTechid(prpReference);
+			result = servicePartnerRequest.lastRequestIs(EnumPartner.valueOfByCode(partner), prpTechid,
+					EnumPartnerRequestType.ADD_UPDATE, EnumPartnerRequestType.ADD_UPDATE_ACK);
 		} catch (IllegalArgumentException iae) {
 			LOGGER.warn("Unknow partner {}. Exception = ", partner, iae.getMessage());
-
 		}
 		return result;
 	}

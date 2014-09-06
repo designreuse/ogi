@@ -26,7 +26,7 @@ import fr.jerep6.ogi.service.ServiceRealProperty;
 @Service("servicePartnerExistence")
 @Transactional(propagation = Propagation.REQUIRED)
 public class ServicePartnerRequestImpl extends AbstractTransactionalService<PartnerRequest, Integer> implements
-ServicePartnerRequest {
+		ServicePartnerRequest {
 	private final Logger		LOGGER	= LoggerFactory.getLogger(ServicePartnerRequestImpl.class);
 
 	@Autowired
@@ -65,7 +65,7 @@ ServicePartnerRequest {
 		List<Object[]> lastRequests = daoPartnerRequest.lastRequests();
 
 		Map<String, List<PartnerRequest>> collect2 = lastRequests.stream().collect(
-				// Grouping by prp reference and extract only partner request
+		// Grouping by prp reference and extract only partner request
 				Collectors.groupingBy(o -> ((RealProperty) o[0]).getReference(), //
 						Collectors.mapping(o -> (PartnerRequest) o[1], Collectors.toList())));
 
@@ -76,4 +76,5 @@ ServicePartnerRequest {
 
 		return collect2;
 	}
+
 }

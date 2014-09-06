@@ -11,20 +11,8 @@ import fr.jerep6.ogi.persistance.bo.PartnerRequest;
 public interface ServicePartnerRequest extends TransactionalService<PartnerRequest, Integer> {
 
 	/**
-	 * Insert in database a request for an external web site
-	 * 
-	 * @param partner
-	 *            external web site
-	 * @param prpTechid
-	 *            technical identifying of property
-	 * @param request
-	 *            type of demande
-	 */
-	void addRequest(EnumPartner partner, Integer prpTechid, EnumPartnerRequestType requestType);
-
-	/**
 	 * Indicate if the last request for external web site is a type ...
-	 * 
+	 *
 	 * @param partner
 	 *            external web site
 	 * @param requestType
@@ -36,9 +24,11 @@ public interface ServicePartnerRequest extends TransactionalService<PartnerReque
 
 	/**
 	 * Return lasts requests for each property
-	 * 
+	 *
 	 * @return
 	 */
 	Map<String, List<PartnerRequest>> lastRequests();
+
+	void addRequest(EnumPartner partner, Integer prpTechid, EnumPartnerRequestType requestType);
 
 }

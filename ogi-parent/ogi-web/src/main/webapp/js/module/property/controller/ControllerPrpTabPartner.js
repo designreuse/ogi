@@ -20,28 +20,8 @@ function ($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http,
         var references = [$scope.prp.reference];
         $http.post(ServiceConfiguration.API_URL+"/rest/synchronisation/"+partner.name+"/", references)
             .success(function (data, status) {
-
-                // 3 status for a request
-                // Webservice deal with many real property so it's why it return list
-                var errors = data.filter(function(elt) {return elt.code == "KO"});
-                var success = data.filter(function(elt) {return elt.code == "OK"});
-                var wait = data.filter(function(elt) {return elt.code == "WAIT"});
-
-                if(errors.length > 0 ) {
-                    var msg = "Des erreurs se sont produites lors du traitement de synchrosation : <br />";
-                    errors.forEach(function(elt) {
-                        msg += elt.message +" <br />";
-                    });
-                    ServiceAlert.addError(msg);
-                }
-                else if(success.length > 0) {
-                    ServiceAlert.addSuccess("Synchronisation réalisée avec succès");
-                    getLastRequest(partner);
-                }
-                else if(wait.length > 0) {
-                    ServiceAlert.addSuccess("Le bien sera synchronisé sur le site spécifié lors de la prochaine exécution du traitement de synchronisation");
-                    getLastRequest(partner);
-                }
+                ServiceAlert.addSuccess("Le bien sera synchronisé sur le site spécifié lors de la prochaine exécution du traitement de synchronisation");
+                getLastRequest(partner);
             }).finally(function() {
                 partner.disable = false;
             });
@@ -53,26 +33,8 @@ function ($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http,
         var references = [$scope.prp.reference];
         $http.delete(ServiceConfiguration.API_URL+"/rest/synchronisation/"+partner.name+"/", { "params" : {"ref" :references}})
             .success(function (data, status) {
-                var errors = data.filter(function(elt) {return elt.code == "KO"});
-                var success = data.filter(function(elt) {return elt.code == "OK"});
-                var wait = data.filter(function(elt) {return elt.code == "WAIT"});
-
-                if(errors.length > 0 ) {
-                    var msg = "Des erreurs se sont produites lors de la suppression : <br />";
-                    errors.forEach(function(elt) {
-                        msg += elt.message +" <br />";
-                    });
-                    ServiceAlert.addError(msg);
-                }
-                else if(success.length > 0) {
-                    ServiceAlert.addSuccess("Suppression réalisée avec succès");
-                }
-                else if(wait.length > 0) {
-                    ServiceAlert.addSuccess("Le bien sera synchronisé sur le site spécifié lors de la prochaine exécution du traitement de synchronisation");
-                }
-
+                ServiceAlert.addSuccess("Le bien sera synchronisé sur le site spécifié lors de la prochaine exécution du traitement de synchronisation");
                 getLastRequest(partner);
-
             }).finally(function() {
                 partner.disable = false;
             });

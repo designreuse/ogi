@@ -17,7 +17,6 @@ import fr.jerep6.ogi.enumeration.EnumPartner;
 import fr.jerep6.ogi.persistance.bo.PartnerRequest;
 import fr.jerep6.ogi.service.ServicePartnerRequest;
 import fr.jerep6.ogi.service.ServiceSynchronisation;
-import fr.jerep6.ogi.transfert.WSResult;
 import fr.jerep6.ogi.transfert.bean.PartnerRequestTo;
 import fr.jerep6.ogi.transfert.mapping.OrikaMapper;
 
@@ -26,31 +25,29 @@ import fr.jerep6.ogi.transfert.mapping.OrikaMapper;
 public class WSSynchronisation {
 
 	@Autowired
-	private ServiceSynchronisation	serviceSynchronisation;
+	private ServicePartnerRequest	servicePartnerRequest;
 
 	@Autowired
-	private ServicePartnerRequest	servicePartnerRequest;
+	private ServiceSynchronisation	serviceSynchronisation;
 
 	@Autowired
 	private OrikaMapper				mapper;
 
 	@RequestMapping(value = "/{partner}", method = RequestMethod.DELETE)
-	public List<WSResult> delete(@PathVariable("partner") String partner,
-			@RequestParam("ref") List<String> prpReferences) {
-		List<WSResult> results = serviceSynchronisation.delete(partner, prpReferences);
-		return results;
+	public void delete(@PathVariable("partner") String partner, @RequestParam("ref") List<String> prpReferences) {
+		serviceSynchronisation.delete(partner, prpReferences);
 	}
 
 	@RequestMapping(value = "/{partner}/{ref}", method = RequestMethod.GET)
 	public Map<String, Object> get(@PathVariable("partner") String partner, @PathVariable("ref") String prpReference) {
-		Boolean b = serviceSynchronisation.exist(partner, prpReference);
 
+		Boolean exist = serviceSynchronisation.exist(partner, prpReference);
 		PartnerRequest lastRequest = servicePartnerRequest
 				.lastRequest(EnumPartner.valueOfByCode(partner), prpReference);
 		PartnerRequestTo lastRequestTo = mapper.map(lastRequest, PartnerRequestTo.class);
 
 		HashMap<String, Object> result = new HashMap<>(1);
-		result.put("exist", b);
+		result.put("exist", exist);
 		result.put("lastRequest", lastRequestTo);
 		return result;
 	}
@@ -71,8 +68,8 @@ public class WSSynchronisation {
 	}
 
 	@RequestMapping(value = "/{partner}", method = RequestMethod.POST, consumes = "application/json;charset=UTF-8")
-	public List<WSResult> synchronise(@PathVariable("partner") String partner, @RequestBody List<String> prpReferences) {
-		List<WSResult> results = serviceSynchronisation.createOrUpdate(partner, prpReferences);
-		return results;
+	public void synchronise(@PathVariable("partner") String partner, @RequestBody List<String> prpReferences) {
+		serviceSynchronisation.createOrUpdate(partner, prpReferences);
+
 	}
 }

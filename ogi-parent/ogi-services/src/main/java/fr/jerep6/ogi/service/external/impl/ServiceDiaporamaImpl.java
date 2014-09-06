@@ -180,7 +180,6 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 		}
 	}
 
-	@Override
 	public WSResult createOrUpdate(RealProperty prp) {
 		validate(prp);
 
@@ -203,7 +202,6 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 		return result;
 	}
 
-	@Override
 	public WSResult delete(RealProperty prp) {
 		CookieHandler.setDefault(new CookieManager());
 		HttpClient client = HttpClientUtils.buildClient();
@@ -256,7 +254,6 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 		httpGet.releaseConnection();
 	}
 
-	@Override
 	public Boolean exist(RealProperty prp) {
 		Preconditions.checkNotNull(prp);
 		CookieHandler.setDefault(new CookieManager());
@@ -270,7 +267,7 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 
 	/**
 	 * Convert OGI type into acimflo type.
-	 * 
+	 *
 	 * @param category
 	 * @return
 	 */
@@ -288,7 +285,7 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 
 	/**
 	 * Determine if property exist on Acimflo.
-	 * 
+	 *
 	 * @param client
 	 *            http client
 	 * @param prpReference
