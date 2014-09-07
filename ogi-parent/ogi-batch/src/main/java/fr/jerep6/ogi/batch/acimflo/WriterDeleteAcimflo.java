@@ -1,16 +1,14 @@
 package fr.jerep6.ogi.batch.acimflo;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.InitializingBean;
 
-import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.service.ServiceRealProperty;
 import fr.jerep6.ogi.service.external.impl.ServiceAcimfloImpl;
 
-public class WriterDeleteAcimflo implements ItemWriter<String>, InitializingBean {
+public class WriterDeleteAcimflo implements ItemWriter<RealPropertyAcimflo>, InitializingBean {
 
 	private ServiceAcimfloImpl	serviceAcimflo;
 	private ServiceRealProperty	serviceRealProperty;
@@ -27,12 +25,10 @@ public class WriterDeleteAcimflo implements ItemWriter<String>, InitializingBean
 	}
 
 	@Override
-	public void write(List<? extends String> items) throws Exception {
+	public void write(List<? extends RealPropertyAcimflo> items) throws Exception {
 
-		Set<RealProperty> prp = serviceRealProperty.readByReference((List<String>) items);
-
-		for (RealProperty realProperty : prp) {
-			serviceAcimflo.delete(realProperty);
+		for (RealPropertyAcimflo a : items) {
+			serviceAcimflo.delete(a.getTechid(), a.getReference());
 		}
 	}
 

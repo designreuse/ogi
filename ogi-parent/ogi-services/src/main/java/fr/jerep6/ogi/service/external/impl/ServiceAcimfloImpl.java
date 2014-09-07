@@ -349,29 +349,29 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 		}
 	}
 
-	public void delete(RealProperty prp) {
+	public void delete(Integer prpTechid, String prpReference) {
 		try {
 			HttpClient client = createAndConnect();
 
 			// if sale exist on acimflo => delete sale
-			if (existSale(client, prp.getReference())) {
-				delete(prp, Functions::computeSaleReference, client);
+			if (existSale(client, prpReference)) {
+				delete(prpReference, Functions::computeSaleReference, client);
 			}
 			// if rent exist on acimflo => delete rent
-			if (existRent(client, prp.getReference())) {
-				delete(prp, Functions::computeRentReference, client);
+			if (existRent(client, prpReference)) {
+				delete(prpReference, Functions::computeRentReference, client);
 			}
 
-			servicePartnerRequest.addRequest(EnumPartner.ACIMFLO, prp.getTechid(), EnumPartnerRequestType.DELETE_ACK);
+			servicePartnerRequest.addRequest(EnumPartner.ACIMFLO, prpTechid, EnumPartnerRequestType.DELETE_ACK);
 		} catch (Exception e) {
-			servicePartnerRequest.addRequest(EnumPartner.ACIMFLO, prp.getTechid(), EnumPartnerRequestType.DELETE);
+			servicePartnerRequest.addRequest(EnumPartner.ACIMFLO, prpTechid, EnumPartnerRequestType.DELETE);
 			throw e;
 		}
 
 	}
 
-	private void delete(RealProperty prp, Function<String, String> computeReference, HttpClient client) {
-		String reference = computeReference.apply(prp.getReference());
+	private void delete(String prpReference, Function<String, String> computeReference, HttpClient client) {
+		String reference = computeReference.apply(prpReference);
 
 		HttpGet httpGet = new HttpGet(deleteUrl.replace("$reference", reference));
 		WSResult ws;
@@ -379,11 +379,11 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 			HttpResponse response = client.execute(httpGet);
 
 			AcimfloResultDelete result = HttpClientUtils.convertToJson(response, AcimfloResultDelete.class);
-			LOGGER.info("Delete of reference {} : {}. Msg = {}", new Object[] { prp.getReference(),
-					result.getSuccess(), result.getPhrase() });
+			LOGGER.info("Delete of reference {} : {}. Msg = {}", new Object[] { prpReference, result.getSuccess(),
+					result.getPhrase() });
 
 			if (!result.getSuccess()) {
-				ws = new WSResult(prp.getReference(), "KO", result.getPhrase());
+				ws = new WSResult(prpReference, "KO", result.getPhrase());
 				throw new PartnerTechnicalException("Error delete real property on acimflo");
 			}
 		} catch (IOException e) {
