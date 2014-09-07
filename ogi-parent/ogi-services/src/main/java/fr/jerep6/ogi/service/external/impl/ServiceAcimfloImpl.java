@@ -350,17 +350,24 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 	}
 
 	public void delete(RealProperty prp) {
-		HttpClient client = createAndConnect();
+		try {
+			HttpClient client = createAndConnect();
 
-		// Delete sale
-		if (existSale(client, prp.getReference())) {
-			delete(prp, Functions::computeSaleReference, client);
-		}
-		if (existRent(client, prp.getReference())) {
-			delete(prp, Functions::computeRentReference, client);
+			// if sale exist on acimflo => delete sale
+			if (existSale(client, prp.getReference())) {
+				delete(prp, Functions::computeSaleReference, client);
+			}
+			// if rent exist on acimflo => delete rent
+			if (existRent(client, prp.getReference())) {
+				delete(prp, Functions::computeRentReference, client);
+			}
+
+			servicePartnerRequest.addRequest(EnumPartner.ACIMFLO, prp.getTechid(), EnumPartnerRequestType.DELETE_ACK);
+		} catch (Exception e) {
+			servicePartnerRequest.addRequest(EnumPartner.ACIMFLO, prp.getTechid(), EnumPartnerRequestType.DELETE);
+			throw e;
 		}
 
-		servicePartnerRequest.addRequest(EnumPartner.ACIMFLO, prp.getTechid(), EnumPartnerRequestType.DELETE_ACK);
 	}
 
 	private void delete(RealProperty prp, Function<String, String> computeReference, HttpClient client) {
