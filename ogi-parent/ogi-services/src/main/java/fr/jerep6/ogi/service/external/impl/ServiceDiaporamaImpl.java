@@ -25,21 +25,25 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
+import fr.jerep6.ogi.enumeration.EnumPartner;
+import fr.jerep6.ogi.enumeration.EnumPartnerRequestType;
 import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessErrorPartner;
 import fr.jerep6.ogi.exception.business.enumeration.EnumBusinessErrorProperty;
 import fr.jerep6.ogi.exception.technical.NetworkTechnicalException;
+import fr.jerep6.ogi.exception.technical.PartnerTechnicalException;
 import fr.jerep6.ogi.framework.exception.BusinessException;
 import fr.jerep6.ogi.framework.exception.MultipleBusinessException;
 import fr.jerep6.ogi.framework.service.impl.AbstractService;
 import fr.jerep6.ogi.framework.utils.StringUtils;
 import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
+import fr.jerep6.ogi.service.ServicePartnerRequest;
 import fr.jerep6.ogi.service.external.ServicePartner;
 import fr.jerep6.ogi.service.external.transfert.AcimfloResultDelete;
 import fr.jerep6.ogi.service.external.transfert.AcimfloResultExist;
@@ -48,38 +52,41 @@ import fr.jerep6.ogi.utils.HttpClientUtils;
 
 @Service("serviceDiaporama")
 public class ServiceDiaporamaImpl extends AbstractService implements ServicePartner {
-	private final Logger	LOGGER	= LoggerFactory.getLogger(ServiceDiaporamaImpl.class);
+	private final Logger			LOGGER	= LoggerFactory.getLogger(ServiceDiaporamaImpl.class);
 
 	@Value("${partner.diaporama.connect.url}")
-	private String			loginUrl;
+	private String					loginUrl;
 	@Value("${partner.diaporama.connect.login}")
-	private String			login;
+	private String					login;
 	@Value("${partner.diaporama.connect.pwd}")
-	private String			pwd;
+	private String					pwd;
 
 	@Value("${partner.diaporama.create.url}")
-	private String			createUrl;
+	private String					createUrl;
 	@Value("${partner.diaporama.create.referer}")
-	private String			createReferer;
+	private String					createReferer;
 
 	@Value("${partner.diaporama.update.url}")
-	private String			updateUrl;
+	private String					updateUrl;
 	@Value("${partner.diaporama.update.referer}")
-	private String			updateReferer;
+	private String					updateReferer;
 
 	@Value("${partner.diaporama.delete.url}")
-	private String			deleteUrl;
+	private String					deleteUrl;
 
 	@Value("${partner.diaporama.document.delete.url}")
-	private String			deleteDocumentUrl;
+	private String					deleteDocumentUrl;
 
 	@Value("${partner.diaporama.exist.url}")
-	private String			verifReference;
+	private String					verifReference;
 
 	@Value("${partner.diaporama.apercu.url}")
-	private String			imgApercu;
+	private String					imgApercu;
 
-	private WSResult broadcast(HttpClient client, RealProperty prp, String url, String referer) {
+	@Autowired
+	private ServicePartnerRequest	servicePartnerRequest;
+
+	private void broadcast(HttpClient client, RealProperty prp, String url, String referer) {
 		LOGGER.info("Broadcast to Diaporama. url = {} : referer = {}", url, referer);
 
 		WSResult result;
@@ -133,10 +140,9 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 			String msg = doc.select(".msg").html();
 			LOGGER.info("Result msg = " + msg);
 			if (Strings.isNullOrEmpty(msg) || msg.toLowerCase().contains("erreur")) {
-				LOGGER.error("Empty result msg :" + doc.toString());
-				result = new WSResult(prp.getReference(), "KO", msg);
-			} else {
-				result = new WSResult(prp.getReference(), "OK", msg);
+				LOGGER.error("Error updating diaporama for real property {} : {}. {}", prp.getReference(), msg,
+						doc.toString());
+				throw new PartnerTechnicalException("Erreur diaporama webservice", msg);
 			}
 
 		} catch (IOException e) {
@@ -146,7 +152,6 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 			httpPost.releaseConnection();
 		}
 
-		return result;
 	}
 
 	private void connect(HttpClient client) throws BusinessException {
@@ -180,7 +185,7 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 		}
 	}
 
-	public WSResult createOrUpdate(RealProperty prp) {
+	public void createOrUpdate(RealProperty prp) {
 		validate(prp);
 
 		CookieHandler.setDefault(new CookieManager());
@@ -189,50 +194,51 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 		// Connection to acimflo => session id is keeped
 		connect(client);
 
-		WSResult result;
 		if (prpExist(client, prp.getReference())) {
 			// Update property
 			String refererer = updateReferer.replace("$reference", prp.getReference());
-			result = broadcast(client, prp, updateUrl, refererer);
+			broadcast(client, prp, updateUrl, refererer);
 		} else {
 			// Create property
 			String refererer = createReferer.replace("$reference", prp.getReference());
-			result = broadcast(client, prp, createUrl, refererer);
+			broadcast(client, prp, createUrl, refererer);
 		}
-		return result;
 	}
 
-	public WSResult delete(RealProperty prp) {
-		CookieHandler.setDefault(new CookieManager());
-		HttpClient client = HttpClientUtils.buildClient();
+	public void delete(Integer prpTechid, String prpReference) {
+		try {
+			CookieHandler.setDefault(new CookieManager());
+			HttpClient client = HttpClientUtils.buildClient();
 
-		// Connection to diaporama => session id is keeped
-		connect(client);
+			// Connection to diaporama => session id is keeped
+			connect(client);
 
-		return delete(prp, client);
+			delete(prpReference, client);
+
+			servicePartnerRequest.addRequest(EnumPartner.DIAPORAMA, prpTechid, EnumPartnerRequestType.DELETE_ACK);
+		} catch (Exception e) {
+			servicePartnerRequest.addRequest(EnumPartner.DIAPORAMA, prpTechid, EnumPartnerRequestType.DELETE);
+			throw e;
+		}
 	}
 
-	private WSResult delete(RealProperty prp, HttpClient client) {
-		String reference = prp.getReference();
-
+	private void delete(String reference, HttpClient client) {
 		// If property doesn't exist => nothing to do
-		if (!exist(prp)) {
-			return new WSResult(prp.getReference(), "OK", "Le bien n'existe pas sur le diaporama");
+		if (!prpExist(client, reference)) {
+			LOGGER.warn("No delete order because real property {} doesn't exist on diaporama", reference);
+			return;
 		}
 
-		WSResult ws;
 		HttpGet httpGet = new HttpGet(deleteUrl.replace("$reference", reference));
 		try {
 			HttpResponse response = client.execute(httpGet);
 
 			AcimfloResultDelete result = HttpClientUtils.convertToJson(response, AcimfloResultDelete.class);
-			LOGGER.info("Delete of reference {} : {}. Msg = {}", new Object[] { prp.getReference(),
-					result.getSuccess(), result.getPhrase() });
+			LOGGER.info("Delete of reference {} : {}. Msg = {}",
+					new Object[] { reference, result.getSuccess(), result.getPhrase() });
 
-			if (result.getSuccess()) {
-				ws = new WSResult(prp.getReference(), "OK", result.getPhrase());
-			} else {
-				ws = new WSResult(prp.getReference(), "KO", result.getPhrase());
+			if (!result.getSuccess()) {
+				throw new PartnerTechnicalException("Error delete real property on diaprama");
 			}
 
 		} catch (IOException e) {
@@ -240,8 +246,6 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 		} finally {
 			httpGet.releaseConnection();
 		}
-		return ws;
-
 	}
 
 	private void deleteDocuments(HttpClient client, String reference) throws IOException {
@@ -252,17 +256,6 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 		client.execute(httpGet);
 
 		httpGet.releaseConnection();
-	}
-
-	public Boolean exist(RealProperty prp) {
-		Preconditions.checkNotNull(prp);
-		CookieHandler.setDefault(new CookieManager());
-		HttpClient client = HttpClientUtils.buildClient();
-
-		// Connection to diaporama => session id is keeped
-		connect(client);
-
-		return prpExist(client, prp.getReference());
 	}
 
 	/**

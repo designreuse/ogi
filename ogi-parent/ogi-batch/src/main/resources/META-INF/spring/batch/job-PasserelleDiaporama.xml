@@ -20,12 +20,12 @@
 
 
 	<!-- Job definition -->
-	<batch:job id="jobPasserelle-acimflo" incrementer="idIncrementer">
+	<batch:job id="jobPasserelle-diaporama" incrementer="idIncrementer">
 		<!-- Create or update modified real properties -->
 		<batch:step id="stepHTTPUpdate" next="stepHTTPDelete">
 		  <batch:tasklet>
 <!-- 		  	<batch:transaction-attributes isolation="DEFAULT" /> -->
-			<batch:chunk reader="readerPrpChanged" writer="writerUpdateAcimflo" commit-interval="3" skip-limit="5">
+			<batch:chunk reader="readerPrpChanged" writer="writerUpdateDiaporama" commit-interval="3" skip-limit="5">
 				<batch:skippable-exception-classes>
 					<batch:include class="fr.jerep6.ogi.framework.exception.TechnicalException" />
 				</batch:skippable-exception-classes>
@@ -36,7 +36,7 @@
 		<!-- Delete real properties -->
 		<batch:step id="stepHTTPDelete">
 		  <batch:tasklet>
-			<batch:chunk reader="readerPrpToDeleted" writer="writerDeleteAcimflo" commit-interval="3" skip-limit="5">
+			<batch:chunk reader="readerPrpToDeleted" writer="writerDeleteDiaporama" commit-interval="3" skip-limit="5">
 				<batch:skippable-exception-classes>
 					<batch:include class="fr.jerep6.ogi.framework.exception.TechnicalException" />
 				</batch:skippable-exception-classes>
@@ -49,27 +49,27 @@
 	<!-- Created/update -->
 	<bean id="readerPrpChanged" class="org.springframework.batch.item.database.JdbcCursorItemReader">
 		<property name="dataSource" ref="dataSource" />
-		<property name="sql" value="${acimflo.extraction.update.sql}" />
+		<property name="sql" value="${diaporama.extraction.update.sql}" />
 		<property name="rowMapper">
-			<bean class="fr.jerep6.ogi.batch.acimflo.RowMapperPrp" />
+			<bean class="fr.jerep6.ogi.batch.diaporama.RowMapperPrpDiaporama" />
 		</property>
 	</bean>
-	<bean id="writerUpdateAcimflo" class="fr.jerep6.ogi.batch.acimflo.WriterUpdateAcimflo">
+	<bean id="writerUpdateDiaporama" class="fr.jerep6.ogi.batch.diaporama.WriterUpdateDiaporama">
 		<property name="serviceRealProperty" ref="serviceRealProperty" />
-		<property name="serviceAcimflo" ref="serviceAcimflo" />
+		<property name="serviceDiaporama" ref="serviceDiaporama" />
 	</bean>
 	
 	
 	<!-- Delete -->
 	<bean id="readerPrpToDeleted" class="org.springframework.batch.item.database.JdbcCursorItemReader">
 		<property name="dataSource" ref="dataSource" />
-		<property name="sql" value="${acimflo.extraction.delete.sql}" />
+		<property name="sql" value="${diaporama.extraction.delete.sql}" />
 		<property name="rowMapper">
 			<bean class="fr.jerep6.ogi.batch.acimflo.RowMapperPrp" />
 		</property>
 	</bean>
-	<bean id="writerDeleteAcimflo" class="fr.jerep6.ogi.batch.acimflo.WriterDeleteAcimflo">
-		<property name="serviceAcimflo" ref="serviceAcimflo" />
+	<bean id="writerDeleteDiaporama" class="fr.jerep6.ogi.batch.diaporama.WriterDeleteDiaporama">
+		<property name="serviceDiaporama" ref="serviceDiaporama" />
 	</bean>
 
 

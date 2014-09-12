@@ -63,7 +63,6 @@ import fr.jerep6.ogi.service.ServicePartnerRequest;
 import fr.jerep6.ogi.service.external.ServicePartner;
 import fr.jerep6.ogi.service.external.transfert.AcimfloResultDelete;
 import fr.jerep6.ogi.service.external.transfert.AcimfloResultExist;
-import fr.jerep6.ogi.transfert.WSResult;
 import fr.jerep6.ogi.utils.Functions;
 import fr.jerep6.ogi.utils.HttpClientUtils;
 
@@ -137,7 +136,7 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 			String msg = doc.select(".msg").html();
 			LOGGER.info("Result msg = " + msg);
 			if (Strings.isNullOrEmpty(msg) || msg.toLowerCase().contains("erreur")) {
-				LOGGER.error("Error upadting acimflo for real property {} : ", reference, msg);
+				LOGGER.error("Error updating acimflo for real property {} : {}", reference, msg);
 				throw new PartnerTechnicalException("Erreur acimflo webservice", msg);
 			}
 		} catch (IOException e) {
@@ -374,7 +373,6 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 		String reference = computeReference.apply(prpReference);
 
 		HttpGet httpGet = new HttpGet(deleteUrl.replace("$reference", reference));
-		WSResult ws;
 		try {
 			HttpResponse response = client.execute(httpGet);
 
@@ -383,7 +381,6 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 					result.getPhrase() });
 
 			if (!result.getSuccess()) {
-				ws = new WSResult(prpReference, "KO", result.getPhrase());
 				throw new PartnerTechnicalException("Error delete real property on acimflo");
 			}
 		} catch (IOException e) {
