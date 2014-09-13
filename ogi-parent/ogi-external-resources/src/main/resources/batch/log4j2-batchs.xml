@@ -8,8 +8,8 @@
 			<PatternLayout pattern="[%d{ISO8601}] - [%p] - [THREAD %t] - %c[%l] - %m %n" />
 		</Console>
 		<RollingFile  name="R1" 
-				fileName="D:/Developpement/Master/Java8/logs/batch-seloger.log"
-				filePattern="D:/Developpement/Master/Java8/logs/batch-seloger-%d{yyyy-MM-dd}-%i.log"
+				fileName="D:/Developpement/Master/Java8/logs/batchs.log"
+				filePattern="D:/Developpement/Master/Java8/logs/batchs-%d{yyyy-MM-dd}-%i.log"
 				>
 			<PatternLayout pattern="[%d{ISO8601}] - [%p] - [THREAD %t] - %c[%l] - %m %n" />
 			<Policies>

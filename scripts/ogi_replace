@@ -45,6 +45,6 @@ SCRIPT_SELOGER=$PATH_OGI_INSTALL"batchs/bin/seloger-passerelle.sh"
 sed -i "s/PROPERTIES_PWD/PASSPHRASE/g" $SCRIPT_SELOGER
 
 #log4j file
-LOG4J_FILE=$PATH_OGI_INSTALL"resources/batch/log4j2-seloger.xml"
-sed -i 's/fileName=".*"/filename="\/home\/jerep6\/install\/ogi\/logs\/batch-seloger.log"/g' $LOG4J_FILE
-sed -i 's/filePattern=".*"/filePattern="\/home\/jerep6\/install\/ogi\/logs\/batch-seloger-%d{yyyy-MM-dd}-%i.log"/g' $LOG4J_FILE
+LOG4J_FILE=$PATH_OGI_INSTALL"resources/batch/log4j2-batchs.xml"
+sed -i 's/fileName=".*"/filename="\/home\/jerep6\/install\/ogi\/logs\/batchs.log"/g' $LOG4J_FILE
+sed -i 's/filePattern=".*"/filePattern="\/home\/jerep6\/install\/ogi\/logs\/batchs-%d{yyyy-MM-dd}-%i.log"/g' $LOG4J_FILE
