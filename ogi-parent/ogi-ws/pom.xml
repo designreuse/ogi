@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>fr.jerep6.ogi</groupId>
 		<artifactId>ogi-parent</artifactId>
-		<version>0.3.12-SNAPSHOT</version>
+		<version>0.4.00</version>
 	</parent>
 	<artifactId>ogi-ws</artifactId>
 	<packaging>war</packaging>
