@@ -9,13 +9,11 @@ import java.util.Optional;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
 import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.stereotype.Component;
 
 import fr.jerep6.ogi.framework.persistance.bo.Audit;
 import fr.jerep6.ogi.framework.persistance.dao.DaoAudit;
 import fr.jerep6.ogi.framework.utils.ContextUtils;
 
-@Component
 public class AuditInterceptor extends EmptyInterceptor {
 	private static final long									serialVersionUID	= 1L;
 
@@ -86,8 +84,8 @@ public class AuditInterceptor extends EmptyInterceptor {
 					// Find audit with same entity, id, propertyName
 					Optional<Audit> findFirst = audits.stream().filter(//
 							a -> a.getEntityId().equals(audit.getEntityId()) && //
-									a.getEntityClass().equals(audit.getEntityClass()) && //
-									a.getPropertyName().equals(a.getPropertyName()))//
+							a.getEntityClass().equals(audit.getEntityClass()) && //
+							a.getPropertyName().equals(a.getPropertyName()))//
 							.findFirst();
 
 					if (!findFirst.isPresent()) {
