@@ -41,8 +41,15 @@ sed -i 's/seloger.ftp.directory.*$/seloger.ftp.directory =\//g' $ENVIRONMENT_BAT
 sed -i 's/seloger.ftp.login.*$/seloger.ftp.login =jerep6/g' $ENVIRONMENT_BATCH_FILE
 sed -i 's/seloger.ftp.pwd.*$/seloger.ftp.pwd =123456/g' $ENVIRONMENT_BATCH_FILE
 
-SCRIPT_SELOGER=$PATH_OGI_INSTALL"batchs/bin/seloger-passerelle.sh"
+SCRIPT_SELOGER=$PATH_OGI_INSTALL"batchs/bin/passerelle-seloger.sh"
 sed -i "s/PROPERTIES_PWD/PASSPHRASE/g" $SCRIPT_SELOGER
+
+SCRIPT_ACIMFLO=$PATH_OGI_INSTALL"batchs/bin/passerelle-acimflo.sh"
+sed -i "s/PROPERTIES_PWD/PASSPHRASE/g" $SCRIPT_ACIMFLO
+
+SCRIPT_DIAPORAMA=$PATH_OGI_INSTALL"batchs/bin/passerelle-diaporama.sh"
+sed -i "s/PROPERTIES_PWD/PASSPHRASE/g" $SCRIPT_DIAPORAMA
+
 
 #log4j file
 LOG4J_FILE=$PATH_OGI_INSTALL"resources/batch/log4j2-batchs.xml"
