@@ -2,7 +2,6 @@ package fr.jerep6.ogi.persistance.dao.impl;
 
 import java.util.List;
 
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.slf4j.Logger;
@@ -17,7 +16,6 @@ import fr.jerep6.ogi.enumeration.EnumPartner;
 import fr.jerep6.ogi.enumeration.EnumPartnerRequestType;
 import fr.jerep6.ogi.framework.persistance.dao.impl.AbstractDao;
 import fr.jerep6.ogi.persistance.bo.PartnerRequest;
-import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.dao.DaoPartnerRequest;
 
 @Repository("daoPartnerRequest")
@@ -62,10 +60,12 @@ public class DaoPartnerRequestImpl extends AbstractDao<PartnerRequest, Integer> 
 	 * Retourne pour chaque bien la dernière requête exécutée
 	 */
 	@Override
-	public List<Object[]> lastRequests() {
+	public List<PartnerRequest> lastRequests() {
+		// Je ne veux pas mapper les PartnerRequest dans le bien car hibernate créé une FK lors de la création de la
+		// table
+		// Requête originale : SELECT rp, r FROM " + RealProperty.class.getName() + " rp LEFT JOIN rp.partnersRequests r
 		StringBuilder q = new StringBuilder();
-		q.append("SELECT rp, r FROM " + RealProperty.class.getName() + " rp ");
-		q.append(" LEFT JOIN rp.partnersRequests r ");
+		q.append("SELECT distinct(r) FROM " + PartnerRequest.class.getName() + " r ");
 		q.append(" WHERE NOT EXISTS (");
 		q.append(" 		SELECT r2.techid FROM " + PartnerRequest.class.getName() + " r2 ");
 		q.append(" 		WHERE r2.partner = r.partner");
@@ -73,8 +73,7 @@ public class DaoPartnerRequestImpl extends AbstractDao<PartnerRequest, Integer> 
 		q.append(" 		AND r2.modificationDate > r.modificationDate");
 		q.append(")");
 
-		Query query = entityManager.createQuery(q.toString());
-
+		TypedQuery<PartnerRequest> query = entityManager.createQuery(q.toString(), PartnerRequest.class);
 		return query.getResultList();
 	}
 

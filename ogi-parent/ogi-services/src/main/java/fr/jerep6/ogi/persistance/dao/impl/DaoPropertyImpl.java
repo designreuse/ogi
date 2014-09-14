@@ -29,6 +29,7 @@ public class DaoPropertyImpl extends AbstractDao<RealProperty, Integer> implemen
 	Logger								LOGGER			= LoggerFactory.getLogger(DaoPropertyImpl.class);
 
 	private static final String			PARAM_REFERENCE	= "REFERENCE";
+	private static final String			PARAM_TECHID	= "TECHID";
 
 	private static Map<String, String>	allowSortBy		= new HashMap<String, String>();
 	static {
@@ -115,15 +116,27 @@ public class DaoPropertyImpl extends AbstractDao<RealProperty, Integer> implemen
 	}
 
 	@Override
-	public Integer readTechid(String reference) {
+	public List<Object[]> readReferences(List<Integer> techid) {
 		StringBuilder q = new StringBuilder();
-		q.append("SELECT techid FROM " + RealProperty.class.getName() + " r");
-		q.append(" WHERE r.reference = :" + PARAM_REFERENCE);
+		q.append("SELECT techid, reference FROM " + RealProperty.class.getName() + " r");
+		q.append(" WHERE r.techid IN ( :" + PARAM_TECHID + ")");
 
-		TypedQuery<Integer> query = entityManager.createQuery(q.toString(), Integer.class);
-		query.setParameter(PARAM_REFERENCE, reference);
+		TypedQuery<Object[]> query = entityManager.createQuery(q.toString(), Object[].class);
+		query.setParameter(PARAM_TECHID, techid);
 
-		return Iterables.getFirst(query.getResultList(), null);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<Object[]> readTechids(List<String> references) {
+		StringBuilder q = new StringBuilder();
+		q.append("SELECT techid, reference FROM " + RealProperty.class.getName() + " r");
+		q.append(" WHERE r.reference IN ( :" + PARAM_REFERENCE + ")");
+
+		TypedQuery<Object[]> query = entityManager.createQuery(q.toString(), Object[].class);
+		query.setParameter(PARAM_REFERENCE, references);
+
+		return query.getResultList();
 	}
 
 	@Override

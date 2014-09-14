@@ -1,8 +1,10 @@
 package fr.jerep6.ogi.service.impl;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -298,8 +300,32 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 	}
 
 	@Override
+	public Map<Integer, String> readReferences(List<Integer> techids) {
+		List<Object[]> read = daoProperty.readReferences(techids);
+
+		Map<Integer, String> m = new HashMap<Integer, String>();
+		for (Object[] o : read) {
+			m.put((Integer) o[0], (String) o[1]);
+		}
+
+		return m;
+	}
+
+	@Override
 	public Integer readTechid(String reference) {
-		return daoProperty.readTechid(reference);
+		return readTechids(Arrays.asList(reference)).get(reference);
+	}
+
+	@Override
+	public Map<String, Integer> readTechids(List<String> references) {
+		List<Object[]> read = daoProperty.readTechids(references);
+
+		Map<String, Integer> m = new HashMap<String, Integer>();
+		for (Object[] o : read) {
+			m.put((String) o[1], (Integer) o[0]);
+		}
+
+		return m;
 	}
 
 	@Override

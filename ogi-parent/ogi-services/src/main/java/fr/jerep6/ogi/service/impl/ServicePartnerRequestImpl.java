@@ -18,7 +18,6 @@ import fr.jerep6.ogi.enumeration.EnumPartner;
 import fr.jerep6.ogi.enumeration.EnumPartnerRequestType;
 import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
 import fr.jerep6.ogi.persistance.bo.PartnerRequest;
-import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.dao.DaoPartnerRequest;
 import fr.jerep6.ogi.service.ServicePartnerRequest;
 import fr.jerep6.ogi.service.ServiceRealProperty;
@@ -26,7 +25,7 @@ import fr.jerep6.ogi.service.ServiceRealProperty;
 @Service("servicePartnerExistence")
 @Transactional(propagation = Propagation.REQUIRED)
 public class ServicePartnerRequestImpl extends AbstractTransactionalService<PartnerRequest, Integer> implements
-		ServicePartnerRequest {
+ServicePartnerRequest {
 	private final Logger		LOGGER	= LoggerFactory.getLogger(ServicePartnerRequestImpl.class);
 
 	@Autowired
@@ -62,12 +61,17 @@ public class ServicePartnerRequestImpl extends AbstractTransactionalService<Part
 
 	@Override
 	public Map<String, List<PartnerRequest>> lastRequests() {
-		List<Object[]> lastRequests = daoPartnerRequest.lastRequests();
+		List<PartnerRequest> lastRequests = daoPartnerRequest.lastRequests();
+		Map<Integer, String> references = serviceRealProperty.readReferences(lastRequests.stream()
+				.map(r -> r.getProperty()).collect(Collectors.toList()));
 
-		Map<String, List<PartnerRequest>> collect2 = lastRequests.stream().collect(
-		// Grouping by prp reference and extract only partner request
-				Collectors.groupingBy(o -> ((RealProperty) o[0]).getReference(), //
-						Collectors.mapping(o -> (PartnerRequest) o[1], Collectors.toList())));
+		Map<String, List<PartnerRequest>> collect2 = lastRequests.stream()
+		// Delete nonexistent properties
+				.filter(r -> references.containsKey(r.getProperty()))//
+				.collect(
+						// Grouping by prp reference and extract only partner request
+						Collectors.groupingBy(o -> references.get(o.getProperty()), //
+								Collectors.mapping(o -> o, Collectors.toList())));
 
 		// Remove null element from map value
 		collect2.entrySet().stream().forEach(e -> e.setValue(//
@@ -76,5 +80,4 @@ public class ServicePartnerRequestImpl extends AbstractTransactionalService<Part
 
 		return collect2;
 	}
-
 }

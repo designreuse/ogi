@@ -1,6 +1,7 @@
 package fr.jerep6.ogi.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -11,14 +12,14 @@ import fr.jerep6.ogi.transfert.ListResult;
 public interface ServiceRealProperty extends TransactionalService<RealProperty, Integer> {
 	/**
 	 * Read a property by this business reference
-	 * 
+	 *
 	 * @param reference
 	 */
 	Optional<RealProperty> readByReference(String reference);
 
 	/**
 	 * Delete properties
-	 * 
+	 *
 	 * @param reference
 	 *            properties references to delete
 	 */
@@ -26,7 +27,7 @@ public interface ServiceRealProperty extends TransactionalService<RealProperty, 
 
 	/**
 	 * Return property according to criteria into parameters
-	 * 
+	 *
 	 * @param pageNumber
 	 *            page to display. Between 1 and XXX
 	 * @param itemNumberPerPage
@@ -43,7 +44,7 @@ public interface ServiceRealProperty extends TransactionalService<RealProperty, 
 
 	/**
 	 * Get techid from a fonctionnal reference
-	 * 
+	 *
 	 * @param aRef
 	 * @return
 	 */
@@ -51,14 +52,18 @@ public interface ServiceRealProperty extends TransactionalService<RealProperty, 
 
 	/**
 	 * Create a real property. All the associated entities are read in database from theirs business fields.
-	 * 
+	 *
 	 * Write dpe into dpe property directory
-	 * 
+	 *
 	 * @param property
 	 * @return
 	 */
 	RealProperty createFromBusinessFields(RealProperty propertyFromJson);
 
 	RealProperty updateFromBusinessFields(String reference, RealProperty propertyFromJson);
+
+	Map<String, Integer> readTechids(List<String> references);
+
+	Map<Integer, String> readReferences(List<Integer> techids);
 
 }
