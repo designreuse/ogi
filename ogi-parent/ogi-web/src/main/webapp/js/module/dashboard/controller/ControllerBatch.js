@@ -12,6 +12,7 @@ function($scope, $http, Page, ServiceConfiguration) {
     $scope.jobs = {};
     getExecutions("seloger");
     getExecutions("acimflo");
+    getExecutions("diaporama");
 
     function getExecutions(name) {
         $http.get(ServiceConfiguration.API_URL+"/rest/batch/",
