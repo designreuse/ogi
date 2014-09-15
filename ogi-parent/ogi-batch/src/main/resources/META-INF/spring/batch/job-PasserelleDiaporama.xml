@@ -65,7 +65,7 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="sql" value="${diaporama.extraction.delete.sql}" />
 		<property name="rowMapper">
-			<bean class="fr.jerep6.ogi.batch.acimflo.RowMapperPrp" />
+			<bean class="fr.jerep6.ogi.batch.diaporama.RowMapperPrpDiaporama" />
 		</property>
 	</bean>
 	<bean id="writerDeleteDiaporama" class="fr.jerep6.ogi.batch.diaporama.WriterDeleteDiaporama">
