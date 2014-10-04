@@ -5,12 +5,14 @@ function($scope, $http, Page, ServiceConfiguration) {
     var batches = {
         "seloger" : {"jobName":"jobPasserelle-seloger.com"},
         "acimflo" : {"jobName":"jobPasserelle-acimflo"},
-        "diaporama" : {"jobName":"jobPasserelle-diaporama"}
+        "diaporama" : {"jobName":"jobPasserelle-diaporama"},
+        "leboncoin" : {"jobName":"jobPasserelle-leboncoin"}
     }
 
     // Read jobs status
     $scope.jobs = {};
     getExecutions("seloger");
+    getExecutions("leboncoin");
     getExecutions("acimflo");
     getExecutions("diaporama");
 

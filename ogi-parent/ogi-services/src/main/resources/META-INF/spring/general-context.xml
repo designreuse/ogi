@@ -58,6 +58,7 @@
 		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).ACIMFLO}" value-ref="serviceAcimflo" />
 		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).DIAPORAMA}" value-ref="serviceDiaporama" />
 		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).SE_LOGER}" value-ref="serviceSeLoger" />
+		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).LE_BONCOIN}" value-ref="serviceLeBonCoin" />
 	</util:map>
 
 	<util:map id="mapAcimfloUrl">

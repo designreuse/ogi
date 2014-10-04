@@ -2,10 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e867116-9053-4894-bee5-087a926bbbcb" name="Default" comment="Re">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/img/LogoLeBonCoin.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../../ogi-external-resources/src/main/resources/batch/properties/functional-batch.properties" afterPath="$PROJECT_DIR$/../../../../ogi-external-resources/src/main/resources/batch/properties/functional-batch.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/module/dashboard/controller/ControllerBatch.js" afterPath="$PROJECT_DIR$/js/module/dashboard/controller/ControllerBatch.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabPartner.js" afterPath="$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabPartner.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/module/dashboard/view/batch.html" afterPath="$PROJECT_DIR$/js/module/dashboard/view/batch.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/dashboard.css" afterPath="$PROJECT_DIR$/css/dashboard.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../../ogi-external-resources/src/main/resources/batch/properties/environment-batch.properties" afterPath="$PROJECT_DIR$/../../../../ogi-external-resources/src/main/resources/batch/properties/environment-batch.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../../ogi-ws/.settings/org.eclipse.wst.common.component" afterPath="$PROJECT_DIR$/../../../../ogi-ws/.settings/org.eclipse.wst.common.component" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/module/property/view/prpFormTabAdministratif.html" afterPath="$PROJECT_DIR$/js/module/property/view/prpFormTabAdministratif.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/module/property/view/prpFormTabDescLivable.html" afterPath="$PROJECT_DIR$/js/module/property/view/prpFormTabDescLivable.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ogi-web.iws" />
@@ -29,10 +33,28 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="prpFormTabDescLivable.html" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/js/module/property/view/prpFormTabDescLivable.html">
+      <file leaf-file-name="ControllerPrpTabPartner.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabPartner.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="205" column="49" selection-start="10689" selection-end="10689" vertical-scroll-proportion="0.87921846" vertical-offset="2990" max-vertical-offset="3910">
+            <state line="8" column="5" selection-start="633" selection-end="633" vertical-scroll-proportion="-0.028862478" vertical-offset="153" max-vertical-offset="1054">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ControllerPrpModify.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpModify.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1173">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="prpFormTabPartner.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/module/property/view/prpFormTabPartner.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="663">
               <folding />
             </state>
           </provider>
@@ -62,22 +84,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/js/module/common/controller/ControllerHome.js" />
-        <option value="$PROJECT_DIR$/js/module/common/common.js" />
-        <option value="$PROJECT_DIR$/css/dashboard.less" />
-        <option value="$PROJECT_DIR$/js/module/dashboard/dashboard.js" />
-        <option value="$PROJECT_DIR$/js/app.js" />
-        <option value="$PROJECT_DIR$/js/module/dashboard/controller/ControllerDashboard.js" />
-        <option value="$PROJECT_DIR$/js/module/dashboard/view/dashboard.html" />
+        <option value="$PROJECT_DIR$/js/module/property/controller/ControllerPrpOwner.js" />
+        <option value="$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabAdministratif.js" />
+        <option value="$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabDesc.js" />
+        <option value="$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabDiagnosis.js" />
+        <option value="$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabDocuments.js" />
+        <option value="$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabGeneral.js" />
+        <option value="$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabRoom.js" />
+        <option value="$PROJECT_DIR$/js/module/passerelle/passerelle.js" />
+        <option value="$PROJECT_DIR$/js/module/passerelle/controller/ControllerDashboard.js" />
         <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/js/module/owner/view/ownerList.html" />
-        <option value="$PROJECT_DIR$/js/module/common/filter/filters.js" />
-        <option value="$PROJECT_DIR$/js/module/dashboard/controller/ControllerHome.js" />
-        <option value="$PROJECT_DIR$/js/module/dashboard/view/home.html" />
-        <option value="$PROJECT_DIR$/js/module/property/view/prpFormTabGeneral.html" />
-        <option value="$PROJECT_DIR$/js/module/common/objects.js" />
-        <option value="$PROJECT_DIR$/js/module/property/view/prpFormTabAdministratif.html" />
-        <option value="$PROJECT_DIR$/js/module/property/view/prpFormTabDescLivable.html" />
+        <option value="$PROJECT_DIR$/js/module/passerelle/controller/ControllerBatch.js" />
+        <option value="$PROJECT_DIR$/js/module/passerelle/view/batch.html" />
+        <option value="$PROJECT_DIR$/js/module/dashboard/dashboard.js" />
+        <option value="$PROJECT_DIR$/js/module/dashboard/view/batch.html" />
+        <option value="$PROJECT_DIR$/js/module/dashboard/controller/ControllerBatch.js" />
+        <option value="$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabPartner.js" />
       </list>
     </option>
   </component>
@@ -287,7 +309,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="owner" />
+              <option name="myItemId" value="passerelle" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controller" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -306,14 +332,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="module" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="owner" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="view" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -401,141 +419,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="module" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="config" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ogi-web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webapp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="module" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="common" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ogi-web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webapp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="module" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="common" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="service" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ogi-web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webapp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="module" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="common" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="filter" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ogi-web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webapp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="module" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="common" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="directive" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ogi-web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webapp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="module" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="common" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controller" />
+              <option name="myItemId" value="img" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -551,6 +435,24 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="css" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ogi-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="css" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="properties.less" />
+              <option name="myItemType" value="com.intellij.plugins.watcher.projectView.NestingTreeNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -579,13 +481,13 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="162" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="162" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="169" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="162" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="837" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="844" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="837" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="165" />
     <property name="GoToClass.includeJavaFiles" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="158" />
@@ -599,25 +501,25 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
-    <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
     <property name="ChangesBrowser.SHOW_FLATTEN" value="false" />
+    <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
     <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Developpement\Master\Java8\workspace\ogi\ogi-parent\ogi-web\src\main\webapp\img" />
       <recent name="D:\Developpement\Master\Java8\workspace\ogi\ogi-parent\ogi-web\src\main\webapp\js\module\dashboard\controller" />
       <recent name="D:\Developpement\Master\Java8\workspace\ogi\ogi-parent\ogi-web\src\main\webapp\js\module\dashboard\view" />
       <recent name="D:\Developpement\Master\Java8\workspace\ogi\ogi-parent\ogi-web\src\main\webapp\js\module\common\view" />
       <recent name="D:\Developpement\Master\Java8\workspace\ogi\ogi-parent\ogi-web\src\main\webapp\js\module\common\controller" />
-      <recent name="D:\Developpement\Master\Java7\workspace\ogi\ogi-web\css" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\Developpement\Master\Java7\workspace\ogi\ogi-web\theme" />
-      <recent name="D:\Developpement\Master\Java7\workspace\ogi\ogi-web" />
-      <recent name="D:\Developpement\Master\Java7\workspace\ogi\ogi-web\css" />
-      <recent name="D:\Developpement\Master\Java7\workspace\ogi\ogi-web\fonts" />
-      <recent name="D:\Developpement\Master\Java7\workspace\ogi\ogi-web\js\views\property" />
+      <recent name="D:\Developpement\Master\Java8\workspace\ogi\ogi-parent\ogi-web\src\main\webapp\js\module\dashboard\view" />
+      <recent name="D:\Developpement\Master\Java8\workspace\ogi\ogi-parent\ogi-web\src\main\webapp\js\module\dashboard\controller" />
+      <recent name="D:\Developpement\Master\Java8\workspace\ogi\ogi-parent\ogi-web\src\main\webapp\js\module\passerelle\view" />
+      <recent name="D:\Developpement\Master\Java8\workspace\ogi\ogi-parent\ogi-web\src\main\webapp\js\module\passerelle\controller" />
+      <recent name="D:\Developpement\Master\Java8\workspace\ogi\ogi-parent\ogi-web\src\main\webapp\css" />
     </key>
   </component>
   <component name="RunManager">
@@ -890,14 +792,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="61" y="-8" width="1313" height="784" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32935154" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31751227" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32993197" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2733813" sideWeight="0.68471336" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29736212" sideWeight="0.68471336" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32961783" sideWeight="0.67197454" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3280255" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
@@ -906,7 +808,7 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31528664" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31528664" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32993197" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -955,137 +857,100 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/js/module/common/utils.js">
+    <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabGeneral.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="0" selection-start="231" selection-end="231" vertical-scroll-proportion="0.25415283" vertical-offset="0" max-vertical-offset="602" />
+        <state line="0" column="70" selection-start="0" selection-end="70" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3264" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabRoom.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="66" column="6" selection-start="2610" selection-end="2610" vertical-scroll-proportion="0.2400722" vertical-offset="989" max-vertical-offset="3434" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabDiagnosis.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="9" selection-start="421" selection-end="421" vertical-scroll-proportion="0.25415283" vertical-offset="0" max-vertical-offset="602" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerList.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="42" selection-start="305" selection-end="305" vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="2244" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/passerelle/passerelle.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="19" selection-start="248" selection-end="248" vertical-scroll-proportion="0.17317487" vertical-offset="0" max-vertical-offset="589" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/module/dashboard/dashboard.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="0" selection-start="482" selection-end="482" vertical-scroll-proportion="0.28239202" vertical-offset="0" max-vertical-offset="602" />
+        <state line="6" column="18" selection-start="245" selection-end="245" vertical-scroll-proportion="0.16943522" vertical-offset="0" max-vertical-offset="602" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/module/common/service/ServiceUtils.js">
+    <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="602" />
+        <state line="73" column="0" selection-start="3946" selection-end="3946" vertical-scroll-proportion="-7.923077" vertical-offset="1035" max-vertical-offset="2822" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/module/common/service/services.js">
+    <entry file="file://$PROJECT_DIR$/js/lib/angular.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="48" selection-start="2013" selection-end="2013" vertical-scroll-proportion="3.173913" vertical-offset="0" max-vertical-offset="1785" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3740" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/module/common/service/ServiceUrl.js">
+    <entry file="file://$PROJECT_DIR$/js/lib/angular-sanitize.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="23" selection-start="96" selection-end="111" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="272" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="289" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/module/common/controller/ControllerSearch.js">
+    <entry file="file://$PROJECT_DIR$/js/module/passerelle/controller/ControllerPasserelleRecap.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="47" selection-start="397" selection-end="397" vertical-scroll-proportion="0.0" vertical-offset="19" max-vertical-offset="442" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/module/owner/view/ownerList.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="76" selection-start="1333" selection-end="1385" vertical-scroll-proportion="0.3561644" vertical-offset="346" max-vertical-offset="1530" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/module/common/filter/filters.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="77" selection-start="1082" selection-end="1082" vertical-scroll-proportion="0.15841584" vertical-offset="650" max-vertical-offset="1462" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/module/dashboard/controller/ControllerHome.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="100" selection-start="649" selection-end="649" vertical-scroll-proportion="0.33887044" vertical-offset="0" max-vertical-offset="602" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/module/dashboard/view/home.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="71" selection-start="205" selection-end="205" vertical-scroll-proportion="-1.9615384" vertical-offset="0" max-vertical-offset="544" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/module/property/view/prpFormTabOwner.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="42" selection-start="299" selection-end="299" vertical-scroll-proportion="8.5" vertical-offset="306" max-vertical-offset="1479" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/module/property/view/prpFormTabRoom.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="84" column="24" selection-start="3820" selection-end="4052" vertical-scroll-proportion="0.5435169" vertical-offset="1122" max-vertical-offset="3536">
-          <folding>
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1405760279511" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/module/property/view/prpFormTabGeneral.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="47" selection-start="679" selection-end="679" vertical-scroll-proportion="0.0" vertical-offset="221" max-vertical-offset="3026">
+        <state line="5" column="22" selection-start="226" selection-end="237" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="629">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/module/common/objects.js">
+    <entry file="file://$PROJECT_DIR$/js/module/dashboard/view/batch.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="20" selection-start="165" selection-end="165" vertical-scroll-proportion="0.20203735" vertical-offset="0" max-vertical-offset="1870">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/module/property/view/prpFormTabAdministratif.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="133" selection-start="2271" selection-end="2287" vertical-scroll-proportion="0.6642984" vertical-offset="357" max-vertical-offset="4811">
+        <state line="30" column="53" selection-start="991" selection-end="991" vertical-scroll-proportion="-11.769231" vertical-offset="204" max-vertical-offset="867">
           <folding>
-            <element signature="n#style#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#2;n#div#0;n#div#1;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <marker date="1412280067311" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1412280067311" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1412280067311" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1412280067311" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1412280067311" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/module/property/view/prpFormTabDescLivable.html">
+    <entry file="file://$PROJECT_DIR$/js/module/dashboard/controller/ControllerBatch.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="205" column="49" selection-start="10689" selection-end="10689" vertical-scroll-proportion="0.87921846" vertical-offset="2990" max-vertical-offset="3910">
+        <state line="8" column="57" selection-start="400" selection-end="400" vertical-scroll-proportion="0.22591361" vertical-offset="0" max-vertical-offset="602">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/img/LogoLeBonCoin.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpModify.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1173">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/view/prpFormTabPartner.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="663">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabPartner.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="5" selection-start="633" selection-end="633" vertical-scroll-proportion="-0.028862478" vertical-offset="153" max-vertical-offset="1054">
           <folding />
         </state>
       </provider>

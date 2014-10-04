@@ -8,11 +8,12 @@ import lombok.Getter;
 public enum EnumPartner {
 	ACIMFLO("acimflo"), //
 	DIAPORAMA("diaporama"), //
-	SE_LOGER("seloger");
+	SE_LOGER("seloger"), //
+	LE_BONCOIN("leboncoin");
 
 	/**
 	 * Get the enumeration from this code
-	 * 
+	 *
 	 * @param code
 	 * @return
 	 */

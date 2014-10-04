@@ -5,3 +5,9 @@
   color: red;
   font-weight: bold;
 }
+.expired {
+  color: red;
+}
+.soon_expired {
+  color: orange;
+}

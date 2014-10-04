@@ -17,12 +17,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class FileUtils {
-	private static final Logger	LOGGER				= LoggerFactory.getLogger(FileUtils.class);
-	private static Integer		DEFAULT_BUFFER_SIZE	= 1024;
-
 	/**
 	 * Delete path. If folder is not empty delete all this content before delete it
-	 * 
+	 *
 	 * @param p
 	 *            path to delete. Folder or file
 	 * @throws IOException
@@ -63,6 +60,25 @@ public final class FileUtils {
 		}
 	}
 
+	/**
+	 * True if file is an image
+	 *
+	 * @param p
+	 * @return
+	 */
+	public static boolean isImage(Path p) {
+		boolean isImg = false;
+		if (p != null) {
+			try {
+				String mime = Files.probeContentType(p);
+				return mime != null && mime.contains("image");
+			} catch (IOException e) {
+				LOGGER.warn("", e);
+			}
+		}
+		return isImg;
+	}
+
 	public static void write(InputStream is, OutputStream os) throws IOException {
 		byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
 		int bytesRead;
@@ -78,7 +94,7 @@ public final class FileUtils {
 	 * Copy bytes from an InputStream to chars on a Writer using UTF-8 charset
 	 * This method buffers the input internally, so there is no need to use a BufferedInputStream.
 	 * This method uses java.io.InputStreamReader.
-	 * 
+	 *
 	 * @param input
 	 *            input the InputStream to read from
 	 * @param output
@@ -104,6 +120,10 @@ public final class FileUtils {
 
 		return count;
 	}
+
+	private static final Logger	LOGGER				= LoggerFactory.getLogger(FileUtils.class);
+
+	private static Integer		DEFAULT_BUFFER_SIZE	= 1024;
 
 	private FileUtils() {}
 
