@@ -1,0 +1,141 @@
+#!/bin/bash
+
+#Tous les chemins doivent finir par un slash
+
+#Version de tomcat. Utile pour calculer le chemin de tomcat
+TOMCAT_VERSION=8.0.12
+#Nom de l'enveoppe de livraison. VERSION sera remplacé par la valeur saisie par l'utilisateur
+PATTERN_ENVELOPPE="OGI-VERSION"
+PATTERN_PATH_TOMCAT_DIR="/app/tomcat/"
+
+#Avant d'installer copie les anciens fichiers dans ce dossier
+ARCHIVE_DIR="/app//ogi/archives/`date +"%Y-%m-%d-%H%M%S"`"
+PATH_DELIVERY="/app/ogi/delivery/"
+PATH_OGI_INSTALL="/app/ogi/"
+PATH_TOMCAT_DIR=${PATTERN_PATH_TOMCAT_DIR/VERSION/$TOMCAT_VERSION}
+PATH_TOMCAT_WEBAPP=$PATH_TOMCAT_DIR"webapps/"
+PATH_SCRIPT_REPLACE="/app/bin/ogi_replace"
+ENVELOPPE_NAME=""
+OGI_WS_NAME="ogi-ws.war"
+OGI_WS_FOLDER="ogi-ws"
+OGI_IHM_NAME="ogi-web"
+OGI_RESOURCES_NAME="resources"
+OGI_BATCHS_NAME="batchs"
+
+
+#Paramètres renseignés par la ligne de commande
+#Version à deployer. Servira de chaine de remplacement dans la variable PATTERN_ENVELOPPE
+APP_VERSION=""
+#Faut-il deployer les ressources externes (properties, jasper)
+DEPLOY_RESOURCES=false
+#Faut-il deployer le war contenant l'API rest
+DEPLOY_WS=false
+#Faut-il deployer l'IHM angularjs
+DEPLOY_IHM=false
+#Faut-il deployer les batchs
+DEPLOY_BATCHS=false
+
+
+##### Recup arguments ######
+index=0;
+while [ -n "$1" ]; do
+	case $1 in
+		--app-version)
+			APP_VERSION=$2
+			shift
+			;;
+		--deploy-ws)
+			DEPLOY_WS=true
+			;;
+		--deploy-ihm)
+			DEPLOY_IHM=true
+			;;
+		--deploy-resources)
+			DEPLOY_RESOURCES=true
+			;;
+		--deploy-batchs)
+			DEPLOY_BATCHS=true
+			;;
+	esac
+	shift
+done
+
+#Verification des paramètres
+if [ -z $APP_VERSION ]; then
+	echo "Veuillez renseigner un numéro de version à l'aide du paramètre --app-version NUMERO"
+	exit 2
+fi
+if [ $DEPLOY_WS = false -a $DEPLOY_IHM = false -a $DEPLOY_RESOURCES = false -a $DEPLOY_BATCHS = false ]; then
+	echo "Rien à deployer. Spécifiez au moins un composant à l'aide des options --deploy-ws --deploy-ihm --deploy-resources --deploy-batchs"
+	exit 2
+fi
+
+
+#Positionne la version dans le nom de l'enveloppe
+ENVELOPPE_NAME=${PATTERN_ENVELOPPE/VERSION/$APP_VERSION}
+
+#Vérifie qu'une enveloppe ayant la version spécifiée existe
+if [ ! -d $PATH_DELIVERY$ENVELOPPE_NAME ]; then
+	echo "La version de l'enveloppe n'est pas correcte $PATH_DELIVERY$ENVELOPPE_NAME"
+	exit 3
+fi
+
+echo "DEPLOY_RESOURCES=$DEPLOY_RESOURCES"
+echo "DEPLOY_WS=$DEPLOY_WS"
+echo "DEPLOY_IHM=$DEPLOY_IHM"
+echo "DEPLOY_BATCHS=$DEPLOY_BATCHS"
+echo "ENVELOPPE_NAME=$ENVELOPPE_NAME"
+
+
+
+#Stop tomcat
+$PATH_TOMCAT_DIR"bin/shutdown.sh"
+
+echo "Création du dossier d'archive"
+mkdir -p "$ARCHIVE_DIR"
+
+#Deploy ws war
+if [ $DEPLOY_WS = true ]; then
+	echo "deploy-ws"
+	echo -e "\tSuppression de l'ancien war"
+	if [ -d $PATH_TOMCAT_WEBAPP$OGI_WS_FOLDER ]; then
+		echo -e "\tSuppression du dossier de deploiement apache $OGI_WS_FOLDER"
+		rm -r $PATH_TOMCAT_WEBAPP$OGI_WS_FOLDER
+	fi
+	mv $PATH_TOMCAT_WEBAPP$OGI_WS_NAME $ARCHIVE_DIR
+	echo -e "\tCopie du war à partir de l'enveloppe"
+	cp $PATH_DELIVERY$ENVELOPPE_NAME/$OGI_WS_NAME $PATH_TOMCAT_WEBAPP$OGI_WS_NAME
+fi
+
+#Deploy ihm folder
+if [ $DEPLOY_IHM = true ]; then
+	echo "deploy-ihm"
+	echo -e "\tSuppression de l'ancienne IHM"
+	mv $PATH_TOMCAT_WEBAPP$OGI_IHM_NAME $ARCHIVE_DIR
+	echo -e "\tCopie du dossier à partir de l'enveloppe"
+	cp -r $PATH_DELIVERY$ENVELOPPE_NAME/$OGI_IHM_NAME $PATH_TOMCAT_WEBAPP$OGI_IHM_NAME
+fi
+
+#Deploy batchs
+if [ $DEPLOY_BATCHS = true ]; then
+	echo "deploy-batchs"
+	echo -e "\tSuppression des anciens batchs"
+	mv $PATH_OGI_INSTALL$OGI_BATCHS_NAME $ARCHIVE_DIR
+	echo -e "\tCopie du dossier à partir de l'enveloppe"
+	cp -r $PATH_DELIVERY$ENVELOPPE_NAME/$OGI_BATCHS_NAME $PATH_OGI_INSTALL$OGI_BATCHS_NAME
+fi
+
+#Deploy resources
+if [ $DEPLOY_RESOURCES = true ]; then
+	echo "deploy-resources"
+	echo -e "\tSuppression des anciennes ressources"
+	mv $PATH_OGI_INSTALL$OGI_RESOURCES_NAME $ARCHIVE_DIR
+	echo -e "\tCopie du dossier à partir de l'enveloppe"
+	cp -r $PATH_DELIVERY$ENVELOPPE_NAME/$OGI_RESOURCES_NAME $PATH_OGI_INSTALL$OGI_RESOURCES_NAME
+	
+	echo -e "\tRemplacement des variables d'environnement"
+	$PATH_SCRIPT_REPLACE
+fi
+
+#Start tomcat
+$PATH_TOMCAT_DIR"bin/startup.sh"
