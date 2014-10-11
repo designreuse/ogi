@@ -41,13 +41,12 @@ public class WSSynchronisation {
 	@RequestMapping(value = "/{partner}/{ref}", method = RequestMethod.GET)
 	public Map<String, Object> get(@PathVariable("partner") String partner, @PathVariable("ref") String prpReference) {
 
-		Boolean exist = serviceSynchronisation.exist(partner, prpReference);
 		PartnerRequest lastRequest = servicePartnerRequest
 				.lastRequest(EnumPartner.valueOfByCode(partner), prpReference);
 		PartnerRequestTo lastRequestTo = mapper.map(lastRequest, PartnerRequestTo.class);
 
 		HashMap<String, Object> result = new HashMap<>(1);
-		result.put("exist", exist);
+		result.put("exist", lastRequestTo != null ? lastRequestTo.isPresentOnPartner() : false);
 		result.put("lastRequest", lastRequestTo);
 		return result;
 	}
