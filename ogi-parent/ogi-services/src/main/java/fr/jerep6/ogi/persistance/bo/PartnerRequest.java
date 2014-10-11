@@ -30,31 +30,34 @@ import fr.jerep6.ogi.enumeration.EnumPartnerRequestType;
 @ToString
 @EqualsAndHashCode(of = { "techid" })
 public class PartnerRequest {
+	/** Requête indiquant que le bien est présent dans le système du partenaire */
+	public static EnumPartnerRequestType	REQUEST_EXIST	= EnumPartnerRequestType.ADD_UPDATE_ACK;
+
 	@Id
 	@Column(name = "REQ_ID", unique = true, nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer					techid;
+	private Integer							techid;
 
 	@Column(name = "PRO_ID", nullable = false)
-	private Integer					property;
+	private Integer							property;
 
 	@Column(name = "REQ_PARTNER", nullable = false, length = 16)
 	@Type(type = "fr.jerep6.ogi.framework.persistance.GenericEnumUserType", parameters = {
 			@Parameter(name = "enumClass", value = "fr.jerep6.ogi.enumeration.EnumPartner"),
 			@Parameter(name = "identifierMethod", value = "getCode"),
 			@Parameter(name = "valueOfMethod", value = "valueOfByCode") })
-	private EnumPartner				partner;
+	private EnumPartner						partner;
 
 	@Column(name = "REQ_TYPE", nullable = false, length = 16)
 	@Type(type = "fr.jerep6.ogi.framework.persistance.GenericEnumUserType", parameters = {
 			@Parameter(name = "enumClass", value = "fr.jerep6.ogi.enumeration.EnumPartnerRequestType"),
 			@Parameter(name = "identifierMethod", value = "getCode"),
 			@Parameter(name = "valueOfMethod", value = "valueOfByCode") })
-	private EnumPartnerRequestType	requestType;
+	private EnumPartnerRequestType			requestType;
 
 	@Column(name = "REQ_MODIFICATION_DATE", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Calendar				modificationDate;
+	private Calendar						modificationDate;
 
 	public PartnerRequest() {
 		super();
@@ -66,6 +69,10 @@ public class PartnerRequest {
 		this.partner = partner;
 		this.requestType = requestType;
 		modificationDate = Calendar.getInstance();
+	}
+
+	public boolean getPresentOnPartner() {
+		return REQUEST_EXIST == requestType;
 	}
 
 }

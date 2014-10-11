@@ -70,6 +70,5 @@ public class WSSynchronisation {
 	@RequestMapping(value = "/{partner}", method = RequestMethod.POST, consumes = "application/json;charset=UTF-8")
 	public void synchronise(@PathVariable("partner") String partner, @RequestBody List<String> prpReferences) {
 		serviceSynchronisation.createOrUpdate(partner, prpReferences);
-
 	}
 }

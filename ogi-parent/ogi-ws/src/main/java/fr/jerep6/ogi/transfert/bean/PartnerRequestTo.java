@@ -16,6 +16,7 @@ public class PartnerRequestTo {
 	private String		requestType;
 	private Calendar	modificationDate;
 	private String		label;
+	private boolean		presentOnPartner;
 
 	public PartnerRequestTo() {
 		super();
