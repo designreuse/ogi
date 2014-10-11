@@ -11,6 +11,7 @@
                 <th>Acimflo</th>
                 <th>Diaporama</th>
                 <th>SeLoger.com</th>
+                <th>LeBonCoin</th>
             </tr>
         </thead>
         <tbody>
@@ -26,6 +27,10 @@
 
                 <td class="passerelle_recap_{{request['seloger'].requestType}}">
                     <span ng-if="request['seloger'].presentOnPartner">{{request["seloger"].label}}</span>
+                </td>
+
+                <td class="passerelle_recap_{{request['leboncoin'].requestType}}">
+                    <span ng-if="request['leboncoin'].presentOnPartner">{{request["leboncoin"].label}}</span>
                 </td>
             </tr>
         </tbody>
