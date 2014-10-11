@@ -4,21 +4,21 @@ import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.NoSuchMessageException;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Component;
 
 /**
- * 
+ *
  * @author jerep6
  */
 @Component
 public final class ContextUtils {
-	/** Hold server uri. Populate with FilterRequestContext */
-	public static final ThreadLocal<String>			threadLocalRequestURI	= new ThreadLocal<String>();
-	private static ConfigurableApplicationContext	applicationContext;
-
 	public static <T> T getBean(Class<T> requiredType) {
 		return applicationContext.getBean(requiredType);
+	}
+
+	public static String getMessage(DefaultMessageSourceResolvable resolvable) {
+		return applicationContext.getMessage(resolvable, Locale.FRANCE);
 	}
 
 	public static String getMessage(String code) {
@@ -26,18 +26,18 @@ public final class ContextUtils {
 	}
 
 	public static String getMessage(String code, Object... args) {
-		String msg = "";
-		try {
-			msg = applicationContext.getMessage(code, args, Locale.FRANCE);
-		} catch (NoSuchMessageException nsme) {
-			// No message was found.
-		}
-		return msg;
+		DefaultMessageSourceResolvable resolvable = new DefaultMessageSourceResolvable(new String[] { code }, args, "");
+		return getMessage(resolvable);
 	}
 
 	public static String getProperty(String code) {
 		return applicationContext.getBeanFactory().resolveEmbeddedValue("${" + code + "}");
 	}
+
+	/** Hold server uri. Populate with FilterRequestContext */
+	public static final ThreadLocal<String>			threadLocalRequestURI	= new ThreadLocal<String>();
+
+	private static ConfigurableApplicationContext	applicationContext;
 
 	@Autowired
 	public void setApplicationContext(ConfigurableApplicationContext applicationContext) {

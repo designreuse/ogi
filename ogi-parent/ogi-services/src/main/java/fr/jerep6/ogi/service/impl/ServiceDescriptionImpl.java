@@ -86,11 +86,11 @@ public class ServiceDescriptionImpl extends AbstractTransactionalService<Descrip
 		MultipleBusinessException mbe = new MultipleBusinessException();
 
 		if (Strings.isNullOrEmpty(bo.getLabel())) {
-			mbe.add(EnumBusinessErrorDescription.NO_LABEL, bo.getType());
+			mbe.add(EnumBusinessErrorDescription.NO_LABEL, "partner." + bo.getType().getCode());
 		} else {
 			if (bo.getLabel().length() > bo.getType().getMaxLength()) {
-				mbe.add(EnumBusinessErrorDescription.LABEL_SIZE, bo.getType(), bo.getLabel().length(), bo.getType()
-						.getMaxLength());
+				mbe.add(EnumBusinessErrorDescription.LABEL_SIZE, "partner." + bo.getType().getCode(), bo.getLabel()
+						.length(), bo.getType().getMaxLength());
 			}
 		}
 
