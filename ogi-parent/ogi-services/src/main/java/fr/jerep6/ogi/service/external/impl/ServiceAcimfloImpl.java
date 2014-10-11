@@ -343,6 +343,8 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 					EnumPartnerRequestType.ADD_UPDATE_ACK);
 
 		} catch (Exception e) {
+			// When error occured force last request to be a delete because acimflo handle two reference for one
+			// property (sale and rent). Exemple. Sale can be OK but rent can be KO
 			servicePartnerRequest.addRequest(EnumPartner.ACIMFLO, prp.getTechid(), EnumPartnerRequestType.ADD_UPDATE);
 			throw e;
 		}
@@ -363,6 +365,8 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 
 			servicePartnerRequest.addRequest(EnumPartner.ACIMFLO, prpTechid, EnumPartnerRequestType.DELETE_ACK);
 		} catch (Exception e) {
+			// When error occured force last request to be a delete because acimflo handle two reference for one
+			// property (sale and rent). Exemple. Sale can be OK but rent can be KO
 			servicePartnerRequest.addRequest(EnumPartner.ACIMFLO, prpTechid, EnumPartnerRequestType.DELETE);
 			throw e;
 		}

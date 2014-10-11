@@ -204,23 +204,18 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 
 		// write ack into database
 		servicePartnerRequest.addRequest(EnumPartner.DIAPORAMA, prp.getTechid(), EnumPartnerRequestType.ADD_UPDATE_ACK);
+
 	}
 
 	public void delete(Integer prpTechid, String prpReference) {
-		try {
-			CookieHandler.setDefault(new CookieManager());
-			HttpClient client = HttpClientUtils.buildClient();
+		CookieHandler.setDefault(new CookieManager());
+		HttpClient client = HttpClientUtils.buildClient();
 
-			// Connection to diaporama => session id is keeped
-			connect(client);
+		// Connection to diaporama => session id is keeped
+		connect(client);
+		delete(prpReference, client);
 
-			delete(prpReference, client);
-
-			servicePartnerRequest.addRequest(EnumPartner.DIAPORAMA, prpTechid, EnumPartnerRequestType.DELETE_ACK);
-		} catch (Exception e) {
-			servicePartnerRequest.addRequest(EnumPartner.DIAPORAMA, prpTechid, EnumPartnerRequestType.DELETE);
-			throw e;
-		}
+		servicePartnerRequest.addRequest(EnumPartner.DIAPORAMA, prpTechid, EnumPartnerRequestType.DELETE_ACK);
 	}
 
 	private void delete(String reference, HttpClient client) {
