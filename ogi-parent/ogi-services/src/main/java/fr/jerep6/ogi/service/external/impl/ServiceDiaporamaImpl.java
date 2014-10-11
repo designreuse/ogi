@@ -47,7 +47,6 @@ import fr.jerep6.ogi.service.ServicePartnerRequest;
 import fr.jerep6.ogi.service.external.ServicePartner;
 import fr.jerep6.ogi.service.external.transfert.AcimfloResultDelete;
 import fr.jerep6.ogi.service.external.transfert.AcimfloResultExist;
-import fr.jerep6.ogi.transfert.WSResult;
 import fr.jerep6.ogi.utils.HttpClientUtils;
 
 @Service("serviceDiaporama")
@@ -89,7 +88,6 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 	private void broadcast(HttpClient client, RealProperty prp, String url, String referer) {
 		LOGGER.info("Broadcast to Diaporama. url = {} : referer = {}", url, referer);
 
-		WSResult result;
 		HttpPost httpPost = new HttpPost(url);
 		try {
 			// FileBody uploadFilePart = new FileBody(uploadFile);
@@ -147,7 +145,7 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 
 		} catch (IOException e) {
 			LOGGER.error("Error broadcast property " + prp.getReference() + " on diaporama", e);
-			result = new WSResult(prp.getReference(), "KO", e.getMessage());
+			throw new NetworkTechnicalException(e);
 		} finally {
 			httpPost.releaseConnection();
 		}
@@ -203,6 +201,9 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 			String refererer = createReferer.replace("$reference", prp.getReference());
 			broadcast(client, prp, createUrl, refererer);
 		}
+
+		// write ack into database
+		servicePartnerRequest.addRequest(EnumPartner.DIAPORAMA, prp.getTechid(), EnumPartnerRequestType.ADD_UPDATE_ACK);
 	}
 
 	public void delete(Integer prpTechid, String prpReference) {
