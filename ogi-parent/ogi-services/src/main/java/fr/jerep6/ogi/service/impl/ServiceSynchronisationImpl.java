@@ -80,7 +80,7 @@ public class ServiceSynchronisationImpl extends AbstractService implements Servi
 		try {
 			Integer prpTechid = serviceRealProperty.readTechid(prpReference);
 			result = servicePartnerRequest.lastRequestIs(EnumPartner.valueOfByCode(partner), prpTechid,
-					EnumPartnerRequestType.ADD_UPDATE, EnumPartnerRequestType.ADD_UPDATE_ACK);
+					EnumPartnerRequestType.ADD_UPDATE_ACK);
 		} catch (IllegalArgumentException iae) {
 			LOGGER.warn("Unknow partner {}. Exception = ", partner, iae.getMessage());
 		}
