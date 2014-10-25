@@ -8,13 +8,13 @@ PATH_TOMCAT_WEBAPPS=$PATTERN_PATH_TOMCAT_WEBAPPS
 #log4j file
 LOG4J_FILE=$PATH_OGI_INSTALL"resources/log4j2.xml"
 sed -i '/.*ref="Console"/d' $LOG4J_FILE
-sed -i 's/fileName=".*"/filename="\/app\/ogi\/logs\/app.log"/g' $LOG4J_FILE
-sed -i 's/filePattern=".*"/filePattern="\/app\/ogi\/logs\/app-%d{yyyy-MM-dd}-%i.log"/g' $LOG4J_FILE
+sed -i 's/fileName=".*"/filename="\/data\/logs\/app.log"/g' $LOG4J_FILE
+sed -i 's/filePattern=".*"/filePattern="\/data\/logs\/app-%d{yyyy-MM-dd}-%i.log"/g' $LOG4J_FILE
 
 
 #environment.properties file
 ENVIRONMENT_FILE=$PATH_OGI_INSTALL"resources/properties/environment.properties"
-sed -i 's/document.storage.dir.*$/document.storage.dir =\/app\/ogi\/ogi\/storage\//g' $ENVIRONMENT_FILE
+sed -i 's/document.storage.dir.*$/document.storage.dir =\/data\/storage\//g' $ENVIRONMENT_FILE
 
 sed -i 's/partner.acimflo.url.*$/partner.acimflo.url =http:\/\/www.acimflo.com\//g' $ENVIRONMENT_FILE
 sed -i 's/partner.acimflo.connect.login.*$/partner.acimflo.connect.login =LOGIN/g' $ENVIRONMENT_FILE
@@ -33,7 +33,7 @@ sed -i 's/API_URL:.*,/API_URL:window.location.protocol+"\/\/"+window.location.ho
 #batchs
 ENVIRONMENT_BATCH_FILE=$PATH_OGI_INSTALL"resources/batch/properties/environment-batch.properties"
 sed -i 's/db.url.*$/db.url=jdbc:mysql:\/\/localhost:3306\/ogi/g' $ENVIRONMENT_BATCH_FILE
-sed -i 's/seloger.extraction.file.root.path.*$/seloger.extraction.file.root.path =\/app\/ogi\/tmp\/seloger\//g' $ENVIRONMENT_BATCH_FILE
+sed -i 's/seloger.extraction.file.root.path.*$/seloger.extraction.file.root.path =\/app\/storage\/tmp\/seloger\//g' $ENVIRONMENT_BATCH_FILE
 sed -i 's/seloger.ftp.host.*$/seloger.ftp.host =seloger.com/g' $ENVIRONMENT_BATCH_FILE
 sed -i 's/seloger.ftp.directory.*$/seloger.ftp.directory =\//g' $ENVIRONMENT_BATCH_FILE
 sed -i 's/seloger.ftp.login.*$/seloger.ftp.login =jerep6/g' $ENVIRONMENT_BATCH_FILE
@@ -51,5 +51,5 @@ sed -i "s/PROPERTIES_PWD/PASSPHRASE/g" $SCRIPT_DIAPORAMA
 
 #log4j file
 LOG4J_FILE=$PATH_OGI_INSTALL"resources/batch/log4j2-batchs.xml"
-sed -i 's/fileName=".*"/filename="\/home\/jerep6\/install\/ogi\/logs\/batchs.log"/g' $LOG4J_FILE
-sed -i 's/filePattern=".*"/filePattern="\/app\/ogi/batchs-%d{yyyy-MM-dd}-%i.log"/g' $LOG4J_FILE
+sed -i 's/fileName=".*"/filename="\/data\/logs\/batchs.log"/g' $LOG4J_FILE
+sed -i 's/filePattern=".*"/filePattern="\data\/batchs-%d{yyyy-MM-dd}-%i.log"/g' $LOG4J_FILE

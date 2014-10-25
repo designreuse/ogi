@@ -5,7 +5,7 @@ MAINTAINER jerep6
 RUN apt-get update
 
 # Install packages
-RUN apt-get install --no-install-recommends -y wget curl ca-certificates less
+RUN apt-get install --no-install-recommends -y wget curl ca-certificates less procps vim
 
 # Install mysql and configure it
 RUN apt-get install --no-install-recommends -y mysql-server
