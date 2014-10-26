@@ -20,10 +20,11 @@ ADD tomcat/catalina.properties	/app/tomcat/conf/catalina.properties
 
 
 # Get deployment scripts
-ADD ogi_replace /app/bin/
-ADD ogi_deploy 	/app/bin/
+ADD ogi_replace	/app/bin/
+ADD ogi_deploy	/app/bin/
+ADD ogi_backup	/app/bin/
 ADD run.sh	/app/bin/
-RUN chmod +x /app/bin/*
+RUN chmod +x 	/app/bin/*
 
 #Add delivery envelope
 ONBUILD ADD OGI /app/ogi/delivery/OGI

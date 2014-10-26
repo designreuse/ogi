@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Script permettant de sauvegarder les données de OGI
+# --> dump de mysql
+# --> tar.gz du répertoire des documents
+
+# Show tar content :  tar -tvf install/ogi/backup/2014-05-04/documents.tar.gz
+
+DIRECTORY_BACKUP_ROOT="/data/backup/"
+# Dossier dans lequel sauvegarder les données. Un dossier par jour
+DIRECTORY_BACKUP="$DIRECTORY_BACKUP_ROOT`date +"%Y-%m-%d"`/"
+
+# Mysql parameters
+MYSQL_DATABASE="ogi"
+MYSQL_USER="ogi"
+MYSQL_PWD="ogi"
+MYSQL_FILE_NAME="ogi.sql"
+
+#Documents parameters
+DIRECTORY_DOCUMENT="/data/storage/"
+DIRECTORY_TAR_FILE_NAME="documents.tar.gz"
+
+#Création du répertoire de backup
+mkdir -p $DIRECTORY_BACKUP
+
+
+#Dump de mysql
+mysqldump -u $MYSQL_USER -p$MYSQL_PWD --databases $MYSQL_DATABASE > $DIRECTORY_BACKUP$MYSQL_FILE_NAME
+
+#tar.gz des documents
+# L'utilisation de la commande tar avec l'option -C $DIRECTORY_DOCUMENT fonctionne mais le dossier racine du tar est "."
+ORIGINAL_DIRECTORY=`pwd`
+cd $DIRECTORY_DOCUMENT
+tar czf $DIRECTORY_BACKUP$DIRECTORY_TAR_FILE_NAME --exclude="temp" *
+cd $ORIGINAL_DIRECTORY
+
+
+#rsync vers la vm backup.
+# Utilisation de la variable RSYNC_PASSWORD fonctionnant pour le protocole rsync. Autre solution => --password-file
+#rsync -ahv --delete "$DIRECTORY_BACKUP_ROOT" acimflo@192.168.1.71::OGI/
