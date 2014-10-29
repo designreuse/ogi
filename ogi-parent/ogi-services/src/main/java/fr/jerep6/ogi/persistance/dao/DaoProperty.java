@@ -12,12 +12,7 @@ public interface DaoProperty extends DaoCRUD<RealProperty, Integer> {
 
 	void test();
 
-	/**
-	 * Return maximum techid into database for property
-	 *
-	 * @return
-	 */
-	Integer getMax();
+	Long getReference();
 
 	List<RealProperty> list(Integer pageNumber, Integer itemNumberPerPage, String sortBy, EnumSortByDirection sortDir);
 

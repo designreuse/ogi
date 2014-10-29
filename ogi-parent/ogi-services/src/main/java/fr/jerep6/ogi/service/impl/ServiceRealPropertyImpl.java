@@ -61,7 +61,7 @@ import fr.jerep6.ogi.transfert.mapping.OrikaMapperService;
 @Service("serviceRealProperty")
 @Transactional(propagation = Propagation.REQUIRED)
 public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealProperty, Integer> implements
-		ServiceRealProperty {
+ServiceRealProperty {
 	private static Logger		LOGGER	= LoggerFactory.getLogger(ServiceRealPropertyImpl.class);
 
 	@Autowired
@@ -112,14 +112,12 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 	/**
 	 * Compute new reference for a property.
 	 *
-	 * WARNING : Not thread safe
-	 *
 	 * @param categ
 	 * @return
 	 */
 	private String computeReference(Category categ) {
 		Preconditions.checkNotNull(categ);
-		return categ.getPrefixReference() + (daoProperty.getMax() + 1);
+		return daoProperty.getReference().toString();
 	}
 
 	@Override
@@ -179,12 +177,12 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 		 * for (Equipment anEqpt : propertyFromJson.getEquipments()) {
 		 * // Read equipment from DB
 		 * Equipment eqptFull = serviceEquipment.readByLabel(anEqpt.getLabel(), cat.getCode());
-		 * 
+		 *
 		 * // if not exist create it
 		 * if (eqptFull == null) {
 		 * eqptFull = new Equipment(anEqpt.getLabel(), cat);
 		 * }
-		 * 
+		 *
 		 * // don't supply property because property is relation owner
 		 * eqpts.add(eqptFull);
 		 * }

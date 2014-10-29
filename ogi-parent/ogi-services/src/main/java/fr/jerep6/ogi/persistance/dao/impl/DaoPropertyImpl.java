@@ -1,5 +1,6 @@
 package fr.jerep6.ogi.persistance.dao.impl;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,13 +40,15 @@ public class DaoPropertyImpl extends AbstractDao<RealProperty, Integer> implemen
 	}
 
 	@Override
-	public Integer getMax() {
+	public Long getReference() {
 		StringBuilder q = new StringBuilder();
-		q.append("SELECT max(techid) FROM ").append(RealProperty.class.getName());
+		q.append("SELECT nextval('SEQ_PROPERTY')");
 
-		TypedQuery<Integer> query = entityManager.createQuery(q.toString(), Integer.class);
+		Query query = entityManager.createNativeQuery(q.toString());
 
-		return Iterables.getFirst(query.getResultList(), 0);
+		BigInteger ref = Iterables.getFirst(query.getResultList(), new BigInteger("1"));
+
+		return ref.longValue();
 	}
 
 	@Override
