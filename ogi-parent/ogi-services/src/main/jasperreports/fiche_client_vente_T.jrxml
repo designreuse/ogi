@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="20" uuid="96540068-ead6-4274-af4c-90fbe87736a3">
 	<property name="ireport.zoom" value="1.3310000000000057"/>
-	<property name="ireport.x" value="76"/>
+	<property name="ireport.x" value="70"/>
 	<property name="ireport.y" value="818"/>
 	<property name="ireport.background.image.properties" value="false,false,0.25,0,0,0,0,0,0"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
@@ -128,7 +128,7 @@ UNION ALL
 
 select
 'Viabilisé' AS CLE,
-CASE PRP_SERVICED WHEN 1 THEN 'oui' WHEN 0 THEN  'non' ELSE '-' end AS VALEUR
+CASE PRP_SERVICED WHEN 1 THEN 'Oui' WHEN 0 THEN  'Non' ELSE '-' end AS VALEUR
 from TA_PROPERTY r
 JOIN TA_PROPERTY_PLOT rp ON r.PRO_ID=rp.PRO_ID
 where r.PRO_REFERENCE=$P{reference}
@@ -137,7 +137,7 @@ UNION ALL
 
 select
 'Lotissement' AS CLE,
-CASE PRO_HOUSING_ESTATE WHEN 1 THEN 'oui' WHEN 0 THEN  'non' ELSE '-' end AS VALEUR
+CASE PRO_HOUSING_ESTATE WHEN 1 THEN 'Oui' WHEN 0 THEN  'Non' ELSE '-' end AS VALEUR
 from TA_PROPERTY r
 where r.PRO_REFERENCE=$P{reference}
 
@@ -145,7 +145,7 @@ UNION ALL
 
 select
 'Constructible' AS CLE,
-CASE PRP_BUILDING WHEN 1 THEN 'oui' WHEN 0 THEN  'non' ELSE '-' end AS VALEUR
+CASE PRP_BUILDING WHEN 1 THEN 'Oui' WHEN 0 THEN  'Non' ELSE '-' end AS VALEUR
 from TA_PROPERTY r
 JOIN TA_PROPERTY_PLOT rp ON r.PRO_ID=rp.PRO_ID
 where r.PRO_REFERENCE=$P{reference}
@@ -153,7 +153,7 @@ where r.PRO_REFERENCE=$P{reference}
 UNION ALL
 
 select
-'Exclusivité' AS CLE, 'oui' AS VALEUR
+'Exclusivité' AS CLE, 'Oui' AS VALEUR
 from TA_PROPERTY r
 JOIN TA_SALE sal ON sal.pro_id=r.pro_id AND sal.SAL_MAND_TYPE='EX'
 where r.PRO_REFERENCE=$P{reference}
