@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="20" uuid="96540068-ead6-4274-af4c-90fbe87736a3">
-	<property name="ireport.zoom" value="1.3310000000000057"/>
-	<property name="ireport.x" value="70"/>
-	<property name="ireport.y" value="818"/>
+	<property name="ireport.zoom" value="0.9090909090909127"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
 	<property name="ireport.background.image.properties" value="false,false,0.25,0,0,0,0,0,0"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
 	<style name="table">
@@ -95,7 +95,7 @@ UNION ALL
 
 select
 'Surface Terrain' AS CLE,
-CAST(IFNULL(PRO_LAND_AREA,'-') AS CHAR) AS VALEUR
+CAST(IF(PRO_LAND_AREA IS NOT NULL, concat(PRO_LAND_AREA, ' m²') ,'-') AS CHAR) AS VALEUR
 from TA_PROPERTY r
 where r.PRO_REFERENCE=$P{reference}
 
