@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.apache.commons.beanutils.MethodUtils;
 import org.slf4j.Logger;
@@ -29,6 +30,7 @@ import fr.jerep6.ogi.persistance.bo.RealPropertyPlot;
 import fr.jerep6.ogi.persistance.bo.Rent;
 import fr.jerep6.ogi.persistance.bo.Sale;
 import fr.jerep6.ogi.service.external.ServicePartner;
+import fr.jerep6.ogi.utils.Functions;
 
 public class ProcessorTransformToCSV implements ItemProcessor<ExtractLeBonCoin, RealPropertyCSV> {
 	private static Logger						LOGGER		= LoggerFactory.getLogger(ProcessorTransformToCSV.class);
@@ -52,9 +54,11 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractLeBonCoin, 
 	private String								estateCode;
 	private String								photoDirName;
 
-	private void populateCommon(RealProperty item, RealPropertyCSV r) {
+	private void populateCommon(RealProperty item, RealPropertyCSV r, Function<String, String> fReference) {
 		r.setBienTechid(item.getTechid().toString());
-		r.setBienReference(item.getReference());
+		if (fReference != null) {
+			r.setBienReference(fReference.apply(item.getReference()));
+		}
 
 		Address addr = item.getAddress();
 		r.setAdresseCP(addr.getPostalCode());
@@ -200,15 +204,17 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractLeBonCoin, 
 			RealPropertyCSV r = new RealPropertyCSV(item);
 			r.setAgenceId(estateCode);
 
+			Function<String, String> fReference = null;
 			// Choose mode according to extract
 			switch (extract.getMode()) {
 				case MODE_SALE:
+					fReference = Functions::computeSaleReference;
 					r.setTypeAnnonce("vente");
 					populateSale(item, r);
 					break;
 				case MODE_RENT:
+					fReference = Functions::computeRentReference;
 					r.setTypeAnnonce("location");
-
 					populateRent(item, r);
 					break;
 
@@ -218,7 +224,7 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractLeBonCoin, 
 
 			r.setTypeBien(mapTypeBien.get(item.getCategory().getCode()));
 
-			populateCommon(item, r);
+			populateCommon(item, r, fReference);
 			populatePhotos(item, r);
 			populateLiveable(item, r);
 			populatePlot(item, r);
