@@ -2,6 +2,7 @@ package fr.jerep6.ogi.batch.seloger;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -15,9 +16,9 @@ import fr.jerep6.ogi.utils.DocumentUtils;
 
 /**
  * Collect photos of property and place them into destination directory
- * 
+ *
  * Photos are selected according to RealPropertyCSV photos fields
- * 
+ *
  * @author jerep6 15 mars 2014
  */
 public class ProcessorPhotos implements ItemProcessor<RealPropertyCSV, RealPropertyCSV> {
@@ -39,8 +40,12 @@ public class ProcessorPhotos implements ItemProcessor<RealPropertyCSV, RealPrope
 		// Folder into copy photos
 		Path destinationDirectory = absPhotosDirectory.resolve(relativePathComputed.getParent());
 		Files.createDirectories(destinationDirectory);
-		Files.copy(absPhotoPath, destinationDirectory.resolve(relativePathComputed.getFileName()),
-				StandardCopyOption.REPLACE_EXISTING);
+		try {
+			Files.copy(absPhotoPath, destinationDirectory.resolve(relativePathComputed.getFileName()),
+					StandardCopyOption.REPLACE_EXISTING);
+		} catch (NoSuchFileException nsfe) {
+			LOGGER.warn("Error coping file", nsfe);
+		}
 	}
 
 	// Spring call this method

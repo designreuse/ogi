@@ -2,6 +2,7 @@ package fr.jerep6.ogi.batch.leboncoin;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -32,7 +33,12 @@ public class ProcessorPhotos implements ItemProcessor<RealPropertyCSV, RealPrope
 
 		// LeBonCoin require photo on archive root. Have to rename photo to avoid collision file into OGI directory
 		// Folder into copy photos
-		Files.copy(photo.getAbsolutePath(), absPhotosDirectory.resolve(photoName), StandardCopyOption.REPLACE_EXISTING);
+		try {
+			Files.copy(photo.getAbsolutePath(), absPhotosDirectory.resolve(photoName),
+					StandardCopyOption.REPLACE_EXISTING);
+		} catch (NoSuchFileException nsfe) {
+			LOGGER.warn("Error coping file", nsfe);
+		}
 	}
 
 	// Spring call this method
