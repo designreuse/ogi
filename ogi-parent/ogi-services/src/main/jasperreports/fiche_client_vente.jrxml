@@ -87,7 +87,8 @@
 			<![CDATA[SELECT
      r.`ROO_AREA` AS ROO_AREA,
      r.`ROO_TYPE` AS ROO_TYPE,
-     r.`ROO_FLOOR` AS ROO_FLOOR
+     r.`ROO_FLOOR` AS ROO_FLOOR,
+     r.`ROO_FLOOR_LEVEL` AS ROO_FLOOR_LEVEL
 FROM
      TA_ROOM r
  JOIN TA_PROPERTY p ON p.PRO_ID=r.PRO_ID
@@ -103,6 +104,9 @@ LIMIT 0, 15]]>
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
 		<field name="ROO_FLOOR" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="ROO_FLOOR_LEVEL" class="java.lang.Integer">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
 	</subDataset>
@@ -334,10 +338,10 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
-					<jr:column width="95" uuid="c23b55ca-0e35-462f-9812-ae3c79ac71e7">
+					<jr:column width="110" uuid="c23b55ca-0e35-462f-9812-ae3c79ac71e7">
 						<jr:tableHeader style="Table TH 1" height="20" rowSpan="1">
 							<staticText>
-								<reportElement style="Table TH 1" x="0" y="0" width="95" height="20" forecolor="#FFFFFF" uuid="335f1462-ca7b-44da-80fc-3145fa15d607"/>
+								<reportElement style="Table TH 1" x="0" y="0" width="110" height="20" forecolor="#FFFFFF" uuid="335f1462-ca7b-44da-80fc-3145fa15d607"/>
 								<box>
 									<pen lineWidth="0.0"/>
 									<topPen lineWidth="0.0"/>
@@ -353,19 +357,29 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 						</jr:tableHeader>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="95" height="20" uuid="d6cd9710-54f5-4ffb-8a70-0c79ee577e7c"/>
+								<reportElement x="0" y="0" width="110" height="20" uuid="d6cd9710-54f5-4ffb-8a70-0c79ee577e7c"/>
 								<box leftPadding="4"/>
 								<textElement verticalAlignment="Middle">
-									<font fontName="Arial"/>
+									<font fontName="Arial" size="10"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{ROO_TYPE}]]></textFieldExpression>
 							</textField>
+							<textField>
+								<reportElement x="76" y="0" width="33" height="10" uuid="e77bfc0d-79b6-4a80-838d-dc451752656e">
+									<printWhenExpression><![CDATA[$F{ROO_FLOOR_LEVEL} != null]]></printWhenExpression>
+								</reportElement>
+								<box leftPadding="4"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Arial" size="7" isItalic="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{ROO_FLOOR_LEVEL} == 0 ? " [RDC]": " ["+$F{ROO_FLOOR_LEVEL}+"]"]]></textFieldExpression>
+							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="85" uuid="caed7d4f-bebe-48b7-8f5a-7af8e2dd2451">
+					<jr:column width="80" uuid="caed7d4f-bebe-48b7-8f5a-7af8e2dd2451">
 						<jr:tableHeader height="20" rowSpan="1">
 							<staticText>
-								<reportElement style="Table TH 1" x="0" y="0" width="85" height="20" forecolor="#FFFFFF" uuid="3be02be6-2a81-4087-80ce-b8f52f1f93a0"/>
+								<reportElement style="Table TH 1" x="0" y="0" width="80" height="20" forecolor="#FFFFFF" uuid="3be02be6-2a81-4087-80ce-b8f52f1f93a0"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Arial" size="12" isBold="true"/>
 								</textElement>
@@ -374,7 +388,7 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 						</jr:tableHeader>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="85" height="20" uuid="cca6a4dd-4238-4553-9a26-0c9f1f4c079e">
+								<reportElement x="0" y="0" width="80" height="20" uuid="cca6a4dd-4238-4553-9a26-0c9f1f4c079e">
 									<printWhenExpression><![CDATA[$F{ROO_AREA} != null]]></printWhenExpression>
 								</reportElement>
 								<box leftPadding="4" rightPadding="30"/>
@@ -385,10 +399,10 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="95" uuid="a51b8f89-e44f-4b6e-9e58-886c3c03d330">
+					<jr:column width="85" uuid="a51b8f89-e44f-4b6e-9e58-886c3c03d330">
 						<jr:tableHeader height="20" rowSpan="1">
 							<staticText>
-								<reportElement style="Table TH 1" x="0" y="0" width="95" height="20" forecolor="#FFFFFF" uuid="c8b0712d-05d0-4df2-9409-283da1d3dafd"/>
+								<reportElement style="Table TH 1" x="0" y="0" width="85" height="20" forecolor="#FFFFFF" uuid="c8b0712d-05d0-4df2-9409-283da1d3dafd"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Arial" size="12" isBold="true"/>
 								</textElement>
@@ -397,7 +411,7 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 						</jr:tableHeader>
 						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="95" height="20" uuid="6d72792d-6793-4c03-9e3f-8ef24fcb0199">
+								<reportElement x="0" y="0" width="85" height="20" uuid="6d72792d-6793-4c03-9e3f-8ef24fcb0199">
 									<printWhenExpression><![CDATA[$F{ROO_FLOOR} != null]]></printWhenExpression>
 								</reportElement>
 								<box leftPadding="4"/>
