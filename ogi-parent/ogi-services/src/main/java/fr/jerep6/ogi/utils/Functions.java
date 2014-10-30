@@ -5,9 +5,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Functions {
-	private static String	suffixSale;
-	private static String	suffixRent;
-
 	public static String computeRentReference(String ref) {
 		return ref + suffixRent;
 	}
@@ -15,6 +12,14 @@ public class Functions {
 	public static String computeSaleReference(String ref) {
 		return ref + suffixSale;
 	}
+
+	public static String returnReference(String ref) {
+		return ref;
+	}
+
+	private static String	suffixSale;
+
+	private static String	suffixRent;
 
 	@Value("${partner.reference.rent.suffix}")
 	private void setSuffixRent(String suffix) {

@@ -137,7 +137,7 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractLeBonCoin, 
 	 * @throws NoSuchMethodException
 	 */
 	private void populatePhotos(RealProperty item, RealPropertyCSV r) throws NoSuchMethodException,
-			IllegalAccessException, InvocationTargetException {
+	IllegalAccessException, InvocationTargetException {
 		// Compute max 6 photos
 		Integer nbPhotosToCompute = 6;
 
@@ -208,12 +208,12 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractLeBonCoin, 
 			// Choose mode according to extract
 			switch (extract.getMode()) {
 				case MODE_SALE:
-					fReference = Functions::computeSaleReference;
+					fReference = Functions::returnReference;
 					r.setTypeAnnonce("vente");
 					populateSale(item, r);
 					break;
 				case MODE_RENT:
-					fReference = Functions::computeRentReference;
+					fReference = Functions::returnReference;
 					r.setTypeAnnonce("location");
 					populateRent(item, r);
 					break;
