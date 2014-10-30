@@ -25,7 +25,7 @@ function ($scope, $http, Page, ServiceConfiguration, Utils) {
      * @returns {boolean}
      */
     $scope.isDisplayable = function(prequest) {
-        return prequest && (prequest.requestType == "push" ||prequest.requestType == "push_ack");
+        return prequest && (prequest.requestType == "push" || prequest.requestType == "push_ack");
 
     }
 });

@@ -18,19 +18,19 @@
             <tr ng-repeat="(ref, request) in passerelles">
                 <td><a href="#/biens/modifier/{{ref}}" >{{ref}}</a></td>
                 <td class="passerelle_recap_{{request['acimflo'].requestType}}">
-                    <span ng-if="request['acimflo'].presentOnPartner">{{request["acimflo"].label}}</span>
+                    <span ng-if="isDisplayable(request['acimflo'])">{{request["acimflo"].label}}</span>
                 </td>
 
                 <td class="passerelle_recap_{{request['diaporama'].requestType}}">
-                    <span ng-if="request['diaporama'].presentOnPartner">{{request["diaporama"].label}}</span>
+                    <span ng-if="isDisplayable(request['diaporama'])">{{request["diaporama"].label}}</span>
                 </td>
 
                 <td class="passerelle_recap_{{request['seloger'].requestType}}">
-                    <span ng-if="request['seloger'].presentOnPartner">{{request["seloger"].label}}</span>
+                    <span ng-if="isDisplayable(request['seloger'])">{{request["seloger"].label}}</span>
                 </td>
 
                 <td class="passerelle_recap_{{request['leboncoin'].requestType}}">
-                    <span ng-if="request['leboncoin'].presentOnPartner">{{request["leboncoin"].label}}</span>
+                    <span ng-if="isDisplayable(request['leboncoin'])">{{request["leboncoin"].label}}</span>
                 </td>
             </tr>
         </tbody>
