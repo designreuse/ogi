@@ -29,6 +29,9 @@ public class RealPropertyPlot extends RealProperty {
 	@Column(name = "PRP_FLOOR_AREA")
 	private Float	floorArea;
 
+	@Column(name = "PRP_FOOT_PRINT")
+	private Float	footPrint;
+
 	public RealPropertyPlot() {
 		super(null, null, null);
 	}

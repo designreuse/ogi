@@ -66,9 +66,6 @@ public class RealProperty {
 	@Column(name = "PRO_DEPENDENCY_AREA")
 	private Float						dependencyArea;
 
-	@Column(name = "PRO_COS")
-	private Float						cos;
-
 	/** Lotissement */
 	@Column(name = "PRO_HOUSING_ESTATE")
 	private Boolean						housingEstate;
@@ -97,7 +94,7 @@ public class RealProperty {
 	@JoinTable(name = "TJ_PRP_EQP", //
 	joinColumns = @JoinColumn(name = "PRO_ID"), //
 	inverseJoinColumns = @JoinColumn(name = "EQP_ID")//
-	)
+			)
 	private Set<Equipment>				equipments			= new HashSet<>(0);
 
 	@ManyToOne
@@ -112,7 +109,7 @@ public class RealProperty {
 	@JoinTable(name = "TJ_PRP_DOC",//
 	joinColumns = @JoinColumn(name = "PRO_ID"),//
 	inverseJoinColumns = @JoinColumn(name = "DOC_ID")//
-	)
+			)
 	private Set<Document>				documents			= new HashSet<>(0);
 
 	@OneToMany(mappedBy = "pk.property", cascade = CascadeType.ALL)
@@ -122,7 +119,7 @@ public class RealProperty {
 	@JoinTable(name = "TJ_PRP_OWN",//
 	joinColumns = @JoinColumn(name = "PRP_ID"),//
 	inverseJoinColumns = @JoinColumn(name = "OWN_ID")//
-	)
+			)
 	private Set<Owner>					owners				= new HashSet<>(0);
 
 	@OneToMany(mappedBy = "property")

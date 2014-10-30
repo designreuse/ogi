@@ -10,6 +10,7 @@ public class RealPropertyPlotTo extends RealPropertyTo {
 	private Boolean	serviced;
 	private String	zone;
 	private Float	floorArea;
+	private Float	footPrint;
 
 	public RealPropertyPlotTo() {
 		super();
