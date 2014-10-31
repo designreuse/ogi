@@ -2,23 +2,17 @@ package fr.jerep6.ogi.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import fr.jerep6.ogi.enumeration.EnumPartner;
 import fr.jerep6.ogi.enumeration.EnumPartnerRequestType;
 import fr.jerep6.ogi.framework.service.TransactionalService;
 import fr.jerep6.ogi.persistance.bo.PartnerRequest;
+import fr.jerep6.ogi.transfert.PartnerPropertyCount;
 
 public interface ServicePartnerRequest extends TransactionalService<PartnerRequest, Integer> {
 
-	/**
-	 * Indicate if the last request for external web site is a type ...
-	 *
-	 * @param partner
-	 *            external web site
-	 * @param requestType
-	 * @return
-	 */
-	boolean lastRequestIs(EnumPartner partner, Integer prpTechid, EnumPartnerRequestType... addUpdateAck);
+	Set<PartnerPropertyCount> countPropertyOnPartners();
 
 	PartnerRequest lastRequest(EnumPartner partner, String prpReference);
 

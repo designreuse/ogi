@@ -1,8 +1,9 @@
 package fr.jerep6.ogi.service.impl;
 
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -21,6 +22,7 @@ import fr.jerep6.ogi.persistance.bo.PartnerRequest;
 import fr.jerep6.ogi.persistance.dao.DaoPartnerRequest;
 import fr.jerep6.ogi.service.ServicePartnerRequest;
 import fr.jerep6.ogi.service.ServiceRealProperty;
+import fr.jerep6.ogi.transfert.PartnerPropertyCount;
 
 @Service("servicePartnerExistence")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -42,6 +44,11 @@ ServicePartnerRequest {
 	}
 
 	@Override
+	public Set<PartnerPropertyCount> countPropertyOnPartners() {
+		return new HashSet<>(daoPartnerRequest.countPropertyOnPartners());
+	}
+
+	@Override
 	@PostConstruct
 	protected void init() {
 		super.setDao(daoPartnerRequest);
@@ -51,12 +58,6 @@ ServicePartnerRequest {
 	public PartnerRequest lastRequest(EnumPartner partner, String prpReference) {
 		Integer prpTechid = serviceRealProperty.readTechid(prpReference);
 		return daoPartnerRequest.lastRequests(partner, prpTechid);
-	}
-
-	@Override
-	public boolean lastRequestIs(EnumPartner partner, Integer prpTechid, EnumPartnerRequestType... requestType) {
-		List<EnumPartnerRequestType> l = Arrays.asList(requestType);
-		return daoPartnerRequest.lastRequestIs(partner, prpTechid, l);
 	}
 
 	@Override

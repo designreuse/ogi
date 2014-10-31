@@ -8,7 +8,5 @@ public interface ServiceSynchronisation extends Service {
 
 	void createOrUpdate(String partner, List<String> prpReferences);
 
-	Boolean exist(String partner, String prpReference);
-
 	void delete(String partner, List<String> prpReferences);
 }

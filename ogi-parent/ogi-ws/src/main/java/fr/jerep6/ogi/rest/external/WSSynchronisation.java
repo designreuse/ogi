@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +18,10 @@ import fr.jerep6.ogi.enumeration.EnumPartner;
 import fr.jerep6.ogi.persistance.bo.PartnerRequest;
 import fr.jerep6.ogi.service.ServicePartnerRequest;
 import fr.jerep6.ogi.service.ServiceSynchronisation;
+import fr.jerep6.ogi.transfert.PartnerPropertyCount;
+import fr.jerep6.ogi.transfert.bean.PartnerPropertyCountTo;
 import fr.jerep6.ogi.transfert.bean.PartnerRequestTo;
+import fr.jerep6.ogi.transfert.bean.SynchronisationListAll;
 import fr.jerep6.ogi.transfert.mapping.OrikaMapper;
 
 @RestController
@@ -52,18 +56,22 @@ public class WSSynchronisation {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public Map<String, List<PartnerRequestTo>> listAll() {
+	public SynchronisationListAll listAll() {
 		Map<String, List<PartnerRequest>> lastRequests = servicePartnerRequest.lastRequests();
 
 		// Map<String, List<PartnerRequestTo>> convertMap = mapper.mapAsMap(lastRequests,
 		// new TypeBuilder<Map<String, List<PartnerRequest>>>() {}.build(),
 		// new TypeBuilder<Map<String, List<PartnerRequestTo>>>() {}.build());
 
+		// Count property on partners
+		Set<PartnerPropertyCount> count = servicePartnerRequest.countPropertyOnPartners();
+		List<PartnerPropertyCountTo> countTo = mapper.mapAsList(count, PartnerPropertyCountTo.class);
+
 		Map<String, List<PartnerRequestTo>> m = new HashMap<>(lastRequests.size());
 		for (Entry<String, List<PartnerRequest>> e : lastRequests.entrySet()) {
 			m.put(e.getKey(), mapper.mapAsList(e.getValue(), PartnerRequestTo.class));
 		}
-		return m;
+		return new SynchronisationListAll(m, countTo);
 	}
 
 	@RequestMapping(value = "/{partner}", method = RequestMethod.POST, consumes = "application/json;charset=UTF-8")

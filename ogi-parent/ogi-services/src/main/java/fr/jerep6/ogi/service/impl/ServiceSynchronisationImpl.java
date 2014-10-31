@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import fr.jerep6.ogi.enumeration.EnumPartner;
 import fr.jerep6.ogi.enumeration.EnumPartnerRequestType;
 import fr.jerep6.ogi.framework.service.impl.AbstractService;
-import fr.jerep6.ogi.persistance.bo.PartnerRequest;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.service.ServicePartnerRequest;
 import fr.jerep6.ogi.service.ServiceRealProperty;
@@ -73,19 +72,6 @@ public class ServiceSynchronisationImpl extends AbstractService implements Servi
 		} catch (IllegalArgumentException iae) {
 			LOGGER.warn("Unknow partner {}. Exception = ", partner, iae.getMessage());
 		}
-	}
-
-	@Override
-	public Boolean exist(String partner, String prpReference) {
-		Boolean result = false;
-		try {
-			Integer prpTechid = serviceRealProperty.readTechid(prpReference);
-			result = servicePartnerRequest.lastRequestIs(EnumPartner.valueOfByCode(partner), prpTechid,
-					PartnerRequest.REQUEST_EXIST);
-		} catch (IllegalArgumentException iae) {
-			LOGGER.warn("Unknow partner {}. Exception = ", partner, iae.getMessage());
-		}
-		return result;
 	}
 
 }
