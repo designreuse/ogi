@@ -8,10 +8,10 @@
         <thead>
             <tr>
                 <th>Bien</th>
-                <th>Acimflo ({{total("acimflo").totalProperty}})</th>
-                <th>Diaporama ({{total("diaporama").totalProperty}})</th>
-                <th>SeLoger.com ({{total("seloger").totalProperty}})</th>
-                <th>LeBonCoin ({{total("leboncoin").totalProperty}})</th>
+                <th>Acimflo ({{total("acimflo").totalProperty}}/{{total("acimflo").maxAllowed || '∞'}})</th>
+                <th>Diaporama ({{total("diaporama").totalProperty}}/{{total("diaporama").maxAllowed || '∞'}})</th>
+                <th>SeLoger.com ({{total("seloger").totalProperty}}/{{total("seloger").maxAllowed || '∞'}})</th>
+                <th>LeBonCoin ({{total("leboncoin").totalProperty}}/{{total("leboncoin").maxAllowed || '∞'}})</th>
             </tr>
         </thead>
         <tbody>
