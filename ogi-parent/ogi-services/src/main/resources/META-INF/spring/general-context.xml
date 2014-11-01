@@ -86,10 +86,10 @@
 	
 	<!-- Partner max allowed -->
 	<util:map id="mapPartnersMaxAllowed" map-class="java.util.HashMap">
-		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).ACIMFLO}" value="${partner.acimflo.maxAllowed}" />
-		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).DIAPORAMA}" value="${partner.diaporama.maxAllowed}" />
-		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).SE_LOGER}" value="${partner.seloger.maxAllowed}" />
-		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).LE_BONCOIN}" value="${partner.leboncoin.maxAllowed}" />
+		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).ACIMFLO}" value="${partner.acimflo.max_allowed}" />
+		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).DIAPORAMA}" value="${partner.diaporama.max_allowed}" />
+		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).SE_LOGER}" value="${partner.seloger.max_allowed}" />
+		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).LE_BONCOIN}" value="${partner.leboncoin.max_allowed}" />
 	</util:map>
 
 
