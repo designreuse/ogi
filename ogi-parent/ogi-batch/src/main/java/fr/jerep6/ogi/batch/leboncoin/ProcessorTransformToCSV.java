@@ -137,7 +137,7 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractLeBonCoin, 
 	 * @throws NoSuchMethodException
 	 */
 	private void populatePhotos(RealProperty item, RealPropertyCSV r) throws NoSuchMethodException,
-	IllegalAccessException, InvocationTargetException {
+			IllegalAccessException, InvocationTargetException {
 		// Compute max 6 photos
 		Integer nbPhotosToCompute = 6;
 
@@ -150,7 +150,6 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractLeBonCoin, 
 			String p = Paths.get(photoDirName).resolve(reference + "_" + photos.get(i).getAbsolutePath().getFileName())
 					.toString();
 			MethodUtils.invokeExactMethod(r, "setPhoto" + (i + 1), p);
-			r.setPhoto1(p);
 			photosToCopy.add(photos.get(i));
 		}
 		r.setPhotos(photosToCopy);
