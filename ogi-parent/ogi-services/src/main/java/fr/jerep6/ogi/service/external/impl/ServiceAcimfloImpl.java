@@ -246,7 +246,6 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 		builder.addPart("prix", new StringBody(ObjectUtils.toString(rent.getPrice()), HttpClientUtils.TEXT_PLAIN_UTF8));
 		builder.addPart("disponible", new StringBody(toBoolean(rent.getFreeDate() != null),
 				HttpClientUtils.TEXT_PLAIN_UTF8));
-		builder.addPart("prix", new StringBody(ObjectUtils.toString(rent.getPrice()), HttpClientUtils.TEXT_PLAIN_UTF8));
 		builder.addPart("honoraires", new StringBody(ObjectUtils.toString(rent.getCommission()),
 				HttpClientUtils.TEXT_PLAIN_UTF8));
 		builder.addPart("charges", new StringBody(ObjectUtils.toString(rent.getServiceCharge()),
@@ -365,6 +364,7 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 
 			servicePartnerRequest.addRequest(EnumPartner.ACIMFLO, prpTechid, EnumPartnerRequestType.DELETE_ACK);
 		} catch (Exception e) {
+			LOGGER.error("Error delete property " + prpReference, e);
 			// When error occured force last request to be a delete because acimflo handle two reference for one
 			// property (sale and rent). Exemple. Sale can be OK but rent can be KO
 			servicePartnerRequest.addRequest(EnumPartner.ACIMFLO, prpTechid, EnumPartnerRequestType.DELETE);
@@ -376,6 +376,7 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 	private void delete(String prpReference, Function<String, String> computeReference, HttpClient client) {
 		String reference = computeReference.apply(prpReference);
 
+		LOGGER.info("Delete property {}", prpReference);
 		HttpGet httpGet = new HttpGet(deleteUrl.replace("$reference", reference));
 		try {
 			HttpResponse response = client.execute(httpGet);
@@ -459,8 +460,9 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 		LOGGER.info("Test if reference {} exist on Acimflo.", prpReference);
 		boolean exist = false;
 
+		HttpGet httpget = new HttpGet(verifReference.replace("$reference", prpReference));
+
 		try {
-			HttpGet httpget = new HttpGet(verifReference.replace("$reference", prpReference));
 			HttpResponse response = client.execute(httpget);
 
 			AcimfloResultExist reponse = HttpClientUtils.convertToJson(response, AcimfloResultExist.class);
@@ -469,7 +471,10 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 			exist = reponse.isReponse();
 		} catch (IOException e) {
 			throw new NetworkTechnicalException(e);
+		} finally {
+			httpget.releaseConnection();
 		}
+
 		return exist;
 	}
 
