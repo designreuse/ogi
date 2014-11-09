@@ -3,6 +3,7 @@ package fr.jerep6.ogi.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.base.Preconditions;
 
+import fr.jerep6.ogi.event.EventCreateRealProperty;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.service.ServiceRealProperty;
 import fr.jerep6.ogi.transfert.ListResult;
@@ -23,10 +25,13 @@ import fr.jerep6.ogi.transfert.mapping.OrikaMapper;
 public class WSRealProperty extends AbtractWS {
 
 	@Autowired
-	private ServiceRealProperty	serviceRealProperty;
+	private ApplicationEventPublisher	eventPublisher;
 
 	@Autowired
-	private OrikaMapper			mapper;
+	private ServiceRealProperty			serviceRealProperty;
+
+	@Autowired
+	private OrikaMapper					mapper;
 
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/json;charset=UTF-8")
 	public RealPropertyTo create(@RequestBody RealPropertyTo rp) {
@@ -34,6 +39,9 @@ public class WSRealProperty extends AbtractWS {
 		// before record. I should have proceed with a another dto but afterwards
 		RealProperty property = mapper.map(rp, RealProperty.class);
 		property = serviceRealProperty.createFromBusinessFields(property);
+
+		// publish event here and not in service due to transactions
+		eventPublisher.publishEvent(new EventCreateRealProperty(this, property));
 
 		return mapper.map(property, RealPropertyTo.class);
 	}
@@ -72,6 +80,9 @@ public class WSRealProperty extends AbtractWS {
 		// before record. I should have proceed with a another dto but afterwards
 		RealProperty property = mapper.map(rp, RealProperty.class);
 		property = serviceRealProperty.updateFromBusinessFields(reference, property);
+
+		// publish event here and not in service due to transactions
+		eventPublisher.publishEvent(new EventCreateRealProperty(this, property));
 
 		return mapper.map(property, RealPropertyTo.class);
 	}
