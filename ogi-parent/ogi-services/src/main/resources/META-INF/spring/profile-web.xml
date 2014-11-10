@@ -5,7 +5,7 @@
 		xsi:schemaLocation="
 			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd"
-		profile="web,cloud"
+		profile="web"
 >
 
 <!-- 
@@ -14,5 +14,9 @@
 	</bean>
  -->	
 	<jee:jndi-lookup id="dataSource" jndi-name="${jdbc.jndi.datasource}"/>
+	
+	<!-- Elasticsearch -->
+	<bean id="elasticsearch-node" class="fr.jerep6.ogi.framework.spring.ElasticsearchNodeFactoryBean" />
+	<bean id="elasticsearch-client" class="fr.jerep6.ogi.framework.spring.ElasticsearchClientFactoryBean" />
 
 </beans>

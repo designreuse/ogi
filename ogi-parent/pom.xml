@@ -9,7 +9,7 @@
 	<properties>
 
 		<javassist.version>3.18.2-GA</javassist.version>
-		<spring.version>4.0.5.RELEASE</spring.version>
+		<spring.version>4.1.1.RELEASE</spring.version>
 		<spring.batch.version>3.0.0.RELEASE</spring.batch.version>
 
 		<hibernate.version>4.3.5.Final</hibernate.version>
@@ -274,6 +274,13 @@
 				<groupId>net.sf.jasperreports</groupId>
 				<artifactId>jasperreports</artifactId>
 				<version>${jasperReport.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.apache.lucene</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					
+				</exclusions>
 			</dependency>
 
 			<!--Scalr (image manipulation) -->

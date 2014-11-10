@@ -1,0 +1,116 @@
+PUT /ogi
+{
+    "settings": {
+        "number_of_shards": 1,
+        "number_of_replicas": 0,
+        "mapper.dynamic": false,
+        "analysis": {
+            "analyzer": {
+                "ngrams_begin": {
+                    "tokenizer": "keyword",
+                    "filter": [
+                        "lowercase",
+                        "asciifolding",
+                        "acimflo_ngram"
+                    ]
+                }
+            },
+            "filter": {
+                "acimflo_ngram": {
+                    "type": "edgeNGram",
+                    "min_gram": 3,
+                    "max_gram": 6
+                }
+            }
+        }
+    },
+    "mappings": {
+        "property": {
+            "_id": {
+                "type": "string",
+                "path": "reference"
+            },
+            "properties": {
+                "techid": {
+                    "type": "long",
+                    "index": "not_analyzed"
+                },
+                "category": {
+                    "type": "string",
+                    "analyzer": "french",
+                    "fields": {
+                        "raw": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                        }
+                    }
+                },
+                "address": {
+                    "type": "object",
+                    "properties": {
+                        "postalCode": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                        },
+                        "city": {
+                            "type": "string",
+                            "analyzer": "french",
+                            "fields": {
+                                "raw": {
+                                    "type": "string",
+                                    "index": "not_analyzed"
+                                }
+                            }
+                        }
+                    }
+                },
+                "sale": {
+                    "type": "object",
+                    "properties": {
+                        "price": {
+                            "type": "float"
+                        },
+                        "mandateReference": {
+                            "type": "string",
+                    		"index": "not_analyzed"
+                        }
+                    }
+                },
+                "rent": {
+                    "type": "object",
+                    "properties": {
+                        "price": {
+                            "type": "float"
+                        },
+                        "mandateReference": {
+                            "type": "string",
+                    		"index": "not_analyzed"
+                        }
+                    }
+                },
+                "landArea": {
+                    "type": "float"
+                },
+                "area": {
+                    "type": "float"
+                },
+                "housingEstate": {
+                    "type": "boolean"
+                },
+                "image": {
+                    "type": "object",
+                    "properties": {
+                        "url": {
+                            "type": "string",
+                            "index": "no"
+                        },
+                        "title": {
+                            "type": "string",
+                            "index": "no"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

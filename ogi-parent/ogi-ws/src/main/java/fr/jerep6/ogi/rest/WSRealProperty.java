@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.common.base.Preconditions;
 
 import fr.jerep6.ogi.event.EventCreateRealProperty;
+import fr.jerep6.ogi.event.EventUpdateRealProperty;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.service.ServiceRealProperty;
 import fr.jerep6.ogi.transfert.ListResult;
@@ -82,7 +83,7 @@ public class WSRealProperty extends AbtractWS {
 		property = serviceRealProperty.updateFromBusinessFields(reference, property);
 
 		// publish event here and not in service due to transactions
-		eventPublisher.publishEvent(new EventCreateRealProperty(this, property));
+		eventPublisher.publishEvent(new EventUpdateRealProperty(this, property));
 
 		return mapper.map(property, RealPropertyTo.class);
 	}

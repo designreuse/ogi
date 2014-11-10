@@ -19,8 +19,8 @@
 	classpath*: -> This special prefix specifies that all classpath resources that match the given name must be obtained
 	(internally, this essentially happens via a ClassLoader.getResources(...) call), and then merged to form the final application context definition.
 	-->
-	<import resource="classpath*:META-INF/spring/datasource-profile.xml" />
-	<import resource="classpath*:META-INF/spring/properties-profile.xml" />
+	<import resource="classpath*:META-INF/spring/profile-web.xml" />
+<!-- 	<import resource="classpath*:META-INF/spring/properties-profile.xml" /> -->
 </beans>
 
 
