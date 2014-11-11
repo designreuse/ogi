@@ -7,14 +7,14 @@ import org.springframework.stereotype.Component;
 import fr.jerep6.ogi.search.service.ServiceSearch;
 
 @Component
-public class EventHandlerUpdateRealProperty implements ApplicationListener<EventUpdateRealProperty> {
+public class EventHandlerDeleteRealProperty implements ApplicationListener<EventDeleteRealProperty> {
 
 	@Autowired
 	private ServiceSearch	serviceSearch;
 
 	@Override
-	public void onApplicationEvent(EventUpdateRealProperty event) {
-		serviceSearch.index(event.getProperty());
+	public void onApplicationEvent(EventDeleteRealProperty event) {
+		serviceSearch.delete(event.getReference());
 	}
 
 }

@@ -92,6 +92,7 @@ public class DaoPropertyImpl extends AbstractDao<RealProperty, Integer> implemen
 
 	@Override
 	public List<RealProperty> readByReference(List<String> references) {
+
 		StringBuilder q = new StringBuilder();
 		q.append("SELECT distinct r ").append(" FROM ").append(RealProperty.class.getName()).append(" r ");
 		// I don't want a select for each many to one : prefer join

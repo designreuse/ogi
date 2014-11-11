@@ -107,4 +107,7 @@
 	<!-- EhCache library setup -->
 	<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:config-location="classpath:ehcache.xml" />
 
+
+	<bean id="elasticsearch-client" class="fr.jerep6.ogi.framework.spring.ElasticsearchClientFactoryBean" />
+
 </beans>

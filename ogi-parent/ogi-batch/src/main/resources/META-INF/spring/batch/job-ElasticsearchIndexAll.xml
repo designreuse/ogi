@@ -1,0 +1,49 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/batch
+		http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	">
+ 
+	<import resource="spring-batch-context.xml" />
+	
+	<!-- Once you’ve configured JobParametersIncrementer you need to add the configuration for a JobExplorer
+		implementation. Chapter 5 goes into detail about what JobExplorer is and how to use it. -->
+	<bean id="jobExplorer" class="org.springframework.batch.core.explore.support.JobExplorerFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	<!-- JobParametersIncrementer affects how you call your job. When you want to increment a parameter, you need to 
+		 add the parameter –next to the command when you call your job -->
+	<bean id="idIncrementer" class="org.springframework.batch.core.launch.support.RunIdIncrementer" />
+ 
+ 
+ 
+ 
+ 
+	<!-- Job definition -->
+	<batch:job id="jobElasticsearch-index_all" incrementer="idIncrementer">
+		<batch:step id="stepWriteES">
+		  <tasklet>
+			<batch:chunk reader="jpaReader" writer="writerES" commit-interval="20" skip-limit="10">
+				<batch:skippable-exception-classes>
+					<batch:include class="fr.jerep6.ogi.framework.exception.AbstractException" />
+				</batch:skippable-exception-classes>
+			</batch:chunk>
+		  </tasklet>
+		</batch:step>
+		
+	</batch:job>
+	
+	
+	<bean id="jpaReader" class="org.springframework.batch.item.database.JpaPagingItemReader">
+	    <property name="queryString" value="${elasticsearch.indexation.all.query}" />
+	    <property name="entityManagerFactory" ref="emFactory" />
+	</bean>
+
+	<bean id="writerES" class="fr.jerep6.ogi.batch.elasticsearch.WriterElasticsearch">
+		<property name="serviceSearch" ref="serviceSearch" />
+	</bean>	
+	
+</beans>

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.common.base.Preconditions;
 
 import fr.jerep6.ogi.event.EventCreateRealProperty;
+import fr.jerep6.ogi.event.EventDeleteRealProperty;
 import fr.jerep6.ogi.event.EventUpdateRealProperty;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.service.ServiceRealProperty;
@@ -48,10 +49,13 @@ public class WSRealProperty extends AbtractWS {
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE)
-	public void delete(@RequestParam("ref") List<String> reference) {
-		Preconditions.checkNotNull(reference);
+	public void delete(@RequestParam("ref") List<String> references) {
+		Preconditions.checkNotNull(references);
 
-		serviceRealProperty.delete(reference);
+		serviceRealProperty.delete(references);
+
+		// publish event here and not in service due to transactions
+		eventPublisher.publishEvent(new EventDeleteRealProperty(this, references));
 	}
 
 	@RequestMapping(method = RequestMethod.GET)

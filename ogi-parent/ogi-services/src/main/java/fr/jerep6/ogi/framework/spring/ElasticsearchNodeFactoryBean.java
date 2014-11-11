@@ -21,6 +21,9 @@ public class ElasticsearchNodeFactoryBean implements FactoryBean<Node> {
 	@Value("${elasticsearch.data}")
 	private String	dataPath;
 
+	@Value("${elasticsearch.plugins}")
+	private String	pluginsPath;
+
 	@Value("${elasticsearch.httpEnable}")
 	private Boolean	httpEnable;
 
@@ -42,13 +45,14 @@ public class ElasticsearchNodeFactoryBean implements FactoryBean<Node> {
 		ImmutableSettings.Builder settings = ImmutableSettings.settingsBuilder();
 		settings.put("node.name", nodeName);
 		settings.put("path.data", dataPath);
+		settings.put("path.plugins", pluginsPath);
 		settings.put("http.enabled", httpEnable);
 
 		node = NodeBuilder.nodeBuilder()//
 				.settings(settings)//
 				.clusterName(clusterName)//
 				.data(true)//
-				.local(true)//
+				.local(false)//
 				.node();
 	}
 

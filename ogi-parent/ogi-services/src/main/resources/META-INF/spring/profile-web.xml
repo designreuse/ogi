@@ -15,8 +15,7 @@
  -->	
 	<jee:jndi-lookup id="dataSource" jndi-name="${jdbc.jndi.datasource}"/>
 	
-	<!-- Elasticsearch -->
+	<!-- Elasticsearch node here in order to doesn't start un node from batch -->
 	<bean id="elasticsearch-node" class="fr.jerep6.ogi.framework.spring.ElasticsearchNodeFactoryBean" />
-	<bean id="elasticsearch-client" class="fr.jerep6.ogi.framework.spring.ElasticsearchClientFactoryBean" />
-
+	
 </beans>

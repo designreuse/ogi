@@ -263,7 +263,7 @@ ServiceRealProperty {
 	public void delete(List<String> reference) {
 		for (String aReference : reference) {
 			Optional<RealProperty> rp = readByReference(aReference);
-			daoProperty.remove(rp.get());
+			rp.ifPresent(daoProperty::remove);
 		}
 	}
 

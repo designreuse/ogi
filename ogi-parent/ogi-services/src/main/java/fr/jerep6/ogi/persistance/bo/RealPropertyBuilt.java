@@ -15,7 +15,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
@@ -79,7 +78,7 @@ public abstract class RealPropertyBuilt extends RealProperty {
 	// side is the owner; the one side is the inverse
 	// Pour que RealPropertyBuilt soit maitre de la relation, il ne faut pas définir le mappedBy et donc indiquer la
 	// joincolumn
-	@OneToMany(mappedBy = "property", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
 	// @JoinColumn(name = "PRO_ID")
 	private List<Room>		rooms		= new ArrayList<>(0);
 
