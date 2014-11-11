@@ -1,4 +1,6 @@
-package fr.jerep6.ogi.search.obj;
+package fr.jerep6.ogi.search.model;
+
+import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +13,7 @@ public class SearchProperty {
 	private Float			landArea;
 	private Float			area;
 	private Boolean			housingEstate;
+	private List<String>	modes;
 
 	private SearchAddress	address;
 	private SearchSale		sale;

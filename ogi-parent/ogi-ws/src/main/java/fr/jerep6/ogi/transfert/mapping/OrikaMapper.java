@@ -52,7 +52,7 @@ import fr.jerep6.ogi.rest.batch.transfert.BatchReportInstanceTo;
 import fr.jerep6.ogi.rest.batch.transfert.BatchReportJobExecutionTo;
 import fr.jerep6.ogi.rest.batch.transfert.BatchReportStepExecutionTo;
 import fr.jerep6.ogi.rest.search.transfert.SearchResultTo;
-import fr.jerep6.ogi.search.obj.SearchResult;
+import fr.jerep6.ogi.search.model.SearchResult;
 import fr.jerep6.ogi.service.ServiceUrl;
 import fr.jerep6.ogi.transfert.FileUpload;
 import fr.jerep6.ogi.transfert.ListResult;

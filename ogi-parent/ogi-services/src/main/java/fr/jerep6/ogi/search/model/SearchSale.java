@@ -1,11 +1,11 @@
-package fr.jerep6.ogi.search.obj;
+package fr.jerep6.ogi.search.model;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class SearchRent {
+public class SearchSale {
 	private String	mandateReference;
 	private Float	price;
 }

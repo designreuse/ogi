@@ -88,6 +88,10 @@ PUT /ogi
                         }
                     }
                 },
+                "modes": {
+                	"type": "string",
+          			"index": "not_analyzed"
+                },
                 "landArea": {
                     "type": "float"
                 },
