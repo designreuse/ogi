@@ -109,7 +109,10 @@ angular.module('ui.slider', []).value('uiSliderConfig',{}).directive('uiSlider',
                     function destroy(){
                         elm.slider('destroy');
                     }
-                    elm.bind('$destroy', destroy);
+                    // bug https://github.com/angular-ui/ui-slider/issues/41
+                    scope.$on("$destroy", function() {
+                        destroy();
+                    });
                 };
             }
         };
