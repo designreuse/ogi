@@ -1,18 +1,18 @@
 package fr.jerep6.ogi.search.obj;
 
-public enum EnumRechercheFiltre {
+public enum SearchEnumFilter {
 
 	MODE("modes", "modes"), //
-	SALE_MIN_PRICE("salePriceMin", "sale.price"), //
-	SALE_MAX_PRICE("salePriceMax", "sale.price"), //
-	RENT_MIN_PRICE("rentPriceMin", "rent.price"), //
-	RENT_MAX_PRICE("RentPriceMax", "rent.price"), //
+	SALE_PRICE("salePrice", "sale.price"), //
+	RENT_PRICE("rentPrice", "rent.price"), //
 	CITY("cities", "address.city.raw"), //
 	CATEGORIE("categories", "category.raw"), //
+	AREA("area", "area"), //
+	LAND_AREA("landArea", "landArea"), //
 	;
 
-	public static EnumRechercheFiltre valueOfByName(String name) {
-		for (EnumRechercheFiltre uneEnum : EnumRechercheFiltre.values()) {
+	public static SearchEnumFilter valueOfByName(String name) {
+		for (SearchEnumFilter uneEnum : SearchEnumFilter.values()) {
 			if (uneEnum.getName().equalsIgnoreCase(name)) {
 				return uneEnum;
 			}
@@ -26,7 +26,7 @@ public enum EnumRechercheFiltre {
 	/** Nom de l'aggrégation/facette dans le requête au moteur de recherche */
 	private String	name;
 
-	private EnumRechercheFiltre(String nom, String champ) {
+	private SearchEnumFilter(String nom, String champ) {
 		this.name = nom;
 		this.mappingField = champ;
 	}

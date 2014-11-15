@@ -1,7 +1,9 @@
 package fr.jerep6.ogi.search.persistance.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
@@ -15,8 +17,13 @@ import org.elasticsearch.index.query.MatchQueryBuilder.Operator;
 import org.elasticsearch.index.query.MatchQueryBuilder.ZeroTermsQuery;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.Aggregations;
+import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
+import org.elasticsearch.search.aggregations.metrics.InternalNumericMetricsAggregation.SingleValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +36,15 @@ import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyBuilt;
 import fr.jerep6.ogi.search.model.SearchAddress;
 import fr.jerep6.ogi.search.model.SearchImage;
-import fr.jerep6.ogi.search.model.SearchProperty;
+import fr.jerep6.ogi.search.model.SearchRealProperty;
 import fr.jerep6.ogi.search.model.SearchRent;
 import fr.jerep6.ogi.search.model.SearchSale;
 import fr.jerep6.ogi.search.obj.SearchCriteria;
 import fr.jerep6.ogi.search.obj.SearchCriteriaFilter;
 import fr.jerep6.ogi.search.obj.SearchCriteriaFilterRange;
 import fr.jerep6.ogi.search.obj.SearchCriteriaFilterTerm;
+import fr.jerep6.ogi.search.obj.SearchResult;
+import fr.jerep6.ogi.search.obj.SearchResultAggregation;
 import fr.jerep6.ogi.search.persistance.DaoSearch;
 
 @Repository("daoSearch")
@@ -53,11 +62,11 @@ public class DaoSearchImpl implements DaoSearch {
 
 	private static String[]	searchFields	= new String[] { //
 											"reference", //
-			"category", //
-			"address.postalCode",//
-			"address.city", //
-			"sale.mandateReference",//
-			"rent.mandateReference"		};
+		"category", //
+		"address.postalCode",//
+		"address.city", //
+		"sale.mandateReference",//
+	"rent.mandateReference"		};
 
 	private void addAggregations(SearchCriteria criteria, SearchRequestBuilder requestBuilder) {
 		// Category (maison, appartement, terrain)
@@ -180,6 +189,31 @@ public class DaoSearchImpl implements DaoSearch {
 
 	}
 
+	private Map<String, List<SearchResultAggregation>> extractAggregations(Aggregations aggregations) {
+		Map<String, List<SearchResultAggregation>> aggreationResult = new HashMap<>();
+		for (Aggregation agg : aggregations) {
+			// Converti le nom de l'aggréation en énumération
+
+			List<SearchResultAggregation> buckets = new ArrayList<SearchResultAggregation>(0);
+
+			// Aggregation de type term => extraction de toutes les valeurs
+			if (agg instanceof StringTerms) {
+				StringTerms st = (StringTerms) agg;
+				// Iterate over terms values
+				for (Terms.Bucket bucket : st.getBuckets()) {
+					buckets.add(new SearchResultAggregation(bucket.getKey(), bucket.getDocCount()));
+				}
+			}
+			// Aggregation de type Simple valeur (prix min et max par exemple)
+			else if (agg instanceof SingleValue) {
+				SingleValue im = (SingleValue) agg;
+				buckets.add(new SearchResultAggregation(String.valueOf(im.value()), -1L));
+			}
+			aggreationResult.put(agg.getName(), buckets);
+		}
+		return aggreationResult;
+	}
+
 	@Override
 	public void index(List<RealProperty> realProperty) {
 		BulkRequestBuilder bulkRequest = client.prepareBulk();
@@ -188,7 +222,7 @@ public class DaoSearchImpl implements DaoSearch {
 		for (RealProperty r : realProperty) {
 			List<String> modes = new ArrayList<>(2);
 
-			SearchProperty sp = new SearchProperty();
+			SearchRealProperty sp = new SearchRealProperty();
 			sp.setReference(r.getReference());
 			sp.setCategory(r.getCategory().getLabel());
 			sp.setLandArea(r.getLandArea());
@@ -245,7 +279,7 @@ public class DaoSearchImpl implements DaoSearch {
 	}
 
 	@Override
-	public void search(SearchCriteria criteria) {
+	public SearchResult search(SearchCriteria criteria) {
 
 		// Create query
 		QueryBuilder query = computeRequest(criteria);
@@ -262,5 +296,21 @@ public class DaoSearchImpl implements DaoSearch {
 		LOGGER.debug(requestBuilder.toString());
 		SearchResponse response = requestBuilder.execute().actionGet();
 		LOGGER.debug(response.toString());
+
+		// Extract results source
+		List<SearchRealProperty> sources = new ArrayList<>();
+		for (SearchHit hit : response.getHits()) {
+			sources.add(JSONUtils.toObject(hit.getSourceAsString(), SearchRealProperty.class));
+		}
+
+		Map<String, List<SearchResultAggregation>> aggs;
+		// Extract aggregation
+		if (response.getAggregations() != null) {
+			aggs = extractAggregations(response.getAggregations());
+		} else {
+			aggs = new HashMap<>(0);
+		}
+
+		return new SearchResult(response.getHits().totalHits(), sources, aggs);
 	}
 }

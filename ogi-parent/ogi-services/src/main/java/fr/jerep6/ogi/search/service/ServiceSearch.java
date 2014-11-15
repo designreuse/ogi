@@ -4,8 +4,8 @@ import java.util.List;
 
 import fr.jerep6.ogi.framework.service.Service;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
-import fr.jerep6.ogi.search.model.SearchResult;
 import fr.jerep6.ogi.search.obj.SearchCriteria;
+import fr.jerep6.ogi.search.obj.SearchResult;
 
 public interface ServiceSearch extends Service {
 

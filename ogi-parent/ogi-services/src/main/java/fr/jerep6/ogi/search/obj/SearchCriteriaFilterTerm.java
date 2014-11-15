@@ -3,7 +3,7 @@ package fr.jerep6.ogi.search.obj;
 public class SearchCriteriaFilterTerm extends SearchCriteriaFilter {
 	private Object[]	valeurs;
 
-	public SearchCriteriaFilterTerm(EnumRechercheFiltre filtre, Object... valeurs) {
+	public SearchCriteriaFilterTerm(SearchEnumFilter filtre, Object... valeurs) {
 		super();
 		this.filtre = filtre;
 		this.valeurs = valeurs;

@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SearchProperty {
+public class SearchRealProperty {
 	private String			reference;
 	private String			category;
 	private Float			landArea;

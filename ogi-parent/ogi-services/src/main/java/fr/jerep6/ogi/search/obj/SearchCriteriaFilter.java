@@ -1,9 +1,9 @@
 package fr.jerep6.ogi.search.obj;
 
 public abstract class SearchCriteriaFilter {
-	protected EnumRechercheFiltre	filtre;
+	protected SearchEnumFilter	filtre;
 
-	public EnumRechercheFiltre getFiltre() {
+	public SearchEnumFilter getFiltre() {
 		return filtre;
 	}
 

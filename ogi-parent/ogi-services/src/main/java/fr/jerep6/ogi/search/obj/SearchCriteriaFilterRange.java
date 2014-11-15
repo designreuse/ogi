@@ -4,7 +4,7 @@ public class SearchCriteriaFilterRange extends SearchCriteriaFilter {
 	private String	min;
 	private String	max;
 
-	public SearchCriteriaFilterRange(EnumRechercheFiltre filtre, String min, String max) {
+	public SearchCriteriaFilterRange(SearchEnumFilter filtre, String min, String max) {
 		super();
 		this.filtre = filtre;
 		this.min = min;

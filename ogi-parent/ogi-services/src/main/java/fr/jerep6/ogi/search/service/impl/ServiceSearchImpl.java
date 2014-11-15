@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import fr.jerep6.ogi.framework.service.impl.AbstractService;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
-import fr.jerep6.ogi.search.model.SearchResult;
 import fr.jerep6.ogi.search.obj.SearchCriteria;
+import fr.jerep6.ogi.search.obj.SearchResult;
 import fr.jerep6.ogi.search.persistance.DaoSearch;
 import fr.jerep6.ogi.search.service.ServiceSearch;
 import fr.jerep6.ogi.service.ServiceRealProperty;
@@ -43,8 +43,7 @@ public class ServiceSearchImpl extends AbstractService implements ServiceSearch 
 
 	@Override
 	public SearchResult search(SearchCriteria criteria) {
-		daoSearch.search(criteria);
-		return new SearchResult(Arrays.asList(), 0);
+		return daoSearch.search(criteria);
 	}
 
 }

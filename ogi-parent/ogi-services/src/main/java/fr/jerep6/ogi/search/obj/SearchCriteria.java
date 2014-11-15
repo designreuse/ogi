@@ -39,7 +39,7 @@ public class SearchCriteria {
 		return filtres;
 	}
 
-	public SearchCriteriaFilter getFiltres(EnumRechercheFiltre enumFiltre) {
+	public SearchCriteriaFilter getFiltres(SearchEnumFilter enumFiltre) {
 		for (SearchCriteriaFilter unFiltre : filtres) {
 			if (unFiltre.getFiltre().equals(enumFiltre)) {
 				return unFiltre;
