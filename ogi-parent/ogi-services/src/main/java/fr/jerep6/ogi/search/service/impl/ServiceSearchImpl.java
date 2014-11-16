@@ -43,7 +43,8 @@ public class ServiceSearchImpl extends AbstractService implements ServiceSearch 
 
 	@Override
 	public SearchResult search(SearchCriteria criteria) {
-		return daoSearch.search(criteria);
+		SearchResult result = daoSearch.search(criteria);
+		return result;
 	}
 
 }

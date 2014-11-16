@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.elasticsearch.action.bulk.BulkItemResponse;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
@@ -30,12 +31,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
+import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
+
 import fr.jerep6.ogi.framework.utils.JSONUtils;
 import fr.jerep6.ogi.persistance.bo.Document;
+import fr.jerep6.ogi.persistance.bo.Owner;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyBuilt;
 import fr.jerep6.ogi.search.model.SearchAddress;
 import fr.jerep6.ogi.search.model.SearchImage;
+import fr.jerep6.ogi.search.model.SearchOwner;
 import fr.jerep6.ogi.search.model.SearchRealProperty;
 import fr.jerep6.ogi.search.model.SearchRent;
 import fr.jerep6.ogi.search.model.SearchSale;
@@ -46,6 +52,7 @@ import fr.jerep6.ogi.search.obj.SearchCriteriaFilterTerm;
 import fr.jerep6.ogi.search.obj.SearchResult;
 import fr.jerep6.ogi.search.obj.SearchResultAggregation;
 import fr.jerep6.ogi.search.persistance.DaoSearch;
+import fr.jerep6.ogi.utils.MyUrlUtils;
 
 @Repository("daoSearch")
 public class DaoSearchImpl implements DaoSearch {
@@ -216,6 +223,8 @@ public class DaoSearchImpl implements DaoSearch {
 
 	@Override
 	public void index(List<RealProperty> realProperty) {
+		LOGGER.info("Indexing property {}", realProperty.stream().map(r -> r.getReference()));
+
 		BulkRequestBuilder bulkRequest = client.prepareBulk();
 
 		// Add each property to bulk request
@@ -265,6 +274,19 @@ public class DaoSearchImpl implements DaoSearch {
 				sp.setArea(((RealPropertyBuilt) r).getArea());
 			}
 
+			for (Owner owner : r.getOwners()) {
+				List<String> l = new ArrayList<>(2);
+				l.add(Strings.nullToEmpty(owner.getSurname()));
+				l.add(Strings.nullToEmpty(owner.getFirstname()));
+				String name = Joiner.on(" ").join(l);
+				if (!Strings.isNullOrEmpty(name)) {
+					SearchOwner o = new SearchOwner();
+					o.setTechid(owner.getTechid());
+					o.setName(name);
+					sp.getOwners().add(o);
+				}
+			}
+
 			sp.setModes(modes);
 
 			bulkRequest.add(client.prepareIndex(indexName, propertyType).setSource(JSONUtils.toJson(sp)));
@@ -275,6 +297,9 @@ public class DaoSearchImpl implements DaoSearch {
 
 		if (response.hasFailures()) {
 			LOGGER.error("Indexing error");
+			for (BulkItemResponse bulkItemResponse : response) {
+				LOGGER.error(bulkItemResponse.getFailureMessage());
+			}
 		}
 	}
 
@@ -300,7 +325,13 @@ public class DaoSearchImpl implements DaoSearch {
 		// Extract results source
 		List<SearchRealProperty> sources = new ArrayList<>();
 		for (SearchHit hit : response.getHits()) {
-			sources.add(JSONUtils.toObject(hit.getSourceAsString(), SearchRealProperty.class));
+			SearchRealProperty prp = JSONUtils.toObject(hit.getSourceAsString(), SearchRealProperty.class);
+			// Update url according to caller
+			SearchImage img = prp.getImage();
+			if (img != null) {
+				img.setUrl(MyUrlUtils.urlDocument(img.getUrl()));
+			}
+			sources.add(prp);
 		}
 
 		Map<String, List<SearchResultAggregation>> aggs;

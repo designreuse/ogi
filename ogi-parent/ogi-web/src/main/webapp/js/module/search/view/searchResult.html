@@ -1,0 +1,46 @@
+<div class="col-xs-3 search-filters">
+
+    <h4>Mode</h4>
+    <ul class="list-group">
+        <li class="list-group-item" ng-repeat="a in aggregations.modes">
+            <span class="badge">{{a.nbDocuments}}</span>
+            <a href="" ng-click="addSearchParam('modes', a.value)">{{a.value}}</a>
+        </li>
+    </ul>
+
+    <h4>Type de biens</h4>
+    <ul class="list-group">
+        <li class="list-group-item" ng-repeat="a in aggregations.categories">
+            <span class="badge">{{a.nbDocuments}}</span>
+            <a href="" ng-click="addSearchParam('categories', a.value)">{{a.value}}</a>
+        </li>
+    </ul>
+
+    <h4>Villes</h4>
+    <ul class="list-group">
+        <li class="list-group-item" ng-repeat="a in aggregations.cities">
+            <span class="badge">{{a.nbDocuments}}</span>
+            <a href="" ng-click="addSearchParam('categories', a.value)">{{a.value}}</a>
+        </li>
+    </ul>
+</div>
+
+
+<div class="col-xs-9">
+
+    <div class="col-xs-4" ng-repeat="prp in property">
+        <div class="thumbnail">
+            <img ng-src="{{prp.image.url}}?size=200,120&crop=200,120" alt="">
+            <div class="caption">
+                <h4 class="center">{{prp.category}} à {{prp.address.city}}</h4>
+                <ul class="list-unstyled">
+                    <li><b>Référence</b> : {{prp.reference}}</li>
+                    <li><b>Prix</b> : {{prp.sale.price | number:0}} €</li>
+                    <li><b>Surface</b> : {{prp.area || prp.landArea | area}}</li>
+                    <li><b>Propriétaire</b> : <span ng-bind-html="prp.owners | ownerLinks"></span></li>
+                </ul>
+                <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+            </div>
+        </div>
+    </div>
+</div>

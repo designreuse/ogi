@@ -88,6 +88,22 @@ PUT /ogi
                         }
                     }
                 },
+                "owners": {
+                	"type": "string",
+                    "analyzer": "french"
+                },
+                "owners": {
+                    "type": "object",
+                    "properties": {
+                        "techid": {
+                    		"type": "integer"
+                        },
+                        "name": {
+		                	"type": "string",
+		                    "analyzer": "french"
+                        }
+                    }
+                },
                 "modes": {
                 	"type": "string",
           			"index": "not_analyzed"

@@ -157,6 +157,9 @@ ul#list-photos li.highlight {
 .logo-dl img {
   width: 40px;
 }
+.search-filters {
+  border-right: 02px ridge #000000;
+}
 /* NAVIGATION */
 .navbar-default .navbar-brand {
   color: #ffffff;

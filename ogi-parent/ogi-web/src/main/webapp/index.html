@@ -43,10 +43,13 @@
     <script src="js/module/common/service/ServiceUtils.js"></script>
     <script src="js/module/common/directive/directives.js"></script>
     <script src="js/module/common/controller/ControllerAlert.js"></script>
-    <script src="js/module/common/controller/ControllerSearch.js"></script>
     <script src="js/module/common/controller/ControllerMain.js"></script>
-    <script src="js/module/common/service/ServiceSearch.js"></script>
     <script src="js/module/common/service/ServiceUrl.js"></script>
+
+    <!-- Module search -->
+    <script src="js/module/search/search.js"></script>
+    <script src="js/module/search/controller/ControllerSearch.js"></script>
+    <script src="js/module/search/service/ServiceSearch.js"></script>
 
     <!-- Module property -->
     <script src="js/module/property/property.js"></script>
@@ -100,7 +103,7 @@
             <div class="navbar-header">
                 <a class="navbar-brand" href="#/accueil">OGI</a>
             </div>
-            <form class="navbar-form navbar-right" ng-controller="ControllerSearch" ng-submit="submitSearch()">
+            <form class="navbar-form navbar-right" ng-submit="submitSearch()">
                 <div class="input-group custom-search-form">
                     <input type="text" class="form-control" ng-model="keyword" placeholder="Saisir une référence" />
                     <span class="input-group-btn">
