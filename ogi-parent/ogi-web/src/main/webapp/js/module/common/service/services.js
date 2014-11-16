@@ -94,6 +94,32 @@ myApp.factory('ServiceObject', function(Utils) {
                 return equals;
             });
             return Utils.isEmpty(arrayEqual) ? null : arrayEqual[0];
+        },
+
+        getMapEntry:function(objectMap, objectToFind, attrToCompare){
+            if(Utils.isUndefinedOrNull(objectMap) || Utils.isUndefinedOrNull(objectToFind)) {
+                return null;
+            }
+
+            var correspondingEntryMap = [];
+
+            for(var entryName in objectMap) {
+                var o = objectMap[entryName];
+
+                var equals = true;
+                attrToCompare.forEach(function(element, index, array) {
+                    if(o[element] != objectToFind[element]) {
+                        equals = false;
+                    }
+                });
+
+                if(equals) {
+                    correspondingEntryMap.push(entryName);
+                }
+            }
+
+
+            return Utils.isEmpty(correspondingEntryMap) ? null : correspondingEntryMap[0];
         }
     }
 });

@@ -4,7 +4,7 @@
     <ul class="list-group">
         <li class="list-group-item" ng-repeat="a in aggregations.modes">
             <span class="badge">{{a.nbDocuments}}</span>
-            <a href="" ng-click="addSearchParam('modes', a.value)">{{a.value}}</a>
+            <a href="" ng-click="addFilterTerm('modes', a.value)">{{a.value}}</a>
         </li>
     </ul>
 
@@ -12,7 +12,7 @@
     <ul class="list-group">
         <li class="list-group-item" ng-repeat="a in aggregations.categories">
             <span class="badge">{{a.nbDocuments}}</span>
-            <a href="" ng-click="addSearchParam('categories', a.value)">{{a.value}}</a>
+            <a href="" ng-click="addFilterTerm('categories', a.value)">{{a.value}}</a>
         </li>
     </ul>
 
@@ -20,7 +20,7 @@
     <ul class="list-group">
         <li class="list-group-item" ng-repeat="a in aggregations.cities">
             <span class="badge">{{a.nbDocuments}}</span>
-            <a href="" ng-click="addSearchParam('categories', a.value)">{{a.value}}</a>
+            <a href="" ng-click="addFilterTerm('cities', a.value)">{{a.value}}</a>
         </li>
     </ul>
 </div>
