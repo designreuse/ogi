@@ -1,24 +1,53 @@
 angular.module('myApp.search').controller("ControllerSearch",
     function ControllerSearch($scope, $location, ServiceAlert, ServiceSearch, ServiceUrl, ServiceObject) {
+        $scope.totalResults = 0;
         $scope.aggregations = {};
         $scope.property = {};
+        $scope.activesFilters = [];
 
         $scope.keyword = "";
         $scope.filters={
             "modes" : {
                 "paramUrl": "modes",
                 "actif": false,
-                "values" : []
+                "values" : [],
+                "type" : "term"
             },
             "categories" : {
                 "paramUrl": "categories",
                 "actif": false,
-                "values" : []
+                "values" : [],
+                "type" : "term"
             },
             "cities" : {
                 "paramUrl": "cities",
                 "actif": false,
-                "values" : []
+                "values" : [],
+                "type" : "term"
+            },
+            "price-min" : {
+                "paramUrl": "priceMin",
+                "actif": false,
+                "value" : null,
+                "type" : "range"
+            },
+            "price-max" : {
+                "paramUrl": "priceMin",
+                "actif": false,
+                "value" : null,
+                "type" : "range"
+            },
+            "area-min" : {
+                "paramUrl": "areaMin",
+                "actif": false,
+                "value" : null,
+                "type" : "range"
+            },
+            "area-max" : {
+                "paramUrl": "areaMin",
+                "actif": false,
+                "value" : null,
+                "type" : "range"
             }
 
         };
@@ -27,9 +56,11 @@ angular.module('myApp.search').controller("ControllerSearch",
         $scope.init = function() {
             $scope.keyword = $location.search().keyword;
 
+            // iterate over url parameters
             for(var urlParamName in $location.search()) {
                 // Search corresponding filter
                 var filterKey = ServiceObject.getMapEntry($scope.filters, {"paramUrl":urlParamName}, ["paramUrl"]);
+
                 if(filterKey) {
                     // Activate filter and setup its value
                     $scope.filters[filterKey].actif = true;
@@ -41,15 +72,31 @@ angular.module('myApp.search').controller("ControllerSearch",
                     }
                 }
             }
-
-            console.log("FILTERS");
-            console.log($scope.filters);
         }
 
 
         $scope.addFilterTerm = function (filterType, value) {
             $scope.filters[filterType].actif=true;
             $scope.filters[filterType].values.push(value);
+
+            $scope.changeUrl();
+        }
+
+        $scope.removeFilterTerm = function (name) {
+            $scope.filters[name].actif=false;
+            $scope.filters[name].values = [];
+
+            $scope.changeUrl();
+        }
+
+        $scope.addFilterRange = function(filterName) {
+            // Activate min and max bounds if value is set
+            if($scope.filters[filterName+'-min'].value) {
+                $scope.filters[filterName+'-min'].actif = true;
+            }
+            if($scope.filters[filterName+'-max'].value) {
+                $scope.filters[filterName+'-max'].actif = true;
+            }
 
             $scope.changeUrl();
         }
@@ -82,8 +129,43 @@ angular.module('myApp.search').controller("ControllerSearch",
             ServiceSearch.search(searchParams).success(function (data, status) {
                 $scope.aggregations = data.aggregations;
                 $scope.property = data.property;
+                $scope.totalResults = data.totalResults;
             });
         }
+
+
+        /**
+         * Create actives filters array according to $scope.filters state
+         * @returns {Array}
+         */
+        $scope.populateActivesFilters = function () {
+            var filters = $scope.filters;
+            $scope.activesFilters = [];
+
+            for(var filterName in filters) {
+                var f = filters[filterName];
+                // If filter is active => add to active filter
+                if(f.actif) {
+                    if(f.type == "range") {
+
+                    }
+                    else {
+                        $scope.activesFilters.push({"name" : filterName, "values" : f.values});
+                    }
+
+
+                }
+            }
+            return $scope.activesFilters;
+        }
+
+
+
+        $scope.$watch('filters', function(newValue, oldValue) {
+            $scope.populateActivesFilters();
+        });
+
+
         $scope.init();
         $scope.search();
     });

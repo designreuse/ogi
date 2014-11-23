@@ -17,7 +17,8 @@ angular.module('myApp.search').factory('ServiceSearch', function($http, ServiceC
                 for(var filterName in filters) {
                     var currentFilter = filters[filterName];
                     if(currentFilter.actif) {
-                        u.search[currentFilter.paramUrl] = currentFilter.values;
+                        // value is for "range" and values for "term"
+                        u.search[currentFilter.paramUrl] = currentFilter.value || currentFilter.values;
                     }
                 }
             }

@@ -35,15 +35,13 @@ public class WSSearch extends AbtractWS {
 			@RequestParam(value = "categories", required = false) List<String> categories,//
 			@RequestParam(value = "cities", required = false) List<String> cities, //
 			@RequestParam(value = "modes", required = false) List<String> modes, //
-			@RequestParam(value = "salePriceMin", required = false) Float salePriceMin, //
-			@RequestParam(value = "salePriceMax", required = false) Float salePriceMax, //
-			@RequestParam(value = "rentPriceMin", required = false) Float rentPriceMin, //
-			@RequestParam(value = "rentPriceMax", required = false) Float rentPriceMax, //
+			@RequestParam(value = "priceMin", required = false) Float priceMin, //
+			@RequestParam(value = "priceMax", required = false) Float priceMax, //
 			@RequestParam(value = "areaMin", required = false) Integer areaMin, //
 			@RequestParam(value = "areaPriceMax", required = false) Integer areaMax, //
 			@RequestParam(value = "landAreaMin", required = false) Integer landAreaMin, //
 			@RequestParam(value = "landAreaPriceMax", required = false) Integer landAreaMax //
-	) {
+			) {
 
 		SearchCriteria criteria = new SearchCriteria();
 		criteria.setKeywords(keyword);
@@ -58,16 +56,14 @@ public class WSSearch extends AbtractWS {
 		}
 
 		// Sale price
-		if (salePriceMin != null || salePriceMax != null) {
-			criteria.ajouterFiltre(new SearchCriteriaFilterRange(SearchEnumFilter.SALE_PRICE,
-					salePriceMin == null ? null : salePriceMin.toString(), salePriceMax == null ? null : salePriceMax
-							.toString()));
-		}
-		// Rent price
-		if (rentPriceMin != null || rentPriceMax != null) {
-			criteria.ajouterFiltre(new SearchCriteriaFilterRange(SearchEnumFilter.RENT_PRICE,
-					rentPriceMin == null ? null : rentPriceMin.toString(), rentPriceMax == null ? null : rentPriceMax
-							.toString()));
+		if (priceMin != null || priceMax != null) {
+			// Add SALE PRICE filter
+			criteria.ajouterFiltre(new SearchCriteriaFilterRange(SearchEnumFilter.SALE_PRICE, priceMin == null ? null
+					: priceMin.toString(), priceMax == null ? null : priceMax.toString()));
+
+			// Add RENT PRICE filter
+			criteria.ajouterFiltre(new SearchCriteriaFilterRange(SearchEnumFilter.RENT_PRICE, priceMin == null ? null
+					: priceMin.toString(), priceMax == null ? null : priceMax.toString()));
 		}
 
 		// Area
