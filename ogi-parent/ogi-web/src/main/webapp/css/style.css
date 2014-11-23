@@ -60,6 +60,10 @@ legend + .control-group {
 div[minus-plus=""] > span {
   cursor: pointer;
 }
+.btn-center {
+  display: block;
+  margin: auto;
+}
 .ng-invalid {
   background-color: #EF6666;
 }
