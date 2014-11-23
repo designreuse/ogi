@@ -58,6 +58,7 @@ import fr.jerep6.ogi.utils.MyUrlUtils;
 
 @Repository("daoSearch")
 public class DaoSearchImpl implements DaoSearch {
+
 	private final Logger	LOGGER			= LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
@@ -69,13 +70,17 @@ public class DaoSearchImpl implements DaoSearch {
 	@Value("${elasticsearch.propertyType}")
 	private String			propertyType;
 
+	@Value("${elasticsearch.minimumShoudMatch}")
+	private String			minimumShouldMatch;
+
 	private static String[]	searchFields	= new String[] { //
-		"reference", //
-			"category", //
-			"address.postalCode",//
-			"address.city", //
-			"sale.mandateReference",//
-			"rent.mandateReference"		};
+											"reference", //
+		"category", //
+		"address.postalCode",//
+		"address.city", //
+		"sale.mandateReference",//
+		"rent.mandateReference", //
+	"owners.name"					};
 
 	private void addAggregations(SearchCriteria criteria, SearchRequestBuilder requestBuilder) {
 		// Category (maison, appartement, terrain)
@@ -165,7 +170,7 @@ public class DaoSearchImpl implements DaoSearch {
 		} else {
 			queryMatch = QueryBuilders.multiMatchQuery(criteria.getKeywords(), searchFields)//
 					.operator(Operator.OR)//
-					.minimumShouldMatch("50%")//
+					.minimumShouldMatch(minimumShouldMatch)//
 					.zeroTermsQuery(ZeroTermsQuery.ALL)//
 					.type("cross_fields");
 
