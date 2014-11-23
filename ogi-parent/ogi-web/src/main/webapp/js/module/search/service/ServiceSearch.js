@@ -1,4 +1,4 @@
-angular.module('myApp.search').factory('ServiceSearch', function($http, ServiceConfiguration) {
+angular.module('myApp.search').factory('ServiceSearch', function($http, ServiceConfiguration, $translate) {
 
     return {
         search : function(queryParams){
@@ -38,8 +38,12 @@ angular.module('myApp.search').factory('ServiceSearch', function($http, ServiceC
             }
             return u;
         },
-        populateActivesFilters : function (filtersTerm, filtersRange) {
+        populateActivesFilters : function (keyword, filtersTerm, filtersRange) {
             var activesFilters = [];
+
+            if(keyword) {
+                activesFilters.push({"type" : "text", "name" : "keyword", "label" : keyword});
+            }
 
             // Terms
             for(var filterName in filtersTerm) {
@@ -55,11 +59,23 @@ angular.module('myApp.search').factory('ServiceSearch', function($http, ServiceC
                 var currentFilter = filtersRange[filterName];
 
                 // If one bound is active
-                if(currentFilter.min.actif || currentFilter.max.actif) {
-                    var label = "Entre "+currentFilter.min.value +" et "+ currentFilter.max.value;
-                    activesFilters.push({"type" : "range", "name" : filterName, "label" : label});
-                }
 
+                if(currentFilter.min.actif || currentFilter.max.actif) {
+                    var translateKey = "search.filter.active.price";
+                    if(currentFilter.min.actif && currentFilter.max.actif) {
+                        translateKey += ".min_max";
+                    }
+                    else if(currentFilter.min.actif && !currentFilter.max.actif) {
+                        translateKey += ".min";
+                    }
+                    else if(!currentFilter.min.actif && currentFilter.max.actif) {
+                        translateKey += ".max";
+                    }
+
+                    $translate(translateKey, {"min":currentFilter.min.value, "max":currentFilter.max.value}).then(function (t) {
+                        activesFilters.push({"type" : "range", "name" : filterName, "label" : t});
+                    });
+                }
             }
 
             return activesFilters;

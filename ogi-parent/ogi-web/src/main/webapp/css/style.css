@@ -189,6 +189,10 @@ ul#list-photos li.highlight {
   margin: 10px;
   padding: 0px;
 }
+.search-filter input {
+  padding-left: 3px;
+  padding-rightv: 3px;
+}
 .search-thumbnail img {
   height: 120px;
 }

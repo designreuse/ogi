@@ -123,6 +123,9 @@ angular.module('myApp.search').controller("ControllerSearch",
                 $scope.filtersRange[name].min.value = null;
                 $scope.filtersRange[name].max.value = null;
             }
+            else if(type == "text") {
+                $scope.keyword = "";
+            }
             $scope.changeUrl();
         }
 
@@ -175,8 +178,12 @@ angular.module('myApp.search').controller("ControllerSearch",
 
 
         $scope.$watch('filters', function(newValue, oldValue) {
-            $scope.activesFilters = ServiceSearch.populateActivesFilters($scope.filtersTerm, $scope.filtersRange);
+            $scope.activesFilters = ServiceSearch.populateActivesFilters($scope.keyword, $scope.filtersTerm, $scope.filtersRange);
         });
+
+        $scope.displayMySearch = function() {
+            return $scope.activesFilters.length != 0;
+        }
 
 
         $scope.init();
