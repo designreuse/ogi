@@ -31,7 +31,7 @@ public class WSSearch extends AbtractWS {
 	private OrikaMapper		mapper;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public SearchResult search(@RequestParam("keyword") String keyword,
+	public SearchResult search(@RequestParam(value = "keyword", required = false) String keyword,
 			@RequestParam(value = "categories", required = false) List<String> categories,//
 			@RequestParam(value = "cities", required = false) List<String> cities, //
 			@RequestParam(value = "modes", required = false) List<String> modes, //
@@ -41,40 +41,44 @@ public class WSSearch extends AbtractWS {
 			@RequestParam(value = "areaPriceMax", required = false) Integer areaMax, //
 			@RequestParam(value = "landAreaMin", required = false) Integer landAreaMin, //
 			@RequestParam(value = "landAreaPriceMax", required = false) Integer landAreaMax //
-			) {
+	) {
 
 		SearchCriteria criteria = new SearchCriteria();
 		criteria.setKeywords(keyword);
 		if (categories != null && !categories.isEmpty()) {
-			criteria.ajouterFiltre(new SearchCriteriaFilterTerm(SearchEnumFilter.CATEGORIE, categories.toArray()));
+			criteria.addFilter(new SearchCriteriaFilterTerm(SearchEnumFilter.CATEGORIE, categories.toArray()));
 		}
 		if (cities != null && !cities.isEmpty()) {
-			criteria.ajouterFiltre(new SearchCriteriaFilterTerm(SearchEnumFilter.CITY, cities.toArray()));
+			criteria.addFilter(new SearchCriteriaFilterTerm(SearchEnumFilter.CITY, cities.toArray()));
 		}
 		if (modes != null && !modes.isEmpty()) {
-			criteria.ajouterFiltre(new SearchCriteriaFilterTerm(SearchEnumFilter.MODE, modes.toArray()));
+			criteria.addFilter(new SearchCriteriaFilterTerm(SearchEnumFilter.MODE, modes.toArray()));
 		}
 
 		// Sale price
 		if (priceMin != null || priceMax != null) {
 			// Add SALE PRICE filter
-			criteria.ajouterFiltre(new SearchCriteriaFilterRange(SearchEnumFilter.SALE_PRICE, priceMin == null ? null
-					: priceMin.toString(), priceMax == null ? null : priceMax.toString()));
+			SearchCriteriaFilterRange filterSalePrice = new SearchCriteriaFilterRange(SearchEnumFilter.SALE_PRICE,
+					priceMin == null ? null : priceMin.toString(), priceMax == null ? null : priceMax.toString());
+			filterSalePrice.setOrIdentifiant("price");
+			criteria.addFilter(filterSalePrice);
 
 			// Add RENT PRICE filter
-			criteria.ajouterFiltre(new SearchCriteriaFilterRange(SearchEnumFilter.RENT_PRICE, priceMin == null ? null
-					: priceMin.toString(), priceMax == null ? null : priceMax.toString()));
+			SearchCriteriaFilterRange filterRentPrice = new SearchCriteriaFilterRange(SearchEnumFilter.RENT_PRICE,
+					priceMin == null ? null : priceMin.toString(), priceMax == null ? null : priceMax.toString());
+			filterRentPrice.setOrIdentifiant("price");
+			criteria.addFilter(filterRentPrice);
 		}
 
 		// Area
 		if (areaMin != null || areaMax != null) {
-			criteria.ajouterFiltre(new SearchCriteriaFilterRange(SearchEnumFilter.AREA, areaMin == null ? null
-					: areaMin.toString(), areaMax == null ? null : areaMax.toString()));
+			criteria.addFilter(new SearchCriteriaFilterRange(SearchEnumFilter.AREA, areaMin == null ? null : areaMin
+					.toString(), areaMax == null ? null : areaMax.toString()));
 		}
 
 		// Land Area
 		if (landAreaMin != null || landAreaMax != null) {
-			criteria.ajouterFiltre(new SearchCriteriaFilterRange(SearchEnumFilter.AREA, landAreaMin == null ? null
+			criteria.addFilter(new SearchCriteriaFilterRange(SearchEnumFilter.AREA, landAreaMin == null ? null
 					: landAreaMin.toString(), landAreaMax == null ? null : landAreaMax.toString()));
 		}
 

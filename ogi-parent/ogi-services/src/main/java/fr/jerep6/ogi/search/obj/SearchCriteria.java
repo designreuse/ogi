@@ -26,8 +26,8 @@ public class SearchCriteria {
 	/** Ordre de tri. */
 	private String						order							= SearchCriteria.ORDER_DEFAUT;
 
-	public SearchCriteria ajouterFiltre(SearchCriteriaFilter filtre) {
-		filtres.add(filtre);
+	public SearchCriteria addFilter(SearchCriteriaFilter filter) {
+		filtres.add(filter);
 		return this;
 	}
 

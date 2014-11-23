@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.elasticsearch.action.bulk.BulkItemResponse;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
@@ -68,12 +70,12 @@ public class DaoSearchImpl implements DaoSearch {
 	private String			propertyType;
 
 	private static String[]	searchFields	= new String[] { //
-											"reference", //
-		"category", //
-		"address.postalCode",//
-		"address.city", //
-		"sale.mandateReference",//
-	"rent.mandateReference"		};
+		"reference", //
+			"category", //
+			"address.postalCode",//
+			"address.city", //
+			"sale.mandateReference",//
+			"rent.mandateReference"		};
 
 	private void addAggregations(SearchCriteria criteria, SearchRequestBuilder requestBuilder) {
 		// Category (maison, appartement, terrain)
@@ -131,9 +133,20 @@ public class DaoSearchImpl implements DaoSearch {
 	private BoolFilterBuilder computeFilters(SearchCriteria criteria) {
 		BoolFilterBuilder boolFilter = FilterBuilders.boolFilter();
 
+		Map<String, List<SearchCriteriaFilter>> orFilters = criteria.getFiltres().stream()
+				.filter(f -> !Strings.isNullOrEmpty(f.getOrIdentifiant()))
+				.collect(Collectors.groupingBy(SearchCriteriaFilter::getOrIdentifiant));
+
+		List<SearchCriteriaFilter> mustFilters = criteria.getFiltres().stream()
+				.filter(f -> Strings.isNullOrEmpty(f.getOrIdentifiant())).collect(Collectors.toList());
+
+		for (Entry<String, List<SearchCriteriaFilter>> e : orFilters.entrySet()) {
+			boolFilter.must(createFilterShould(e.getValue()));
+		}
+
 		// Filtre à inclure (MUST)
-		for (SearchCriteriaFilter unFiltre : criteria.getFiltres()) {
-			FilterBuilder fb = createFilter(unFiltre);
+		for (SearchCriteriaFilter aFilter : mustFilters) {
+			FilterBuilder fb = createFilter(aFilter);
 
 			// ET entre les filtres
 			if (fb != null) {
@@ -177,6 +190,21 @@ public class DaoSearchImpl implements DaoSearch {
 					.to(f.getMax());
 		}
 		return fb;
+	}
+
+	private FilterBuilder createFilterShould(List<SearchCriteriaFilter> filters) {
+		BoolFilterBuilder boolFilter = FilterBuilders.boolFilter();
+
+		for (SearchCriteriaFilter aFilter : filters) {
+			FilterBuilder fb = createFilter(aFilter);
+
+			// OR between filters
+			if (fb != null) {
+				boolFilter.should(fb);
+			}
+		}
+
+		return boolFilter;
 	}
 
 	@Override

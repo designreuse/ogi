@@ -13,8 +13,8 @@
             <h4>Ma recherche</h4>
             <ul class="list-group">
                 <li class="list-group-item" ng-repeat="a in activesFilters">
-                    <span ng-click="removeFilterTerm(a.name)" class="glyphicon glyphicon-remove search-filter-remove"></span>
-                    <a href="">{{a.values}}</a>
+                    <span ng-click="removeFilter(a.type, a.name)" class="glyphicon glyphicon-remove search-filter-remove"></span>
+                    <a href="">{{a.label}}</a>
                 </li>
             </ul>
         </div>
@@ -57,9 +57,9 @@
                 <div class="search-filter-title">Prix</div>
                 <div class="input-group">
                     <span class="input-group-addon">De</span>
-                    <input class="form-control" type="text" ng-pattern="/^\d+$/" ng-model="filters['price-min'].value">
+                    <input class="form-control" type="text" ng-pattern="/^\d+$/" ng-model="filtersRange.price.min.value">
                     <span class="input-group-addon">à</span>
-                    <input class="form-control" type="text" ng-pattern="/^\d+$/" ng-model="filters['price-max'].value">
+                    <input class="form-control" type="text" ng-pattern="/^\d+$/" ng-model="filtersRange.price.max.value">
                     <span class="input-group-addon">€</span>
                 </div>
                 <button type="button" class="btn btn-success btn-search" ng-click="addFilterRange('price')">Valider prix</button>
