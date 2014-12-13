@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xs-3 search"></div>
-    <div class="col-xs- search">
-        <span>{{totalResults}} résultats pour à votre recherche</span>
+    <div class="col-xs-9 search search-result">
+        <span>{{totalResults}}</span> résultats pour à votre recherche
     </div>
 </div>
 
@@ -70,9 +70,9 @@
                 <div class="search-filter-title">Surface</div>
                 <div class="input-group">
                     <span class="input-group-addon">De</span>
-                    <input class="form-control" type="text" ng-pattern="/^\d+$/" ng-model="prp.floorLevel">
+                    <input class="form-control" type="text" ng-pattern="/^\d+$/" ng-model="filtersRange.area.min.value">
                     <span class="input-group-addon">à</span>
-                    <input class="form-control" type="number" ng-pattern="/^\d+$/" ng-model="prp.nbFloor">
+                    <input class="form-control" type="number" ng-pattern="/^\d+$/" ng-model="filtersRange.area.max.value">
                     <span class="input-group-addon">m²</span>
                 </div>
                 <button type="button" class="btn btn-success btn-search" ng-click="addFilterRange('area')">Valider surface</button>
@@ -83,19 +83,20 @@
 
 
     <div class="col-xs-9 search">
-
-        <div class="col-xs-4" ng-repeat="prp in property">
-            <div class="thumbnail search-thumbnail">
-                <img ng-src="{{prp.image.url}}?size=200,120&crop=200,120" alt="">
-                <div class="caption">
-                    <h4 class="center">{{prp.category}} à {{prp.address.city}}</h4>
-                    <ul class="list-unstyled">
-                        <li><b>Référence</b> : {{prp.reference}}</li>
-                        <li><b>Prix</b> : {{prp.sale.price || prp.rent.price | number:0}} €</li>
-                        <li><b>Surface</b> : {{prp.area || prp.landArea | area}}</li>
-                        <li><b>Propriétaire</b> : <span ng-bind-html="prp.owners | ownerLinks"></span></li>
-                    </ul>
-                    <p><a href="#/biens/modifier/{{prp.reference}}" class="btn btn-info btn-center" role="button">Voir le bien</a></p>
+        <div class="row">
+            <div class="col-xs-4" ng-repeat="prp in property">
+                <div class="thumbnail search-thumbnail" style="position: relative">
+                    <img ng-src="{{prp.image.url}}?size=200,120&crop=200,120" alt="">
+                    <div class="caption">
+                        <h4 class="center">{{prp.category}} à {{prp.address.city}}</h4>
+                        <ul class="list-unstyled" style="height: 110px">
+                            <li><b>Référence</b> : {{prp.reference}}</li>
+                            <li><b>Prix</b> : {{prp.sale.price || prp.rent.price | number:0}} €</li>
+                            <li><b>Surface</b> : {{prp.area || prp.landArea | area}}</li>
+                            <li><b>Propriétaire</b> : <span ng-bind-html="prp.owners | ownerLinks"></span></li>
+                        </ul>
+                        <p class="text-center"><a href="#/biens/modifier/{{prp.reference}}" class="btn btn-primary btn-center">Voir le bien</a></p>
+                    </div>
                 </div>
             </div>
         </div>

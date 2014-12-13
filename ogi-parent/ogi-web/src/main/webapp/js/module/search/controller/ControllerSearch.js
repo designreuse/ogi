@@ -70,7 +70,6 @@ angular.module('myApp.search').controller("ControllerSearch",
                     else {
                         $scope.filtersTerm[filterKey].values = $location.search()[urlParamName];
                     }
-                    break;
                 }
             }
 

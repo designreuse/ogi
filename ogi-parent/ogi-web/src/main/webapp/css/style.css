@@ -3,6 +3,16 @@
 input[type=number] {
   -moz-appearance: textfield;
 }
+.btn-primary {
+  background-color: #300826;
+  border-color: #300826;
+}
+.btn-primary:hover {
+  background-color: #411D38;
+}
+a {
+  color: #847f83;
+}
 .alert-dismissable {
   margin-bottom: 5px;
   padding: 5px 35px 5px 5px;
@@ -203,6 +213,11 @@ ul#list-photos li.highlight {
 .btn-search {
   margin: auto;
   display: block;
+}
+.search-result span {
+  color: #f07d00;
+  font-size: 20px;
+  font-weight: bold;
 }
 /* NAVIGATION */
 .navbar-default .navbar-brand {

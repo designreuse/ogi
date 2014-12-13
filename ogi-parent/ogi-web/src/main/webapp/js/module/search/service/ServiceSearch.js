@@ -59,9 +59,8 @@ angular.module('myApp.search').factory('ServiceSearch', function($http, ServiceC
                 var currentFilter = filtersRange[filterName];
 
                 // If one bound is active
-
                 if(currentFilter.min.actif || currentFilter.max.actif) {
-                    var translateKey = "search.filter.active.price";
+                    var translateKey = "search.filter.active."+filterName;
                     if(currentFilter.min.actif && currentFilter.max.actif) {
                         translateKey += ".min_max";
                     }
@@ -71,10 +70,13 @@ angular.module('myApp.search').factory('ServiceSearch', function($http, ServiceC
                     else if(!currentFilter.min.actif && currentFilter.max.actif) {
                         translateKey += ".max";
                     }
+                    console.log(translateKey);
 
+                    (function(filterName){
                     $translate(translateKey, {"min":currentFilter.min.value, "max":currentFilter.max.value}).then(function (t) {
                         activesFilters.push({"type" : "range", "name" : filterName, "label" : t});
                     });
+                    })(filterName);
                 }
             }
 
