@@ -1,6 +1,51 @@
 angular.module('myApp.search').controller("ControllerSearch",
-    function ControllerSearch($scope, $location, ServiceAlert, ServiceSearch, ServiceUrl, ServiceObject) {
+    function ControllerSearch($scope, $controller, $location, ServiceAlert, ServiceSearch, ServiceUrl, ServiceObject, Utils) {
+
+        $scope.sortTmp = null;
+        $scope.sortPossibilities = [
+            /*
+            {   "label" : "Prix de vente (du - cher au + cher)",
+                "value": {'field':'price-sale', 'order':'ASC'}
+            },
+            {   "label" : "Prix de vente (du + cher au - cher)",
+                "value": {'field':'price-sale', 'order':'DESC'}
+            },
+            {   "label" : "Prix de location (du - cher au + cher)",
+                "value": {'field':'price-rent', 'order':'ASC'}
+            },
+            {   "label" : "Prix de location (du + cher au - cher)",
+                "value": {'field':'price-rent', 'order':'DESC'}
+            },
+            */
+            {   "label" : "Prix (du - cher au + cher)",
+                "value": {'field':'price', 'order':'ASC'}
+            },
+            {   "label" : "Prix (du + cher au - cher)",
+                "value": {'field':'price', 'order':'DESC'}
+            },
+            {   "label" : "Ville (de A à Z)",
+                "value": {'field':'city', 'order':'ASC'}
+            },
+            {   "label" : "Ville (de Z à A)",
+                "value": {'field':'city', 'order':'DESC'}
+            },
+            {   "label" : "Propriétaire (de A à Z)",
+                "value": {'field':'owner', 'order':'ASC'}
+            },
+            {   "label" : "Propriétaire (de Z à A)",
+                "value": {'field':'owner', 'order':'DESC'}
+            }
+        ];
+
+
+
+
+
+        $scope.numberResultsPerPage = 9;
+        $scope.pageNumber = 1;
         $scope.totalResults = 0;
+        $scope.pageNumber = 1;
+        $scope.sort = null;
         $scope.aggregations = {};
         $scope.property = {};
         $scope.activesFilters = [];
@@ -54,6 +99,22 @@ angular.module('myApp.search').controller("ControllerSearch",
         // Init filter according to url search parameters
         $scope.init = function() {
             $scope.keyword = $location.search().keyword;
+            $scope.pageNumber = $location.search().p != null ? parseInt($location.search().p) :  1;
+
+            if($location.search().sort) {
+                var sort = $location.search().sort;
+                var order = $location.search().order || "ASC";
+
+                // Search sort according to url
+                var o = $scope.sortPossibilities.filter(function (elt) {
+                    if(elt.value.field == sort && elt.value.order == order) {
+                       return true;
+                    }
+                    return false;
+                });
+                $scope.sortTmp = o[0] ;
+                $scope.sort = o[0] ;
+            }
 
             // TERM filters
             // iterate over url parameters
@@ -128,15 +189,23 @@ angular.module('myApp.search').controller("ControllerSearch",
             $scope.changeUrl();
         }
 
+        $scope.changeSort = function() {
+            $scope.sort = $scope.sortTmp.value;
+            $scope.changeUrl();
+        }
+
 
         /* Create search url according to filters and redirect to this url */
         $scope.changeUrl = function() {
-            var url = ServiceSearch.createSearchUrl($scope.keyword, $scope.filtersTerm, $scope.filtersRange);
-
+            var url = ServiceSearch.createSearchUrl($scope.keyword, $scope.pageNumber, $scope.sort, $scope.filtersTerm, $scope.filtersRange);
             console.log("URL");
             console.log(url);
 
             $location.path(url.path).search(url.search);
+        }
+
+        $scope.changePagination = function() {
+            $scope.changeUrl();
         }
 
 
@@ -144,6 +213,12 @@ angular.module('myApp.search').controller("ControllerSearch",
         $scope.search = function() {
             var searchParams = {};
             searchParams.keyword = $scope.keyword;
+            searchParams.p = $scope.pageNumber;
+
+            if($scope.sort) {
+                searchParams.sort = $scope.sort.value.field;
+                searchParams.order = $scope.sort.value.order;
+            }
 
             // Term
             for(var filterName in $scope.filtersTerm) {
@@ -171,6 +246,7 @@ angular.module('myApp.search').controller("ControllerSearch",
                 $scope.aggregations = data.aggregations;
                 $scope.property = data.property;
                 $scope.totalResults = data.totalResults;
+                console.log($scope.totalResults);
             });
         }
 
@@ -187,4 +263,5 @@ angular.module('myApp.search').controller("ControllerSearch",
 
         $scope.init();
         $scope.search();
+
     });

@@ -100,7 +100,13 @@ PUT /ogi
                         },
                         "name": {
 		                	"type": "string",
-		                    "analyzer": "french"
+		                    "analyzer": "french",
+		                    "fields": {
+                                "raw": {
+                                    "type": "string",
+                                    "index": "not_analyzed"
+                                }
+                            }
                         }
                     }
                 },

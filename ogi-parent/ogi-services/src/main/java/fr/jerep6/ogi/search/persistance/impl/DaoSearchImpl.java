@@ -1,6 +1,7 @@
 package fr.jerep6.ogi.search.persistance.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,7 @@ import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.metrics.InternalNumericMetricsAggregation.SingleValue;
+import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,29 +60,35 @@ import fr.jerep6.ogi.utils.MyUrlUtils;
 
 @Repository("daoSearch")
 public class DaoSearchImpl implements DaoSearch {
+	private static Map<String, List<String>>	sortFields		= new HashMap<>();
+	static {
+		sortFields.put("price", Arrays.asList("rent.price", "sale.price"));
+		sortFields.put("city", Arrays.asList("address.city.raw"));
+		sortFields.put("owner", Arrays.asList("owners.name.raw"));
+	}
 
-	private final Logger	LOGGER			= LoggerFactory.getLogger(this.getClass());
+	private final Logger						LOGGER			= LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
-	private Client			client;
+	private Client								client;
 
 	@Value("${elasticsearch.indexName}")
-	private String			indexName;
+	private String								indexName;
 
 	@Value("${elasticsearch.propertyType}")
-	private String			propertyType;
+	private String								propertyType;
 
 	@Value("${elasticsearch.minimumShoudMatch}")
-	private String			minimumShouldMatch;
+	private String								minimumShouldMatch;
 
-	private static String[]	searchFields	= new String[] { //
-											"reference", //
-		"category", //
-		"address.postalCode",//
-		"address.city", //
-		"sale.mandateReference",//
-		"rent.mandateReference", //
-	"owners.name"					};
+	private static String[]						searchFields	= new String[] { //
+		"reference", //
+			"category", //
+			"address.postalCode",//
+			"address.city", //
+			"sale.mandateReference",//
+			"rent.mandateReference", //
+			"owners.name"										};
 
 	private void addAggregations(SearchCriteria criteria, SearchRequestBuilder requestBuilder) {
 		// Category (maison, appartement, terrain)
@@ -347,7 +355,15 @@ public class DaoSearchImpl implements DaoSearch {
 
 		SearchRequestBuilder requestBuilder = client.prepareSearch(indexName).setTypes(propertyType) //
 				.setQuery(QueryBuilders.filteredQuery(query, boolFilter)) // Query
-				.setFrom(0).setSize(10);
+				.setFrom(criteria.getFrom()).setSize(criteria.getNbreResultatPage());
+
+		// Add sort to request
+		List<String> sortField = sortFields.get(criteria.getChampTri());
+		if (sortField != null && !sortField.isEmpty()) {
+			for (String s : sortField) {
+				requestBuilder.addSort(s, SortOrder.valueOf(criteria.getOrder()));
+			}
+		}
 
 		addAggregations(criteria, requestBuilder);
 

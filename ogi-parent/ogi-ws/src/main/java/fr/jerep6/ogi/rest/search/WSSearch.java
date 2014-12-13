@@ -40,11 +40,22 @@ public class WSSearch extends AbtractWS {
 			@RequestParam(value = "areaMin", required = false) Integer areaMin, //
 			@RequestParam(value = "areaPriceMax", required = false) Integer areaMax, //
 			@RequestParam(value = "landAreaMin", required = false) Integer landAreaMin, //
-			@RequestParam(value = "landAreaPriceMax", required = false) Integer landAreaMax //
+			@RequestParam(value = "landAreaPriceMax", required = false) Integer landAreaMax, //
+			@RequestParam(value = "p", required = false) Integer page, //
+			@RequestParam(value = "sort", required = false) String sort, //
+			@RequestParam(value = "order", required = false) String order //
 	) {
 
 		SearchCriteria criteria = new SearchCriteria();
+		criteria.setNbreResultatPage(9);
+		if (page != null) {
+			criteria.setPage(page);
+		}
 		criteria.setKeywords(keyword);
+
+		criteria.setChampTri(sort);
+		criteria.setOrder(order);
+
 		if (categories != null && !categories.isEmpty()) {
 			criteria.addFilter(new SearchCriteriaFilterTerm(SearchEnumFilter.CATEGORIE, categories.toArray()));
 		}

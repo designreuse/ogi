@@ -4,13 +4,22 @@ angular.module('myApp.search').factory('ServiceSearch', function($http, ServiceC
         search : function(queryParams){
             return $http.get(ServiceConfiguration.API_URL+"/rest/search/", {"params": queryParams});
         },
-        createSearchUrl: function (keyword, filtersTerm, filtersRange) {
+        createSearchUrl: function (keyword, pageNumber, sort, filtersTerm, filtersRange) {
             var u = {};
             u.path = "/search";
 
             u.search = {}
             if(keyword) {
                 u.search.keyword=keyword;
+            }
+
+            if(pageNumber) {
+                u.search.p = pageNumber;
+            }
+
+            if(sort) {
+                u.search.sort = sort.field;
+                u.search.order = sort.order;
             }
 
             // Term
