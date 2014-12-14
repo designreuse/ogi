@@ -11,7 +11,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="o in saveData.ownersProperty">
-            <td>{{o.firstname}} {{o.surname}}</td>
+            <td>{{o.surname}} {{o.firstname}}</td>
             <td>
                 {{o.phoneMobile}}
                 <br ng-if="o.phoneMobile"/>
@@ -34,9 +34,6 @@
     <hr />
 
     <h3>Liste des propriétaires de l'agence</h3>
-    <input ng-model="searchText.surname" type="text" class="form-control" id="inputSearch" placeholder="Saissisez le nom du propriétaire à rechercher"/>
-
-    <br />
     <table class="table table-condensed">
         <thead>
         <tr>
@@ -47,8 +44,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="o in owners | filter:searchText | orderBy:'surname'">
-            <td>{{o.firstname}} {{o.surname}}</td>
+        <tr ng-repeat="o in owners">
+            <td>{{o.surname}} {{o.firstname}}</td>
             <td>
                 {{o.phoneMobile}}
                 <br ng-if="o.phoneMobile"/>
