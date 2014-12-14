@@ -32,7 +32,7 @@ public class DaoOwnerImpl extends AbstractDao<Owner, Integer> implements DaoOwne
 
 	private static Map<String, String>	allowSortBy		= new HashMap<String, String>();
 	static {
-		allowSortBy.put("name", "o.firstname");
+		allowSortBy.put("name", "o.surname");
 		allowSortBy.put("key", "o.keyNumber");
 	}
 
