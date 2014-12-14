@@ -47,28 +47,32 @@
 
             <div class="search-filter">
                 <div class="search-filter-title">Prix</div>
-                <div class="input-group">
-                    <span class="input-group-addon">De</span>
-                    <input class="form-control" type="text" ng-pattern="/^\d+$/" ng-model="filtersRange.price.min.value">
-                    <span class="input-group-addon">à</span>
-                    <input class="form-control" type="text" ng-pattern="/^\d+$/" ng-model="filtersRange.price.max.value">
-                    <span class="input-group-addon">€</span>
-                </div>
-                <button type="button" class="btn btn-success btn-search" ng-click="addFilterRange('price')">Valider prix</button>
-                <br />
+                <form ng-submit="addFilterRange('price')">
+                    <div class="input-group">
+                        <span class="input-group-addon">De</span>
+                        <input class="form-control" type="text" ng-pattern="/^\d+$/" ng-model="filtersRange.price.min.value">
+                        <span class="input-group-addon">à</span>
+                        <input class="form-control" type="text" ng-pattern="/^\d+$/" ng-model="filtersRange.price.max.value">
+                        <span class="input-group-addon">€</span>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-search">Valider prix</button>
+                    <br />
+                </form>
             </div>
 
             <div class="search-filter">
                 <div class="search-filter-title">Surface</div>
-                <div class="input-group">
-                    <span class="input-group-addon">De</span>
-                    <input class="form-control" type="text" ng-pattern="/^\d+$/" ng-model="filtersRange.area.min.value">
-                    <span class="input-group-addon">à</span>
-                    <input class="form-control" type="number" ng-pattern="/^\d+$/" ng-model="filtersRange.area.max.value">
-                    <span class="input-group-addon">m²</span>
-                </div>
-                <button type="button" class="btn btn-success btn-search" ng-click="addFilterRange('area')">Valider surface</button>
-                <br />
+                <form ng-submit="addFilterRange('area')">
+                    <div class="input-group">
+                        <span class="input-group-addon">De</span>
+                        <input class="form-control" type="text" ng-pattern="/^\d+$/" ng-model="filtersRange.area.min.value">
+                        <span class="input-group-addon">à</span>
+                        <input class="form-control" type="number" ng-pattern="/^\d+$/" ng-model="filtersRange.area.max.value">
+                        <span class="input-group-addon">m²</span>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-search">Valider surface</button>
+                    <br />
+                    </form>
             </div>
         </div>
     </div>
