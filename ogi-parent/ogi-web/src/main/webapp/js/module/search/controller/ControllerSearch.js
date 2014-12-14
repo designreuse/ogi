@@ -1,6 +1,5 @@
 angular.module('myApp.search').controller("ControllerSearch",
     function ControllerSearch($scope, $controller, $location, ServiceAlert, ServiceSearch, ServiceUrl, ServiceObject, Utils) {
-
         $scope.sortTmp = null;
         $scope.sortPossibilities = [
             /*
@@ -43,8 +42,8 @@ angular.module('myApp.search').controller("ControllerSearch",
 
         $scope.numberResultsPerPage = 9;
         $scope.pageNumber = 1;
-        $scope.totalResults = 0;
-        $scope.pageNumber = 1;
+        // Need to start up to max results in order to pagination works
+        $scope.totalResults = 666;
         $scope.sort = null;
         $scope.aggregations = {};
         $scope.property = {};
@@ -198,8 +197,8 @@ angular.module('myApp.search').controller("ControllerSearch",
         /* Create search url according to filters and redirect to this url */
         $scope.changeUrl = function() {
             var url = ServiceSearch.createSearchUrl($scope.keyword, $scope.pageNumber, $scope.sort, $scope.filtersTerm, $scope.filtersRange);
-            console.log("URL");
-            console.log(url);
+            //console.log("URL");
+            //console.log(url);
 
             $location.path(url.path).search(url.search);
         }
@@ -239,8 +238,8 @@ angular.module('myApp.search').controller("ControllerSearch",
                 }
             }
 
-            console.log("SEARCH");
-            console.log(searchParams);
+            //console.log("SEARCH");
+            //console.log(searchParams);
 
             ServiceSearch.search(searchParams).success(function (data, status) {
                 $scope.aggregations = data.aggregations;
@@ -259,6 +258,9 @@ angular.module('myApp.search').controller("ControllerSearch",
             return $scope.activesFilters.length != 0;
         }
 
+        $scope.initPaginationDone = function() {
+            return $scope.totalResults != 666;
+        }
 
         $scope.init();
         $scope.search();
