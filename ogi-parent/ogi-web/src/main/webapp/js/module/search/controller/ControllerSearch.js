@@ -113,7 +113,7 @@ angular.module('myApp.search').controller("ControllerSearch",
                     return false;
                 });
                 $scope.sortTmp = o[0] ;
-                $scope.sort = o[0] ;
+                $scope.sort = o[0] ? o[0].value : null;
             }
 
             // TERM filters
@@ -216,8 +216,8 @@ angular.module('myApp.search').controller("ControllerSearch",
             searchParams.p = $scope.pageNumber;
 
             if($scope.sort) {
-                searchParams.sort = $scope.sort.value.field;
-                searchParams.order = $scope.sort.value.order;
+                searchParams.sort = $scope.sort.field;
+                searchParams.order = $scope.sort.order;
             }
 
             // Term
@@ -246,7 +246,6 @@ angular.module('myApp.search').controller("ControllerSearch",
                 $scope.aggregations = data.aggregations;
                 $scope.property = data.property;
                 $scope.totalResults = data.totalResults;
-                console.log($scope.totalResults);
             });
         }
 
