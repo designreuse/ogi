@@ -27,6 +27,7 @@
 		<jsoup.version>1.7.3</jsoup.version>
 		<commonnet.version>3.3</commonnet.version>
 		<elasticsearch.version>1.3.4</elasticsearch.version>
+		<lucene.version>4.9.1</lucene.version>
 
 		<log4j.version>2.0-rc1</log4j.version>
 		<slf4j.version>1.7.6</slf4j.version>
@@ -315,6 +316,23 @@
 				<groupId>org.elasticsearch</groupId>
 				<artifactId>elasticsearch</artifactId>
 				<version>${elasticsearch.version}</version>
+			</dependency>
+			
+			<!-- Fix lucene version else when releasing in batch lib directory lucene 4.5.1 comes-->
+			<dependency>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-core</artifactId>
+				<version>${lucene.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-queryparser</artifactId>
+				<version>${lucene.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-analyzers-common</artifactId>
+				<version>${lucene.version}</version>
 			</dependency>
 		</dependencies>
 
