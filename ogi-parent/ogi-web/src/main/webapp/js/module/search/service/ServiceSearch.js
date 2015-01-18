@@ -4,7 +4,7 @@ angular.module('myApp.search').factory('ServiceSearch', function($http, ServiceC
         search : function(queryParams){
             return $http.get(ServiceConfiguration.API_URL+"/rest/search/", {"params": queryParams});
         },
-        createSearchUrl: function (keyword, pageNumber, sort, filtersTerm, filtersRange) {
+        createSearchUrl: function (keyword, pageNumber, sort, filtersTerm, filtersRange, filtersBoolean) {
             var u = {};
             u.path = "/search";
 
@@ -43,7 +43,16 @@ angular.module('myApp.search').factory('ServiceSearch', function($http, ServiceC
                         }
                     }
                 }
+            }
 
+            // Boolean
+            if(filtersBoolean) {
+                for(var filterName in filtersBoolean) {
+                    var currentFilter = filtersBoolean[filterName];
+                    if(currentFilter.actif) {
+                        u.search[currentFilter.paramUrl] = currentFilter.value;
+                    }
+                }
             }
             return u;
         },

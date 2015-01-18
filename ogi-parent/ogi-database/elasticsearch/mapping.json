@@ -73,6 +73,9 @@ PUT /ogi
                         "mandateReference": {
                             "type": "string",
                     		"index": "not_analyzed"
+                        },
+                        "sold": {
+                            "type": "boolean"
                         }
                     }
                 },
@@ -85,6 +88,9 @@ PUT /ogi
                         "mandateReference": {
                             "type": "string",
                     		"index": "not_analyzed"
+                        },
+                        "rented": {
+                            "type": "boolean"
                         }
                     }
                 },

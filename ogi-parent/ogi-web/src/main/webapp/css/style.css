@@ -219,6 +219,9 @@ ul#list-photos li.highlight {
   font-size: 20px;
   font-weight: bold;
 }
+.unavailable {
+  background-color: #E6E6E6;
+}
 /* NAVIGATION */
 .navbar-default .navbar-brand {
   color: #ffffff;

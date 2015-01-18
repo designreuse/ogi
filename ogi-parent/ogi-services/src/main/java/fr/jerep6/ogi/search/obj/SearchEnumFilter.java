@@ -9,6 +9,8 @@ public enum SearchEnumFilter {
 	CATEGORIE("categories", "category.raw"), //
 	AREA("area", "area"), //
 	LAND_AREA("landArea", "landArea"), //
+	SOLD("sold", "sale.sold"), //
+	RENTED("sold", "rent.rented"), //
 	;
 
 	public static SearchEnumFilter valueOfByName(String name) {

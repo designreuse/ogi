@@ -26,6 +26,12 @@ public class SearchCriteria {
 	/** Ordre de tri. */
 	private String						order							= SearchCriteria.ORDER_DEFAUT;
 
+	/** Display sold property ? */
+	private Boolean						sold							= false;
+
+	/** Display rented property ? */
+	private Boolean						rented							= false;
+
 	public SearchCriteria addFilter(SearchCriteriaFilter filter) {
 		filtres.add(filter);
 		return this;
@@ -66,6 +72,14 @@ public class SearchCriteria {
 
 	public Integer getPage() {
 		return page;
+	}
+
+	public Boolean getRented() {
+		return rented;
+	}
+
+	public Boolean getSold() {
+		return sold;
 	}
 
 	public SearchCriteria setChampTri(String champTri) {
@@ -130,6 +144,14 @@ public class SearchCriteria {
 			this.page = page;
 		}
 		return this;
+	}
+
+	public void setRented(Boolean rented) {
+		this.rented = rented;
+	}
+
+	public void setSold(Boolean sold) {
+		this.sold = sold;
 	}
 
 }

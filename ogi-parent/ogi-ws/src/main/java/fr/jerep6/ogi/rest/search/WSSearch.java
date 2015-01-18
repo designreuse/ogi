@@ -2,6 +2,7 @@ package fr.jerep6.ogi.rest.search;
 
 import java.util.List;
 
+import org.elasticsearch.common.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,7 +44,9 @@ public class WSSearch extends AbtractWS {
 			@RequestParam(value = "landAreaPriceMax", required = false) Integer landAreaMax, //
 			@RequestParam(value = "p", required = false) Integer page, //
 			@RequestParam(value = "sort", required = false) String sort, //
-			@RequestParam(value = "order", required = false) String order //
+			@RequestParam(value = "order", required = false) String order, //
+			@RequestParam(value = "sold", required = false) String sold, //
+			@RequestParam(value = "rented", required = false) String rented //
 	) {
 
 		SearchCriteria criteria = new SearchCriteria();
@@ -64,6 +67,14 @@ public class WSSearch extends AbtractWS {
 		}
 		if (modes != null && !modes.isEmpty()) {
 			criteria.addFilter(new SearchCriteriaFilterTerm(SearchEnumFilter.MODE, modes.toArray()));
+		}
+
+		// by default, display only available property
+		if (!Strings.isEmpty(rented) || Boolean.valueOf(rented)) {
+			criteria.setRented(true);
+		}
+		if (!Strings.isEmpty(sold) || Boolean.valueOf(sold)) {
+			criteria.setSold(true);
 		}
 
 		// Sale price

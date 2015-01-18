@@ -8,4 +8,5 @@ import lombok.Setter;
 public class SearchRent {
 	private String	mandateReference;
 	private Float	price;
+	private Boolean	rented;
 }

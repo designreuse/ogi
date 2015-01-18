@@ -74,6 +74,11 @@
                     <br />
                     </form>
             </div>
+
+            <div class="search-filter checkbox">
+                <div class="search-filter-title">Status</div>
+                <label><input type="checkbox" value="true" ng-model="filtersTerm.sold.value" ng-change="toogleFilterBoolean('sold')"/> Afficher les biens vendus</label>
+            </div>
         </div>
     </div>
 
@@ -93,7 +98,7 @@
 
         <div class="row">
             <div class="col-xs-4" ng-repeat="prp in property">
-                <div class="thumbnail search-thumbnail" style="position: relative">
+                <div class="thumbnail search-thumbnail"  ng-class="{unavailable: prp.sale.sold || prp.rent.rented}" style="position: relative">
                     <img ng-src="{{prp.image.url}}?size=200,120&crop=200,120" alt="">
                     <div class="caption">
                         <h4 class="center" style="height: 35px">{{prp.category}} à {{prp.address.city}}</h4>

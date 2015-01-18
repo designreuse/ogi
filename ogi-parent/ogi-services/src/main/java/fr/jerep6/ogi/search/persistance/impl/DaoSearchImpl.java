@@ -53,6 +53,7 @@ import fr.jerep6.ogi.search.obj.SearchCriteria;
 import fr.jerep6.ogi.search.obj.SearchCriteriaFilter;
 import fr.jerep6.ogi.search.obj.SearchCriteriaFilterRange;
 import fr.jerep6.ogi.search.obj.SearchCriteriaFilterTerm;
+import fr.jerep6.ogi.search.obj.SearchEnumFilter;
 import fr.jerep6.ogi.search.obj.SearchResult;
 import fr.jerep6.ogi.search.obj.SearchResultAggregation;
 import fr.jerep6.ogi.search.persistance.DaoSearch;
@@ -82,13 +83,13 @@ public class DaoSearchImpl implements DaoSearch {
 	private String								minimumShouldMatch;
 
 	private static String[]						searchFields	= new String[] { //
-		"reference", //
-			"category", //
-			"address.postalCode",//
-			"address.city", //
-			"sale.mandateReference",//
-			"rent.mandateReference", //
-			"owners.name"										};
+																"reference", //
+		"category", //
+		"address.postalCode",//
+		"address.city", //
+		"sale.mandateReference",//
+		"rent.mandateReference", //
+	"owners.name"										};
 
 	private void addAggregations(SearchCriteria criteria, SearchRequestBuilder requestBuilder) {
 		// Category (maison, appartement, terrain)
@@ -167,6 +168,10 @@ public class DaoSearchImpl implements DaoSearch {
 			}
 		}
 
+		// Les filtres de disponibilité (vendu et loué) nécessitent une requete particulière
+		BoolFilterBuilder filterAvailble = createFilterAvailable(criteria.getSold(), criteria.getRented());
+		boolFilter.must(filterAvailble);
+
 		return boolFilter.hasClauses() ? boolFilter : null;
 	}
 
@@ -203,6 +208,23 @@ public class DaoSearchImpl implements DaoSearch {
 					.to(f.getMax());
 		}
 		return fb;
+	}
+
+	private BoolFilterBuilder createFilterAvailable(Boolean sold, Boolean rented) {
+		BoolFilterBuilder boolFilter = FilterBuilders.boolFilter();
+
+		if (sold) {
+			boolFilter.should(FilterBuilders.existsFilter("reference"));
+		} else {
+			boolFilter.should(FilterBuilders.termFilter(SearchEnumFilter.SOLD.getChamp(), false));
+		}
+		if (rented) {
+			boolFilter.should(FilterBuilders.existsFilter("reference"));
+		} else {
+			boolFilter.should(FilterBuilders.termFilter(SearchEnumFilter.RENTED.getChamp(), false));
+		}
+
+		return boolFilter;
 	}
 
 	private FilterBuilder createFilterShould(List<SearchCriteriaFilter> filters) {
@@ -289,6 +311,7 @@ public class DaoSearchImpl implements DaoSearch {
 				SearchSale searchSale = new SearchSale();
 				searchSale.setMandateReference(r.getSale().getMandateReference());
 				searchSale.setPrice(r.getSale().getPriceFinal());
+				searchSale.setSold(r.getSale().getSold());
 				sp.setSale(searchSale);
 
 				modes.add("Vente");
@@ -298,6 +321,7 @@ public class DaoSearchImpl implements DaoSearch {
 				SearchRent searchRent = new SearchRent();
 				searchRent.setMandateReference(r.getRent().getMandateReference());
 				searchRent.setPrice(r.getRent().getPriceFinal());
+				searchRent.setRented(r.getRent().getRented());
 				sp.setRent(searchRent);
 
 				modes.add("Location");

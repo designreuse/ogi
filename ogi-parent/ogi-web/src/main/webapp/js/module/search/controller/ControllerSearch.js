@@ -68,6 +68,19 @@ angular.module('myApp.search').controller("ControllerSearch",
             }
         };
 
+        $scope.filtersBoolean={
+            "sold" : {
+                "paramUrl": "sold",
+                "actif": false,
+                "value" : false
+            },
+            "rented" : {
+                "paramUrl": "rented",
+                "actif": false,
+                "value" : false
+            }
+        };
+
         $scope.filtersRange = {
             "price" : {
                 "min" : {
@@ -147,6 +160,21 @@ angular.module('myApp.search').controller("ControllerSearch",
                     }
                 }
             }
+
+
+            // BOOLEAN filters
+            // iterate over url parameters
+            for(var urlParamName in $location.search()) {
+                // Search corresponding filter
+                var filterKey = ServiceObject.getMapEntry($scope.filtersBoolean, {"paramUrl":urlParamName}, ["paramUrl"]);
+
+                if(filterKey) {
+                    // Activate filter and setup its value
+                    $scope.filtersBoolean[filterKey].actif = true;
+                    $scope.filtersBoolean[filterKey].value = true;
+                }
+            }
+
         }
 
 
@@ -170,6 +198,8 @@ angular.module('myApp.search').controller("ControllerSearch",
 
             $scope.changeUrl();
         }
+
+
 
         $scope.removeFilter = function (type, name) {
             if(type == "term") {
@@ -196,14 +226,21 @@ angular.module('myApp.search').controller("ControllerSearch",
 
         /* Create search url according to filters and redirect to this url */
         $scope.changeUrl = function() {
-            var url = ServiceSearch.createSearchUrl($scope.keyword, $scope.pageNumber, $scope.sort, $scope.filtersTerm, $scope.filtersRange);
+            var url = ServiceSearch.createSearchUrl($scope.keyword, $scope.pageNumber, $scope.sort, $scope.filtersTerm, $scope.filtersRange, $scope.filtersBoolean);
             //console.log("URL");
-            //console.log(url);
+            console.log(url);
 
             $location.path(url.path).search(url.search);
         }
 
         $scope.changePagination = function() {
+            $scope.changeUrl();
+        }
+
+
+        $scope.toogleFilterBoolean= function(filterName) {
+            $scope.filtersBoolean[filterName].actif = !$scope.filtersBoolean[filterName].actif;
+            $scope.filtersBoolean[filterName].value = !$scope.filtersBoolean[filterName].value;
             $scope.changeUrl();
         }
 
@@ -235,6 +272,14 @@ angular.module('myApp.search').controller("ControllerSearch",
                     if(boundsFilter.actif) {
                         searchParams[boundsFilter.paramUrl] = boundsFilter.value;
                     }
+                }
+            }
+
+            // Term
+            for(var filterName in $scope.filtersBoolean) {
+                var currentFilter = $scope.filtersBoolean[filterName];
+                if(currentFilter.actif) {
+                    searchParams[currentFilter.paramUrl] = currentFilter.value;
                 }
             }
 

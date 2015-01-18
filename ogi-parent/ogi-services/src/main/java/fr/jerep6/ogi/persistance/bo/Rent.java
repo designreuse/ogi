@@ -100,6 +100,10 @@ public class Rent {
 		return finalPrice;
 	}
 
+	public Boolean getRented() {
+		return freeDate == null;
+	}
+
 	@PreUpdate
 	@PrePersist
 	private void setDefaultValue() {
