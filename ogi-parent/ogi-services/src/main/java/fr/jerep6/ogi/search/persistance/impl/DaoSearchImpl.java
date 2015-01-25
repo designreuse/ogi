@@ -169,8 +169,8 @@ public class DaoSearchImpl implements DaoSearch {
 		}
 
 		// Les filtres de disponibilité (vendu et loué) nécessitent une requete particulière
-		BoolFilterBuilder filterAvailble = createFilterAvailable(criteria.getSold(), criteria.getRented());
-		boolFilter.must(filterAvailble);
+		BoolFilterBuilder filterAvailable = createFilterAvailable(criteria.getSold(), criteria.getRented());
+		boolFilter.must(filterAvailable);
 
 		return boolFilter.hasClauses() ? boolFilter : null;
 	}
@@ -210,21 +210,26 @@ public class DaoSearchImpl implements DaoSearch {
 		return fb;
 	}
 
-	private BoolFilterBuilder createFilterAvailable(Boolean sold, Boolean rented) {
-		BoolFilterBuilder boolFilter = FilterBuilders.boolFilter();
+	private BoolFilterBuilder createFilterAvailable(Boolean displaySold, Boolean displayRent) {
+		BoolFilterBuilder boolAvailable = FilterBuilders.boolFilter();
 
-		if (sold) {
-			boolFilter.should(FilterBuilders.existsFilter("reference"));
+		// Property wich doesn't have sale or rent
+		BoolFilterBuilder boolMissingField = FilterBuilders.boolFilter();
+		boolMissingField.must(FilterBuilders.missingFilter("sale")).should(FilterBuilders.missingFilter("rent"));
+		boolAvailable.should(boolMissingField);
+
+		if (displaySold) {
+			boolAvailable.should(FilterBuilders.existsFilter("sale"));
 		} else {
-			boolFilter.should(FilterBuilders.termFilter(SearchEnumFilter.SOLD.getChamp(), false));
+			boolAvailable.should(FilterBuilders.termFilter(SearchEnumFilter.SOLD.getChamp(), false));
 		}
-		if (rented) {
-			boolFilter.should(FilterBuilders.existsFilter("reference"));
+		if (displayRent) {
+			boolAvailable.should(FilterBuilders.existsFilter("rent"));
 		} else {
-			boolFilter.should(FilterBuilders.termFilter(SearchEnumFilter.RENTED.getChamp(), false));
+			boolAvailable.should(FilterBuilders.termFilter(SearchEnumFilter.RENTED.getChamp(), false));
 		}
 
-		return boolFilter;
+		return boolAvailable;
 	}
 
 	private FilterBuilder createFilterShould(List<SearchCriteriaFilter> filters) {
