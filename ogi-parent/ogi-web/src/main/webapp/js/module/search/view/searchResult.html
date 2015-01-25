@@ -77,7 +77,8 @@
 
             <div class="search-filter checkbox">
                 <div class="search-filter-title">Status</div>
-                <label><input type="checkbox" value="true" ng-model="filtersTerm.sold.value" ng-change="toogleFilterBoolean('sold')"/> Afficher les biens vendus</label>
+                <label><input type="checkbox" value="true" ng-model="filtersBoolean.sold.value" ng-change="toogleFilterBoolean('sold')"/> Afficher les biens vendus</label>
+                <label><input type="checkbox" value="true" ng-model="filtersBoolean.rented.value" ng-change="toogleFilterBoolean('rented')"/> Afficher les biens loués</label>
             </div>
         </div>
     </div>

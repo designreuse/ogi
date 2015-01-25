@@ -56,7 +56,7 @@ angular.module('myApp.search').factory('ServiceSearch', function($http, ServiceC
             }
             return u;
         },
-        populateActivesFilters : function (keyword, filtersTerm, filtersRange) {
+        populateActivesFilters : function (keyword, filtersTerm, filtersRange, filtersBoolean) {
             var activesFilters = [];
 
             if(keyword) {
@@ -95,6 +95,20 @@ angular.module('myApp.search').factory('ServiceSearch', function($http, ServiceC
                         activesFilters.push({"type" : "range", "name" : filterName, "label" : t});
                     });
                     })(filterName);
+                }
+            }
+
+            // Terms
+            for(var filterName in filtersBoolean) {
+                var f = filtersBoolean[filterName];
+                // If filter is active => add to active filter
+                if(f.actif) {
+                    (function(filterName){
+                        $translate("search.filter.active."+filterName, null).then(function (t) {
+                            activesFilters.push({"type" : "boolean", "name" : filterName, "label" : t});
+                        });
+                    })(filterName);
+
                 }
             }
 

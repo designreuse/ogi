@@ -215,6 +215,10 @@ angular.module('myApp.search').controller("ControllerSearch",
             else if(type == "text") {
                 $scope.keyword = "";
             }
+            else if(type == "boolean") {
+                $scope.filtersBoolean[name].actif=false;
+                $scope.filtersBoolean[name].value = false;
+            }
             $scope.changeUrl();
         }
 
@@ -296,7 +300,7 @@ angular.module('myApp.search').controller("ControllerSearch",
 
 
         $scope.$watch('filters', function(newValue, oldValue) {
-            $scope.activesFilters = ServiceSearch.populateActivesFilters($scope.keyword, $scope.filtersTerm, $scope.filtersRange);
+            $scope.activesFilters = ServiceSearch.populateActivesFilters($scope.keyword, $scope.filtersTerm, $scope.filtersRange, $scope.filtersBoolean);
         });
 
         $scope.displayMySearch = function() {
