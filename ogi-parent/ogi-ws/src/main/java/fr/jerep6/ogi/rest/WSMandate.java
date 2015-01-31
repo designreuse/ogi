@@ -24,6 +24,5 @@ public class WSMandate extends AbtractWS {
 	@RequestMapping(value = "/expired", method = RequestMethod.GET)
 	public Map<String, List<ExpiredMandate>> listExpired() {
 		return serviceSale.listExpiredMandates();
-
 	}
 }

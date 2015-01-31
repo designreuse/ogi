@@ -28,6 +28,7 @@ public class DaoSaleImpl extends AbstractDao<Sale, Integer> implements DaoSale {
 	private static final String	PARAM_PRP_REFERENCE		= "PRP_REFERENCE";
 	private static final String	PARAM_MANDAT_DATE_BEGIN	= "MANDAT_DATE_BEGIN";
 	private static final String	PARAM_MANDAT_DATE_END	= "MANDAT_DATE_END";
+	private static final String	PARAM_SOLD				= "SOLD";
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -37,9 +38,10 @@ public class DaoSaleImpl extends AbstractDao<Sale, Integer> implements DaoSale {
 				+ "('SALE', s.property.reference, s.mandateReference, s.mandateEndDate) ");
 		q.append(" FROM " + Sale.class.getName() + " s ");
 		q.append(" WHERE 1=1 ");
+		q.append(" AND s.sold= :" + PARAM_SOLD);
 
 		if (begin.isPresent()) {
-			q.append("AND mandateEndDate > :" + PARAM_MANDAT_DATE_BEGIN);
+			q.append(" AND mandateEndDate > :" + PARAM_MANDAT_DATE_BEGIN);
 		}
 		if (end.isPresent()) {
 			q.append(" AND mandateEndDate < :" + PARAM_MANDAT_DATE_END);
@@ -47,7 +49,7 @@ public class DaoSaleImpl extends AbstractDao<Sale, Integer> implements DaoSale {
 		q.append(" ORDER BY mandateEndDate ASC");
 
 		Query query = entityManager.createQuery(q.toString());
-
+		query.setParameter(PARAM_SOLD, false);
 		if (begin.isPresent()) {
 			query.setParameter(PARAM_MANDAT_DATE_BEGIN, GregorianCalendar.from(begin.get()));
 		}
