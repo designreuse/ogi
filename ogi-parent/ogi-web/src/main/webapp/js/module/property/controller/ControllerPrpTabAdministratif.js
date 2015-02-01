@@ -59,7 +59,8 @@ function ($scope, Page, $routeParams, ServiceConfiguration, ServiceObject, Servi
         'mandateStartDate': false,
         'mandateEndDate': false,
         'estimationDate': false,
-        'freeDate' : false
+        'freeDate' : false,
+        'soldDate' : false
     }
 
     $scope.openCalendar = function($event, calendarName) {

@@ -74,6 +74,11 @@ public class ServiceSaleImpl extends AbstractTransactionalService<Sale, Integer>
 				saleMapping = saleModif;
 			}
 
+			if (saleMapping.getSold() == null || !saleMapping.getSold()) {
+				saleMapping.setSoldDate(null);
+				saleMapping.setSoldPrice(null);
+			}
+
 		} else {
 			// ihm null and database contain sale => remove sale in database
 			if (saleOriginalBD != null) {

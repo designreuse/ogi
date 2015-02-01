@@ -99,6 +99,27 @@
                         </div>
                     </div>
 
+                    <div class="row" ng-if="prp.sale.sold">
+                        <div class="col-xs-6 form-group">
+                            <label>Date de vente</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" ng-model="prp.sale.soldDate"
+                                       datepicker-popup="{{dateFormat}}" show-weeks="false" is-open="open['soldDate']"
+                                       datepicker-options="dateOptions" show-button-bar="false"
+                                        />
+                                <span class="input-group-addon glyphicon glyphicon-calendar pointer" ng-click="openCalendar($event, 'soldDate')"></span>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 form-group">
+                            <label>Prix de vente</label>
+                            <div class="input-group">
+                                <input class="form-control" type="text" ng-model="prp.sale.soldPrice" />
+                                <span class="input-group-addon">€</span>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div class="form-group">
                         <label>Début mandat</label>
                         <div class="input-group">

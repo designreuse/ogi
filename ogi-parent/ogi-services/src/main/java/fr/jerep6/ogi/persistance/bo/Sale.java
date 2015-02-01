@@ -80,6 +80,13 @@ public class Sale {
 	@Column(name = "SAL_SOLD", columnDefinition = "BIT(1) DEFAULT 0")
 	private Boolean			sold	= false;
 
+	@Column(name = "SAL_SOLD_DATE")
+	@Temporal(TemporalType.DATE)
+	private Calendar		soldDate;
+
+	@Column(name = "SAL_SOLD_PRICE")
+	private Float			soldPrice;
+
 	@ManyToOne
 	@JoinColumn(name = "PRO_ID", nullable = false)
 	private RealProperty	property;
