@@ -9,7 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.EqualsAndHashCode;
@@ -17,12 +19,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import org.hibernate.annotations.Parameter;
-import org.hibernate.annotations.Type;
-
 import com.google.common.base.Preconditions;
 
-import fr.jerep6.ogi.enumeration.EnumDocumentType;
 import fr.jerep6.ogi.utils.DocumentUtils;
 
 @Entity
@@ -51,12 +49,9 @@ public class Document implements Comparable<Document> {
 	@Column(name = "DOC_ORDER", nullable = true)
 	private Integer				order;
 
-	@Column(name = "DOC_TYPE", nullable = false, length = 24)
-	@Type(type = "fr.jerep6.ogi.framework.persistance.GenericEnumUserType", parameters = {
-			@Parameter(name = "enumClass", value = "fr.jerep6.ogi.enumeration.EnumDocumentType"),
-			@Parameter(name = "identifierMethod", value = "getCode"),
-			@Parameter(name = "valueOfMethod", value = "valueOfByCode") })
-	private EnumDocumentType	type;
+	@ManyToOne
+	@JoinColumn(name = "DOT_ID", nullable = true)
+	private DocumentType		type;
 
 	@ManyToMany(mappedBy = "documents", targetEntity = RealProperty.class)
 	private Set<RealProperty>	property;
@@ -65,7 +60,7 @@ public class Document implements Comparable<Document> {
 		super();
 	}
 
-	public Document(String path, String name, Integer order, EnumDocumentType type) {
+	public Document(String path, String name, Integer order, DocumentType type) {
 		super();
 		this.path = path;
 		this.name = name;
@@ -94,7 +89,7 @@ public class Document implements Comparable<Document> {
 
 	/**
 	 * Indicate if document is temporary (ie is store in folder temp)
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isTemp() {

@@ -9,19 +9,16 @@ import com.google.common.base.Objects;
 @Getter
 @Setter
 @EqualsAndHashCode(of = { "techid" })
-public class DocumentTo {
+public class DocumentTypeTo {
 	private Integer	techid;
-	private Integer	order;
-	private String	name;
-	private String	url;
-	private Integer	type;
+	private String	label;
+	private String	zoneList;
 
 	@Override
 	public String toString() {
 		return Objects.toStringHelper(this).//
 				add("techid", techid).//
-				add("order", order).//
-				add("name", name).//
-				add("url", url).toString();
+				add("label", label).//
+				add("zoneList", zoneList).toString();
 	}
 }

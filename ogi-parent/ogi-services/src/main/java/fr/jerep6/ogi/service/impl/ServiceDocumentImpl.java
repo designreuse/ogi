@@ -22,16 +22,17 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Preconditions;
-import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.Collections2;
 
-import fr.jerep6.ogi.enumeration.EnumDocumentType;
+import fr.jerep6.ogi.enumeration.EnumDocumentZoneList;
 import fr.jerep6.ogi.exception.business.FileAlreadyExist;
 import fr.jerep6.ogi.exception.technical.FileSystemTechnicalException;
 import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
 import fr.jerep6.ogi.persistance.bo.Document;
+import fr.jerep6.ogi.persistance.bo.DocumentType;
 import fr.jerep6.ogi.persistance.dao.DaoDocument;
+import fr.jerep6.ogi.persistance.dao.DaoDocumentType;
 import fr.jerep6.ogi.service.ServiceDocument;
 import fr.jerep6.ogi.transfert.FileUpload;
 import fr.jerep6.ogi.transfert.mapping.OrikaMapperService;
@@ -44,6 +45,9 @@ public class ServiceDocumentImpl extends AbstractTransactionalService<Document, 
 
 	@Autowired
 	private DaoDocument			daoDocument;
+
+	@Autowired
+	private DaoDocumentType		daoDocumentType;
 
 	@Autowired
 	private OrikaMapperService	mapper;
@@ -73,8 +77,8 @@ public class ServiceDocumentImpl extends AbstractTransactionalService<Document, 
 			Path relativeDocPath = Paths.get(aDoc.getPath());
 			// If document is in temp folder => move it into property document
 			if (aDoc.isTemp()) {
-				Path absoluteDestinationFile = root.resolve(Paths.get(DocumentUtils.getDirectoryName(aDoc.getType()),
-						relativeDocPath.getFileName().toString()));
+				Path absoluteDestinationFile = root.resolve(Paths.get(DocumentUtils.getDirectoryName(aDoc.getType()
+						.getTechid()), relativeDocPath.getFileName().toString()));
 
 				try {
 					// Create parent directory of file (photo for example)
@@ -100,15 +104,18 @@ public class ServiceDocumentImpl extends AbstractTransactionalService<Document, 
 	}
 
 	@Override
-	public FileUpload copyToDirectory(InputStream is, String fileName, String reference, EnumDocumentType type)
+	public FileUpload copyToDirectory(InputStream is, String fileName, String reference, Integer documentType)
 			throws IOException {
 		Preconditions.checkNotNull(is);
-		Preconditions.checkNotNull(type);
+		Preconditions.checkNotNull(documentType);
 		Preconditions.checkArgument(!Strings.isNullOrEmpty(fileName));
 		Preconditions.checkArgument(!Strings.isNullOrEmpty(reference));
 
-		// Temp directory for photos
-		Path root = DocumentUtils.getTempDirectory(reference, type);
+		// Read document type from database. Have to exist
+		DocumentType type = daoDocumentType.read(documentType);
+
+		// Temp directory for this document type.
+		Path root = DocumentUtils.getTempDirectory(reference, type.getTechid());
 
 		// Create temp directory if not exist
 		if (!Files.isDirectory(root)) {
@@ -167,22 +174,17 @@ public class ServiceDocumentImpl extends AbstractTransactionalService<Document, 
 	}
 
 	@Override
+	public List<DocumentType> listDocumentType(EnumDocumentZoneList zone) {
+		return daoDocumentType.listDocumentType(zone);
+	}
+
+	@Override
 	public Set<Document> merge(String prpReference, Set<Document> documentsBD, Set<Document> documentsModif) {
 		// Extract temps documents
-		Collection<Document> tmpDoc = Collections2.filter(documentsModif, new Predicate<Document>() {
-			@Override
-			public boolean apply(Document d) {
-				return d.isTemp();
-			}
-		});
+		Collection<Document> tmpDoc = Collections2.filter(documentsModif, d -> d.isTemp());
 
 		// Extract existing documents
-		Collection<Document> nonTmpDoc = Collections2.filter(documentsModif, new Predicate<Document>() {
-			@Override
-			public boolean apply(Document d) {
-				return !d.isTemp();
-			}
-		});
+		Collection<Document> nonTmpDoc = Collections2.filter(documentsModif, d -> !d.isTemp());
 
 		// Delete old documents. Old document is a doc which is in database but not in json feed
 		Set<Document> documentToRemove = new HashSet<>(documentsBD);

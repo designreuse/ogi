@@ -94,7 +94,7 @@ public class RealProperty {
 	@JoinTable(name = "TJ_PRP_EQP", //
 	joinColumns = @JoinColumn(name = "PRO_ID"), //
 	inverseJoinColumns = @JoinColumn(name = "EQP_ID")//
-	)
+			)
 	private Set<Equipment>				equipments			= new HashSet<>(0);
 
 	@ManyToOne
@@ -109,7 +109,7 @@ public class RealProperty {
 	@JoinTable(name = "TJ_PRP_DOC",//
 	joinColumns = @JoinColumn(name = "PRO_ID"),//
 	inverseJoinColumns = @JoinColumn(name = "DOC_ID")//
-	)
+			)
 	private Set<Document>				documents			= new HashSet<>(0);
 
 	@OneToMany(mappedBy = "pk.property", cascade = CascadeType.ALL)
@@ -119,7 +119,7 @@ public class RealProperty {
 	@JoinTable(name = "TJ_PRP_OWN",//
 	joinColumns = @JoinColumn(name = "PRP_ID"),//
 	inverseJoinColumns = @JoinColumn(name = "OWN_ID")//
-	)
+			)
 	private Set<Owner>					owners				= new HashSet<>(0);
 
 	@OneToMany(mappedBy = "property")
@@ -161,7 +161,8 @@ public class RealProperty {
 	}
 
 	public List<Document> getPhotos() {
-		List<Document> photos = documents.stream().filter(d -> EnumDocumentType.PHOTO.equals(d.getType()))//
+		List<Document> photos = documents.stream()
+				.filter(d -> EnumDocumentType.PHOTO.equalsWithDocumentType(d.getType()))//
 				.sorted()//
 				.collect(Collectors.<Document> toList());
 		return photos;

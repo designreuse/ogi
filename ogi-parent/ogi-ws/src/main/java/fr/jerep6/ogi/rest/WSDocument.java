@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.base.Preconditions;
 
-import fr.jerep6.ogi.enumeration.EnumDocumentType;
 import fr.jerep6.ogi.service.ServiceDocument;
 import fr.jerep6.ogi.transfert.FileUpload;
 import fr.jerep6.ogi.transfert.bean.FileUploadTo;
@@ -58,17 +57,15 @@ public class WSDocument extends AbtractWS {
 	public Map<String, List<FileUploadTo>> uploadFile( //
 			@RequestParam("file[]") Part part, //
 			@RequestParam("reference") String reference,//
-			@RequestParam("type") String type) throws IOException {
+			@RequestParam("type") Integer type) throws IOException {
 
 		Preconditions.checkNotNull(reference);
 		Preconditions.checkNotNull(type);
 
-		EnumDocumentType enumType = EnumDocumentType.valueOfByCode(type);
-
 		// Copy uploaded file into photo directory
 		// Convert iso filename in utf8. Je ne suis pas arrivé à envoyer le nom du fichier en utf8
 		String fileName = new String(getFileName(part).getBytes("iso-8859-1"), "UTF-8");
-		FileUpload f = serviceDocument.copyToDirectory(part.getInputStream(), fileName, reference, enumType);
+		FileUpload f = serviceDocument.copyToDirectory(part.getInputStream(), fileName, reference, type);
 
 		Map<String, List<FileUploadTo>> m = new HashMap<>();
 		m.put("files", Arrays.asList(mapper.map(f, FileUploadTo.class)));
