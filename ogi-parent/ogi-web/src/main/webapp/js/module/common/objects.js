@@ -76,16 +76,12 @@ function PropertyJS(prpFromAPI) {
     }
 
     if(!utilsObject.isUndefinedOrNull(prpFromAPI.sale)) {
-        this.sale = {};
-        this.sale = angular.extend(this.sale, sale);
-        angular.extend(this.sale, prpFromAPI.sale);
+        this.sale = angular.extend({}, sale, prpFromAPI.sale);
         this.sale.documents = extractDocumentsByZone(prpFromAPI.documents, "SALE");
     }
 
     if(!utilsObject.isUndefinedOrNull(prpFromAPI.rent)) {
-        this.rent = {};
-        this.rent = angular.extend(this.rent, rent);
-        angular.extend(this.rent, prpFromAPI.rent);
+        this.rent = angular.extend({}, rent, prpFromAPI.rent);
         this.rent.documents = extractDocumentsByZone(prpFromAPI.documents, "RENT");
     }
 
@@ -93,14 +89,16 @@ function PropertyJS(prpFromAPI) {
 
 
     this.toJSON = function() {
-        var prpJSON = {};
-        angular.extend(prpJSON, this);
+        var prpJSON = angular.extend({}, this);
 
         prpJSON.documents=this.photos//
         .concat(this.sale ? this.sale.documents : [])//
         .concat(this.rent ? this.rent.documents : []);
-        delete prpJSON.photos;
 
+        // Delete unecessaries json properties
+        delete prpJSON.photos;
+        if(prpJSON.sale) { delete prpJSON.sale.documents; }
+        if(prpJSON.rent) { delete prpJSON.rent.documents; }
 
         return prpJSON;
     }

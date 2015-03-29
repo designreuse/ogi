@@ -167,9 +167,11 @@
 
             <div class="row">
                 <div class="col-xs-12">
-                    <label>Documents du dossier</label>
-                    <div class="checkbox" ng-repeat="doc in documentSale">
-                        <label><input type="checkbox" checklist-model="prp.sale.documents" checklist-value="doc" /> {{doc.type.label}}</label>
+                    <label>Documents présents dans le dossier</label>
+                    <div class="checkbox mycheckbox-inline">
+                        <label ng-repeat="doc in documentSale">
+                            <input type="checkbox" checklist-model="prp.sale.documents" checklist-value="doc" /> {{doc.type.label}}
+                        </label>
                     </div>
                 </div>
             </div>
@@ -299,6 +301,16 @@
                     </div>
             </div>
 
+            <div class="row">
+                <div class="col-xs-12">
+                    <label>Documents présents dans le dossier</label>
+                    <div class="checkbox mycheckbox-inline">
+                        <label ng-repeat="doc in documentRent">
+                            <input type="checkbox" checklist-model="prp.rent.documents" checklist-value="doc" /> {{doc.type.label}}
+                        </label>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>

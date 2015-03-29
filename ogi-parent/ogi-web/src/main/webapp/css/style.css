@@ -177,6 +177,12 @@ ul#list-photos li.highlight {
 .logo-dl img {
   width: 40px;
 }
+.mycheckbox-inline label {
+  margin-right: 20px;
+}
+.mycheckbox-inline input[type="checkbox"] {
+  margin-left: -15px;
+}
 .search-filter-remove {
   float: right;
   cursor: pointer;

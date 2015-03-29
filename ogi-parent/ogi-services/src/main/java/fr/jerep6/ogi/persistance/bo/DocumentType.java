@@ -32,7 +32,7 @@ public class DocumentType {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer					techid;
 
-	@Column(name = "DOT_CODE", nullable = false, length = 24)
+	@Column(name = "DOT_CODE", unique = true, nullable = false, length = 24)
 	private String					code;
 
 	@Column(name = "DOT_LABEL", nullable = false, length = 1024)

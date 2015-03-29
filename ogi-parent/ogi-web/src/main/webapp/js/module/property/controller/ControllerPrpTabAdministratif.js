@@ -54,37 +54,25 @@ function ($scope, Page, $routeParams, ServiceConfiguration, ServiceObject, Servi
     }
 
 
-
-    // map of documents for sale. KEY = id of type VALUE = document
-    $scope.documentSale = {};
-    $http.get(ServiceConfiguration.API_URL+"/rest/document/type/SALE")
-        .success(function (data) {
+    var populateDocuments = function (scopeList, prpAdministrative) {
+        return function(documentType) {
             // For each document type create a document
-            for(var aType of data) {
+            for(var aType of documentType) {
                 // extract documents matching current type
-                var matchingDoc = $scope.prp.sale.documents.filter(d => d.type.code == aType.code);
+                var matchingDoc = prpAdministrative.documents.filter(d => d.type.code == aType.code);
 
                 // if at least one document matches keep this one. Else create a document to send in json
                 var doc = angular.extend({}, ogiDocument, {"name" : aType.code, "type" : aType});
-                $scope.documentSale[aType.code] = matchingDoc.length ? matchingDoc[0] : doc;
+                scopeList[aType.code] = matchingDoc.length ? matchingDoc[0] : doc;
             }
-        });
+        }
+    };
 
+    // map of documents for sale. KEY = id of type VALUE = document
+    $scope.documentSale = {};
     $scope.documentRent = {};
-    $http.get(ServiceConfiguration.API_URL+"/rest/document/type/RENT")
-        .success(function (data) {
-            // For each document type create a document
-            for(var aType of data) {
-                // extract documents matching current type
-                var matchingDoc = $scope.prp.rent.documents.filter(d => d.type.code == aType.code);
-
-                // if at least one document matches keep this one. Else create a document to send in json
-                $scope.documentRent[aType.techid] = matchingDoc ? matchingDoc[0] : {techid: null, order: -1, name:"", type: aType};
-            }
-            $scope.documentTypeRent = data;
-        });
-
-
+    $http.get(ServiceConfiguration.API_URL+"/rest/document/type/SALE").success(populateDocuments($scope.documentSale, $scope.prp.sale));
+    $http.get(ServiceConfiguration.API_URL+"/rest/document/type/RENT").success(populateDocuments($scope.documentRent, $scope.prp.rent));
 
     // Calendar
     $scope.open = {

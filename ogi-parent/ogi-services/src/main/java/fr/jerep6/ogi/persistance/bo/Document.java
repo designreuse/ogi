@@ -29,7 +29,7 @@ import fr.jerep6.ogi.utils.DocumentUtils;
 @Getter
 @Setter
 // path can't be used because it is nullable
-@EqualsAndHashCode(of = { "name" })
+@EqualsAndHashCode(of = { "name", "type" })
 @ToString(of = { "techid", "name", "order", "type", "path" })
 /**
  * Document are comparable according to order
