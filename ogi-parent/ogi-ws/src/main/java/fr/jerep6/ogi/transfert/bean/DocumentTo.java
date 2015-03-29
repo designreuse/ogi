@@ -10,11 +10,11 @@ import com.google.common.base.Objects;
 @Setter
 @EqualsAndHashCode(of = { "techid" })
 public class DocumentTo {
-	private Integer	techid;
-	private Integer	order;
-	private String	name;
-	private String	url;
-	private Integer	type;
+	private Integer			techid;
+	private Integer			order;
+	private String			name;
+	private String			url;
+	private DocumentTypeTo	type;
 
 	@Override
 	public String toString() {

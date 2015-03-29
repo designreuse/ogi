@@ -30,14 +30,23 @@ public class MyUrlUtils {
 		return url;
 	}
 
+	/**
+	 * Compute external url for a document path
+	 *
+	 * @param p
+	 *            path of document. May be null
+	 * @return
+	 */
 	public static String urlDocument(String p) {
-		Preconditions.checkArgument(!Strings.isNullOrEmpty(p));
-
-		StringBuilder sb = new StringBuilder();
-		sb.append(ContextUtils.threadLocalRequestURI.get());
-		sb.append(photoContext);
-		sb.append(MyUrlUtils.replace(p.toString()));
-		return sb.toString();
+		String url = "";
+		if (!Strings.isNullOrEmpty(p)) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(ContextUtils.threadLocalRequestURI.get());
+			sb.append(photoContext);
+			sb.append(MyUrlUtils.replace(p.toString()));
+			url = sb.toString();
+		}
+		return url;
 	}
 
 	public static String urlProperty(String reference) {

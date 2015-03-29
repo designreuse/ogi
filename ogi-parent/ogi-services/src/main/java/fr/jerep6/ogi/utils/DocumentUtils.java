@@ -131,24 +131,24 @@ public class DocumentUtils {
 		return documentStorageDir.relativize(absolutePathToDocument);
 	}
 
-	private static final Logger			LOGGER			= LoggerFactory.getLogger(DocumentUtils.class);
+	private static final Logger						LOGGER			= LoggerFactory.getLogger(DocumentUtils.class);
 
 	// public variables
-	public static String				DIR_PHOTO_NAME	= "photos";
-	public static String				DIR_MISC_NAME	= "divers";
-	public static String				DIR_TMP			= "temp";
+	public static String							DIR_PHOTO_NAME	= "photos";
+	public static String							DIR_MISC_NAME	= "divers";
+	public static String							DIR_TMP			= "temp";
 
-	private static String				documentsUrlContext;
-	private static Path					documentStorageDir;
+	private static String							documentsUrlContext;
+	private static Path								documentStorageDir;
 
 	/**
 	 * Chaque type de document est stocké dans un répertoire. Map de correspondance entre le type du document
 	 * et le répertoire dans lequel il est stocké. La clé est le techid du type de document
 	 */
-	private static Map<Integer, String>	dirNamesByType	= new HashMap<>(1);
+	private static Map<EnumDocumentType, String>	dirNamesByType	= new HashMap<>(1);
 	static {
 		// populate map
-		dirNamesByType.put(EnumDocumentType.PHOTO.getCode(), DIR_PHOTO_NAME);
+		dirNamesByType.put(EnumDocumentType.PHOTO, DIR_PHOTO_NAME);
 	}
 
 	@PostConstruct

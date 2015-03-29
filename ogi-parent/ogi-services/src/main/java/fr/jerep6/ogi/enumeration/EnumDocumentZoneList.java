@@ -7,8 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum EnumDocumentZoneList {
 	NO("NO"), //
-	ADMINISTRATIF_SALE("ADM_SALE"), //
-	ADMINISTRATIF_RENT("ADM_RENT");//
+	ADMINISTRATIF_SALE("SALE"), //
+	ADMINISTRATIF_RENT("RENT");//
 
 	/**
 	 * Get the enumeration from this code. No case sensitive
@@ -22,7 +22,6 @@ public enum EnumDocumentZoneList {
 				return oneEnum;
 			}
 		}
-
 		throw new IllegalArgumentException("No " + EnumDocumentZoneList.class.getSimpleName() + " for " + code);
 	}
 

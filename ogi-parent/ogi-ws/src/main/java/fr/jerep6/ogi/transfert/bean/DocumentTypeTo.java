@@ -8,17 +8,17 @@ import com.google.common.base.Objects;
 
 @Getter
 @Setter
-@EqualsAndHashCode(of = { "techid" })
+@EqualsAndHashCode(of = { "code" })
 public class DocumentTypeTo {
-	private Integer	techid;
+	private String	code;
 	private String	label;
 	private String	zoneList;
 
 	@Override
 	public String toString() {
 		return Objects.toStringHelper(this).//
-				add("techid", techid).//
 				add("label", label).//
+				add("code", code).//
 				add("zoneList", zoneList).toString();
 	}
 }

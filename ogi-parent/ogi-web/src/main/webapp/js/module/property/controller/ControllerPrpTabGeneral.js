@@ -107,6 +107,7 @@ function ($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http,
             maxFileSize: 'Fichier trop gros',
             minFileSize: 'Fichier trop petit'
         },
+        // type 1 for property's photos
         formData : [{ name: 'reference', value:  $scope.tempReference}, { name: 'type', value:  "PHOTO"}]
     };
 

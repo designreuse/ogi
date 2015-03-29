@@ -2,6 +2,7 @@ package fr.jerep6.ogi.transfert.mapping;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -49,12 +50,12 @@ import fr.jerep6.ogi.persistance.bo.Rent;
 import fr.jerep6.ogi.persistance.bo.Room;
 import fr.jerep6.ogi.persistance.bo.Sale;
 import fr.jerep6.ogi.persistance.bo.State;
-import fr.jerep6.ogi.persistance.dao.DaoDocumentType;
 import fr.jerep6.ogi.rest.batch.transfert.BatchReportInstanceTo;
 import fr.jerep6.ogi.rest.batch.transfert.BatchReportJobExecutionTo;
 import fr.jerep6.ogi.rest.batch.transfert.BatchReportStepExecutionTo;
 import fr.jerep6.ogi.rest.search.transfert.SearchResultTo;
 import fr.jerep6.ogi.search.obj.SearchResult;
+import fr.jerep6.ogi.service.ServiceDocumentType;
 import fr.jerep6.ogi.transfert.FileUpload;
 import fr.jerep6.ogi.transfert.ListResult;
 import fr.jerep6.ogi.transfert.PartnerPropertyCount;
@@ -98,39 +99,39 @@ public class OrikaMapper extends ConfigurableMapper {
 	@Resource(name = "mapPartnersMaxAllowed")
 	private Map<EnumPartner, String>	partnerMaxAllowed;
 
-	@Autowired
-	private DaoDocumentType				daoDocumentType;
-
 	private MapperFactory				factory;
+
+	@Autowired
+	private ServiceDocumentType			serviceDocumentType;
 
 	private void batchMapping() {
 
 		factory.classMap(BatchReportJobInstance.class, BatchReportInstanceTo.class)//
-		.field("jobInstance.jobName", "jobName")//
-		.field("jobExecutions", "jobExecutions")//
-		.field("success", "isSuccess")//
-		.register();
+				.field("jobInstance.jobName", "jobName")//
+				.field("jobExecutions", "jobExecutions")//
+				.field("success", "isSuccess")//
+				.register();
 
 		factory.classMap(JobExecution.class, BatchReportJobExecutionTo.class)//
-		.field("startTime", "startTime")//
-		.field("endTime", "endTime")//
-		.field("status", "status")//
-		.field("exitStatus", "exitStatus")//
-		.field("stepExecutions", "steps")//
-		.register();
+				.field("startTime", "startTime")//
+				.field("endTime", "endTime")//
+				.field("status", "status")//
+				.field("exitStatus", "exitStatus")//
+				.field("stepExecutions", "steps")//
+				.register();
 
 		factory.classMap(StepExecution.class, BatchReportStepExecutionTo.class)//
-		.field("stepName", "stepName")//
-		.field("status", "status")//
-		.field("exitStatus", "exitStatus")//
-		.field("readCount", "readCount")//
-		.field("writeCount", "writeCount")//
-		.field("commitCount", "commitCount")//
-		.field("rollbackCount", "rollbackCount")//
-		.field("readSkipCount", "readSkipCount")//
-		.field("processSkipCount", "processSkipCount")//
-		.field("writeSkipCount", "writeSkipCount")//
-		.register();
+				.field("stepName", "stepName")//
+				.field("status", "status")//
+				.field("exitStatus", "exitStatus")//
+				.field("readCount", "readCount")//
+				.field("writeCount", "writeCount")//
+				.field("commitCount", "commitCount")//
+				.field("rollbackCount", "rollbackCount")//
+				.field("readSkipCount", "readSkipCount")//
+				.field("processSkipCount", "processSkipCount")//
+				.field("writeSkipCount", "writeSkipCount")//
+				.register();
 	}
 
 	@Override
@@ -157,57 +158,57 @@ public class OrikaMapper extends ConfigurableMapper {
 		converterFactory.registerConverter(new ConverterEnumBatchStatus());
 		converterFactory.registerConverter(new ConverterEnumBatchExitStatus());
 
-		factory.getConverterFactory().registerConverter(new ConverterDocumentType(daoDocumentType));
+		factory.getConverterFactory().registerConverter(new ConverterDocumentType());
 
 	}
 
 	/** Mapping for exception */
 	private void exceptionMapping() {
 		factory.classMap(BusinessException.class, ErrorTo.class)//
-		.customize(new CustomMapper<BusinessException, ErrorTo>() {
-			@Override
-			public void mapAtoB(BusinessException a, ErrorTo b, MappingContext context) {
-				String msg = a.getMessage() == null ? "" : ExceptionUtils.i18n(a);
-				b.setMessage(msg);
-			}
+				.customize(new CustomMapper<BusinessException, ErrorTo>() {
+					@Override
+					public void mapAtoB(BusinessException a, ErrorTo b, MappingContext context) {
+						String msg = a.getMessage() == null ? "" : ExceptionUtils.i18n(a);
+						b.setMessage(msg);
+					}
 
-			@Override
-			public void mapBtoA(ErrorTo b, BusinessException a, MappingContext context) {}
-		})//
-		.byDefault().register();
+					@Override
+					public void mapBtoA(ErrorTo b, BusinessException a, MappingContext context) {}
+				})//
+				.byDefault().register();
 
 		factory.classMap(Exception.class, ErrorTo.class)//
-		.customize(new CustomMapper<Exception, ErrorTo>() {
-			@Override
-			public void mapAtoB(Exception a, ErrorTo b, MappingContext context) {
-				String msg = a.getMessage() == null ? "" : ExceptionUtils.i18n(a);
-				b.setMessage(msg);
+				.customize(new CustomMapper<Exception, ErrorTo>() {
+					@Override
+					public void mapAtoB(Exception a, ErrorTo b, MappingContext context) {
+						String msg = a.getMessage() == null ? "" : ExceptionUtils.i18n(a);
+						b.setMessage(msg);
 
-				// Exception other than business exception don't have code
-				b.setCode("TECH");
-			}
+						// Exception other than business exception don't have code
+						b.setCode("TECH");
+					}
 
-			@Override
-			public void mapBtoA(ErrorTo b, Exception a, MappingContext context) {}
-		})//
-		.byDefault().register();
+					@Override
+					public void mapBtoA(ErrorTo b, Exception a, MappingContext context) {}
+				})//
+				.byDefault().register();
 
 		factory.classMap(Exception.class, ExceptionTo.class)//
-		.customize(new CustomMapper<Exception, ExceptionTo>() {
+				.customize(new CustomMapper<Exception, ExceptionTo>() {
 
-			@Override
-			public void mapAtoB(Exception a, ExceptionTo b, MappingContext context) {
-				b.add(map(a, ErrorTo.class));
-			}
+					@Override
+					public void mapAtoB(Exception a, ExceptionTo b, MappingContext context) {
+						b.add(map(a, ErrorTo.class));
+					}
 
-			@Override
-			public void mapBtoA(ExceptionTo b, Exception a, MappingContext context) {}
-		})//
-		.register();
+					@Override
+					public void mapBtoA(ExceptionTo b, Exception a, MappingContext context) {}
+				})//
+				.register();
 
 		factory.classMap(MultipleBusinessException.class, ExceptionTo.class)//
-		.field("exceptions", "errors")//
-		.register();
+				.field("exceptions", "errors")//
+				.register();
 	}
 
 	/**
@@ -260,13 +261,32 @@ public class OrikaMapper extends ConfigurableMapper {
 
 					@Override
 					public void mapBtoA(DocumentTo b, Document a, MappingContext context) {
-						String urlWithoutParam = UrlUtils.deleteQueryParams(b.getUrl());
-						a.setPath(DocumentUtils.relativePathFromUrl(urlWithoutParam).toString());
+						if (!Strings.isNullOrEmpty(b.getUrl())) {
+							String urlWithoutParam = UrlUtils.deleteQueryParams(b.getUrl());
+							a.setPath(DocumentUtils.relativePathFromUrl(urlWithoutParam).toString());
+						}
 					}
 				})//
 				.byDefault().register();
 
-		factory.classMap(DocumentType.class, DocumentTypeTo.class).byDefault().register();
+		factory.classMap(DocumentType.class, DocumentTypeTo.class)//
+				.customize(new CustomMapper<DocumentType, DocumentTypeTo>() {
+					@Override
+					public void mapAtoB(DocumentType a, DocumentTypeTo b, MappingContext context) {}
+
+					/** Override all properties by database content */
+					@Override
+					public void mapBtoA(DocumentTypeTo b, DocumentType a, MappingContext context) {
+						Optional<DocumentType> optDocType = serviceDocumentType.readByCode(b.getCode());
+						if (optDocType.isPresent()) {
+							DocumentType docType = optDocType.get();
+							a.setTechid(docType.getTechid());
+							a.setCode(docType.getCode());
+							a.setLabel(docType.getLabel());
+							a.setZoneList(docType.getZoneList());
+						}
+					}
+				}).byDefault().register();
 		factory.classMap(FileUpload.class, FileUploadTo.class).byDefault().register();
 
 		factory.classMap(RealProperty.class, RealPropertyTo.class)//
@@ -278,8 +298,8 @@ public class OrikaMapper extends ConfigurableMapper {
 				.exclude("descriptions")//
 				.field("descriptions{type}", "descriptions{key}")//
 				.field("descriptions{}", "descriptions{value}")//
-				.fieldAToB("photos", "photos")//
-				.fieldBToA("photos", "documents")//
+				// .fieldAToB("photos", "photos")//
+				// .fieldBToA("photos", "documents")//
 				.field("owners{techid}", "owners{}")//
 				.byDefault()//
 				.register();

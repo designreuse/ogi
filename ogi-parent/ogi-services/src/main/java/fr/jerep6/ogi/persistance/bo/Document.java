@@ -28,7 +28,8 @@ import fr.jerep6.ogi.utils.DocumentUtils;
 // Lombok
 @Getter
 @Setter
-@EqualsAndHashCode(of = { "path" })
+// path can't be used because it is nullable
+@EqualsAndHashCode(of = { "name" })
 @ToString(of = { "techid", "name", "order", "type", "path" })
 /**
  * Document are comparable according to order
@@ -40,7 +41,7 @@ public class Document implements Comparable<Document> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer				techid;
 
-	@Column(name = "DOC_PATH", nullable = false, length = 1024)
+	@Column(name = "DOC_PATH", nullable = true, length = 1024)
 	private String				path;
 
 	@Column(name = "DOC_NAME", nullable = false, length = 255)

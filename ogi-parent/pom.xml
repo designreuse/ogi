@@ -8,7 +8,7 @@
 	<properties>
 
 		<javassist.version>3.18.2-GA</javassist.version>
-		<spring.version>4.1.1.RELEASE</spring.version>
+		<spring.version>4.1.5.RELEASE</spring.version>
 		<spring.batch.version>3.0.0.RELEASE</spring.batch.version>
 
 		<hibernate.version>4.3.5.Final</hibernate.version>

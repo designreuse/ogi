@@ -61,7 +61,7 @@ import fr.jerep6.ogi.transfert.mapping.OrikaMapperService;
 @Service("serviceRealProperty")
 @Transactional(propagation = Propagation.REQUIRED)
 public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealProperty, Integer> implements
-ServiceRealProperty {
+		ServiceRealProperty {
 	private static Logger		LOGGER	= LoggerFactory.getLogger(ServiceRealPropertyImpl.class);
 
 	@Autowired
@@ -177,12 +177,12 @@ ServiceRealProperty {
 		 * for (Equipment anEqpt : propertyFromJson.getEquipments()) {
 		 * // Read equipment from DB
 		 * Equipment eqptFull = serviceEquipment.readByLabel(anEqpt.getLabel(), cat.getCode());
-		 *
+		 * 
 		 * // if not exist create it
 		 * if (eqptFull == null) {
 		 * eqptFull = new Equipment(anEqpt.getLabel(), cat);
 		 * }
-		 *
+		 * 
 		 * // don't supply property because property is relation owner
 		 * eqpts.add(eqptFull);
 		 * }
@@ -356,6 +356,7 @@ ServiceRealProperty {
 
 		// Only when create property
 		if (create) {
+			// Reference must not exist in create mode
 			if (!Strings.isNullOrEmpty(bo.getReference())) {
 				if (readByReference(bo.getReference()).isPresent()) {
 					mbe.add(EnumBusinessErrorProperty.REFERENCE_EXISTS, bo.getReference());

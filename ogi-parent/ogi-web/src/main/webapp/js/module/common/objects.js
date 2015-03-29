@@ -32,6 +32,13 @@ var dpe = {
 
 
 function PropertyJS(prpFromAPI) {
+    var extractDocumentsByZone = function (documents, zoneList) {
+        return (documents || []).filter(elt => elt.type.zoneList == zoneList).sort((a, b) => a.order - b.order);
+    }
+    var extractDocumentsByType = function (documents, typeCode) {
+        return (documents || []).filter(elt => elt.type.code == typeCode).sort((a, b) => a.order - b.order);
+    }
+
     this.rooms = [];
 
     // Init object from parameter
@@ -61,20 +68,42 @@ function PropertyJS(prpFromAPI) {
     }
 
     // Override photo only if not exist or empty
-    if(utilsObject.isEmpty(prpFromAPI.photos)) {
+    if(utilsObject.isEmpty(prpFromAPI.documents)) {
         this.photos = [];
     }
-    this.photos.sort(function(a, b) {
-        return a.order - b.order;
-    });
+    else {
+        this.photos = extractDocumentsByType(prpFromAPI.documents, "PHOTO");
+    }
 
     if(!utilsObject.isUndefinedOrNull(prpFromAPI.sale)) {
         this.sale = {};
         this.sale = angular.extend(this.sale, sale);
         angular.extend(this.sale, prpFromAPI.sale);
+        this.sale.documents = extractDocumentsByZone(prpFromAPI.documents, "SALE");
+    }
+
+    if(!utilsObject.isUndefinedOrNull(prpFromAPI.rent)) {
+        this.rent = {};
+        this.rent = angular.extend(this.rent, rent);
+        angular.extend(this.rent, prpFromAPI.rent);
+        this.rent.documents = extractDocumentsByZone(prpFromAPI.documents, "RENT");
     }
 
     this.init();
+
+
+    this.toJSON = function() {
+        var prpJSON = {};
+        angular.extend(prpJSON, this);
+
+        prpJSON.documents=this.photos//
+        .concat(this.sale ? this.sale.documents : [])//
+        .concat(this.rent ? this.rent.documents : []);
+        delete prpJSON.photos;
+
+
+        return prpJSON;
+    }
 }
 
 PropertyJS.prototype = {
@@ -98,8 +127,17 @@ var typeOther = {
 }
 
 var sale = {
-    sold : false
+    sold : false,
+    documents : []
 }
 
 var rent = {
+}
+
+var ogiDocument = {
+    techid: null,
+    order: -1,
+    name: null,
+    path: null,
+    type: null
 }

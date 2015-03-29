@@ -1,6 +1,7 @@
 package fr.jerep6.ogi.persistance.dao.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.Query;
 
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.collect.Iterables;
+
 import fr.jerep6.ogi.enumeration.EnumDocumentZoneList;
 import fr.jerep6.ogi.framework.persistance.dao.impl.AbstractDao;
 import fr.jerep6.ogi.persistance.bo.DocumentType;
@@ -18,8 +21,9 @@ import fr.jerep6.ogi.persistance.dao.DaoDocumentType;
 @Repository("daoDocumentType")
 @Transactional(propagation = Propagation.MANDATORY)
 public class DaoDocumentTypeImpl extends AbstractDao<DocumentType, Integer> implements DaoDocumentType {
+	private static Logger		LOGGER		= LoggerFactory.getLogger(DaoDocumentTypeImpl.class);
 	private static final String	PARAM_ZONE	= "ZONELIST";
-	Logger						LOGGER		= LoggerFactory.getLogger(DaoDocumentTypeImpl.class);
+	private static final String	PARAM_CODE	= "CODE";
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -35,5 +39,19 @@ public class DaoDocumentTypeImpl extends AbstractDao<DocumentType, Integer> impl
 			query.setParameter(PARAM_ZONE, zone);
 		}
 		return query.getResultList();
+	}
+
+	@Override
+	public Optional<DocumentType> readByCode(String code) {
+		StringBuilder q = new StringBuilder();
+		q.append("SELECT d FROM " + DocumentType.class.getName() + " d");
+		q.append(" WHERE d.code = :" + PARAM_CODE);
+
+		Query query = entityManager.createQuery(q.toString());
+		query.setParameter(PARAM_CODE, code);
+
+		@SuppressWarnings("unchecked")
+		List<DocumentType> types = query.getResultList();
+		return Optional.ofNullable(Iterables.getFirst(types, null));
 	}
 }

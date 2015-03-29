@@ -28,6 +28,7 @@ import com.google.common.collect.Collections2;
 import fr.jerep6.ogi.enumeration.EnumDocumentZoneList;
 import fr.jerep6.ogi.exception.business.FileAlreadyExist;
 import fr.jerep6.ogi.exception.technical.FileSystemTechnicalException;
+import fr.jerep6.ogi.framework.exception.BusinessException;
 import fr.jerep6.ogi.framework.service.impl.AbstractTransactionalService;
 import fr.jerep6.ogi.persistance.bo.Document;
 import fr.jerep6.ogi.persistance.bo.DocumentType;
@@ -104,7 +105,7 @@ public class ServiceDocumentImpl extends AbstractTransactionalService<Document, 
 	}
 
 	@Override
-	public FileUpload copyToDirectory(InputStream is, String fileName, String reference, Integer documentType)
+	public FileUpload copyToDirectory(InputStream is, String fileName, String reference, String documentType)
 			throws IOException {
 		Preconditions.checkNotNull(is);
 		Preconditions.checkNotNull(documentType);
@@ -112,7 +113,7 @@ public class ServiceDocumentImpl extends AbstractTransactionalService<Document, 
 		Preconditions.checkArgument(!Strings.isNullOrEmpty(reference));
 
 		// Read document type from database. Have to exist
-		DocumentType type = daoDocumentType.read(documentType);
+		DocumentType type = daoDocumentType.readByCode(documentType).get();
 
 		// Temp directory for this document type.
 		Path root = DocumentUtils.getTempDirectory(reference, type.getTechid());
@@ -155,7 +156,9 @@ public class ServiceDocumentImpl extends AbstractTransactionalService<Document, 
 
 		for (Document aDoc : documents) {
 			try {
-				Files.delete(aDoc.getAbsolutePath());
+				if (aDoc.getPath() != null) {
+					Files.delete(aDoc.getAbsolutePath());
+				}
 			} catch (Exception e) {
 				LOGGER.error("Error deleting " + aDoc, e);
 			}
@@ -181,10 +184,10 @@ public class ServiceDocumentImpl extends AbstractTransactionalService<Document, 
 	@Override
 	public Set<Document> merge(String prpReference, Set<Document> documentsBD, Set<Document> documentsModif) {
 		// Extract temps documents
-		Collection<Document> tmpDoc = Collections2.filter(documentsModif, d -> d.isTemp());
+		Collection<Document> tmpDoc = Collections2.filter(documentsModif, d -> d.getPath() != null && d.isTemp());
 
 		// Extract existing documents
-		Collection<Document> nonTmpDoc = Collections2.filter(documentsModif, d -> !d.isTemp());
+		Collection<Document> nonTmpDoc = Collections2.filter(documentsModif, d -> d.getPath() == null || !d.isTemp());
 
 		// Delete old documents. Old document is a doc which is in database but not in json feed
 		Set<Document> documentToRemove = new HashSet<>(documentsBD);
@@ -214,6 +217,11 @@ public class ServiceDocumentImpl extends AbstractTransactionalService<Document, 
 		documentsBD.addAll(documentsSuccess);
 
 		return documentsBD;
+	}
+
+	@Override
+	public void validate(Document bo) throws BusinessException {
+
 	}
 
 }

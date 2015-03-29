@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 // type de l'objet. @JsonSubTypes fait la correspondance entre les classes et les valeurs dans le json
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "mappingType")
 @JsonSubTypes({ @Type(name = "liveable", value = RealPropertyLivableTo.class),
-	@Type(name = "plot", value = RealPropertyPlotTo.class) })
+		@Type(name = "plot", value = RealPropertyPlotTo.class) })
 // lombok
 @Getter
 @Setter
@@ -42,7 +42,7 @@ public class RealPropertyTo {
 	private Set<RealPropertyDiagnosisTo>	diagnosis		= new HashSet<>(0);
 	private CategoryTo						category;
 	private String							type;
-	private List<DocumentTo>				photos			= new ArrayList<>(0);
+	private List<DocumentTo>				documents		= new ArrayList<>(0);
 	private SaleTo							sale;
 	private RentTo							rent;
 	private String							sanitation;

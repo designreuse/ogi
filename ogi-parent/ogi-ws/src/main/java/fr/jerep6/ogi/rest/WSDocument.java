@@ -57,7 +57,7 @@ public class WSDocument extends AbtractWS {
 	public Map<String, List<FileUploadTo>> uploadFile( //
 			@RequestParam("file[]") Part part, //
 			@RequestParam("reference") String reference,//
-			@RequestParam("type") Integer type) throws IOException {
+			@RequestParam("type") String type) throws IOException {
 
 		Preconditions.checkNotNull(reference);
 		Preconditions.checkNotNull(type);

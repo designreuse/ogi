@@ -7,7 +7,7 @@ import fr.jerep6.ogi.persistance.bo.DocumentType;
 @Getter
 @AllArgsConstructor
 public enum EnumDocumentType {
-	PHOTO(1); //
+	PHOTO("PHOTO"); //
 
 	/**
 	 * Get the enumeration from this code. No case sensitive
@@ -15,7 +15,7 @@ public enum EnumDocumentType {
 	 * @param code
 	 * @return
 	 */
-	public static EnumDocumentType valueOfByCode(Integer code) {
+	public static EnumDocumentType valueOfByCode(String code) {
 		for (EnumDocumentType oneEnum : EnumDocumentType.values()) {
 			if (oneEnum.getCode().equals(code)) {
 				return oneEnum;
@@ -25,10 +25,10 @@ public enum EnumDocumentType {
 		throw new IllegalArgumentException("No " + EnumDocumentType.class.getSimpleName() + " for " + code);
 	}
 
-	private Integer	code;
+	private String	code;
 
 	public Boolean equalsWithDocumentType(DocumentType type) {
-		return type != null && code.equals(type.getTechid());
+		return type != null && code.equals(type.getCode());
 	}
 
 }

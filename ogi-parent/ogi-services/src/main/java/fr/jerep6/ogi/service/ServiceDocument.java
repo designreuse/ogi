@@ -28,7 +28,7 @@ public interface ServiceDocument extends TransactionalService<Document, Integer>
 	 * @return
 	 * @throws IOException
 	 */
-	FileUpload copyToDirectory(InputStream is, String fileName, String reference, Integer type) throws IOException;
+	FileUpload copyToDirectory(InputStream is, String fileName, String reference, String type) throws IOException;
 
 	/**
 	 * Copy document from temp directory into property directory

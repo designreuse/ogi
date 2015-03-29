@@ -21,7 +21,7 @@ import fr.jerep6.ogi.enumeration.EnumDocumentZoneList;
 @Table(name = "TR_DOCUMENT_TYPE")
 @Getter
 @Setter
-@EqualsAndHashCode(of = { "zoneList", "label" })
+@EqualsAndHashCode(of = { "code" })
 @ToString(of = { "techid", "label", "zoneList" })
 /**
  * @author jerep6 1 mars. 2015
@@ -31,6 +31,9 @@ public class DocumentType {
 	@Column(name = "DOT_ID", unique = true, nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer					techid;
+
+	@Column(name = "DOT_CODE", nullable = false, length = 24)
+	private String					code;
 
 	@Column(name = "DOT_LABEL", nullable = false, length = 1024)
 	private String					label;
