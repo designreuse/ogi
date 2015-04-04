@@ -4,7 +4,7 @@ MAINTAINER jeremy <jerep6@gmail.com>
 # MAJ des paquets
 RUN apt-get update
 
-# Install packahes
+# Install packages
 RUN apt-get install --no-install-recommends -y wget curl ca-certificates
 
 # Install mysql and configure it

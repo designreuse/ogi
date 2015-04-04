@@ -10,7 +10,7 @@ RUN mkdir -p /app/bin && mkdir -p /app/ogi/logs/ && mkdir -p /app/ogi/delivery
 
 # Configure mysql
 ADD mysql/my.cnf /etc/mysql/my.cnf
-ADD mysql/create_mysql_app_user.sh /app/bin/
+ADD mysql/mysql_change_database_directory.sh /tmp/
 ADD mysql/run-mysql.sh /app/bin/
 
 # Configure tomcat
@@ -32,4 +32,4 @@ ONBUILD RUN /app/bin/ogi_deploy --deploy-ws --deploy-ihm --deploy-resources
 ONBUILD CMD /app/bin/run.sh
 
 #Bypass layering on data. Use volume container or volume to save data
-#VOLUME ["/data/"]
+VOLUME ["/app/mysql/"]

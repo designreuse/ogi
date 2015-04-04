@@ -12,7 +12,7 @@ RUN apt-get install --no-install-recommends -y mysql-server
 
 # Install le JDK d'Oracle
 #COPY soft/jdk-8u20-linux-x64.tar.gz /tmp/jdk.tar.gz
-RUN wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" -c "http://download.oracle.com/otn-pub/java/jdk/8u20-b26/jdk-8u20-linux-x64.tar.gz" -O /tmp/jdk.tar.gz
+RUN wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" -c "http://download.oracle.com/otn-pub/java/jdk/8u40-b26/jdk-8u40-linux-x64.tar.gz" -O /tmp/jdk.tar.gz
 RUN mkdir -p /app/java \
 && tar -zxf /tmp/jdk.tar.gz -C /app/java \
 && mv /app/java/jdk* /app/java/jdk \
@@ -22,7 +22,7 @@ ENV PATH $PATH:/app/java/jdk/bin
 ENV JAVA_HOME /app/java/jdk/
 
 #Install tomcat
-RUN wget "http://www.motorlogy.com/apache/tomcat/tomcat-8/v8.0.14/bin/apache-tomcat-8.0.14.tar.gz" -O /tmp/tomcat.tar.gz
+RUN wget "http://apache.crihan.fr/dist/tomcat/tomcat-8/v8.0.21/bin/apache-tomcat-8.0.21.tar.gz" -O /tmp/tomcat.tar.gz
 RUN tar -zxf /tmp/tomcat.tar.gz -C /app/ \
 && mv /app/apache-tomcat* /app/tomcat \
 && rm /tmp/tomcat.tar.gz
