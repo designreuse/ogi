@@ -1,5 +1,5 @@
 angular.module('myApp.property').controller("ControllerPrpModify",
-function ($scope, Page, $injector, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log, $filter) {
+function ($scope, $rootScope, Page, $injector, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log, $filter) {
     $injector.invoke(ControllerPrpParent, this, {$scope: $scope, Page:Page, $log:$log, $http:$http, ServiceConfiguration:ServiceConfiguration});
     $scope.formCreate = false;
 
@@ -42,6 +42,9 @@ function ($scope, Page, $injector, $routeParams, ServiceConfiguration, ServiceAl
                 .success(function (data, status) {
                     ServiceAlert.addSuccess("Modification du bien OK");
                     $scope.prp = new PropertyJS(data);
+
+                    // Send event (to ControllerPrpTabAdministratif)
+                    $rootScope.$broadcast('event-prp-update', $scope.prp);
                 });
         });
     }

@@ -1,6 +1,12 @@
 angular.module('myApp.property').controller("ControllerPrpTabAdministratif",
 function ($scope, Page, $routeParams, ServiceConfiguration, ServiceObject, ServiceAlert, $http, $log, Utils) {
 
+    $scope.$on('event-prp-update', function(event, args) {
+        // Relance l'init car lorsqu'un document est sélectionné (il n'a pas encore d'id), lors de la maj il possède
+        // désormais un id de ce fait les valeurs des objects ne sont plus égales (par la méthode angular.equals)
+        initDocuments();
+    });
+
     // Init
     $scope.httpGetCurrentType.success(function() {
         // Indique quel panel doit s'afficher. Pour qu'un panel s'affiche, il faut que la propriété du bien soit définie.
@@ -58,8 +64,8 @@ function ($scope, Page, $routeParams, ServiceConfiguration, ServiceObject, Servi
         return function(documentType) {
             // For each document type create a document
             for(var aType of documentType) {
-                // extract documents matching current type
-                var matchingDoc = prpAdministrative.documents.filter(d => d.type.code == aType.code);
+                // extract documents matching current type (prpAdministrative could be null)
+                var matchingDoc = (prpAdministrative || {documents:[]}).documents.filter(d => d.type.code == aType.code);
 
                 // if at least one document matches keep this one. Else create a document to send in json
                 var doc = angular.extend({}, ogiDocument, {"name" : aType.code, "type" : aType});
@@ -68,11 +74,14 @@ function ($scope, Page, $routeParams, ServiceConfiguration, ServiceObject, Servi
         }
     };
 
-    // map of documents for sale. KEY = id of type VALUE = document
-    $scope.documentSale = {};
-    $scope.documentRent = {};
-    $http.get(ServiceConfiguration.API_URL+"/rest/document/type/SALE").success(populateDocuments($scope.documentSale, $scope.prp.sale));
-    $http.get(ServiceConfiguration.API_URL+"/rest/document/type/RENT").success(populateDocuments($scope.documentRent, $scope.prp.rent));
+    var initDocuments = function() {
+        // map of documents for sale. KEY = document type code ; VALUE = document
+        $scope.documentSale = {};
+        $scope.documentRent = {};
+        $http.get(ServiceConfiguration.API_URL + "/rest/document/type/SALE").success(populateDocuments($scope.documentSale, $scope.prp.sale));
+        $http.get(ServiceConfiguration.API_URL + "/rest/document/type/RENT").success(populateDocuments($scope.documentRent, $scope.prp.rent));
+    }
+    initDocuments();
 
     // Calendar
     $scope.open = {
