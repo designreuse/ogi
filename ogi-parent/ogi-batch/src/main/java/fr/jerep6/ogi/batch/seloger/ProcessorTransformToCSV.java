@@ -164,6 +164,7 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractSeLoger, Re
 			r.setCharges(ObjectUtils.toString(rent.getServiceCharge()));
 			r.setDepotDeGarantie(ObjectUtils.toString(rent.getDeposit()));
 			r.setMandatExclusif(toBoolean(rent.getExclusive()));
+			r.setMeuble(toBoolean(rent.getFurnished()));
 
 			if (rent.getFurnished()) {
 				r.setNatureBail(MEUBLEE);

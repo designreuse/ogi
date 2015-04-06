@@ -68,6 +68,7 @@ public class RealPropertyCSV {
 	private String			etage;										// 0 pour RDC
 	@Setter
 	private String			etageNbre;
+	@Setter
 	private String			meuble;									// OUI NON
 	@Setter
 	private String			anneeConstruction;
