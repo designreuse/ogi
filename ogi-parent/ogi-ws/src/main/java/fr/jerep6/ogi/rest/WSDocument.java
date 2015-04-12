@@ -22,6 +22,7 @@ import fr.jerep6.ogi.service.ServiceDocument;
 import fr.jerep6.ogi.transfert.FileUpload;
 import fr.jerep6.ogi.transfert.bean.FileUploadTo;
 import fr.jerep6.ogi.transfert.mapping.OrikaMapper;
+import fr.jerep6.ogi.utils.OSUtils;
 
 @RestController
 @RequestMapping(value = "/document", produces = "application/json;charset=UTF-8")
@@ -63,8 +64,11 @@ public class WSDocument extends AbtractWS {
 		Preconditions.checkNotNull(type);
 
 		// Copy uploaded file into photo directory
-		// Convert iso filename in utf8. Je ne suis pas arrivé à envoyer le nom du fichier en utf8
-		String fileName = new String(getFileName(part).getBytes("iso-8859-1"), "UTF-8");
+		String fileName = getFileName(part);
+		if(OSUtils.isWindows()) {
+			// Convert iso filename in utf8. Je ne suis pas arrivé à envoyer le nom du fichier en utf8 sous windows
+			fileName = new String(fileName.getBytes("iso-8859-1"), "UTF-8");
+		}
 		FileUpload f = serviceDocument.copyToDirectory(part.getInputStream(), fileName, reference, type);
 
 		Map<String, List<FileUploadTo>> m = new HashMap<>();
