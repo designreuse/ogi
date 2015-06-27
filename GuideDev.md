@@ -54,3 +54,25 @@ Batch
 ===
 Ajouter la propriété suivante à la commande de lancement :
 <code>-Dspring.profiles.default=batch</code>
+
+
+
+
+Lancer OGI en local
+===
+
+MySQL
+---	
+Création d'une base mysql à travers un container docker
+```
+docker run --name mysql-ogi -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=ogi -e MYSQL_USER=ogi -e MYSQL_PASSWORD=ogi -d mysql:5.5
+```
+Explications : 
+ * **MYSQL_USER, MYSQL_PASSWORD** : Création d'un nouvel utilisateur avec son mot de passe. Cet utilisateur se verra attribuer toutes les permissions sur la base MYSQL_DATABASE
+ * **MYSQL_DATABASE** : Nom de la base de données ) créer.
+ * **MYSQL_ROOT_PASSWORD** : mot de passe du compte root
+
+Relancer le container docker suite à un arrêt :
+```
+docker start mysql-ogi
+```
