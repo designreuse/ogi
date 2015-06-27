@@ -25,6 +25,7 @@ import fr.jerep6.ogi.persistance.bo.RealPropertyPlot;
 import fr.jerep6.ogi.persistance.bo.Rent;
 import fr.jerep6.ogi.persistance.bo.Sale;
 import fr.jerep6.ogi.service.external.ServicePartner;
+import fr.jerep6.ogi.utils.Functions;
 
 public class ProcessorTransformToCSV implements ItemProcessor<ExtractSeLoger, RealPropertyCSV> {
 	private static Logger						LOGGER		= LoggerFactory.getLogger(ProcessorTransformToCSV.class);
@@ -128,22 +129,22 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractSeLoger, Re
 	private void populatePhotos(RealProperty item, RealPropertyCSV r) {
 		List<Document> photos = item.getPhotos();
 		if (photos.size() >= 1) {
-			r.setPhoto1(photoDirName + "/" + photos.get(0).getPath());
+			r.setPhoto1(photoDirName + "/" + Functions.addReferenceToPhotoName(photos.get(0).getPath(), item.getReference()));
 		}
 		if (photos.size() >= 2) {
-			r.setPhoto2(photoDirName + "/" + photos.get(1).getPath());
+			r.setPhoto2(photoDirName + "/" + Functions.addReferenceToPhotoName(photos.get(1).getPath(), item.getReference()));
 		}
 		if (photos.size() >= 3) {
-			r.setPhoto3(photoDirName + "/" + photos.get(2).getPath());
+			r.setPhoto3(photoDirName + "/" + Functions.addReferenceToPhotoName(photos.get(2).getPath(), item.getReference()));
 		}
 		if (photos.size() >= 4) {
-			r.setPhoto4(photoDirName + "/" + photos.get(3).getPath());
+			r.setPhoto4(photoDirName + "/" + Functions.addReferenceToPhotoName(photos.get(3).getPath(), item.getReference()));
 		}
 		if (photos.size() >= 5) {
-			r.setPhoto5(photoDirName + "/" + photos.get(4).getPath());
+			r.setPhoto5(photoDirName + "/" + Functions.addReferenceToPhotoName(photos.get(4).getPath(), item.getReference()));
 		}
 		if (photos.size() >= 6) {
-			r.setPhoto6(photoDirName + "/" + photos.get(5).getPath());
+			r.setPhoto6(photoDirName + "/" + Functions.addReferenceToPhotoName(photos.get(5).getPath(), item.getReference()));
 		}
 
 	}

@@ -13,6 +13,7 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.core.io.Resource;
 
 import fr.jerep6.ogi.utils.DocumentUtils;
+import fr.jerep6.ogi.utils.Functions;
 
 /**
  * Collect photos of property and place them into destination directory
@@ -31,11 +32,14 @@ public class ProcessorPhotos implements ItemProcessor<RealPropertyCSV, RealPrope
 
 	private void copyPhoto(String relativePathFile) throws IOException {
 
+		
 		// ProcesorTransformToCSV save into cvs photo path with "photos" leading directory. Remove it to access original
 		// file into OGI directory
 		Path relativePathComputed = Paths.get(photoDirName).relativize(Paths.get(relativePathFile));
-		// Compute absolute path for this file
-		Path absPhotoPath = DocumentUtils.absolutize(relativePathComputed);
+		Path relativePathComputedWithoutReference = Paths.get(photoDirName).relativize(Paths.get(Functions.removeReferenceToPhotoName(relativePathFile)));
+
+		// Compute absolute path for this file. Need to delete reference in filename
+		Path absPhotoPath = DocumentUtils.absolutize(relativePathComputedWithoutReference);
 
 		// Folder into copy photos
 		Path destinationDirectory = absPhotosDirectory.resolve(relativePathComputed.getParent());

@@ -78,8 +78,8 @@ public class ServiceDocumentImpl extends AbstractTransactionalService<Document, 
 			Path relativeDocPath = Paths.get(aDoc.getPath());
 			// If document is in temp folder => move it into property document
 			if (aDoc.isTemp()) {
-				Path absoluteDestinationFile = root.resolve(Paths.get(DocumentUtils.getDirectoryName(aDoc.getType()
-						.getTechid()), relativeDocPath.getFileName().toString()));
+				Path absoluteDestinationFile = root.resolve(Paths.get(DocumentUtils.getDirectoryName(aDoc.getType().getCode()), 
+						relativeDocPath.getFileName().toString()));
 
 				try {
 					// Create parent directory of file (photo for example)
@@ -116,7 +116,7 @@ public class ServiceDocumentImpl extends AbstractTransactionalService<Document, 
 		DocumentType type = daoDocumentType.readByCode(documentType).get();
 
 		// Temp directory for this document type.
-		Path root = DocumentUtils.getTempDirectory(reference, type.getTechid());
+		Path root = DocumentUtils.getTempDirectory(reference, type.getCode());
 
 		// Create temp directory if not exist
 		if (!Files.isDirectory(root)) {

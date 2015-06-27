@@ -70,7 +70,7 @@ public class DocumentUtils {
 
 		String docPath = "";
 		if (docType != null) {
-			docPath = getDirectoryName(docType.getTechid());
+			docPath = getDirectoryName(docType.getCode());
 		}
 
 		return documentStorageDir.resolve(Paths.get(reference)).resolve(Paths.get(docPath));
@@ -83,8 +83,8 @@ public class DocumentUtils {
 	 *            type of document
 	 * @return
 	 */
-	public static String getDirectoryName(Integer documentTypeIdentifiant) {
-		String dirName = dirNamesByType.get(documentTypeIdentifiant);
+	public static String getDirectoryName(String documentTypeCode) {
+		String dirName = dirNamesByType.get(documentTypeCode);
 		return Objects.firstNonNull(dirName, DIR_MISC_NAME);
 	}
 
@@ -97,9 +97,9 @@ public class DocumentUtils {
 	 *            type of document. Type will be add to root
 	 * @return
 	 */
-	public static Path getTempDirectory(String reference, Integer documentTypeIdentifiant) {
+	public static Path getTempDirectory(String reference, String documentTypeCode) {
 		return documentStorageDir.resolve(Paths.get(DIR_TMP, reference,
-				DocumentUtils.getDirectoryName(documentTypeIdentifiant)));
+				DocumentUtils.getDirectoryName(documentTypeCode)));
 	}
 
 	/**
@@ -143,12 +143,12 @@ public class DocumentUtils {
 
 	/**
 	 * Chaque type de document est stocké dans un répertoire. Map de correspondance entre le type du document
-	 * et le répertoire dans lequel il est stocké. La clé est le techid du type de document
+	 * et le répertoire dans lequel il est stocké. La clé est le code du type de document
 	 */
-	private static Map<EnumDocumentType, String>	dirNamesByType	= new HashMap<>(1);
+	private static Map<String, String>	dirNamesByType	= new HashMap<>(1);
 	static {
 		// populate map
-		dirNamesByType.put(EnumDocumentType.PHOTO, DIR_PHOTO_NAME);
+		dirNamesByType.put(EnumDocumentType.PHOTO.getCode(), DIR_PHOTO_NAME);
 	}
 
 	@PostConstruct
