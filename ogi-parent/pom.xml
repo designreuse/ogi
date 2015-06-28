@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.jerep6.ogi</groupId>
 	<artifactId>ogi-parent</artifactId>
@@ -279,7 +280,7 @@
 						<groupId>org.apache.lucene</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
-					
+
 				</exclusions>
 			</dependency>
 
@@ -317,8 +318,9 @@
 				<artifactId>elasticsearch</artifactId>
 				<version>${elasticsearch.version}</version>
 			</dependency>
-			
-			<!-- Fix lucene version else when releasing in batch lib directory lucene 4.5.1 comes-->
+
+			<!-- Fix lucene version else when releasing in batch lib directory lucene 
+				4.5.1 comes -->
 			<dependency>
 				<groupId>org.apache.lucene</groupId>
 				<artifactId>lucene-core</artifactId>
@@ -346,11 +348,19 @@
 					<artifactId>maven-assembly-plugin</artifactId>
 					<version>2.4</version>
 				</plugin>
+
+				<plugin>
+					<groupId>org.simplericity.jettyconsole</groupId>
+					<artifactId>jetty-console-maven-plugin</artifactId>
+					<version>1.57</version>
+				</plugin>
+
 			</plugins>
 		</pluginManagement>
 
 		<plugins>
-			<!-- http://stackoverflow.com/questions/2712970/how-to-get-maven-artifact-version-at-runtime getClass().getPackage().getImplementationVersion() -->
+			<!-- http://stackoverflow.com/questions/2712970/how-to-get-maven-artifact-version-at-runtime 
+				getClass().getPackage().getImplementationVersion() -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -380,8 +390,9 @@
 				</configuration>
 			</plugin>
 
-			<!-- Skip deploy. Deploy need to define repository in distributionManagement. With this configuration, when perform a 
-				release (goal deploy) only upload envelope to ssh server. -->
+			<!-- Skip deploy. Deploy need to define repository in distributionManagement. 
+				With this configuration, when perform a release (goal deploy) only upload 
+				envelope to ssh server. -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-deploy-plugin</artifactId>
@@ -390,6 +401,7 @@
 					<skip>true</skip>
 				</configuration>
 			</plugin>
+
 		</plugins>
 
 
@@ -412,15 +424,17 @@
 						<version>2.4.2</version>
 						<configuration>
 							<!-- <tagBase>git://github.com:jerep6/ogi.git</tagBase> -->
-							<!-- The tagNameFormat uses @{ and } as delimiters in order to ensure that the default Maven property interpolation 
-								does not substitute the values before the version transformation has taken place. -->
+							<!-- The tagNameFormat uses @{ and } as delimiters in order to ensure 
+								that the default Maven property interpolation does not substitute the values 
+								before the version transformation has taken place. -->
 							<tagNameFormat>@{project.version}</tagNameFormat>
 							<scmCommentPrefix>Maven release : </scmCommentPrefix>
 							<autoVersionSubmodules>true</autoVersionSubmodules>
 							<preparationGoals>clean</preparationGoals>
 							<!-- during release:perform, enable delivery profile -->
 							<releaseProfiles>delivery</releaseProfiles>
-							<!-- Desactivate profile release-profile in order to don't generate javadoc -->
+							<!-- Desactivate profile release-profile in order to don't generate 
+								javadoc -->
 							<useReleaseProfile>false</useReleaseProfile>
 							<goals>deploy -DskipTests</goals>
 						</configuration>
