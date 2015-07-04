@@ -1,13 +1,7 @@
 #!/bin/bash
 
-#Create data structure
-
-mkdir -p /data/tmp
-mkdir -p /data/storage
-mkdir -p /data/logs
-
 #Run mysql
-/app/bin/run-mysql.sh
+/etc/inid.d/mysql start
 
 # Run tomcat
 #/app/tomcat/bin/startup.sh

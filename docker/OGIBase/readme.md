@@ -16,3 +16,7 @@ Il faut maintenant créer l’utilisateur mysql pour le logiciel ogi :
 	MYSQL_PWD="ogi"
 	mysql -uroot -e "GRANT ALL ON ${MYSQL_USER}.* TO ${MYSQL_USER}@'%' IDENTIFIED BY '$MYSQL_PWD' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0; CREATE DATABASE IF NOT EXISTS ${MYSQL_USER};"
 
+	
+Lister les utilisateurs
+
+	select host, user, password from mysql.user;

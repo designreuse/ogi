@@ -6,12 +6,16 @@ EXPOSE 3306
 EXPOSE 8080
 
 # Create ogi structure
-RUN mkdir -p /app/bin && mkdir -p /app/ogi/logs/ && mkdir -p /app/ogi/delivery
+RUN mkdir -p /app/bin 
+&& mkdir -p /app/ogi/logs/ 
+&& mkdir -p /app/ogi/resources/ 
+&& mkdir -p /app/ogi/delivery
+&& mkdir -p /data/ogi/storage
+&& mkdir -p /data/tmp
 
 # Configure mysql
 ADD mysql/my.cnf /etc/mysql/my.cnf
 ADD mysql/mysql_change_database_directory.sh /tmp/
-ADD mysql/run-mysql.sh /app/bin/
 
 # Configure tomcat
 ADD tomcat/context.xml 		/app/tomcat/conf/context.xml
