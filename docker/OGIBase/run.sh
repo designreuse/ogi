@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Run mysql
-/etc/inid.d/mysql start
+/etc/init.d/mysql start
 
 # Run tomcat
 #/app/tomcat/bin/startup.sh

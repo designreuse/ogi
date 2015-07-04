@@ -1,3 +1,3 @@
-FROM jerep6/ogi-base:1.0
+FROM jerep6/ogi-base
 MAINTAINER jerep6
 

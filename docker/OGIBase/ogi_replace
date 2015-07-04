@@ -8,13 +8,13 @@ PATH_TOMCAT_WEBAPPS=$PATTERN_PATH_TOMCAT_WEBAPPS
 #log4j file
 LOG4J_FILE=$PATH_OGI_INSTALL"resources/log4j2.xml"
 sed -i '/.*ref="Console"/d' $LOG4J_FILE
-sed -i 's/fileName=".*"/filename="\/data\/logs\/app.log"/g' $LOG4J_FILE
-sed -i 's/filePattern=".*"/filePattern="\/data\/logs\/app-%d{yyyy-MM-dd}-%i.log"/g' $LOG4J_FILE
+sed -i 's/fileName=".*"/filename="\/app\/logs\/app.log"/g' $LOG4J_FILE
+sed -i 's/filePattern=".*"/filePattern="\/app\/logs\/app-%d{yyyy-MM-dd}-%i.log"/g' $LOG4J_FILE
 
 
 #environment.properties file
 ENVIRONMENT_FILE=$PATH_OGI_INSTALL"resources/properties/environment.properties"
-sed -i 's/document.storage.dir.*$/document.storage.dir =\/data\/storage\//g' $ENVIRONMENT_FILE
+sed -i 's/document.storage.dir.*$/document.storage.dir =\/app\/ogi\/storage\//g' $ENVIRONMENT_FILE
 
 sed -i 's/partner.acimflo.url.*$/partner.acimflo.url =http:\/\/www.acimflo.com\//g' $ENVIRONMENT_FILE
 sed -i 's/partner.acimflo.connect.login.*$/partner.acimflo.connect.login =LOGIN/g' $ENVIRONMENT_FILE
@@ -40,13 +40,13 @@ sed -i 's/seloger.ftp.login.*$/seloger.ftp.login =jerep6/g' $ENVIRONMENT_BATCH_F
 sed -i 's/seloger.ftp.pwd.*$/seloger.ftp.pwd =123456/g' $ENVIRONMENT_BATCH_FILE
 
 SCRIPT_SELOGER=$PATH_OGI_INSTALL"batchs/bin/passerelle-seloger.sh"
-sed -i "s/PROPERTIES_PWD/PASSPHRASE/g" $SCRIPT_SELOGER
+sed -i "s/PROPERTIES_PWD/\$OGI_KEY/g" $SCRIPT_SELOGER
 
 SCRIPT_ACIMFLO=$PATH_OGI_INSTALL"batchs/bin/passerelle-acimflo.sh"
-sed -i "s/PROPERTIES_PWD/PASSPHRASE/g" $SCRIPT_ACIMFLO
+sed -i "s/PROPERTIES_PWD/\$OGI_KEY/g" $SCRIPT_ACIMFLO
 
 SCRIPT_DIAPORAMA=$PATH_OGI_INSTALL"batchs/bin/passerelle-diaporama.sh"
-sed -i "s/PROPERTIES_PWD/PASSPHRASE/g" $SCRIPT_DIAPORAMA
+sed -i "s/PROPERTIES_PWD/\$OGI_KEY/g" $SCRIPT_DIAPORAMA
 
 
 #log4j file
