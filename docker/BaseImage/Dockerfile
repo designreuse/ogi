@@ -5,7 +5,7 @@ MAINTAINER jerep6
 RUN apt-get update
 
 # Install packages
-RUN apt-get install --no-install-recommends -y wget curl ca-certificates less procps vim
+RUN apt-get install --no-install-recommends -y wget curl ca-certificates less procps vim cron
 
 # Install mysql and configure it
 RUN apt-get install --no-install-recommends -y mysql-server
@@ -38,3 +38,10 @@ RUN sed -i -e"s/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/" /etc/mysq
 RUN echo "Europe/Paris" > /etc/timezone\
 && cp /usr/share/zoneinfo/Europe/Paris /etc/localtime
 
+# Search history (Page up and down, up and down)
+RUN echo '\ 
+"\e[5~": history-search-backward\n\
+"\e[6~": history-search-forward\n\
+"\e[A": history-search-backward\n\
+"\e[B": history-search-forward\n\
+' >> /etc/inputrc
