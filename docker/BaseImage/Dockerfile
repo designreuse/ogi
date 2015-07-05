@@ -34,3 +34,7 @@ RUN sed -i -e"s/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/" /etc/mysq
 & sleep 10s \
 && mysql -e "GRANT ALL ON *.* TO admin@'%' IDENTIFIED BY '' WITH GRANT OPTION; FLUSH PRIVILEGES"
 
+# Paris Timezone
+RUN echo "Europe/Paris" > /etc/timezone\
+&& cp /usr/share/zoneinfo/Europe/Paris /etc/localtime
+
