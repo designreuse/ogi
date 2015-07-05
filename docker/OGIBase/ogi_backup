@@ -17,7 +17,7 @@ MYSQL_PWD="ogi"
 MYSQL_FILE_NAME="ogi.sql"
 
 #Documents parameters
-DIRECTORY_DOCUMENT="/data/storage/"
+DIRECTORY_DOCUMENT="/data/ogi/storage/"
 DIRECTORY_TAR_FILE_NAME="documents.tar.gz"
 
 #Création du répertoire de backup

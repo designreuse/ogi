@@ -10,7 +10,8 @@ RUN mkdir -p /app/bin \
  && mkdir -p /app/ogi/delivery \
  && mkdir -p /data/tmp \
  && mkdir -p /data/ogi/storage \
- && mkdir -p /data/elasticsearch
+ && mkdir -p /data/elasticsearch \
+ && mkdir -p /data/backup
 
 # Configure mysql
 ADD mysql/my.cnf /etc/mysql/my.cnf
