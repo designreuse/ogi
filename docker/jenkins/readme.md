@@ -17,7 +17,7 @@ JAVA_HOME = /usr/lib/jvm/java-8-openjdk-amd64/
 
 ## Run
 	
-	docker run -d --rm --name jenkins -p 8080:8080 -v /home/jpinsolle/Documents/jenkins/home/:/var/jenkins_home/ jenkins:1.609.1
+	docker run -d --rm --name jenkins -p 8080:8080 -v /home/jpinsolle/Documents/jenkins/home/:/var/jenkins_home/ -v /home/jpinsolle/Documents/jenkins/docker:/var/lib/docker/ jenkins:1.609.1
 	
 Explications :
 * Le dossier */var/jenkins_home/* représente le home de jenkins. Il faut l'initialiser avec la clé SSH servant à releaser sur github (dossier .ssh)
