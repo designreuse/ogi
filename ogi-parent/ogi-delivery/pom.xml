@@ -43,6 +43,7 @@
 								<descriptor>src/main/assembly/assembly_res.xml</descriptor>
 								<descriptor>src/main/assembly/assembly_batchs.xml</descriptor>
 								<descriptor>src/main/assembly/assembly_database.xml</descriptor>
+                                <descriptor>src/main/assembly/assembly_metaInf.xml</descriptor>
 							</descriptors>
 						</configuration>
 					</execution>

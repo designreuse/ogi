@@ -1,0 +1,14 @@
+#!/bin/bash
+
+
+docker build -t jerep6/java8-mysql-tomcat docker/BaseImage/
+docker build -t jerep6/ogi-base docker/OGIBase/
+
+# Get OGI version
+version=$(head -n 1 ogi-parent/ogi-delivery/target/delivery/version.txt)
+
+# Copie de l'enveloppe de livraison dans le dossier du docker file pour l'envoyer au daemon
+mkdir -p docker/OGI/delivery
+cp -r "ogi-parent/ogi-delivery/target/delivery/OGI-$version" "docker/OGI/delivery/OGI"
+
+docker build -t "jerep6/ogi:$version" docker/OGI/
