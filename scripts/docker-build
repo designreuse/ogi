@@ -11,8 +11,11 @@ version=$(head -n 1 ogi-parent/ogi-delivery/target/delivery/version.txt)
 mkdir -p docker/OGI/delivery
 cp -r "ogi-parent/ogi-delivery/target/delivery/OGI-$version" "docker/OGI/delivery/OGI"
 
-# Build and tag image according to private registry
-docker build -t "192.168.1.7/ogi:$version" docker/OGI/
+# Craft docker image name according to private registry
+docker_image_name="192.168.1.7:5000/ogi:$version"
+
+# Build and tag
+docker build -t $docker_image_name docker/OGI/
 
 # Send image to private registry
-docker push "192.168.1.7/ogi:$version"
+docker push $docker_image_name
