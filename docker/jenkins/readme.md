@@ -1,5 +1,5 @@
 # Jenkins
-Utilisation de l'image [docker officielle de Jenkins](https://registry.hub.docker.com/_/jenkins/) .
+Utilisation d'un jenkins custom afin d'installer docker. Se base sur l'image [docker officielle de Jenkins](https://registry.hub.docker.com/_/jenkins/).
 
 ## Initialisation
 ### SSH
@@ -17,10 +17,11 @@ JAVA_HOME = /usr/lib/jvm/java-8-openjdk-amd64/
 
 ## Run
 	
-	docker run -d --rm --name jenkins -p 8080:8080 -v /home/jpinsolle/Documents/jenkins/home/:/var/jenkins_home/ -v /home/jpinsolle/Documents/jenkins/docker:/var/lib/docker/ jenkins:1.609.1
+	docker run -d --privileged --name jenkins -p 54000:8080 -v /mnt/stockage1/docker/jenkins/home:/var/jenkins_home/ -v /mnt/stockage1/docker/jenkins/docker:/var/lib/docker/ localhost:5000/jenkins
 	
 Explications :
 * Le dossier */var/jenkins_home/* représente le home de jenkins. Il faut l'initialiser avec la clé SSH servant à releaser sur github (dossier .ssh)
+* Le dossier */var/lib/docker/* contient les images buildées par docker
 * Ports 8080 : port HTTP de jenkins
 	
 
