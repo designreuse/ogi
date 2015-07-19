@@ -11,6 +11,14 @@ Dans tous les cas, les credentials de jenkins ne sont**pas** utilisés pour le p
 ### JAVA
 JAVA_HOME = /usr/lib/jvm/java-8-openjdk-amd64/
 
+### GIT
+Afin d'utiliser le plugin maven release qui va effectuer des commits, il faut initialiser git avec les données de l'utilisateur.
+Dans le volume HOME de jenkins créer le fichier *.gitconfig* contenant les instructions suivantes :
+
+	[user]
+	email = user@mail.com
+	name = user name 
+
 ## Plugins
 * [Git Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin)
 * [Maven Release](https://wiki.jenkins-ci.org/display/JENKINS/M2+Release+Plugin)
