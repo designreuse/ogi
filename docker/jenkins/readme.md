@@ -6,7 +6,12 @@ Utilisation d'un jenkins custom afin d'installer docker. Se base sur l'image [do
 Afin de récupérer le code et de releaser, il faut déposer la clé SSH spécifique au deploy dans le dossier .ssh du home de jenkins.
 
 Il n'y a pas besoin de configurer de credential si une clé ssh portant le nom de id_rsa/id_dsa est présente dans le dossier ~/.ssh/ de l'utilisateur jenkins. Cette clé servira pour le clone/fetch et pour le push de maven release.
-Dans tous les cas, les credentials de jenkins ne sont**pas** utilisés pour le push de maven release. Ils servent au clone/fetch.
+Dans tous les cas, les credentials de jenkins ne sont **pas** utilisés pour le push de maven release. Ils servent au clone/fetch.
+
+## Plugins
+* [Git Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin)
+* [Maven Release](https://wiki.jenkins-ci.org/display/JENKINS/M2+Release+Plugin)
+
 
 ### JAVA
 JAVA_HOME = /usr/lib/jvm/java-8-openjdk-amd64/
@@ -19,9 +24,8 @@ Dans le volume HOME de jenkins créer le fichier *.gitconfig* contenant les inst
 	email = user@mail.com
 	name = user name 
 
-## Plugins
-* [Git Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin)
-* [Maven Release](https://wiki.jenkins-ci.org/display/JENKINS/M2+Release+Plugin)
+Avec maven-release, pour commiter et pusher il faut ajouter un *Additional Behaviours* dans la configuration du build
+![Additional Behaviours](git-additional_behaviours.png "")
 
 ## Run
 	
