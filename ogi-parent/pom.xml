@@ -436,12 +436,14 @@
 							<!-- Desactivate profile release-profile in order to don't generate 
 								javadoc -->
 							<useReleaseProfile>false</useReleaseProfile>
-							<goals>deploy -DskipTests</goals>
+							<!-- intall goal to bypass wagon plugin -->
+							<goals>install -DskipTests</goals>
 						</configuration>
 					</plugin>
 				</plugins>
 			</build>
 		</profile>
+		
 	</profiles>
 
 	<scm>
