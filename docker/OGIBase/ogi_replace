@@ -18,12 +18,12 @@ sed -i 's/db.showsql.*$/db.showsql = false/g' $ENVIRONMENT_FILE
 sed -i 's/document.storage.dir.*$/document.storage.dir =\/data\/ogi\/storage\//g' $ENVIRONMENT_FILE
 
 sed -i 's/partner.acimflo.url.*$/partner.acimflo.url =http:\/\/www.acimflo.com\//g' $ENVIRONMENT_FILE
-sed -i 's/partner.acimflo.connect.login.*$/partner.acimflo.connect.login =LOGIN/g' $ENVIRONMENT_FILE
-sed -i 's/partner.acimflo.connect.pwd.*$/partner.acimflo.connect.pwd =ENC(tVRkuXCq2urLvxJNs6hpXQ==)/g' $ENVIRONMENT_FILE
+sed -i 's/partner.acimflo.connect.login.*$/partner.acimflo.connect.login =acimflo/g' $ENVIRONMENT_FILE
+sed -i 's/partner.acimflo.connect.pwd.*$/partner.acimflo.connect.pwd =ENC(0gWCFWECLyg90mP+v5Bv7Q==)/g' $ENVIRONMENT_FILE
 
 sed -i 's/partner.diaporama.url.*$/partner.diaporama.url =http:\/\/192.168.1.70\//g' $ENVIRONMENT_FILE
-sed -i 's/partner.diaporama.connect.login.*$/partner.diaporama.connect.login =LOGIN/g' $ENVIRONMENT_FILE
-sed -i 's/partner.diaporama.connect.pwd.*$/partner.diaporama.connect.pwd =ENC(tVRkuXCq2urLvxJNs6hpXQ==)/g' $ENVIRONMENT_FILE
+sed -i 's/partner.diaporama.connect.login.*$/partner.diaporama.connect.login =acimflo/g' $ENVIRONMENT_FILE
+sed -i 's/partner.diaporama.connect.pwd.*$/partner.diaporama.connect.pwd =ENC(t/MI1P0GxQ2tR+HY4uQLTA==)/g' $ENVIRONMENT_FILE
 
 
 sed -i 's/elasticsearch.data.*$/elasticsearch.data=\/data\/ogi\/elasticsearch\/data\//g' $ENVIRONMENT_FILE
