@@ -23,7 +23,7 @@ sed -i 's/partner.acimflo.connect.pwd.*$/partner.acimflo.connect.pwd =ENC(0gWCFW
 
 sed -i 's/partner.diaporama.url.*$/partner.diaporama.url =http:\/\/192.168.1.70\//g' $ENVIRONMENT_FILE
 sed -i 's/partner.diaporama.connect.login.*$/partner.diaporama.connect.login =acimflo/g' $ENVIRONMENT_FILE
-sed -i 's/partner.diaporama.connect.pwd.*$/partner.diaporama.connect.pwd =ENC(t/MI1P0GxQ2tR+HY4uQLTA==)/g' $ENVIRONMENT_FILE
+sed -i 's/partner.diaporama.connect.pwd.*$/partner.diaporama.connect.pwd =ENC(t\/MI1P0GxQ2tR+HY4uQLTA==)/g' $ENVIRONMENT_FILE
 
 
 sed -i 's/elasticsearch.data.*$/elasticsearch.data=\/data\/ogi\/elasticsearch\/data\//g' $ENVIRONMENT_FILE
