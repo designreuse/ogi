@@ -1,7 +1,10 @@
 FROM jerep6/ogi-base
 MAINTAINER jerep6
 
-# Load configuration for cron
+USER ogi
+# Load configuration for cron for ogi user
 ADD cron.conf /tmp/
-RUN crontab /tmp/cron.conf && rm /tmp/cron.conf
+RUN crontab /tmp/cron.conf
+
+USER root
 
