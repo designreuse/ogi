@@ -7,6 +7,9 @@ su - ogi -c "mkdir -p /data/tmp && mkdir -p /data/ogi/storage && mkdir -p /data/
 # Run mysql
 /etc/init.d/mysql start
 
+# Run cron
+/etc/init.d/cron start
+
 # Run tomcat
 #/app/tomcat/bin/startup.sh
 su - ogi -c "/app/tomcat/bin/catalina.sh run"

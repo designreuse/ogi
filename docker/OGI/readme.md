@@ -7,7 +7,7 @@ Image dans laquelle est installé le logiciel OGI.
 ## Run
 **Lancer le container en daemon**
 
-	docker run -ti --name ogi-latest -p 3306:3306 -p 8080:8080 -p 9200:9200 -e "OGI_KEY=password for properties" -v /media/sf_jpinsolle/travail/acimflo/docker-data/ogi/:/data/ -v /media/sf_jpinsolle/travail/acimflo/docker-data/ogi/bash_history.txt:/root/.bash_history jerep6/ogi
+	docker run -ti --name ogi-latest -p 3306:3306 -p 8080:8080 -p 9200:9200 -e "OGI_KEY=password for properties" -v /media/sf_jpinsolle/travail/acimflo/docker-data/ogi/:/data/ -v /media/sf_jpinsolle/travail/acimflo/docker-data/ogi/bash_history_root.txt:/root/.bash_history -v /media/sf_jpinsolle/travail/acimflo/docker-data/ogi/bash_history_ogi.txt:/home/ogi/.bash_history jerep6/ogi
 
 Explications :
 * Le dossier */data* du conteneur est voué à accueillir toutes les données à persister.

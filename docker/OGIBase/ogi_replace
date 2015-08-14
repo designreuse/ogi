@@ -38,18 +38,20 @@ sed -i 's/API_URL:.*,/API_URL:window.location.protocol+"\/\/"+window.location.ho
 #batchs
 ENVIRONMENT_BATCH_FILE=$PATH_OGI_INSTALL"resources/batch/properties/environment-batch.properties"
 sed -i 's/db.url.*$/db.url=jdbc:mysql:\/\/localhost:3306\/ogi/g' $ENVIRONMENT_BATCH_FILE
+
 sed -i 's/seloger.extraction.file.root.path.*$/seloger.extraction.file.root.path =\/data\/tmp\/seloger\//g' $ENVIRONMENT_BATCH_FILE
-sed -i 's/seloger.ftp.host.*$/seloger.ftp.host =seloger.com/g' $ENVIRONMENT_BATCH_FILE
+sed -i 's/seloger.ftp.host.*$/seloger.ftp.host =transferts.seloger.com/g' $ENVIRONMENT_BATCH_FILE
 sed -i 's/seloger.ftp.directory.*$/seloger.ftp.directory =\//g' $ENVIRONMENT_BATCH_FILE
-sed -i 's/seloger.ftp.login.*$/seloger.ftp.login =jerep6/g' $ENVIRONMENT_BATCH_FILE
-sed -i 's/seloger.ftp.pwd.*$/seloger.ftp.pwd =123456/g' $ENVIRONMENT_BATCH_FILE
+sed -i 's/seloger.ftp.login.*$/seloger.ftp.login =seloger/g' $ENVIRONMENT_BATCH_FILE
+sed -i 's/seloger.ftp.pwd.*$/seloger.ftp.pwd =ENC(rhK37DQml8UwTU\/S7kWIQA==)/g' $ENVIRONMENT_BATCH_FILE
 
 #leboncoin
 sed -i 's/leboncoin.extraction.file.root.path.*$/leboncoin.extraction.file.root.path =\/data\/tmp\/leboncoin\//g' $ENVIRONMENT_BATCH_FILE
 sed -i 's/leboncoin.ftp.host.*$/leboncoin.ftp.host = ftp.ubiflow.net/g' $ENVIRONMENT_BATCH_FILE
 sed -i 's/seloger.ftp.directory.*$/seloger.ftp.directory =\//g' $ENVIRONMENT_BATCH_FILE
 sed -i 's/leboncoin.ftp.login.*$/leboncoin.ftp.login =ag400081/g' $ENVIRONMENT_BATCH_FILE
-sed -i 's/leboncoin.ftp.pwd.*$/leboncoin.ftp.pwd =123456/g' $ENVIRONMENT_BATCH_FILE
+sed -i 's/leboncoin.ftp.pwd.*$/leboncoin.ftp.pwd =ENC(xy3kaLMLn7QIiRwrjSt6oA==)/g' $ENVIRONMENT_BATCH_FILE
+
 
 SCRIPT_SELOGER=$PATH_OGI_INSTALL"batchs/bin/passerelle-seloger.sh"
 sed -i "s/PROPERTIES_PWD/\$OGI_KEY/g" $SCRIPT_SELOGER
