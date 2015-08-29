@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Dump env variable in file in order to run script via cron
+env > /env_dump
+
 # Create ogi structure into data directory. Volume is mounted at run
 mkdir -p /data/ && chown -R ogi:ogi /data/
 su - ogi -c "mkdir -p /data/tmp && mkdir -p /data/ogi/storage && mkdir -p /data/elasticsearch && mkdir -p /data/backup && mkdir -p /data/mysql"
