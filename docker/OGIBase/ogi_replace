@@ -78,3 +78,29 @@ sed -i "s/JAVA\=.*$/JAVA\=\/app\/java\/jdk\/bin\/java/g" $SCRIPT_ES_INDEX_ALL
 LOG4J_FILE=$PATH_OGI_INSTALL"resources/batch/log4j2-batchs.xml"
 sed -i 's/fileName=".*"/filename="\/data\/logs\/batchs.log"/g' $LOG4J_FILE
 sed -i 's/filePattern=".*"/filePattern="\data\/logs\/batchs-%d{yyyy-MM-dd}-%i.log"/g' $LOG4J_FILE
+
+
+#log4j file acimflo
+LOG4J_FILE=$PATH_OGI_INSTALL"resources/batch/log4j2-batchs-acimflo.xml"
+sed -i 's/fileName=".*"/filename="\/data\/logs\/batchs-acimflo.log"/g' $LOG4J_FILE
+sed -i 's/filePattern=".*"/filePattern="\data\/logs\/batchs-acimflo-%d{yyyy-MM-dd}-%i.log"/g' $LOG4J_FILE
+
+#log4j seloger
+LOG4J_FILE=$PATH_OGI_INSTALL"resources/batch/log4j2-batchs-seloger.xml"
+sed -i 's/fileName=".*"/filename="\/data\/logs\/batchs-seloger.log"/g' $LOG4J_FILE
+sed -i 's/filePattern=".*"/filePattern="\data\/logs\/batchs-seloger-%d{yyyy-MM-dd}-%i.log"/g' $LOG4J_FILE
+
+#log4j leboncoin
+LOG4J_FILE=$PATH_OGI_INSTALL"resources/batch/log4j2-batchs-leboncoin.xml"
+sed -i 's/fileName=".*"/filename="\/data\/logs\/batchs-leboncoin.log"/g' $LOG4J_FILE
+sed -i 's/filePattern=".*"/filePattern="\data\/logs\/batchs-leboncoin-%d{yyyy-MM-dd}-%i.log"/g' $LOG4J_FILE
+
+#log4j diaporama
+LOG4J_FILE=$PATH_OGI_INSTALL"resources/batch/log4j2-batchs-diaporama.xml"
+sed -i 's/fileName=".*"/filename="\/data\/logs\/batchs-diaporama.log"/g' $LOG4J_FILE
+sed -i 's/filePattern=".*"/filePattern="\data\/logs\/batchs-diaporama-%d{yyyy-MM-dd}-%i.log"/g' $LOG4J_FILE
+
+#log4j index_all
+LOG4J_FILE=$PATH_OGI_INSTALL"resources/batch/log4j2-batchs-index_all.xml"
+sed -i 's/fileName=".*"/filename="\/data\/logs\/batchs-index_all.log"/g' $LOG4J_FILE
+sed -i 's/filePattern=".*"/filePattern="\data\/logs\/batchs-index_all-%d{yyyy-MM-dd}-%i.log"/g' $LOG4J_FILE
