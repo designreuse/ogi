@@ -4,8 +4,8 @@ MAINTAINER jerep6
 # MAJ des paquets
 RUN apt-get update
 
-# Install packages
-RUN apt-get install --no-install-recommends -y wget curl ca-certificates less procps vim cron
+# Install packages File is needed for file type detection with Files.probeContentType
+RUN apt-get install --no-install-recommends -y wget curl ca-certificates less procps vim cron file
 
 # Install mysql and configure it
 RUN apt-get install --no-install-recommends -y mysql-server
