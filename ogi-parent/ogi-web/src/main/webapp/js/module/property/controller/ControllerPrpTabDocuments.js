@@ -1,5 +1,5 @@
 angular.module('myApp.property').controller("ControllerPrpTabDocuments",
-function ($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http, $log) {
+function ($scope, Page, $routeParams, ServiceUrl, ServiceAlert, $http, $log) {
     $scope.availableFormats = {
         "docx" : {"title" : "Télécharger au format Word", "img": "img/logo-word.png"},
         "odt" : {"title" : "Télécharger au format Livre Office", "img": "img/logo-writer.png"},
@@ -25,13 +25,10 @@ function ($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http,
 
     ]
 
-    $scope.httpGetCurrentType.success(function() {
-        $scope.linkShopFront = ServiceConfiguration.API_URL+"/rest/report/"+$scope.prp.reference;
-    });
 
     $scope.computeLink = function (doc, format) {
-        var link = $scope.linkShopFront+"?format="+format+"&type="+doc.type+"&pageSize="+doc.selectedPageSize;
-        window.location.href=link;
+      var link = ServiceUrl.urlDocument($scope.prp.reference, doc.type, format, doc.selectedPageSize);
+      window.location.href=link;
     }
 
     $scope.displayPageSize = function(doc) {

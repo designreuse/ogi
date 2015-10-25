@@ -2,18 +2,31 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e867116-9053-4894-bee5-087a926bbbcb" name="Default" comment="Re">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/img/LogoLeBonCoin.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../../ogi-external-resources/src/main/resources/batch/properties/functional-batch.properties" afterPath="$PROJECT_DIR$/../../../../ogi-external-resources/src/main/resources/batch/properties/functional-batch.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/module/dashboard/controller/ControllerBatch.js" afterPath="$PROJECT_DIR$/js/module/dashboard/controller/ControllerBatch.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabPartner.js" afterPath="$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabPartner.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/module/dashboard/view/batch.html" afterPath="$PROJECT_DIR$/js/module/dashboard/view/batch.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/dashboard.css" afterPath="$PROJECT_DIR$/css/dashboard.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/module/property/controller/ControllerPrpRead.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/module/property/view/prpClientView.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabDocuments.js" afterPath="$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabDocuments.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/module/common/service/ServiceUrl.js" afterPath="$PROJECT_DIR$/js/module/common/service/ServiceUrl.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/module/property/service/ServicesProperty.js" afterPath="$PROJECT_DIR$/js/module/property/service/ServicesProperty.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/lib/angular-locale_fr-fr.js" afterPath="$PROJECT_DIR$/js/lib/angular-locale_fr-fr.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/lib/angular-route.js" afterPath="$PROJECT_DIR$/js/lib/angular-route.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/lib/angular-sanitize.js" afterPath="$PROJECT_DIR$/js/lib/angular-sanitize.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/lib/angular.js" afterPath="$PROJECT_DIR$/js/lib/angular.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/module/common/common.js" afterPath="$PROJECT_DIR$/js/module/common/common.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../../ogi-external-resources/src/main/resources/batch/properties/environment-batch.properties" afterPath="$PROJECT_DIR$/../../../../ogi-external-resources/src/main/resources/batch/properties/environment-batch.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../../ogi-external-resources/src/main/resources/properties/environment.properties" afterPath="$PROJECT_DIR$/../../../../ogi-external-resources/src/main/resources/properties/environment.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../../ogi-external-resources/src/main/resources/log4j2.xml" afterPath="$PROJECT_DIR$/../../../../ogi-external-resources/src/main/resources/log4j2.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../../ogi-database/scripts/next/next.sql" afterPath="$PROJECT_DIR$/../../../../ogi-database/scripts/next/next.sql" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../../ogi-ws/.settings/org.eclipse.wst.common.component" afterPath="$PROJECT_DIR$/../../../../ogi-ws/.settings/org.eclipse.wst.common.component" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/module/property/property.js" afterPath="$PROJECT_DIR$/js/module/property/property.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/module/property/view/prpFormTabDocuments.html" afterPath="$PROJECT_DIR$/js/module/property/view/prpFormTabDocuments.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/module/property/view/prpFormTabGeneral.html" afterPath="$PROJECT_DIR$/js/module/property/view/prpFormTabGeneral.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/style.css" afterPath="$PROJECT_DIR$/css/style.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ogi-web.iws" />
     <ignored path=".idea/workspace.xml" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,28 +46,63 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ControllerPrpTabPartner.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabPartner.js">
+      <file leaf-file-name="prpClientView.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/js/module/property/view/prpClientView.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="5" selection-start="633" selection-end="633" vertical-scroll-proportion="-0.028862478" vertical-offset="153" max-vertical-offset="1054">
+            <state vertical-scroll-proportion="0.08645533" vertical-offset="0" max-vertical-offset="1365">
+              <caret line="4" column="156" selection-start-line="4" selection-start-column="156" selection-end-line="4" selection-end-column="156" />
+              <folding>
+                <element signature="n#style#0;n#img#0;n#uib-slide#0;n#uib-carousel#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="prpFormTabDocuments.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/module/property/view/prpFormTabDocuments.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-7.5" vertical-offset="0" max-vertical-offset="450">
+              <caret line="12" column="20" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ControllerPrpModify.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpModify.js">
+      <file leaf-file-name="ControllerPrpTabDocuments.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabDocuments.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1173">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="645">
+              <caret line="29" column="102" selection-start-line="29" selection-start-column="6" selection-end-line="29" selection-end-column="102" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="prpFormTabPartner.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/module/property/view/prpFormTabPartner.html">
+      <file leaf-file-name="ServiceUrl.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/module/common/service/ServiceUrl.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="663">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="285">
+              <caret line="6" column="21" selection-start-line="6" selection-start-column="21" selection-end-line="6" selection-end-column="21" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ControllerPrpRead.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpRead.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="810">
+              <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="prpFormTabDiagnosis.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/module/property/view/prpFormTabDiagnosis.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="600">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -82,33 +130,36 @@
     </option>
   </component>
   <component name="IdeDocumentHistory">
-    <option name="changedFiles">
+    <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/js/module/property/controller/ControllerPrpOwner.js" />
+        <option value="$PROJECT_DIR$/js/module/property/controller/ControllerPrpModify.js" />
         <option value="$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabAdministratif.js" />
-        <option value="$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabDesc.js" />
-        <option value="$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabDiagnosis.js" />
-        <option value="$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabDocuments.js" />
-        <option value="$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabGeneral.js" />
-        <option value="$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabRoom.js" />
-        <option value="$PROJECT_DIR$/js/module/passerelle/passerelle.js" />
-        <option value="$PROJECT_DIR$/js/module/passerelle/controller/ControllerDashboard.js" />
+        <option value="$PROJECT_DIR$/js/module/property/property.js" />
+        <option value="$PROJECT_DIR$/js/module/property/controller/ControllerPrpClientView.js" />
+        <option value="$PROJECT_DIR$/js/lib/angular.js" />
+        <option value="$PROJECT_DIR$/js/module/property/view/prpFormTabGeneral.html" />
+        <option value="$PROJECT_DIR$/js/module/property/service/ServicesProperty.js" />
         <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/js/module/passerelle/controller/ControllerBatch.js" />
-        <option value="$PROJECT_DIR$/js/module/passerelle/view/batch.html" />
-        <option value="$PROJECT_DIR$/js/module/dashboard/dashboard.js" />
-        <option value="$PROJECT_DIR$/js/module/dashboard/view/batch.html" />
-        <option value="$PROJECT_DIR$/js/module/dashboard/controller/ControllerBatch.js" />
-        <option value="$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabPartner.js" />
+        <option value="$PROJECT_DIR$/css/style.css" />
+        <option value="$PROJECT_DIR$/js/module/property/view/prpFormTabDocuments.html" />
+        <option value="$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabDocuments.js" />
+        <option value="$PROJECT_DIR$/js/module/common/common.js" />
+        <option value="$PROJECT_DIR$/js/module/property/controller/ControllerPrpRead.js" />
+        <option value="$PROJECT_DIR$/js/module/common/service/ServiceUrl.js" />
+        <option value="$PROJECT_DIR$/js/module/property/view/prpClientView.html" />
       </list>
     </option>
   </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+  </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="61" />
-    <option name="y" value="-8" />
-    <option name="width" value="1313" />
-    <option name="height" value="784" />
+    <option name="x" value="58" />
+    <option name="y" value="23" />
+    <option name="width" value="1382" />
+    <option name="height" value="877" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -124,7 +175,7 @@
     <option name="STATE" value="0" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+    <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -186,6 +237,24 @@
               <option name="myItemId" value="module" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ogi-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="module" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="property" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
@@ -214,6 +283,32 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="view" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ogi-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="module" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="property" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="service" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -334,6 +429,10 @@
               <option name="myItemId" value="module" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="owner" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -419,7 +518,107 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="img" />
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="module" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="config" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ogi-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="module" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ogi-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="module" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="service" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ogi-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="module" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="filter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ogi-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -435,46 +634,11 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="css" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ogi-web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webapp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="css" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="properties.less" />
-              <option name="myItemType" value="com.intellij.plugins.watcher.projectView.NestingTreeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ogi-web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webapp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="css" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dashboard.less" />
-              <option name="myItemType" value="com.intellij.plugins.watcher.projectView.NestingTreeNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -505,14 +669,15 @@
     <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
     <property name="options.searchVisible" value="true" />
+    <property name="HbShouldOpenHtmlAsHb" value="" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/js/module/property/controller" />
+      <recent name="$PROJECT_DIR$/js/module/property/view" />
       <recent name="D:\Developpement\Master\Java8\workspace\ogi\ogi-parent\ogi-web\src\main\webapp\img" />
       <recent name="D:\Developpement\Master\Java8\workspace\ogi\ogi-parent\ogi-web\src\main\webapp\js\module\dashboard\controller" />
       <recent name="D:\Developpement\Master\Java8\workspace\ogi\ogi-parent\ogi-web\src\main\webapp\js\module\dashboard\view" />
-      <recent name="D:\Developpement\Master\Java8\workspace\ogi\ogi-parent\ogi-web\src\main\webapp\js\module\common\view" />
-      <recent name="D:\Developpement\Master\Java8\workspace\ogi\ogi-parent\ogi-web\src\main\webapp\js\module\common\controller" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Developpement\Master\Java8\workspace\ogi\ogi-parent\ogi-web\src\main\webapp\js\module\dashboard\view" />
@@ -523,21 +688,53 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
-      <TestRunner />
+    <configuration default="true" type="BashConfigurationType" factoryName="Bash">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="INTERPRETER_PATH" value="/bin/bash" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <module name="" />
+      <envs />
       <method />
     </configuration>
-    <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
+    <configuration default="true" type="cucumber.js" factoryName="Cucumber.js">
+      <option name="cucumberJsArguments" value="" />
+      <option name="executablePath" />
+      <option name="filePath" />
       <method />
     </configuration>
-    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
+    <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
       <method />
     </configuration>
     <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" working-dir="">
-      <browser start="false" url="" with-js-debugger="false" />
       <method />
     </configuration>
-    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <method />
+    </configuration>
+    <configuration default="true" type="JSTestDriver:ConfigurationType" factoryName="JsTestDriver">
+      <setting name="configLocationType" value="CONFIG_FILE" />
+      <setting name="settingsFile" value="" />
+      <setting name="serverType" value="INTERNAL" />
+      <setting name="preferredDebugBrowser" value="Chrome" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" config-file="">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <pass-parent-envs>true</pass-parent-envs>
+      <envs />
       <method />
     </configuration>
     <list size="0" />
@@ -565,209 +762,304 @@
     <task active="true" id="Default" summary="Default task">
       <changelist id="1e867116-9053-4894-bee5-087a926bbbcb" name="Default" comment="" />
       <created>1375822711968</created>
+      <option name="number" value="Default" />
       <updated>1375822711968</updated>
-    </task>
-    <task id="LOCAL-00001" summary="webapp initial commit">
-      <created>1376691364303</created>
-      <updated>1376691364303</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Using ui-bootstrap">
-      <created>1376832559503</created>
-      <updated>1376832559503</updated>
     </task>
     <task id="LOCAL-00003" summary="HTML and CSS clean up">
       <created>1379276653622</created>
+      <option name="number" value="00003" />
+      <option name="project" value="LOCAL" />
       <updated>1379276653623</updated>
     </task>
     <task id="LOCAL-00004" summary="Page description + directive + slider">
       <created>1382896614127</created>
+      <option name="number" value="00004" />
+      <option name="project" value="LOCAL" />
       <updated>1382896614127</updated>
     </task>
     <task id="LOCAL-00005" summary="Save and restore data across tab switch">
       <created>1382983149898</created>
+      <option name="number" value="00005" />
+      <option name="project" value="LOCAL" />
       <updated>1382983149898</updated>
     </task>
     <task id="LOCAL-00006" summary="Init screen for update">
       <created>1383264557328</created>
+      <option name="number" value="00006" />
+      <option name="project" value="LOCAL" />
       <updated>1383264557328</updated>
     </task>
     <task id="LOCAL-00007" summary="Factorisation de la gestion des labels dans l'onglet &quot;desc&quot;">
       <created>1383342407215</created>
+      <option name="number" value="00007" />
+      <option name="project" value="LOCAL" />
       <updated>1383342407215</updated>
     </task>
     <task id="LOCAL-00008" summary="Patch ui-sortable https://github.com/angular-ui/ui-sortable/pull/46">
       <created>1383342498109</created>
+      <option name="number" value="00008" />
+      <option name="project" value="LOCAL" />
       <updated>1383342498109</updated>
     </task>
     <task id="LOCAL-00009" summary="Patch angularJS 1.2.0 rc3 https://github.com/angular/angular.js/pull/4514">
       <created>1383342550914</created>
+      <option name="number" value="00009" />
+      <option name="project" value="LOCAL" />
       <updated>1383342550914</updated>
     </task>
     <task id="LOCAL-00010" summary="Create / update">
       <created>1383410965851</created>
+      <option name="number" value="00010" />
+      <option name="project" value="LOCAL" />
       <updated>1383410965852</updated>
     </task>
     <task id="LOCAL-00011" summary="Google map centering">
       <created>1383431891212</created>
+      <option name="number" value="00011" />
+      <option name="project" value="LOCAL" />
       <updated>1383431891212</updated>
     </task>
     <task id="LOCAL-00012" summary="Sort and delete photos">
       <created>1383490072007</created>
+      <option name="number" value="00012" />
+      <option name="project" value="LOCAL" />
       <updated>1383490072007</updated>
     </task>
     <task id="LOCAL-00013" summary="Owner">
       <created>1388148629875</created>
+      <option name="number" value="00013" />
+      <option name="project" value="LOCAL" />
       <updated>1388148629875</updated>
     </task>
     <task id="LOCAL-00014" summary="Gestion des propriétaires à part">
       <created>1388435183951</created>
+      <option name="number" value="00014" />
+      <option name="project" value="LOCAL" />
       <updated>1388435183951</updated>
     </task>
     <task id="LOCAL-00015" summary="Manage owners">
       <created>1388585360985</created>
+      <option name="number" value="00015" />
+      <option name="project" value="LOCAL" />
       <updated>1388585360985</updated>
     </task>
     <task id="LOCAL-00016" summary="Migrating to bootstrap 3.0">
       <created>1388922766890</created>
+      <option name="number" value="00016" />
+      <option name="project" value="LOCAL" />
       <updated>1388922766890</updated>
     </task>
     <task id="LOCAL-00017" summary="Less + begin of reports">
       <created>1388959297029</created>
+      <option name="number" value="00017" />
+      <option name="project" value="LOCAL" />
       <updated>1388959297029</updated>
     </task>
     <task id="LOCAL-00018" summary="IHM for sale">
       <created>1389439889172</created>
+      <option name="number" value="00018" />
+      <option name="project" value="LOCAL" />
       <updated>1389439889172</updated>
     </task>
     <task id="LOCAL-00019" summary="Handle exceptions">
       <created>1389520409231</created>
+      <option name="number" value="00019" />
+      <option name="project" value="LOCAL" />
       <updated>1389520409231</updated>
     </task>
     <task id="LOCAL-00020" summary="Add round method to number">
       <created>1389520459992</created>
+      <option name="number" value="00020" />
+      <option name="project" value="LOCAL" />
       <updated>1389520459992</updated>
     </task>
     <task id="LOCAL-00021" summary="Update AngularJS to 1.2.8">
       <created>1389520490168</created>
+      <option name="number" value="00021" />
+      <option name="project" value="LOCAL" />
       <updated>1389520490168</updated>
     </task>
     <task id="LOCAL-00022" summary="Commit forgotten files">
       <created>1389521158695</created>
+      <option name="number" value="00022" />
+      <option name="project" value="LOCAL" />
       <updated>1389521158695</updated>
     </task>
     <task id="LOCAL-00023" summary="Sale IHM : delete and folding">
       <created>1389543006733</created>
+      <option name="number" value="00023" />
+      <option name="project" value="LOCAL" />
       <updated>1389543006733</updated>
     </task>
     <task id="LOCAL-00024" summary="Set order when uploading done">
       <created>1389995382595</created>
+      <option name="number" value="00024" />
+      <option name="project" value="LOCAL" />
       <updated>1389995382595</updated>
     </task>
     <task id="LOCAL-00025" summary="Label bug">
       <created>1390029213845</created>
+      <option name="number" value="00025" />
+      <option name="project" value="LOCAL" />
       <updated>1390029213845</updated>
     </task>
     <task id="LOCAL-00026" summary="Angular update to 1.2.9">
       <created>1390124473032</created>
+      <option name="number" value="00026" />
+      <option name="project" value="LOCAL" />
       <updated>1390124473032</updated>
     </task>
     <task id="LOCAL-00027" summary="save plot + confirm box before delete">
       <created>1390124670683</created>
+      <option name="number" value="00027" />
+      <option name="project" value="LOCAL" />
       <updated>1390124670683</updated>
     </task>
     <task id="LOCAL-00028" summary="DIagnosis tab (dpe)">
       <created>1390132587739</created>
+      <option name="number" value="00028" />
+      <option name="project" value="LOCAL" />
       <updated>1390132587739</updated>
     </task>
     <task id="LOCAL-00029" summary="Display dpe images into diagnosis tab">
       <created>1390149597400</created>
+      <option name="number" value="00029" />
+      <option name="project" value="LOCAL" />
       <updated>1390149597400</updated>
     </task>
     <task id="LOCAL-00030" summary="DPE : link to download dpe images">
       <created>1390158947572</created>
+      <option name="number" value="00030" />
+      <option name="project" value="LOCAL" />
       <updated>1390158947572</updated>
     </task>
     <task id="LOCAL-00031" summary="Change photo's url">
       <created>1391283950771</created>
+      <option name="number" value="00031" />
+      <option name="project" value="LOCAL" />
       <updated>1391283950771</updated>
     </task>
     <task id="LOCAL-00032" summary="Add nbGarage">
       <created>1391863888559</created>
+      <option name="number" value="00032" />
+      <option name="project" value="LOCAL" />
       <updated>1391863888559</updated>
     </task>
     <task id="LOCAL-00033" summary="Change label">
       <created>1391863946537</created>
+      <option name="number" value="00033" />
+      <option name="project" value="LOCAL" />
       <updated>1391863946537</updated>
     </task>
     <task id="LOCAL-00034" summary="Add input dependency area">
       <created>1391877485739</created>
+      <option name="number" value="00034" />
+      <option name="project" value="LOCAL" />
       <updated>1391877485739</updated>
     </task>
     <task id="LOCAL-00035" summary="Synchronization into new property tab">
       <created>1391898581328</created>
+      <option name="number" value="00035" />
+      <option name="project" value="LOCAL" />
       <updated>1391898581328</updated>
     </task>
     <task id="LOCAL-00036" summary="Delete property on acimflo">
       <created>1391941402292</created>
+      <option name="number" value="00036" />
+      <option name="project" value="LOCAL" />
       <updated>1391941402292</updated>
     </task>
     <task id="LOCAL-00037" summary="AngularJS update to 1.12">
       <created>1391941451878</created>
+      <option name="number" value="00037" />
+      <option name="project" value="LOCAL" />
       <updated>1391941451878</updated>
     </task>
     <task id="LOCAL-00038" summary="Update to bootstrap 3.1.1">
       <created>1392501711574</created>
+      <option name="number" value="00038" />
+      <option name="project" value="LOCAL" />
       <updated>1392501711574</updated>
     </task>
     <task id="LOCAL-00039" summary="Add theme sb-admin 2">
       <created>1393078208459</created>
+      <option name="number" value="00039" />
+      <option name="project" value="LOCAL" />
       <updated>1393078208459</updated>
     </task>
     <task id="LOCAL-00040" summary="Change Object.create to angular.extends due to JSON.stringify">
       <created>1393078255773</created>
+      <option name="number" value="00040" />
+      <option name="project" value="LOCAL" />
       <updated>1393078255773</updated>
     </task>
     <task id="LOCAL-00041" summary="Add and delete owner">
       <created>1393090074970</created>
+      <option name="number" value="00041" />
+      <option name="project" value="LOCAL" />
       <updated>1393090074970</updated>
     </task>
     <task id="LOCAL-00042" summary="Customize style">
       <created>1393435902968</created>
+      <option name="number" value="00042" />
+      <option name="project" value="LOCAL" />
       <updated>1393435902968</updated>
     </task>
     <task id="LOCAL-00043" summary="Add SeLoger.com to tab partner">
       <created>1393612019550</created>
+      <option name="number" value="00043" />
+      <option name="project" value="LOCAL" />
       <updated>1393612019550</updated>
     </task>
     <task id="LOCAL-00044" summary="Update libraries angularjs 1.2.15 and jquery 2.1.0">
       <created>1395521725591</created>
+      <option name="number" value="00044" />
+      <option name="project" value="LOCAL" />
       <updated>1395521725591</updated>
     </task>
     <task id="LOCAL-00045" summary="Add dashboard">
       <created>1395521761975</created>
+      <option name="number" value="00045" />
+      <option name="project" value="LOCAL" />
       <updated>1395521761975</updated>
     </task>
     <task id="LOCAL-00046" summary="Add rent">
       <created>1395584994532</created>
+      <option name="number" value="00046" />
+      <option name="project" value="LOCAL" />
       <updated>1395584994532</updated>
     </task>
     <task id="LOCAL-00047" summary="Display multiples errors messages">
       <created>1395597658443</created>
+      <option name="number" value="00047" />
+      <option name="project" value="LOCAL" />
       <updated>1395597658443</updated>
     </task>
     <task id="LOCAL-00048" summary="Add ng-value to rent radio button">
       <created>1395597694851</created>
+      <option name="number" value="00048" />
+      <option name="project" value="LOCAL" />
       <updated>1395597694851</updated>
     </task>
     <task id="LOCAL-00049" summary="When construct RealPropertyJS replace null value by undefined to word with select/option">
       <created>1396091784629</created>
+      <option name="number" value="00049" />
+      <option name="project" value="LOCAL" />
       <updated>1396091784629</updated>
     </task>
     <task id="LOCAL-00050" summary="Refactor messages">
       <created>1396091896704</created>
+      <option name="number" value="00050" />
+      <option name="project" value="LOCAL" />
       <updated>1396091896704</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="rerun init documents after update">
+      <created>1428257305420</created>
+      <option name="number" value="00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1428257305421</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -791,29 +1083,60 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="61" y="-8" width="1313" height="784" extended-state="6" />
+    <frame x="58" y="23" width="1382" height="877" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32935154" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31751227" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29757532" sideWeight="0.68471336" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32993197" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3280255" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31406045" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32733223" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32961783" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31751227" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32961783" sideWeight="0.67197454" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32993197" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+    <layout-to-restore>
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32935154" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32993197" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32993197" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3280255" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32733223" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32961783" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31751227" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29757532" sideWeight="0.68471336" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31406045" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29736212" sideWeight="0.68471336" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32961783" sideWeight="0.67197454" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3280255" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32961783" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32733223" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31528664" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32993197" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-    </layout>
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32961783" sideWeight="0.67197454" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -824,7 +1147,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Angular update to 1.2.9" />
     <MESSAGE value="save plot + confirm box before delete" />
     <MESSAGE value="DIagnosis tab (dpe)" />
     <MESSAGE value="Display dpe images into diagnosis tab" />
@@ -849,83 +1171,158 @@
     <MESSAGE value="Add ng-value to rent radio button" />
     <MESSAGE value="When construct RealPropertyJS replace null value by undefined to word with select/option" />
     <MESSAGE value="Refactor messages" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor messages" />
+    <MESSAGE value="rerun init documents after update" />
+    <option name="LAST_COMMIT_MESSAGE" value="rerun init documents after update" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <option name="time" value="6" />
     </breakpoint-manager>
+    <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabGeneral.js">
+    <entry file="file://$PROJECT_DIR$/js/module/property/view/prpFormTabAdministratif.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="70" selection-start="0" selection-end="70" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3264" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4875">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpAdd.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="645">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabPartner.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="8" column="5" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabAdministratif.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpModify.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/view/prpFormTabPartner.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabPartner.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpModify.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/view/prpFormTabPartner.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabPartner.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpModify.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/view/prpFormTabPartner.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabRoom.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="6" selection-start="2610" selection-end="2610" vertical-scroll-proportion="0.2400722" vertical-offset="989" max-vertical-offset="3434" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabDiagnosis.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="9" selection-start="421" selection-end="421" vertical-scroll-proportion="0.25415283" vertical-offset="0" max-vertical-offset="602" />
+        <state vertical-scroll-proportion="0.2400722" vertical-offset="0" max-vertical-offset="0">
+          <caret line="66" column="6" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerList.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="42" selection-start="305" selection-end="305" vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="2244" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="5" column="42" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/module/passerelle/passerelle.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="19" selection-start="248" selection-end="248" vertical-scroll-proportion="0.17317487" vertical-offset="0" max-vertical-offset="589" />
+        <state vertical-scroll-proportion="0.17317487" vertical-offset="0" max-vertical-offset="0">
+          <caret line="6" column="19" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/module/dashboard/dashboard.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="18" selection-start="245" selection-end="245" vertical-scroll-proportion="0.16943522" vertical-offset="0" max-vertical-offset="602" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="0" selection-start="3946" selection-end="3946" vertical-scroll-proportion="-7.923077" vertical-offset="1035" max-vertical-offset="2822" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/lib/angular.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3740" />
+        <state vertical-scroll-proportion="0.16943522" vertical-offset="0" max-vertical-offset="0">
+          <caret line="6" column="18" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/lib/angular-sanitize.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="289" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/module/passerelle/controller/ControllerPasserelleRecap.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="22" selection-start="226" selection-end="237" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="629">
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="5" column="22" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/module/dashboard/view/batch.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="53" selection-start="991" selection-end="991" vertical-scroll-proportion="-11.769231" vertical-offset="204" max-vertical-offset="867">
-          <folding>
-            <marker date="1412280067311" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1412280067311" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1412280067311" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1412280067311" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1412280067311" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
+        <state vertical-scroll-proportion="-11.769231" vertical-offset="0" max-vertical-offset="0">
+          <caret line="30" column="53" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/module/dashboard/controller/ControllerBatch.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="57" selection-start="400" selection-end="400" vertical-scroll-proportion="0.22591361" vertical-offset="0" max-vertical-offset="602">
-          <folding />
+        <state vertical-scroll-proportion="0.22591361" vertical-offset="0" max-vertical-offset="0">
+          <caret line="8" column="57" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -934,27 +1331,242 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpModify.js">
+    <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabPartner.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1173">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="8" column="5" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrp.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.0750989" vertical-offset="0" max-vertical-offset="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/module/property/view/prpFormTabPartner.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="663">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpAdd.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabPartner.js">
+    <entry file="file://$PROJECT_DIR$/js/lib/checklist-model.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="5" selection-start="633" selection-end="633" vertical-scroll-proportion="-0.028862478" vertical-offset="153" max-vertical-offset="1054">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="0" max-vertical-offset="0">
+          <caret line="55" column="19" selection-start-line="55" selection-start-column="19" selection-end-line="55" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/view/prpFormTabAdministratif.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4875">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabAdministratif.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.29624665" vertical-offset="679" max-vertical-offset="1695">
+          <caret line="60" column="0" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabGeneral.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1110" max-vertical-offset="2895">
+          <caret line="0" column="70" selection-start-line="0" selection-start-column="70" selection-end-line="0" selection-end-column="70" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/owner/owner.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.36437246" vertical-offset="0" max-vertical-offset="494">
+          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/view/prpList.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1395">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/lib/angular.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.14583333" vertical-offset="0" max-vertical-offset="433635">
+          <caret line="7" column="3" selection-start-line="7" selection-start-column="3" selection-end-line="7" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/view/prpFormTabGeneral.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.1356674" vertical-offset="613" max-vertical-offset="2670">
+          <caret line="45" column="45" selection-start-line="45" selection-start-column="45" selection-end-line="45" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpModify.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.15592515" vertical-offset="0" max-vertical-offset="1080">
+          <caret line="5" column="51" selection-start-line="5" selection-start-column="51" selection-end-line="5" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/property.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.14583333" vertical-offset="0" max-vertical-offset="720">
+          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/common/objects.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.24305555" vertical-offset="665" max-vertical-offset="2190">
+          <caret line="56" column="21" selection-start-line="56" selection-start-column="9" selection-end-line="56" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/view/prpFormTabDiagnosis.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="733">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/config/config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.125" vertical-offset="0" max-vertical-offset="720">
+          <caret line="6" column="25" selection-start-line="6" selection-start-column="25" selection-end-line="6" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/common/filter/filters.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.49386084" vertical-offset="362" max-vertical-offset="1830">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/service/ServicesProperty.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1230">
+          <caret line="0" column="52" selection-start-line="0" selection-start-column="42" selection-end-line="0" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabDiagnosis.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.16371077" vertical-offset="0" max-vertical-offset="733">
+          <caret line="8" column="7" selection-start-line="8" selection-start-column="7" selection-end-line="8" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.32327586" vertical-offset="0" max-vertical-offset="2610">
+          <caret line="15" column="46" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4682" max-vertical-offset="5445">
+          <caret line="355" column="26" selection-start-line="355" selection-start-column="26" selection-end-line="355" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/common/service/services.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1245" max-vertical-offset="1965">
+          <caret line="102" column="0" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpTabDocuments.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="645">
+          <caret line="29" column="102" selection-start-line="29" selection-start-column="6" selection-end-line="29" selection-end-column="102" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/common/common.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.04103967" vertical-offset="0" max-vertical-offset="731">
+          <caret line="2" column="39" selection-start-line="2" selection-start-column="39" selection-end-line="2" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/controller/ControllerPrpRead.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="810">
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/view/prpFormGlobal.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.08645533" vertical-offset="0" max-vertical-offset="694">
+          <caret line="4" column="8" selection-start-line="3" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/common/service/ServiceUrl.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="285">
+          <caret line="6" column="21" selection-start-line="6" selection-start-column="21" selection-end-line="6" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/view/prpFormTabDocuments.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.5" vertical-offset="0" max-vertical-offset="450">
+          <caret line="12" column="20" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/module/property/view/prpClientView.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.08645533" vertical-offset="0" max-vertical-offset="1365">
+          <caret line="4" column="156" selection-start-line="4" selection-start-column="156" selection-end-line="4" selection-end-column="156" />
+          <folding>
+            <element signature="n#style#0;n#img#0;n#uib-slide#0;n#uib-carousel#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
   </component>
 </project>
-

@@ -54,6 +54,10 @@ a {
 .center {
   text-align: center;
 }
+.right {
+  text-align: right;
+}
+
 legend + .control-group {
   margin-top: 0px;
 }
@@ -323,4 +327,32 @@ ul#list-photos li.highlight {
 }
 .passerelle_recap_push {
   color: #DEBB33;
+}
+
+/* HTML client view */
+#prpClientView {
+  padding-top: 15px;
+}
+#prpClientView .description h2 {
+  margin-top: 0;
+}
+#prpClientView .description {
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+}
+#prpClientView .general-informations {
+  margin-top: 15px;
+}
+
+#prpClientView .rooms .area {
+  text-align: right;
+  padding-right: 15px;
+}
+#prpClientView .dpe .kwh {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+#prpClientView .dpe .ges {
+  display: inline-block;
 }

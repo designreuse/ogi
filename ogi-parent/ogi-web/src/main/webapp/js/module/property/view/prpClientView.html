@@ -1,0 +1,86 @@
+<div id="prpClientView">
+
+  <div class="row actions">
+    <ul class="list-inline col-sm-12">
+      <li><button type="button" class="btn btn-default" title="Retour" onclick="history.go(-1)"><i class="glyphicon glyphicon-arrow-left"></i></button></li>
+      <li><a href="{{$root.ServiceUrl.urlDocument(prp.reference, 'client', 'pdf', 'A4')}}" class="btn btn-default">Fiche PDF</a></li>
+      <li><a href="{{$root.ServiceUrl.urlPropertyEdit(prp.reference)}}" class="btn btn-default">Modifier</a></li>
+    </ul>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <div>
+        <uib-carousel interval="carouselInterval" no-wrap="false">
+          <uib-slide ng-repeat="slide in slides" active="slide.active">
+            <img ng-src="{{slide.image}}" style="margin:auto;" />
+            <div class="carousel-caption">
+              <h4>Photo {{slide.text}}</h4>
+            </div>
+          </uib-slide>
+        </uib-carousel>
+      </div>
+    </div>
+
+    <div class="col-sm-offset-0 col-sm-6 description">
+      <h2>Description</h2>
+      <p ng-bind-html="descriptionClient()"></p>
+    </div>
+  </div>
+
+
+  <div class="row general-informations">
+
+
+    <div class="col-sm-6">
+      <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th colspan="2">Informations générales</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr><td>Type</td><td>{{prp.type}}</td></tr>
+          <tr><td>Surface Habitable</td><td>{{prp.area | area}}</td></tr>
+          <tr><td>Surface Terrain</td><td>{{prp.landArea | area}}</td></tr>
+          <tr><td>Année de construction</td><td>{{prp.buildDate | date:'yyyy'}}</td></tr>
+          <tr><td>Taxe foncière</td><td>{{prp.sale.propertyTax}} €</td></tr>
+          <tr><td>Lotissement</td><td>{{prp.housingEstate | boolean}}</td></tr>
+          <tr><td>Chauffage</td><td>{{prp.heating}}</td></tr>
+          <tr><td>Assainissement</td><td>{{prp.sanitation}}</td></tr>
+        </tbody>
+
+      </table>
+
+
+      <div class="dpe">
+        <img class="kwh" title="Consommation énergétique {{prp.dpe.kwh}}" ng-src="{{kwhImage()}}" ng-if="kwhImage()" />
+        <img class="ges" title="Taux d'émission de gaz à effet de serre {{prp.dpe.ges}}" ng-src="{{gesImage()}}" ng-if="gesImage()" />
+      </div>
+    </div>
+
+    <div class="col-sm-6">
+      <table class="table table-condensed rooms">
+        <thead>
+        <tr>
+          <th>Pièce</th>
+          <th>Surface</th>
+          <th>Sol</th>
+        </tr>
+        </thead>
+
+        <tbody>
+          <tr ng-repeat="room in prp.rooms">
+            <td>{{room.roomType}}</td>
+            <td class="area">{{room.area | area}}</td>
+            <td>{{room.floor}}</td>
+          </tr>
+        </tbody>
+
+      </table>
+    </div>
+
+  </div>
+
+</div>

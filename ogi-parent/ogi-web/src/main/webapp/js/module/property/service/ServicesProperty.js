@@ -28,14 +28,35 @@ angular.module('myApp.property').factory('ServiceDPE', function(Utils) {
             }
         }
         return conf.classification;
-    }
-    return {
+    };
+
+    var getKWHImageUrl = function(dpeValue, imgWidth, baseUrl) {
+      if(dpeValue) {
+        return (baseUrl || "") + "/rest/dpe/kwh?dpe=" + dpeValue + "&width=" + (imgWidth || 300);
+      }
+      else {
+        return "";
+      }
+    };
+
+    var getGESImageUrl = function(dpeValue, imgWidth, baseUrl) {
+      if(dpeValue) {
+        return (baseUrl || "") + "/rest/dpe/ges?dpe=" + dpeValue + "&width=" + (imgWidth || 300);
+      }
+      else {
+        return "";
+      }
+    };
+
+  return {
         getKWHClassifiation : function(dpeValue){
             return getClassification(dpeConfigKWH, dpeValue);
         },
         getGesClassifiation : function(dpeValue){
             return getClassification(dpeConfigGes, dpeValue);
-        }
+        },
+        getKWHImageUrl: getKWHImageUrl,
+        getGESImageUrl: getGESImageUrl
     }
 });
 
