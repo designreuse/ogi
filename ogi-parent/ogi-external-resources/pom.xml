@@ -3,7 +3,7 @@
   <parent>
 		<groupId>fr.jerep6.ogi</groupId>
 		<artifactId>ogi-parent</artifactId>
-		<version>0.5.2-SNAPSHOT</version>
+		<version>0.6.0</version>
 	</parent>
   <artifactId>ogi-external-resources</artifactId>
 </project>
