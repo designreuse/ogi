@@ -2,7 +2,7 @@
 angular.module('myApp.property',
     ['ngRoute', 'ui.bootstrap', 'ui.map',
         'ui.sortable', 'blueimp.fileupload', 'ui.slider', 'ngSanitize',
-        'dialogs'
+        'dialogs', 'bootstrapLightbox'
     ]);
 
 

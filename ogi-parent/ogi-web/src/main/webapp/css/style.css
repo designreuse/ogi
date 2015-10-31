@@ -296,8 +296,8 @@ ul#list-photos li.highlight {
   background: white;
 }
 /* Menu d'action */
-.action {
-  margin: 10px;
+#prpFormManage {
+  margin-top: 15px;
 }
 /* Liste des actions présentées dans une cellule d'un tableau*/
 .btn-group-action {
@@ -337,6 +337,7 @@ ul#list-photos li.highlight {
   margin-top: 0;
 }
 #prpClientView .description {
+  padding-top: 20px;
   border-right: 1px solid black;
   border-bottom: 1px solid black;
 }
@@ -352,7 +353,21 @@ ul#list-photos li.highlight {
   margin-right: 10px;
   margin-bottom: 10px;
   display: inline-block;
+  vertical-align: top;
 }
 #prpClientView .dpe .ges {
   display: inline-block;
+  vertical-align: top;
+}
+#prpClientView .highlight {
+  border-right: 1px solid black;
+}
+#prpClientView .highlight .city {
+  font-size: 32px;
+  text-align: center;
+  line-height: 25px;
+}
+#prpClientView .highlight .price {
+  font-size: 50px;
+  text-align: center;
 }

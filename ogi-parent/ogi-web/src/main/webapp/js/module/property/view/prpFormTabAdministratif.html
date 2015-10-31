@@ -104,7 +104,7 @@
                             <label>Date de vente</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" ng-model="prp.sale.soldDate"
-                                       datepicker-popup="{{dateFormat}}" show-weeks="false" is-open="open['soldDate']"
+                                       uib-datepicker-popup="{{dateFormat}}" show-weeks="false" is-open="open['soldDate']"
                                        datepicker-options="dateOptions" show-button-bar="false"
                                         />
                                 <span class="input-group-addon glyphicon glyphicon-calendar pointer" ng-click="openCalendar($event, 'soldDate')"></span>
@@ -124,7 +124,7 @@
                         <label>Début mandat</label>
                         <div class="input-group">
                             <input type="text" class="form-control" ng-model="prp.sale.mandateStartDate"
-                                datepicker-popup="{{dateFormat}}" show-weeks="false" is-open="open['mandateStartDate']"
+                                   uib-datepicker-popup="{{dateFormat}}" show-weeks="false" is-open="open['mandateStartDate']"
                                 datepicker-options="dateOptions" show-button-bar="false"
                             />
                             <span class="input-group-addon glyphicon glyphicon-calendar pointer" ng-click="openCalendar($event, 'mandateStartDate')"></span>
@@ -136,7 +136,7 @@
                         <label>Fin mandat</label>
                         <div class="input-group">
                             <input type="text" class="form-control" ng-model="prp.sale.mandateEndDate"
-                                   datepicker-popup="{{dateFormat}}" show-weeks="false" is-open="open['mandateEndDate']"
+                                   uib-datepicker-popup="{{dateFormat}}" show-weeks="false" is-open="open['mandateEndDate']"
                                    datepicker-options="dateOptions" show-button-bar="false"
                             />
                             <span class="input-group-addon glyphicon glyphicon-calendar pointer" ng-click="openCalendar($event, 'mandateEndDate')"></span>
@@ -155,7 +155,7 @@
                         <label>Date estimation</label>
                         <div class="input-group">
                             <input type="text" class="form-control" ng-model="prp.sale.estimationDate"
-                                   datepicker-popup="{{dateFormat}}" show-weeks="false" is-open="open['estimationDate']"
+                                   uib-datepicker-popup="{{dateFormat}}" show-weeks="false" is-open="open['estimationDate']"
                                    datepicker-options="dateOptions" show-button-bar="false"
                             />
                             <span class="input-group-addon glyphicon glyphicon-calendar pointer" ng-click="openCalendar($event, 'estimationDate')"></span>
@@ -197,11 +197,11 @@
                     <div class="form-group">
                         <label>
                             Location libre le
-                            <i class="glyphicon glyphicon-question-sign" tooltip="Laisser vide pour indiquer que la location est louée" tooltip-trigger="mouseenter"></i>
+                            <i class="glyphicon glyphicon-question-sign" uib-tooltip="Laisser vide pour indiquer que la location est louée" uib-tooltip-trigger="mouseenter"></i>
                         </label>
                         <div class="input-group">
                             <input type="text" class="form-control" ng-model="prp.rent.freeDate"
-                                   datepicker-popup="{{dateFormat}}" show-weeks="false" is-open="open['freeDate']"
+                                   uib-datepicker-popup="{{dateFormat}}" show-weeks="false" is-open="open['freeDate']"
                                    datepicker-options="dateOptions" show-button-bar="false"
                             />
                             <span class="input-group-addon glyphicon glyphicon-calendar pointer" ng-click="openCalendar($event, 'freeDate')"></span>
@@ -261,7 +261,7 @@
                         <div class="checkbox" style="vertical-align: bottom">
                             <label>
                                 <input type="checkbox" value="true" ng-model="prp.rent.serviceChargeIncluded" ng-change="computeRentFinalPrice()"
-                                       tooltip="Si coché indique que le prix du loyer inclu les charges" tooltip-trigger="mouseenter"
+                                       uib-tooltip="Si coché indique que le prix du loyer inclu les charges" uib-tooltip-trigger="mouseenter"
                                 /> Charges comprises
                             </label>
                         </div>

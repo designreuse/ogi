@@ -1,0 +1,105 @@
+
+<div class="row">
+  <div class="col-sm-6">
+    <div>
+      <uib-carousel interval="carouselInterval" no-wrap="false">
+        <uib-slide ng-repeat="slide in slides" active="slide.active">
+          <a ng-click="openLightboxModal($index)">
+            <img ng-src="{{slide.image}}" style="margin:auto; cursor: pointer" />
+          </a>
+          <div class="carousel-caption">
+            <h4>Photo {{slide.text}}</h4>
+          </div>
+        </uib-slide>
+      </uib-carousel>
+    </div>
+  </div>
+
+  <div class="col-sm-offset-0 col-sm-6">
+    <div class="highlight">
+      <div class="city">{{prp.address.city}}</div>
+      <div class="price">
+        <span class="price-sale" ng-if="prp.sale.priceFinal">{{prp.sale.priceFinal | number:0}} €</span>
+        <span class="price-separator" ng-if="prp.sale.priceFinal && prp.rent.priceFinal"> / </span>
+        <span class="price-rent" ng-if="prp.rent.priceFinal">{{prp.rent.priceFinal | number:0}} €</span>
+      </div>
+    </div>
+
+    <div class="description">
+      <p ng-bind-html="descriptionClient()"></p>
+    </div>
+  </div>
+</div>
+
+
+<div class="row general-informations">
+
+
+  <div class="col-sm-6">
+    <table class="table table-condensed">
+      <thead>
+      <tr>
+        <th colspan="2">Informations générales</th>
+      </tr>
+      </thead>
+
+      <tbody>
+        <tr><td>Type</td><td>{{prp.type}}</td></tr>
+        <tr><td>Surface Habitable</td><td>{{prp.area | area}}</td></tr>
+        <tr><td>Surface Terrain</td><td>{{(prp.landArea | area) || '-'}}</td></tr>
+        <tr><td>Année de construction</td><td>{{(prp.buildDate | date:'yyyy') || '-'}}</td></tr>
+        <tr><td>Taxe foncière</td><td>{{(prp.sale.propertyTax | number:0) || '-'}} €</td></tr>
+        <tr><td>Lotissement</td><td>{{(prp.housingEstate | boolean) || '-'}}</td></tr>
+        <tr><td>Chauffage</td><td>{{prp.heating || '-'}}</td></tr>
+        <tr><td>Assainissement</td><td>{{prp.sanitation || '-'}}</td></tr>
+      </tbody>
+
+    </table>
+
+    <table class="table table-condensed" ng-if="prp.rent">
+      <thead>
+      <tr>
+        <th colspan="2">Location</th>
+      </tr>
+      </thead>
+
+      <tbody>
+        <tr><td>Loyer</td><td>{{(prp.rent.priceFinal | number:0) || '-'}} € </td></tr>
+        <tr><td>Charges</td><td>{{(prp.rent.serviceCharge | number:0) || '-'}} € (<span ng-if="!prp.rent.serviceChargeIncluded">non </span>comprises)</td></tr>
+        <tr><td>Dépôt de garantie</td><td>{{(prp.rent.deposit | number:'0') || '-'}} €</td></tr>
+        <tr><td>Honoraires</td><td>{{(prp.rent.commission | number:'0') || '-'}} €</td></tr>
+        <tr><td>Libre le</td><td>{{(prp.rent.freeDate | date:'dd/MM//yyyy') || '-'}}</td></tr>
+        <tr><td>Meublée</td><td>{{(prp.rent.furnished | boolean) || '-'}}</td></tr>
+      </tbody>
+
+    </table>
+
+
+    <div class="dpe">
+      <img class="kwh" title="Consommation énergétique {{prp.dpe.kwh}}" ng-src="{{kwhImage()}}" ng-if="kwhImage()" />
+      <img class="ges" title="Taux d'émission de gaz à effet de serre {{prp.dpe.ges}}" ng-src="{{gesImage()}}" ng-if="gesImage()" />
+    </div>
+  </div>
+
+  <div class="col-sm-6">
+    <table class="table table-condensed rooms">
+      <thead>
+      <tr>
+        <th>Pièce</th>
+        <th>Surface</th>
+        <th>Sol</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr ng-repeat="room in prp.rooms">
+        <td>{{room.roomType}}</td>
+        <td class="area">{{room.area | number:2 | area }}</td>
+        <td>{{room.floor}}</td>
+      </tr>
+      </tbody>
+
+    </table>
+  </div>
+
+</div>

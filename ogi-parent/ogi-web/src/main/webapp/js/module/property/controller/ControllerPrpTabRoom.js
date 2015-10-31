@@ -1,5 +1,5 @@
 angular.module('myApp.property').controller("ControllerPrpTabRoom",
-function ($scope, Page, $modal, ServiceConfiguration, ServiceLabel, ServiceObject) {
+function ($scope, Page, $uibModal, ServiceConfiguration, ServiceLabel, ServiceObject) {
     $scope.labels = {};
     getLabels("room", "roomTypes");
     getLabels("floor", "floors");
@@ -19,7 +19,7 @@ function ($scope, Page, $modal, ServiceConfiguration, ServiceLabel, ServiceObjec
 
     // ###### CRUD FUNCTIONS ######
     $scope.add = function() {
-       var modalInstance = $modal.open({
+       var modalInstance = $uibModal.open({
            templateUrl: 'modalRoom.html',
            controller: "ModalRoomInstanceCtrl",
            resolve: {
@@ -41,7 +41,7 @@ function ($scope, Page, $modal, ServiceConfiguration, ServiceLabel, ServiceObjec
 
         // Deep copy room in order to not modify original when user clic on cancel button
         var roomToModify = angular.copy(room);
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
             templateUrl: 'modalRoom.html',
             controller: "ModalRoomInstanceCtrl",
             resolve: {

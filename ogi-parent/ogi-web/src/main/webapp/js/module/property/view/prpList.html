@@ -41,14 +41,14 @@
         </table>
 
         <div class="text-center" ng-show="totalItems > 1">
-            <pagination boundary-links="true"
+            <uib-pagination boundary-links="true"
                         total-items="totalItems"
                         items-per-page="filterCriteria.itemNumberPerPage"
                         ng-model="filterCriteria.pageNumber"
                         class="pagination"
                         previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
                         ng-change="selectPage()">
-            </pagination>
+            </uib-pagination>
         </div>
 
     </div>

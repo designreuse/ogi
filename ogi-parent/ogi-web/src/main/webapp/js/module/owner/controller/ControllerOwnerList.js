@@ -1,5 +1,5 @@
 angular.module('myApp.owner').controller("ControllerOwnerList",
-function ($scope, $http, Page, ServiceAlert, ServiceConfiguration, $modal, $log, $dialogs, ServiceOwner) {
+function ($scope, $http, Page, ServiceAlert, ServiceConfiguration, $log, $dialogs, ServiceOwner) {
     Page.setTitle("Liste des propriétaires");
 
     $scope.owners = [];

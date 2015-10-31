@@ -51,7 +51,15 @@ myApp.filter('area', function(Utils) {
 
 myApp.filter('boolean', function() {
     return function(b) {
-        return b ? "Oui" : "Non";
+        if (b === true) {
+          return "Oui";
+        }
+        else if(b === false) {
+          return "Non";
+        }
+        else {
+          return undefined;
+        }
     };
 });
 
@@ -84,7 +92,7 @@ function technicalPrpLink(properties, Utils, ServiceUrl) {
     // else return links seperated by a <br />
     var s = "";
     properties.forEach(function(elt, index) {
-        s += "<a href=\"#"+ServiceUrl.urlPropertyEdit(elt.reference)+"\">"+elt.reference+"</a><br />";
+        s += "<a href=\""+ServiceUrl.urlPropertyEdit(elt.reference)+"\">"+elt.reference+"</a><br />";
     });
 
     return s;

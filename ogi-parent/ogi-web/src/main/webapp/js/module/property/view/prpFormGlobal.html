@@ -1,8 +1,11 @@
 <div id="prpFormManage">
 
     <div class="row action">
-        <button type="button" class="btn btn-default" title="Retour" onclick="history.go(-1)"><i class="glyphicon glyphicon-arrow-left"></i></button>
-        <button type="submit" class="btn btn-success" ng-click="save()"><i class="glyphicon glyphicon-floppy-disk"></i> Enregistrer</button>
+      <ul class="list-inline col-sm-12">
+        <li><button type="button" class="btn btn-default" title="Retour" onclick="history.go(-1)"><i class="glyphicon glyphicon-arrow-left"></i></button></li>
+        <li><a href=""{{$root.ServiceUrl.urlPropertyRead(prp.reference)}}" class="btn btn-default"> Vue client</a></li>
+        <li><button type="submit" class="btn btn-success" ng-click="save()"><i class="glyphicon glyphicon-floppy-disk"></i> Enregistrer</button></li>
+      </ul>
     </div>
 
     <ul class="nav nav-tabs">

@@ -1,5 +1,5 @@
 angular.module('myApp.property').controller("ControllerPrpTabDesc",
-function ($scope, Page, $routeParams, ServiceConfiguration, ServiceObject, ServiceAlert, $http, $log ,$modal, ServiceLabel) {
+function ($scope, Page, $routeParams, ServiceConfiguration, ServiceObject, ServiceAlert, $http, $log ,$uibModal, ServiceLabel) {
 
     // Get type of current category. Run query only if promise of current type is resolved
     $scope.types = [];
@@ -110,7 +110,7 @@ function ($scope, Page, $routeParams, ServiceConfiguration, ServiceObject, Servi
 
     // ##### MODAL TYPE #####
     $scope.openModalType = function () {
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
             templateUrl: 'modalAddType.html',
             controller:"ModalTypeInstanceCtrl",
             resolve: {
@@ -150,7 +150,7 @@ function ($scope, Page, $routeParams, ServiceConfiguration, ServiceObject, Servi
      * @param vPrpName name of variable into scope save data and real property representing the label
      */
     function openLabelOther(labelType, labels, vScopeName, vPrpName) {
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
             templateUrl: 'modalAddType.html',
             controller: "ModalLabelInstanceCtrl",
             resolve: {

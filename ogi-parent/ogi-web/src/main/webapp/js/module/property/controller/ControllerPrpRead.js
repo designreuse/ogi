@@ -1,5 +1,5 @@
 angular.module('myApp.property').controller("ControllerPrpRead",
-function ($scope, $rootScope, Page, $routeParams, ServiceConfiguration, ServiceDPE, $http, $log, ServiceUrl) {
+function ($scope, $rootScope, Page, $routeParams, ServiceConfiguration, ServiceDPE, $http, $log, ServiceUrl, Lightbox) {
   Page.setTitle("Fiche client du bien : "+$routeParams.prpRef);
 
   $scope.carouselInterval = 5000;
@@ -40,6 +40,14 @@ function ($scope, $rootScope, Page, $routeParams, ServiceConfiguration, ServiceD
       image: url,
       text: text
     });
+  };
+
+  $scope.openLightboxModal = function (index) {
+    Lightbox.openModal(_.map($scope.prp.photos, function(elt) {
+      return {
+        'url': elt.url
+      };
+    }), index);
   };
 
 });

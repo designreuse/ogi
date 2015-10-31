@@ -76,13 +76,29 @@ function PropertyJS(prpFromAPI) {
     }
 
     if(!utilsObject.isUndefinedOrNull(prpFromAPI.sale)) {
-        this.sale = angular.extend({}, sale, prpFromAPI.sale);
-        this.sale.documents = extractDocumentsByZone(prpFromAPI.documents, "SALE");
+      this.sale = angular.extend({}, sale, prpFromAPI.sale);
+      this.sale.documents = extractDocumentsByZone(prpFromAPI.documents, "SALE");
+
+      // Convert iso8601 in date object
+      if(this.sale.mandateEndDate) {
+        this.sale.mandateEndDate = new Date(this.sale.mandateEndDate);
+      }
+      if(this.sale.mandateStartDate) {
+        this.sale.mandateStartDate = new Date(this.sale.mandateStartDate);
+      }
+      if(this.sale.estimationDate) {
+        this.sale.estimationDate = new Date(this.sale.estimationDate);
+      }
     }
 
     if(!utilsObject.isUndefinedOrNull(prpFromAPI.rent)) {
-        this.rent = angular.extend({}, rent, prpFromAPI.rent);
-        this.rent.documents = extractDocumentsByZone(prpFromAPI.documents, "RENT");
+      this.rent = angular.extend({}, rent, prpFromAPI.rent);
+      this.rent.documents = extractDocumentsByZone(prpFromAPI.documents, "RENT");
+
+      // Convert iso8601 in date object
+      if (this.rent.freeDate) {
+        this.rent.freeDate = new Date(this.rent.freeDate);
+      }
     }
 
     this.init();

@@ -66,7 +66,7 @@
                         </select>
                         <div ng-if="newLabel.roomType.display" class="input-group">
                             <input class="form-control" type="text" ng-model="newLabel.roomType.value" />
-                            <span tooltip="Afficher la liste déroulante"
+                            <span uib-tooltip="Afficher la liste déroulante"
                                   ng-click="displayNewLabel('roomType', false)"
                                   class="pointer input-group-addon glyphicon glyphicon-remove">
                             </span>
@@ -131,7 +131,7 @@
                         </select>
                         <div ng-if="newLabel.floor.display" class="input-group">
                             <input class="form-control" type="text" ng-model="newLabel['floor'].value" />
-                            <span tooltip="Afficher la liste déroulante"
+                            <span uib-tooltip="Afficher la liste déroulante"
                                   ng-click="displayNewLabel('floor', false)"
                                   class="pointer input-group-addon glyphicon glyphicon-remove">
                             </span>
@@ -145,7 +145,7 @@
                         </select>
                         <div ng-if="newLabel.wall.display" class="input-group">
                             <input class="form-control" type="text" ng-model="newLabel['wall'].value" />
-                            <span tooltip="Afficher la liste déroulante"
+                            <span uib-tooltip="Afficher la liste déroulante"
                                   ng-click="displayNewLabel('wall', false)"
                                   class="pointer input-group-addon glyphicon glyphicon-remove">
                             </span>

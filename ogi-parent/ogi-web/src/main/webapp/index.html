@@ -23,6 +23,7 @@
     <script src="js/i18n/translations.js"></script>
     <script src="js/lib/checklist-model.js"></script>
     <script src="js/lib/lodash.min.js"></script>
+    <script src="js/lib/angular-bootstrap-lightbox.min.js"></script>
 
     <!-- File upload -->
     <script src="js/lib/upload/jquery.ui.widget.js"></script>
@@ -95,6 +96,7 @@
     <link rel="stylesheet" href="theme/sb-admin.css">
     <link rel="stylesheet" href="css/redmond/jquery-ui-1.10.3.custom.css">
     <link rel="stylesheet" href="css/dialogs.min.css">
+    <link rel="stylesheet" href="css/angular-bootstrap-lightbox.min.css">
 
     <link rel="stylesheet" href="css/style.css">
 
@@ -150,9 +152,9 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div ng-controller="AlertCtrl">
-                        <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
+                        <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
                             {{alert.date | date:"HH'h 'mm'min 'ss'sec'"}} - <span ng-bind-html="alert.msg"></span>
-                        </alert>
+                        </uib-alert>
                     </div>
                     <div ng-view></div>
                 </div>

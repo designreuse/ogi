@@ -1,5 +1,5 @@
 angular.module('myApp.property').controller("ControllerList",
-function ($scope, $http, Page, ServiceObjectChecked, ServiceAlert, ServiceConfiguration, $modal, $log, $dialogs) {
+function ($scope, $http, Page, ServiceObjectChecked, ServiceAlert, ServiceConfiguration, $uibModal, $log, $dialogs) {
     Page.setTitle("Liste des biens");
 
     $scope.confirmDeletion = function(index) {
@@ -40,7 +40,7 @@ function ($scope, $http, Page, ServiceObjectChecked, ServiceAlert, ServiceConfig
              {result: 'ok', label: 'OK', cssClass: 'btn-primary'}
              ]).open();*/
         } else {
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 templateUrl: 'modalPrpDelete.html',
                 controller: "ControllerModalDeleteInstance",
                 resolve: {
@@ -60,7 +60,7 @@ function ($scope, $http, Page, ServiceObjectChecked, ServiceAlert, ServiceConfig
 
     // ##### MODAL ADD PRP #####
     $scope.openModalAddPrp = function () {
-        var modalInstance = $modal.open({templateUrl: 'modalPrpAdd.html'});
+        var modalInstance = $uibModal.open({templateUrl: 'modalPrpAdd.html'});
     };
 
 

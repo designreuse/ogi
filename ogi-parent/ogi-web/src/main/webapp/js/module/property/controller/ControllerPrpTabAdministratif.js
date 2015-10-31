@@ -9,11 +9,11 @@ function ($scope, Page, $routeParams, ServiceConfiguration, ServiceObject, Servi
 
     // Init
     $scope.httpGetCurrentType.success(function() {
-        // Indique quel panel doit s'afficher. Pour qu'un panel s'affiche, il faut que la propriété du bien soit définie.
-        $scope.panel = {
-            sale: !Utils.isUndefinedOrNull($scope.prp.sale),
-            rent: !Utils.isUndefinedOrNull($scope.prp.rent)
-        }
+      // Indique quel panel doit s'afficher. Pour qu'un panel s'affiche, il faut que la propriété du bien soit définie.
+      $scope.panel = {
+          sale: !Utils.isUndefinedOrNull($scope.prp.sale),
+          rent: !Utils.isUndefinedOrNull($scope.prp.rent)
+      }
     });
 
     $scope.computeCommisionPercent = function() {
