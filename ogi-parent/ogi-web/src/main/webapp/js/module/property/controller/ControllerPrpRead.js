@@ -50,6 +50,10 @@ function ($scope, $rootScope, Page, $routeParams, ServiceConfiguration, ServiceD
     }), index);
   };
 
+  $scope.openRoomDetails = function (index) {
+    Lightbox.openModal($scope.prp.rooms, index, {templateUrl: "js/module/property/view/prpClientView-room-modal.html"});
+  };
+
 });
 
 

@@ -3,8 +3,8 @@
   <div class="row actions">
     <ul class="list-inline col-sm-12">
       <li><button type="button" class="btn btn-default" title="Retour" onclick="history.go(-1)"><i class="glyphicon glyphicon-arrow-left"></i></button></li>
-      <li><a href="{{$root.ServiceUrl.urlDocument(prp.reference, 'client', 'pdf', 'A4')}}" class="btn btn-default">Fiche PDF</a></li>
       <li><a href="{{$root.ServiceUrl.urlPropertyEdit(prp.reference)}}" class="btn btn-default">Modifier</a></li>
+      <li><a href="{{$root.ServiceUrl.urlDocument(prp.reference, 'client', 'pdf', 'A4')}}" class="btn btn-default">Fiche PDF</a></li>
     </ul>
   </div>
 
@@ -114,7 +114,7 @@
         </thead>
 
         <tbody>
-        <tr ng-repeat="room in prp.rooms">
+        <tr ng-repeat="room in prp.rooms" ng-click="openRoomDetails($index)">
           <td>{{room.roomType}}</td>
           <td class="area">{{room.area | number:2 | area }}</td>
           <td>{{room.floor}}</td>

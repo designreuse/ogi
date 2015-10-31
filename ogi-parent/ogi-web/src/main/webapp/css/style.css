@@ -187,6 +187,12 @@ ul#list-photos li.highlight {
 .mycheckbox-inline input[type="checkbox"] {
   margin-left: -15px;
 }
+#prpList {
+  margin-top: 15px;
+}
+#search {
+  margin-top: 15px;
+}
 .search-filter-remove {
   float: right;
   cursor: pointer;
@@ -348,6 +354,10 @@ ul#list-photos li.highlight {
 #prpClientView .rooms .area {
   text-align: right;
   padding-right: 15px;
+}
+
+#prpClientView .rooms tbody tr {
+  cursor: pointer;
 }
 #prpClientView .dpe .kwh {
   margin-right: 10px;

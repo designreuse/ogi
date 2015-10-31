@@ -1,132 +1,156 @@
-<div class="row" style="margin-top:10px">
-    <div class="col-xs-3 search">
-        <!-- List of active filter-->
-        <div class="search-filter-active" ng-if="displayMySearch()">
-            <h4>Ma recherche</h4>
-            <ul class="list-group">
-                <li class="list-group-item" ng-repeat="a in activesFilters">
-                    <span ng-click="removeFilter(a.type, a.name)" class="glyphicon glyphicon-remove search-filter-remove"></span>
-                    <a href="">{{a.label}}</a>
-                </li>
-            </ul>
-        </div>
+<div id="search">
+  <div class="row action">
+    <ul class="list-inline col-sm-12">
+      <li><button type="button" class="btn btn-default" title="Retour" onclick="history.go(-1)"><i class="glyphicon glyphicon-arrow-left"></i></button></li>
+      <li><button type="button" class="btn btn-success" ng-click="openModalAddPrp()"><i class="glyphicon glyphicon-plus-sign"></i> Ajouter</button></li>
+    </ul>
+  </div>
+
+  <div class="row" style="margin-top:10px">
+      <div class="col-xs-3 search">
+          <!-- List of active filter-->
+          <div class="search-filter-active" ng-if="displayMySearch()">
+              <h4>Ma recherche</h4>
+              <ul class="list-group">
+                  <li class="list-group-item" ng-repeat="a in activesFilters">
+                      <span ng-click="removeFilter(a.type, a.name)" class="glyphicon glyphicon-remove search-filter-remove"></span>
+                      <a href="">{{a.label}}</a>
+                  </li>
+              </ul>
+          </div>
 
 
-        <h4>Filtres disponibles</h4>
-        <div class="search-filter-dispo">
-            <div class="search-filter">
-                <div class="search-filter-title">Modes</div>
-                <ul>
-                    <li ng-repeat="a in aggregations.modes">
-                        <span class="glyphicon glyphicon-chevron-right font-small"></span>
-                        <a href="" ng-click="addFilterTerm('modes', a.value)">{{a.value}} ({{a.nbDocuments}})</a>
-                    </li>
-                </ul>
-            </div>
+          <h4>Filtres disponibles</h4>
+          <div class="search-filter-dispo">
+              <div class="search-filter">
+                  <div class="search-filter-title">Modes</div>
+                  <ul>
+                      <li ng-repeat="a in aggregations.modes">
+                          <span class="glyphicon glyphicon-chevron-right font-small"></span>
+                          <a href="" ng-click="addFilterTerm('modes', a.value)">{{a.value}} ({{a.nbDocuments}})</a>
+                      </li>
+                  </ul>
+              </div>
 
-            <div class="search-filter">
-                <div class="search-filter-title">Type de biens</div>
-                <ul>
-                    <li ng-repeat="a in aggregations.categories">
-                        <span class="glyphicon glyphicon-chevron-right font-small"></span>
-                        <a href="" ng-click="addFilterTerm('categories', a.value)">{{a.value}} ({{a.nbDocuments}})</a>
-                    </li>
-                </ul>
-            </div>
+              <div class="search-filter">
+                  <div class="search-filter-title">Type de biens</div>
+                  <ul>
+                      <li ng-repeat="a in aggregations.categories">
+                          <span class="glyphicon glyphicon-chevron-right font-small"></span>
+                          <a href="" ng-click="addFilterTerm('categories', a.value)">{{a.value}} ({{a.nbDocuments}})</a>
+                      </li>
+                  </ul>
+              </div>
 
 
-            <div class="search-filter">
-                <div class="search-filter-title">Villes</div>
-                <ul>
-                    <li ng-repeat="a in aggregations.cities">
-                        <span class="glyphicon glyphicon-chevron-right font-small"></span>
-                        <a href="" ng-click="addFilterTerm('cities', a.value)">{{a.value}} ({{a.nbDocuments}})</a>
-                    </li>
-                </ul>
-            </div>
+              <div class="search-filter">
+                  <div class="search-filter-title">Villes</div>
+                  <ul>
+                      <li ng-repeat="a in aggregations.cities">
+                          <span class="glyphicon glyphicon-chevron-right font-small"></span>
+                          <a href="" ng-click="addFilterTerm('cities', a.value)">{{a.value}} ({{a.nbDocuments}})</a>
+                      </li>
+                  </ul>
+              </div>
 
-            <div class="search-filter">
-                <div class="search-filter-title">Prix</div>
-                <form ng-submit="addFilterRange('price')">
-                    <div class="input-group">
-                        <span class="input-group-addon">De</span>
-                        <input class="form-control" type="text" ng-pattern="/^\d+$/" ng-model="filtersRange.price.min.value">
-                        <span class="input-group-addon">à</span>
-                        <input class="form-control" type="text" ng-pattern="/^\d+$/" ng-model="filtersRange.price.max.value">
-                        <span class="input-group-addon">€</span>
-                    </div>
-                    <button type="submit" class="btn btn-success btn-search">Valider prix</button>
-                    <br />
-                </form>
-            </div>
+              <div class="search-filter">
+                  <div class="search-filter-title">Prix</div>
+                  <form ng-submit="addFilterRange('price')">
+                      <div class="input-group">
+                          <span class="input-group-addon">De</span>
+                          <input class="form-control" type="text" ng-pattern="/^\d+$/" ng-model="filtersRange.price.min.value">
+                          <span class="input-group-addon">à</span>
+                          <input class="form-control" type="text" ng-pattern="/^\d+$/" ng-model="filtersRange.price.max.value">
+                          <span class="input-group-addon">€</span>
+                      </div>
+                      <button type="submit" class="btn btn-success btn-search">Valider prix</button>
+                      <br />
+                  </form>
+              </div>
 
-            <div class="search-filter">
-                <div class="search-filter-title">Surface</div>
-                <form ng-submit="addFilterRange('area')">
-                    <div class="input-group">
-                        <span class="input-group-addon">De</span>
-                        <input class="form-control" type="text" ng-pattern="/^\d+$/" ng-model="filtersRange.area.min.value">
-                        <span class="input-group-addon">à</span>
-                        <input class="form-control" type="number" ng-pattern="/^\d+$/" ng-model="filtersRange.area.max.value">
-                        <span class="input-group-addon">m²</span>
-                    </div>
-                    <button type="submit" class="btn btn-success btn-search">Valider surface</button>
-                    <br />
-                    </form>
-            </div>
+              <div class="search-filter">
+                  <div class="search-filter-title">Surface</div>
+                  <form ng-submit="addFilterRange('area')">
+                      <div class="input-group">
+                          <span class="input-group-addon">De</span>
+                          <input class="form-control" type="text" ng-pattern="/^\d+$/" ng-model="filtersRange.area.min.value">
+                          <span class="input-group-addon">à</span>
+                          <input class="form-control" type="number" ng-pattern="/^\d+$/" ng-model="filtersRange.area.max.value">
+                          <span class="input-group-addon">m²</span>
+                      </div>
+                      <button type="submit" class="btn btn-success btn-search">Valider surface</button>
+                      <br />
+                      </form>
+              </div>
 
-            <div class="search-filter checkbox">
-                <div class="search-filter-title">Status</div>
-                <label><input type="checkbox" value="true" ng-model="filtersBoolean.sold.value" ng-change="toogleFilterBoolean('sold')"/> Afficher les biens vendus</label>
-                <label><input type="checkbox" value="true" ng-model="filtersBoolean.rented.value" ng-change="toogleFilterBoolean('rented')"/> Afficher les biens loués</label>
-            </div>
-        </div>
+              <div class="search-filter checkbox">
+                  <div class="search-filter-title">Status</div>
+                  <label><input type="checkbox" value="true" ng-model="filtersBoolean.sold.value" ng-change="toogleFilterBoolean('sold')"/> Afficher les biens vendus</label>
+                  <label><input type="checkbox" value="true" ng-model="filtersBoolean.rented.value" ng-change="toogleFilterBoolean('rented')"/> Afficher les biens loués</label>
+              </div>
+          </div>
+      </div>
+
+
+      <div class="col-xs-9 search">
+          <div class="row">
+              <div class="col-xs-7 search-result">
+                  <div ng-show="initPaginationDone()"><span>{{totalResults}}</span> résultats pour votre recherche </div>
+              </div>
+              <div class="col-xs-5" style="margin-bottom: 5px">
+
+                  <select class="form-control" ng-model="sortTmp" ng-options="t.label for t in sortPossibilities" ng-change="changeSort()">
+                      <option value="">--- Trier ---</option>
+                  </select>
+              </div>
+          </div>
+
+          <div class="row">
+              <div class="col-xs-4" ng-repeat="prp in property">
+                  <div class="thumbnail search-thumbnail"  ng-class="{unavailable: prp.sale.sold || prp.rent.rented}" style="position: relative">
+                      <img ng-src="{{prp.image.url}}?size=200,120&crop=200,120" alt="">
+                      <div class="caption">
+                          <h4 class="center" style="height: 35px">{{prp.category}} à {{prp.address.city}}</h4>
+                          <ul class="list-unstyled" style="height: 110px">
+                              <li><b>Référence</b> : {{prp.reference}}</li>
+                              <li><b>Prix</b> : {{prp.sale.price || prp.rent.price | number:0}} €</li>
+                              <li><b>Surface</b> : {{prp.area || prp.landArea | area}}</li>
+                              <li><b>Propriétaire</b> : <span ng-bind-html="prp.owners | ownerLinks"></span></li>
+                          </ul>
+                          <p class="text-center"><a href="{{$root.ServiceUrl.urlPropertyRead(prp.reference)}}" class="btn btn-primary btn-center">Voir le bien</a></p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+
+          <div class="text-center" ng-show="totalResults > 1 && initPaginationDone()">
+              <uib-pagination boundary-links="true"
+                          total-items="totalResults"
+                          items-per-page="numberResultsPerPage"
+                          ng-model="pageNumber"
+                          class="pagination"
+                          previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+                          ng-change="changePagination()"
+                          >
+              </uib-pagination>
+          </div>
+      </div>
+
+  </div>
+
+  <script type="text/ng-template" id="modalPrpAdd.html">
+    <div class="modal-header dialog-header-confirm"><a class="close" ng-click="$dismiss()">×</a>
+      <h4 class="modal-title"><i class="glyphicon glyphicon-plus-sign"></i> Ajouter un bien</h4>
     </div>
-
-
-    <div class="col-xs-9 search">
-        <div class="row">
-            <div class="col-xs-7 search-result">
-                <div ng-show="initPaginationDone()"><span>{{totalResults}}</span> résultats pour votre recherche </div>
-            </div>
-            <div class="col-xs-5" style="margin-bottom: 5px">
-
-                <select class="form-control" ng-model="sortTmp" ng-options="t.label for t in sortPossibilities" ng-change="changeSort()">
-                    <option value="">--- Trier ---</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-xs-4" ng-repeat="prp in property">
-                <div class="thumbnail search-thumbnail"  ng-class="{unavailable: prp.sale.sold || prp.rent.rented}" style="position: relative">
-                    <img ng-src="{{prp.image.url}}?size=200,120&crop=200,120" alt="">
-                    <div class="caption">
-                        <h4 class="center" style="height: 35px">{{prp.category}} à {{prp.address.city}}</h4>
-                        <ul class="list-unstyled" style="height: 110px">
-                            <li><b>Référence</b> : {{prp.reference}}</li>
-                            <li><b>Prix</b> : {{prp.sale.price || prp.rent.price | number:0}} €</li>
-                            <li><b>Surface</b> : {{prp.area || prp.landArea | area}}</li>
-                            <li><b>Propriétaire</b> : <span ng-bind-html="prp.owners | ownerLinks"></span></li>
-                        </ul>
-                        <p class="text-center"><a href="{{$root.ServiceUrl.urlPropertyRead(prp.reference)}}" class="btn btn-primary btn-center">Voir le bien</a></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="text-center" ng-show="totalResults > 1 && initPaginationDone()">
-            <uib-pagination boundary-links="true"
-                        total-items="totalResults"
-                        items-per-page="numberResultsPerPage"
-                        ng-model="pageNumber"
-                        class="pagination"
-                        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
-                        ng-change="changePagination()"
-                        >
-            </uib-pagination>
-        </div>
+    <div class="modal-body">
+      <ul class="list-unstyled list-inline text-center">
+        <li><a href="#/biens/ajouter/HSE" ng-click="$dismiss()" class="btn btn-block"><img src="img/logoMaison.png" /></a>Maison</li>
+        <li><a href="#/biens/ajouter/APT" ng-click="$dismiss()" class="btn btn-block"><img src="img/logoAppartement.png" /></a>Appartement</li>
+        <li><a href="#/biens/ajouter/PLT" ng-click="$dismiss()" class="btn btn-block"><img src="img/logoTerrain.png" /></a>Terrain</li>
+        <!--<li><a href="#/biens/ajouter/BSN" ng-click="$dismiss()" class="btn btn-block"><img src="img/logoCommercial.png" /></a>Local Commercial</li>
+        <li><a href="#/biens/ajouter/GRG" ng-click="$dismiss()" class="btn btn-block"><img src="img/logoGarage.png" /></a>Garage</li> -->
+      </ul>
     </div>
-
+  </script>
 </div>

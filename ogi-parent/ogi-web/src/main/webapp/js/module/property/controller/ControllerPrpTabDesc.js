@@ -174,7 +174,7 @@ function ($scope, Page, $routeParams, ServiceConfiguration, ServiceObject, Servi
 });
 
 angular.module('myApp.property').controller("ModalTypeInstanceCtrl",
-function ($scope, $modalInstance, ServiceConfiguration, $http, currentElt, labels) {
+function ($scope, $uibModalInstance, ServiceConfiguration, $http, currentElt, labels) {
     $scope.newType = {"label" : null}; // Have to use object else in function ok value is not up to date
     $scope.labels =labels;
 
@@ -182,13 +182,13 @@ function ($scope, $modalInstance, ServiceConfiguration, $http, currentElt, label
         var label = $scope.newType.label;
 
         $http.put(ServiceConfiguration.API_URL+"/rest/category/"+currentElt+"/types/"+label).success(function (data) {
-            $modalInstance.close(data);
+          $uibModalInstance.close(data);
         });
     };
 });
 
 angular.module('myApp.property').controller("ModalLabelInstanceCtrl",
-function ($scope, $modalInstance, $http,
+function ($scope, $uibModalInstance, $http,
                                        ServiceConfiguration, ServiceLabel,
                                        currentElt, labels) {
     $scope.newType = {"label" : null}; // Have to use object else in function ok value is not up to date
@@ -197,7 +197,7 @@ function ($scope, $modalInstance, $http,
     $scope.ok = function () {
         ServiceLabel.saveLabel(currentElt, $scope.newType.label)
         .success(function (data) {
-            $modalInstance.close(data);
+            $uibModalInstance.close(data);
         });
     };
 });

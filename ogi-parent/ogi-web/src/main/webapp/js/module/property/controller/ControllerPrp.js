@@ -1,5 +1,5 @@
 function ControllerPrpParent($scope, $log, $http, $routeParams,
-                             Page, ServiceConfiguration, ServiceObject, Utils, ServiceAlert) {
+                             Page, ServiceConfiguration, ServiceObject, Utils, ServiceAlert, $dialogs) {
     $scope.formCreate = true;
 
     // Top menu for active item
@@ -92,7 +92,21 @@ function ControllerPrpParent($scope, $log, $http, $routeParams,
         $scope.prp.descriptions = desc;
 
         fn();
-    }
+    };
+
+  $scope.confirmDeletion = function(reference) {
+    $dialogs.confirm('Confirmation','Voulez-vous supprimer le bien ?')
+      .result.then(function(btn){
+        $http.delete(ServiceConfiguration.API_URL+"/rest/property/",
+          {"params": {
+            "ref": reference
+          }
+          }).success(function (data) {
+            ServiceAlert.addSuccess("Le bien a été supprimé avec succès");
+            $scope.properties.splice(index, 1);
+          });
+      });
+  };
 
     // Generating temp reference for property (necessary for store uploaded files)
     $scope.tempReference = Math.random().toString(36).substring(7);
@@ -111,4 +125,31 @@ function ControllerPrpParent($scope, $log, $http, $routeParams,
         addressesOwner: [Object.create(address)],
         ownersProperty: []
     };
-}
+};
+
+/** Controller for delete modal. Expose selected properties and delete it */
+angular.module('myApp.property').controller("ControllerModalDeleteInstance",
+  function ($scope, $uibModalInstance, ServiceConfiguration, ServiceAlert, $http, $log, selectedProperties) {
+    $scope.selectedProperties = selectedProperties;
+    $scope.delete = function() {
+      // Extract reference to selected items
+      var refs = [];
+      angular.forEach($scope.selectedProperties, function (value, key) {
+        refs.push(value.reference);
+      }, refs);
+
+      $http.delete(ServiceConfiguration.API_URL+"/rest/property/",
+        {"params": {
+          "ref": refs
+        }
+        }).success(function (data) {
+          ServiceAlert.addSuccess("Les biens ont étés supprimés avec succès");
+        }).
+        error(function(data, status, headers, config) {
+          ServiceAlert.addError("Une erreur est survenue "+data.exception);
+        });
+
+      $uibModalInstance.close();
+    }
+
+  });

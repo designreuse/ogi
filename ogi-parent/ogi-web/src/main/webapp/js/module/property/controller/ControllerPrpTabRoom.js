@@ -68,7 +68,7 @@ function ($scope, Page, $uibModal, ServiceConfiguration, ServiceLabel, ServiceOb
 });
 
 angular.module('myApp.property').controller("ModalRoomInstanceCtrl",
-function ($scope, $modalInstance, $q,
+function ($scope, $uibModalInstance, $q,
                                       ServiceConfiguration, ServiceObject, ServiceLabel,
                                       $http, actionLabel, room, title, labels, photos) {
     $scope.title = title;
@@ -158,7 +158,7 @@ function ($scope, $modalInstance, $q,
         // Close modal only when promise is success
         $q.all([promiseFloor, promiseRoomType, promiseWall]).then(function() {
             // Spread room to caller
-            $modalInstance.close($scope.room);
+            $uibModalInstance.close($scope.room);
         });
     };
 

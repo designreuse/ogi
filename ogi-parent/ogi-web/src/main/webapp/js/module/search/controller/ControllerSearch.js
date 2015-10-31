@@ -1,5 +1,7 @@
 angular.module('myApp.search').controller("ControllerSearch",
-    function ControllerSearch($scope, $controller, $location, ServiceAlert, ServiceSearch, ServiceUrl, ServiceObject, Utils) {
+    function ControllerSearch($scope, $controller, $location, ServiceAlert, ServiceSearch, ServiceUrl, ServiceObject, Utils, $uibModal, Page) {
+        Page.setTitle("Liste des biens");
+
         $scope.sortTmp = null;
         $scope.sortPossibilities = [
             /*
@@ -310,6 +312,12 @@ angular.module('myApp.search').controller("ControllerSearch",
         $scope.initPaginationDone = function() {
             return $scope.totalResults != 666;
         }
+
+        // ##### MODAL ADD PRP #####
+        $scope.openModalAddPrp = function () {
+          $uibModal.open({templateUrl: 'modalPrpAdd.html'});
+        };
+
 
         $scope.init();
         $scope.search();

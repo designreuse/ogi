@@ -1,6 +1,6 @@
 angular.module('myApp.common').controller("ControllerBatch",
 function($scope, $http, Page, ServiceConfiguration) {
-    Page.setTitle("Batch");
+    Page.setTitle("Batchs");
 
     var batches = {
         "seloger" : {"jobName":"jobPasserelle-seloger.com"},

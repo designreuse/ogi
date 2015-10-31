@@ -1,0 +1,75 @@
+<div class="modal-body"
+     ng-swipe-left="Lightbox.nextImage()"
+     ng-swipe-right="Lightbox.prevImage()">
+  <!-- navigation -->
+  <div class="lightbox-nav">
+    <!-- close button -->
+    <button class="close" aria-hidden="true" ng-click="$dismiss()">×</button>
+
+    <div class="btn-group" ng-if="Lightbox.images.length > 1">
+      <a class="btn btn-xs btn-default" ng-click="Lightbox.prevImage()">
+        ‹ Précédente
+      </a>
+
+      <a class="btn btn-xs btn-default" ng-click="Lightbox.nextImage()">
+        Suivante ›
+      </a>
+    </div>
+  </div>
+
+  <div class="lightbox-image-container">
+    <!-- caption -->
+    <div class="lightbox-image-caption">
+      <span>{{Lightbox.roomType}}</span>
+    </div>
+
+    <!-- image -->
+    <h2>{{Lightbox.images[Lightbox.index].roomType}}</h2>
+
+
+    <div class="room-photo" ng-if="Lightbox.images[Lightbox.index].photo">
+      <img src="{{Lightbox.images[Lightbox.index].photo.url}}?size=300,300" />
+    </div>
+
+    <div class="room-description">
+      {{Lightbox.images[Lightbox.index].description}}
+    </div>
+
+    <table class="table table-condensed rooms">
+      <thead>
+      <tbody>
+        <tr>
+          <td>Surface</td>
+          <td>{{(Lightbox.images[Lightbox.index].area | area) || '-'}}</td>
+        </tr>
+
+        <tr>
+          <td>Sol</td>
+          <td>{{Lightbox.images[Lightbox.index].floor || '-'}}</td>
+        </tr>
+
+        <tr>
+          <td>Mur</td>
+          <td>{{Lightbox.images[Lightbox.index].wall || '-'}}</td>
+        </tr>
+
+        <tr>
+          <td>Exposition</td>
+          <td>{{(Lightbox.images[Lightbox.index].orientation) || '-'}}</td>
+        </tr>
+
+        <tr>
+          <td>Loi Carrez</td>
+          <td>{{(Lightbox.images[Lightbox.index].area | boolean) ||  '-'}}</td>
+        </tr>
+
+        <tr>
+          <td>Habitable</td>
+          <td>{{(Lightbox.images[Lightbox.index].livable | boolean) || '-'}}</td>
+        </tr>
+      </tbody>
+
+    </table>
+
+  </div>
+</div>

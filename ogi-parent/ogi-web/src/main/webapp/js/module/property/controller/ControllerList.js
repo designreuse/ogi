@@ -14,7 +14,7 @@ function ($scope, $http, Page, ServiceObjectChecked, ServiceAlert, ServiceConfig
                         $scope.properties.splice(index, 1);
                     });
             });
-    }
+    };
 
 
     $scope.properties = [];
@@ -60,7 +60,7 @@ function ($scope, $http, Page, ServiceObjectChecked, ServiceAlert, ServiceConfig
 
     // ##### MODAL ADD PRP #####
     $scope.openModalAddPrp = function () {
-        var modalInstance = $uibModal.open({templateUrl: 'modalPrpAdd.html'});
+        $uibModal.open({templateUrl: 'modalPrpAdd.html'});
     };
 
 
@@ -100,7 +100,7 @@ function ($scope, $http, Page, ServiceObjectChecked, ServiceAlert, ServiceConfig
 
 /** Controller for delete modal. Expose selected properties and delete it */
 angular.module('myApp.property').controller("ControllerModalDeleteInstance",
-function ($scope, $modalInstance, ServiceConfiguration, ServiceAlert, $http, $log, selectedProperties) {
+function ($scope, $uibModalInstance, ServiceConfiguration, ServiceAlert, $http, $log, selectedProperties) {
     $scope.selectedProperties = selectedProperties;
     $scope.delete = function() {
         // Extract reference to selected items
@@ -120,7 +120,7 @@ function ($scope, $modalInstance, ServiceConfiguration, ServiceAlert, $http, $lo
                 ServiceAlert.addError("Une erreur est survenue "+data.exception);
             });
 
-        $modalInstance.close();
+      $uibModalInstance.close();
     }
 
 });
