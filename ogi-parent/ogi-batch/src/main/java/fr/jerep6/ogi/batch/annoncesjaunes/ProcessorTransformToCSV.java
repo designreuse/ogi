@@ -28,7 +28,7 @@ import fr.jerep6.ogi.persistance.bo.Sale;
 import fr.jerep6.ogi.service.external.ServicePartner;
 import fr.jerep6.ogi.utils.Functions;
 
-public class ProcessorTransformToCSV implements ItemProcessor<ExtractSeLoger, RealPropertyCSV> {
+public class ProcessorTransformToCSV implements ItemProcessor<ExtractAnnoncesJaunes, RealPropertyCSV> {
 	private static Logger						LOGGER		= LoggerFactory.getLogger(ProcessorTransformToCSV.class);
 
 	private static final String					MEUBLEE		= "Location meublée";
@@ -36,7 +36,7 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractSeLoger, Re
 	private static final String					MODE_SALE	= "SALE";
 	private static final String					MODE_RENT	= "RENT";
 
-	private ServicePartner						serviceSeLoger;
+	private ServicePartner						serviceAnnoncesJaunes;
 
 	/** Matching between OGI categories and annonces jaune categories */
 	private static Map<EnumCategory, String>	mapTypeBien	= new HashMap<>();
@@ -229,11 +229,11 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractSeLoger, Re
 	}
 
 	@Override
-	public RealPropertyCSV process(ExtractSeLoger extract) throws Exception {
+	public RealPropertyCSV process(ExtractAnnoncesJaunes extract) throws Exception {
 		RealProperty item = extract.getProperty();
 
 		try {
-			serviceSeLoger.validate(item);
+			serviceAnnoncesJaunes.validate(item);
 
 			RealPropertyCSV r = new RealPropertyCSV(item);
 			r.setAgenceId(estateCode);
@@ -275,8 +275,8 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractSeLoger, Re
 		this.photoDirName = photoDirName;
 	}
 
-	public void setServiceSeLoger(ServicePartner serviceSeLoger) {
-		this.serviceSeLoger = serviceSeLoger;
+	public void setServiceAnnoncesJaunes(ServicePartner serviceSeLoger) {
+		this.serviceAnnoncesJaunes = serviceSeLoger;
 	}
 
 	private String toBoolean(Boolean b) {

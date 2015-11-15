@@ -59,6 +59,7 @@
 		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).DIAPORAMA}" value-ref="serviceDiaporama" />
 		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).SE_LOGER}" value-ref="serviceSeLoger" />
 		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).LE_BONCOIN}" value-ref="serviceLeBonCoin" />
+		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).ANNONCES_JAUNES}" value-ref="serviceAnnoncesJaunes" />
 	</util:map>
 
 	<util:map id="mapAcimfloUrl">
@@ -90,6 +91,7 @@
 		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).DIAPORAMA}" value="${partner.diaporama.max_allowed}" />
 		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).SE_LOGER}" value="${partner.seloger.max_allowed}" />
 		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).LE_BONCOIN}" value="${partner.leboncoin.max_allowed}" />
+		<entry key="#{T(fr.jerep6.ogi.enumeration.EnumPartner).ANNONCES_JAUNES}" value="${partner.annoncesjaunes.max_allowed}" />
 	</util:map>
 
 

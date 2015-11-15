@@ -10,13 +10,13 @@ import fr.jerep6.ogi.persistance.bo.RealProperty;
  * 
  * @author jerep6 23 mars 2014
  */
-public class ExtractSeLoger {
+public class ExtractAnnoncesJaunes {
 	private RealProperty	property;
 
 	/** Must be SALE or RENT */
 	private String			mode;
 
-	public ExtractSeLoger(RealProperty property, String mode) {
+	public ExtractAnnoncesJaunes(RealProperty property, String mode) {
 		super();
 		this.property = property;
 		this.mode = mode;

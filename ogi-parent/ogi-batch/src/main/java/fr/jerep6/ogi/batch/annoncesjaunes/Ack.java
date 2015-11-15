@@ -9,16 +9,16 @@ import lombok.ToString;
 @ToString
 public class Ack {
 	private String	a;
-	private String	bienTechid;
+	private String	bienReference;
 
 	public Ack() {
 		super();
 	}
 
 	/** Constructor for JPA */
-	public Ack(Integer techid) {
+	public Ack(String ref) {
 		super();
-		bienTechid = techid.toString();
+		bienReference = ref.toString();
 	}
 
 }

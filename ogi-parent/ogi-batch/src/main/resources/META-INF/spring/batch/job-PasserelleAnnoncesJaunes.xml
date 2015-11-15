@@ -56,21 +56,22 @@
 	    <!-- http://docs.spring.io/spring-batch/reference/html/configureStep.html#conditionalFlow -->
 	    <!-- The 'end' element instructs a Job to stop with a BatchStatus of COMPLETED. A Job that has finished with status COMPLETED cannot be restarted (the framework will throw a JobInstanceAlreadyCompleteException) -->
 	    <batch:decision id="decision" decider="DeciderHasPrpProcessed">
-		    <batch:end on="NO_DATA" exit-code="NO_DATA"/>
-		    <batch:next on="*" to="stepPhotosResize"/>
+<!-- 		    <batch:end on="NO_DATA" exit-code="NO_DATA"/> -->
+		    <batch:next on="NO_DATA" to="stepAckDeletePrp" />
+		    <batch:next on="*" to="stepPhotosResize" />
 	    </batch:decision>
 	    
 	    <batch:step id="stepPhotosResize" next="stepTaskletZip">
 			<tasklet ref="TaskletPhotosResize" />
 		</batch:step>
 	    
-	    <batch:step id="stepTaskletZip" next="stepFTPUpload">
+	    <batch:step id="stepTaskletZip" next="stepAckCreateUpdatePrp">
 			<tasklet ref="TaskletZip" />
 		</batch:step>
 		
-		<batch:step id="stepFTPUpload" next="stepAckCreateUpdatePrp">
-			<tasklet ref="TaskletFTPUpload" />
-		</batch:step>
+<!-- 		<batch:step id="stepFTPUpload" next="stepAckCreateUpdatePrp"> -->
+<!-- 			<tasklet ref="TaskletFTPUpload" /> -->
+<!-- 		</batch:step> -->
 		
 		<!-- Write into database the synchronization with annoncesjaunes -->
 		<batch:step id="stepAckCreateUpdatePrp" next="stepAckDeletePrp">
@@ -80,7 +81,7 @@
 			</tasklet>
 		</batch:step>
 		
-		<!-- Write into database the deletion on seloger -->
+		<!-- Write into database the deletion on annonces jaunes -->
 		<batch:step id="stepAckDeletePrp">
 			<tasklet>
 				<batch:chunk reader="jpaReaderAckDelete" writer="jdbcWriterAckDelete" commit-interval="10">
@@ -118,7 +119,7 @@
 	            <bean class="fr.jerep6.ogi.batch.annoncesjaunes.ProcessorTransformToCSV" >
 					<property name="estateCode" value="${annoncesjaunes.agence.code}" />
 					<property name="photoDirName" value="${annoncesjaunes.extraction.file.photos.directory}" />
-					<property name="serviceSeLoger" ref="serviceSeLoger" />
+					<property name="serviceAnnoncesJaunes" ref="serviceAnnoncesJaunes" />
 	            </bean>
 	            <bean class="fr.jerep6.ogi.batch.annoncesjaunes.ProcessorPhotos" init-method="init" >
 					<property name="rootDirectory" value="file:${annoncesjaunes.extraction.file.root.path}" />
@@ -159,9 +160,9 @@
 	
 	<bean id="DeciderHasPrpProcessed" class="fr.jerep6.ogi.batch.annoncesjaunes.DeciderHasPrpProcessed" />
 
-    <bean id="TaskletPhotosResize" class="fr.jerep6.ogi.batch.seloger.TaskletPhotosResize">
-		<property name="photosDirectory" value="file:${seloger.extraction.file.root.path}${seloger.extraction.file.photos.directory}" />
-		<property name="photoSize" value="${seloger.extraction.file.photos.size}" />
+    <bean id="TaskletPhotosResize" class="fr.jerep6.ogi.batch.annoncesjaunes.TaskletPhotosResize">
+		<property name="photosDirectory" value="file:${annoncesjaunes.extraction.file.root.path}${seloger.extraction.file.photos.directory}" />
+		<property name="photoSize" value="${annoncesjaunes.extraction.file.photos.size}" />
 	</bean>
 	
 	<bean id="TaskletDelete" class="fr.jerep6.ogi.batch.common.tasklet.TaskletDelete">
@@ -169,8 +170,8 @@
 	</bean>
 	
 	<bean id="TaskletZip" class="fr.jerep6.ogi.batch.common.tasklet.TaskletZip">
-		<property name="resource" value="file:${seloger.extraction.file.root.path}" />
-		<property name="zipNamePattern" value="${seloger.extraction.file.zip.name}" />
+		<property name="resource" value="file:${annoncesjaunes.extraction.file.root.path}" />
+		<property name="zipNamePattern" value="${annoncesjaunes.extraction.file.zip.name}" />
 	</bean>
 	
 	<bean id="TaskletFTPUpload" class="fr.jerep6.ogi.batch.common.tasklet.TaskletFTPUpload">
@@ -184,18 +185,18 @@
 	
 	
 	
-	<bean id="report" class="fr.jerep6.ogi.batch.seloger.Ack" scope="prototype" />
+	<bean id="report" class="fr.jerep6.ogi.batch.annoncesjaunes.Ack" scope="prototype" />
 	
 	<!-- ACK for create/update -->
 	<bean id="cvsReaderAckCreateUpdate" class="org.springframework.batch.item.file.FlatFileItemReader">
-		<property name="resource" value="file:${seloger.extraction.file.root.path}${seloger.extraction.file.csv.name}" />
+		<property name="resource" value="file:${annoncesjaunes.extraction.file.root.path}${annoncesjaunes.extraction.file.csv.name}" />
 		<property name="lineMapper">
 			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
 
 			  <property name="lineTokenizer">
 			        <bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
-					<property name="names" value="${seloger.extraction.file.ack.csv.schema}" />
-					<property name="delimiter" value="!#" />
+					<property name="names" value="${annoncesjaunes.extraction.file.ack.csv.schema}" />
+					<property name="delimiter" value=";" />
 				</bean>
 			  </property>
 			  
@@ -210,7 +211,7 @@
   	</bean>
 	<bean id="jdbcWriterAckCreateUpdate" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
 		<property name="dataSource" ref="dataSource" />
-		<property name="sql" value="${seloger.write.ack.createupdate.sql}" />
+		<property name="sql" value="${annoncesjaunes.write.ack.createupdate.sql}" />
 		<!-- In order to avoid EmptyResultDataAccessException if last partner request isn't push -->
 		<property name="assertUpdates" value="false" />
 		<!-- It will take care matching between object property and sql name parameter -->
@@ -221,12 +222,12 @@
 
 	<!-- ACK for delete -->
 	<bean id="jpaReaderAckDelete" class="org.springframework.batch.item.database.JpaPagingItemReader">
-	    <property name="queryString" value="${seloger.extraction.ack.jpql}" />
+	    <property name="queryString" value="${annoncesjaunes.extraction.ack.jpql}" />
 	    <property name="entityManagerFactory" ref="emFactory" />
 	</bean>
 	<bean id="jdbcWriterAckDelete" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
 		<property name="dataSource" ref="dataSource" />
-		<property name="sql" value="${seloger.write.ack.delete.sql}" />
+		<property name="sql" value="${annoncesjaunes.write.ack.delete.sql}" />
 		<!-- It will take care matching between object property and sql name parameter -->
 		<property name="itemSqlParameterSourceProvider">
 			<bean class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider" />

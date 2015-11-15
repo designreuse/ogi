@@ -9,7 +9,8 @@ public enum EnumPartner {
 	ACIMFLO("acimflo"), //
 	DIAPORAMA("diaporama"), //
 	SE_LOGER("seloger"), //
-	LE_BONCOIN("leboncoin");
+	LE_BONCOIN("leboncoin"), //
+	ANNONCES_JAUNES("annoncesjaunes");
 
 	/**
 	 * Get the enumeration from this code
