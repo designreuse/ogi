@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.jerep6.ogi</groupId>
 	<artifactId>ogi-parent</artifactId>
-	<version>0.5.2-SNAPSHOT</version>
+	<version>0.6.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
