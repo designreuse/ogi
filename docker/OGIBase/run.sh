@@ -1,7 +1,9 @@
 #!/bin/bash
 
 # Dump env variable in file in order to run script via cron
-env > /env_dump
+echo '#!/bin/bash' > /app/bin/export_env.sh
+env | sed -e 's/^/export /' -e 's/=\(.*\)/\="\1"/' >> /app/bin/export_env.sh
+chmod +x /app/bin/export_env.sh
 
 # Create ogi structure into data directory. Volume is mounted at run
 mkdir -p /data/ && chown -R ogi:ogi /data/
