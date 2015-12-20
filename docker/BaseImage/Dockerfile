@@ -22,7 +22,7 @@ ENV PATH $PATH:/app/java/jdk/bin
 ENV JAVA_HOME /app/java/jdk/
 
 #Install tomcat
-RUN wget "http://www.us.apache.org/dist/tomcat/tomcat-8/v8.0.28/bin/apache-tomcat-8.0.28.tar.gz" -O /tmp/tomcat.tar.gz
+RUN wget "http://www.eu.apache.org/dist/tomcat/tomcat-8/v8.0.30/bin/apache-tomcat-8.0.30.tar.gz" -O /tmp/tomcat.tar.gz
 RUN tar -zxf /tmp/tomcat.tar.gz -C /app/ \
 && mv /app/apache-tomcat* /app/tomcat \
 && rm /tmp/tomcat.tar.gz
