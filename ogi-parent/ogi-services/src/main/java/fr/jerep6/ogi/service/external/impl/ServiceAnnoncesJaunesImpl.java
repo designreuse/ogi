@@ -50,11 +50,6 @@ public class ServiceAnnoncesJaunesImpl extends AbstractService implements Servic
 			if (item.getRent().getCommission() == null || item.getRent().getCommission() < 0F) {
 				mbe.add(EnumBusinessErrorProperty.NO_RENT_COMMISSION, item.getReference());
 			}
-			
-			if((item.getRent().getServiceChargeIncluded() == null || !item.getRent().getServiceChargeIncluded())
-					&& item.getRent().getServiceCharge() == null) {
-				mbe.add(EnumBusinessErrorProperty.NO_CHARGES, item.getReference());
-			}
 		}
 
 		if (item.getType() == null) {

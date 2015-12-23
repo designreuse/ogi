@@ -10,11 +10,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 
 import fr.jerep6.ogi.enumeration.EnumCategory;
 import fr.jerep6.ogi.enumeration.EnumDescriptionType;
 import fr.jerep6.ogi.enumeration.EnumOrientation;
+import fr.jerep6.ogi.framework.exception.BusinessException;
+import fr.jerep6.ogi.framework.exception.MultipleBusinessException;
 import fr.jerep6.ogi.framework.utils.ObjectUtils;
 import fr.jerep6.ogi.persistance.bo.Address;
 import fr.jerep6.ogi.persistance.bo.DPE;
@@ -92,18 +95,20 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractAnnoncesJau
 		r.setSurfaceTerrain(ObjectUtils.toString(item.getLandArea()));
 
 		r.setTitre(item.getType().getLabel() + " à " + addr.getCity());
-		String desc = item.getDescription(EnumDescriptionType.WEBSITE_OTHER).getLabel();
-		
-		if(desc != null) {
-			desc = desc.replaceAll("\n", "");
-			desc = desc.replaceAll(";", "");
-			desc = desc.replaceAll("\"", "'");
-		}
-		
-		r.setDescriptif(desc);
+		r.setDescriptif(sanitize(item.getDescription(EnumDescriptionType.WEBSITE_OTHER).getLabel()));
 
 		// Liveable will erase this. Set here to plot
 		r.setNbrePiece("0");
+	}
+	
+	private String sanitize(String s) {
+		if(s != null) {
+			s = s.replaceAll("\n", " ");
+			s = s.replaceAll(";", " ");
+			s = s.replaceAll("\"", "'");
+		}
+		
+		return s;
 	}
 
 	private void populateLiveable(RealProperty item, RealPropertyCSV r) {
@@ -231,7 +236,7 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractAnnoncesJau
 		Sale sale = item.getSale();
 		if (sale != null) {
 			r.setPrix(sale.getPriceFinal().toString());
-			r.setHonoraires(sale.getCommission().toString());
+			r.setHonoraires(Objects.firstNonNull(sale.getCommission(), Float.valueOf("0")).toString());
 			r.setMandatExclusif(toBoolean(sale.getExclusive()));
 		}
 	}
@@ -270,7 +275,13 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractAnnoncesJau
 
 			return r;
 		} catch (Exception e) {
-			LOGGER.error("Error processing item " + item.getReference(), e);
+			if(e instanceof MultipleBusinessException) {
+				for (BusinessException be : ((MultipleBusinessException) e)) {
+					LOGGER.error("Error processing item " + item.getReference(), be);					
+				}
+			} else {
+				LOGGER.error("Error processing item " + item.getReference(), e);				
+			}
 			throw e;
 		}
 	}
