@@ -12,6 +12,7 @@
                 <th>Diaporama ({{total("diaporama").totalProperty}}/{{total("diaporama").maxAllowed || '∞'}})</th>
                 <th>SeLoger.com ({{total("seloger").totalProperty}}/{{total("seloger").maxAllowed || '∞'}})</th>
                 <th>LeBonCoin ({{total("leboncoin").totalProperty}}/{{total("leboncoin").maxAllowed || '∞'}})</th>
+                <th>Annonces Jaunes ({{total("annoncesjaunes").totalProperty}}/{{total("annoncesjaunes").maxAllowed || '∞'}})</th>
             </tr>
         </thead>
         <tbody>
@@ -31,6 +32,10 @@
 
                 <td class="passerelle_recap_{{request['leboncoin'].requestType}}">
                     <span ng-if="isDisplayable(request['leboncoin'])">{{request["leboncoin"].label}}</span>
+                </td>
+
+                <td class="passerelle_recap_{{request['annoncesjaunes'].requestType}}">
+                    <span ng-if="isDisplayable(request['annoncesjaunes'])">{{request["annoncesjaunes"].label}}</span>
                 </td>
             </tr>
         </tbody>
