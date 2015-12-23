@@ -92,7 +92,15 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractAnnoncesJau
 		r.setSurfaceTerrain(ObjectUtils.toString(item.getLandArea()));
 
 		r.setTitre(item.getType().getLabel() + " à " + addr.getCity());
-		r.setDescriptif(item.getDescription(EnumDescriptionType.WEBSITE_OTHER).getLabel());
+		String desc = item.getDescription(EnumDescriptionType.WEBSITE_OTHER).getLabel();
+		
+		if(desc != null) {
+			desc = desc.replaceAll("\n", "");
+			desc = desc.replaceAll(";", "");
+			desc = desc.replaceAll("\"", "'");
+		}
+		
+		r.setDescriptif(desc);
 
 		// Liveable will erase this. Set here to plot
 		r.setNbrePiece("0");
