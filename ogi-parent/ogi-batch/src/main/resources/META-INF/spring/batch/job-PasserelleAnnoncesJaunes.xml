@@ -134,6 +134,7 @@
 		<property name="shouldDeleteIfExists" value="false" />
 		<property name="appendAllowed" value="true" />
 		<property name="encoding" value="UTF-8" />
+		<property name="lineSeparator" value="&#13;&#10;" />
 		
 		<property name="lineAggregator">
 			<bean class="fr.jerep6.ogi.batch.common.writer.AdvancedDelimitedLineAggregator">
