@@ -10,7 +10,8 @@ public enum EnumPartner {
 	DIAPORAMA("diaporama"), //
 	SE_LOGER("seloger"), //
 	LE_BONCOIN("leboncoin"), //
-	ANNONCES_JAUNES("annoncesjaunes");
+	ANNONCES_JAUNES("annoncesjaunes"),
+	BIEN_ICI("bienici");
 
 	/**
 	 * Get the enumeration from this code

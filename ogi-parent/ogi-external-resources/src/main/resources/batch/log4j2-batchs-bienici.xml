@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- status = The level of internal Log4j events that should be logged to the console. -->
+<Configuration status="WARN">
+
+
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="[%d{ISO8601}] - [%p] - [THREAD %t] - %c[%l] - %m %n" />
+		</Console>
+		<RollingFile  name="R1" 
+				fileName="D:/Developpement/Master/Java8/logs/batchs-bienici.log"
+				filePattern="D:/Developpement/Master/Java8/logs/batchs-bienici-%d{yyyy-MM-dd}-%i.log"
+				>
+			<PatternLayout pattern="[%d{ISO8601}] - [%p] - [THREAD %t] - %c[%l] - %m %n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+			</Policies>
+		</RollingFile >
+	</Appenders>
+	
+	
+	<Loggers>
+		<!-- ROOT logger -->
+		<Root level="INFO">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="R1" />
+		</Root>
+	 	
+	 	<Logger name="fr.jerep6.ogi" level="INFO" additivity="true">
+		</Logger>
+		
+		<!-- #Log JDBC bind parameter runtime arguments -->
+		<Logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="WARN" additivity="true">
+		</Logger>
+	</Loggers>
+	
+	
+</Configuration>
+
+
+<!-- 
+JBoss Logging (hibernate) does not detect log4j 2.0.
+https://issues.jboss.org/browse/JBLOGGING-94
+https://issues.apache.org/jira/browse/LOG4J2-172
+
+workaround is to set -Dorg.jboss.logging.provider=slf4j
+or update jboss-logging to version >= 3.1.4.GA
+ -->

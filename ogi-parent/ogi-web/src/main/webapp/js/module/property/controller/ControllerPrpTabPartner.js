@@ -8,6 +8,7 @@ function ($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http,
     $scope.partners.push({"name":"seloger", "img":"img/LogoSeLoger.png", "exist": null,"lastRequest":null, "disable": false});
     $scope.partners.push({"name":"leboncoin", "img":"img/LogoLeBonCoin.png", "exist": null,"lastRequest":null, "disable": false});
     $scope.partners.push({"name":"annoncesjaunes", "img":"img/LogoAnnoncesJaunes.png", "exist": null,"lastRequest":null, "disable": false});
+    $scope.partners.push({"name":"bienici", "img":"img/LogoBienIci.png", "exist": null,"lastRequest":null, "disable": false});
 
     $scope.httpGetCurrentType.success(function() {
         $scope.partners.forEach(function(elt, index, array) {

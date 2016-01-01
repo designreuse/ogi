@@ -25,8 +25,8 @@ Le dernier build nécessite l'enveloppe de livraison d'une version d'OGI. Cette 
 == Lancer OGI
 Pour lancer le logiciel OGI, il suffit d'instancier l'image ogi. Avant cela, il est conseillé de lancer deux conteneurs afin d'héberger les données (logs, bdd ...) et les backups
 
-    # conteneur pour les données
-    docker run --name=data -v /data busybox:buildroot-2014.02
+  # conteneur pour les données
+  docker run --name=data -v /data busybox:buildroot-2014.02
 	
 	# conteneur pour les backups
 	docker run --name=backup -v /data/backup busybox:buildroot-2014.02

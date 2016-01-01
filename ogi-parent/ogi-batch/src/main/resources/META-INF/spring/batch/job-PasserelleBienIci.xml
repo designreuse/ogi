@@ -1,0 +1,239 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/batch
+		http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	">
+ 
+	<import resource="spring-batch-context.xml" />
+	
+	<!-- Once you’ve configured JobParametersIncrementer you need to add the configuration for a JobExplorer
+		implementation. Chapter 5 goes into detail about what JobExplorer is and how to use it. -->
+	<bean id="jobExplorer" class="org.springframework.batch.core.explore.support.JobExplorerFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	<!-- JobParametersIncrementer affects how you call your job. When you want to increment a parameter, you need to 
+		 add the parameter –next to the command when you call your job -->
+	<bean id="idIncrementer" class="org.springframework.batch.core.launch.support.RunIdIncrementer" />
+ 
+ 
+ 
+ 
+ 
+	<!-- Job definition -->
+	<batch:job id="jobPasserelle-bienici" incrementer="idIncrementer">
+	    <batch:step id="stepTaskletDelete" next="stepTaskletPrepareTree">
+			<tasklet ref="TaskletDelete" />
+		</batch:step>
+		
+	    <batch:step id="stepTaskletPrepareTree" next="stepWriteCSVSale">
+			<tasklet ref="TaskletPrepareTree" />
+		</batch:step>
+		
+		<batch:step id="stepWriteCSVSale" next="stepWriteCSVRent">
+		  <tasklet>
+			<batch:chunk reader="jpaItemReaderSale" processor="compositeItemProcessor" writer="cvsFileItemWriter" commit-interval="1" skip-limit="10">
+				<batch:skippable-exception-classes>
+					<batch:include class="fr.jerep6.ogi.framework.exception.AbstractException" />
+				</batch:skippable-exception-classes>
+			</batch:chunk>
+		  </tasklet>
+		</batch:step>
+		
+		<batch:step id="stepWriteCSVRent" next="decision">
+		  <tasklet>
+			<batch:chunk reader="jpaItemReaderRent" processor="compositeItemProcessor" writer="cvsFileItemWriter" commit-interval="1" skip-limit="10">
+				<batch:skippable-exception-classes>
+					<batch:include class="fr.jerep6.ogi.framework.exception.AbstractException" />
+				</batch:skippable-exception-classes>
+			</batch:chunk>
+		  </tasklet>
+		</batch:step>
+	    
+	    <!-- If no data => stop job -->
+	    <!-- http://docs.spring.io/spring-batch/reference/html/configureStep.html#conditionalFlow -->
+	    <!-- The 'end' element instructs a Job to stop with a BatchStatus of COMPLETED. A Job that has finished with status COMPLETED cannot be restarted (the framework will throw a JobInstanceAlreadyCompleteException) -->
+	    <batch:decision id="decision" decider="DeciderHasPrpProcessed">
+		    <batch:end on="NO_DATA" exit-code="NO_DATA"/>
+		    <batch:next on="*" to="stepPhotosResize"/>
+	    </batch:decision>
+	    
+	    <batch:step id="stepPhotosResize" next="stepTaskletZip">
+			<tasklet ref="TaskletPhotosResize" />
+		</batch:step>
+	    
+	    <batch:step id="stepTaskletZip" next="stepFTPUpload">
+			<tasklet ref="TaskletZip" />
+		</batch:step>
+		
+		<batch:step id="stepFTPUpload" next="stepAckCreateUpdatePrp">
+			<tasklet ref="TaskletFTPUpload" />
+		</batch:step>
+		
+		<!-- Write into database the synchronisation with bienici -->
+		<batch:step id="stepAckCreateUpdatePrp" next="stepAckDeletePrp">
+			<tasklet>
+				<batch:chunk reader="cvsReaderAckCreateUpdate" writer="jdbcWriterAckCreateUpdate" commit-interval="10">
+				</batch:chunk>
+			</tasklet>
+		</batch:step>
+		
+		<!-- Write into database the deletion on bienici -->
+		<batch:step id="stepAckDeletePrp">
+			<tasklet>
+				<batch:chunk reader="jpaReaderAckDelete" writer="jdbcWriterAckDelete" commit-interval="10">
+				</batch:chunk>
+			</tasklet>
+		</batch:step>
+		
+	</batch:job>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- JPA doesn't support UNION. So 2 queries -->
+	<bean id="jpaItemReaderSale" class="org.springframework.batch.item.database.JpaPagingItemReader">
+	    <property name="queryString" value="${bienici.extraction.jpql.sale}" />
+	    <property name="entityManagerFactory" ref="emFactory" />
+	</bean>
+	
+	<bean id="jpaItemReaderRent" class="org.springframework.batch.item.database.JpaPagingItemReader">
+	    <property name="queryString" value="${bienici.extraction.jpql.rent}" />
+	    <property name="entityManagerFactory" ref="emFactory" />
+	</bean>
+	
+	<bean id="compositeItemProcessor" class="org.springframework.batch.item.support.CompositeItemProcessor">
+	    <property name="delegates">
+	        <list>
+	            <bean class="fr.jerep6.ogi.batch.bienici.ProcessorTransformToCSV" >
+					<property name="estateCode" value="${bienici.agence.code}" />
+					<property name="photoDirName" value="${bienici.extraction.file.photos.directory}" />
+					<property name="serviceBienIci" ref="serviceBienIci" />
+	            </bean>
+	            <bean class="fr.jerep6.ogi.batch.bienici.ProcessorPhotos" init-method="init" >
+					<property name="rootDirectory" value="file:${bienici.extraction.file.root.path}" />
+					<property name="photoDirName" value="${bienici.extraction.file.photos.directory}" />
+	            </bean>
+	        </list>
+	    </property>
+	</bean>
+
+	<bean id="cvsFileItemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
+		<property name="resource" value="file:${bienici.extraction.file.root.path}${bienici.extraction.file.csv.name}" />
+		<property name="shouldDeleteIfExists" value="false" />
+		<property name="appendAllowed" value="true" />
+		<property name="encoding" value="ISO-8859-1" />
+		
+		<property name="lineAggregator">
+			<bean class="fr.jerep6.ogi.batch.common.writer.AdvancedDelimitedLineAggregator">
+				<property name="delimiter" value="!#" />
+				<property name="quotedCharacter" value='"' />
+				<property name="fieldExtractor">
+					<bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+						<property name="names" value="${bienici.extraction.file.csv.schema}" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+  
+
+	<bean id="TaskletPrepareTree" class="fr.jerep6.ogi.batch.bienici.TaskletPrepareTree">
+		<property name="rootDirectory" value="file:${bienici.extraction.file.root.path}" />
+		<property name="seLogerVersion" value="${bienici.passerelle.version}" />
+		<property name="config" value="classpath:${bienici.extraction.file.tree.config}" />
+		<property name="photosConfig" value="classpath:${bienici.extraction.file.tree.photos}" />
+		<property name="subDirectoriesToCreate">
+			<list>
+				<value>file:${bienici.extraction.file.photos.directory}</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="DeciderHasPrpProcessed" class="fr.jerep6.ogi.batch.bienici.DeciderHasPrpProcessed" />
+
+    <bean id="TaskletPhotosResize" class="fr.jerep6.ogi.batch.bienici.TaskletPhotosResize">
+		<property name="photosDirectory" value="file:${bienici.extraction.file.root.path}${bienici.extraction.file.photos.directory}" />
+		<property name="photoSize" value="${bienici.extraction.file.photos.size}" />
+	</bean>
+	
+	<bean id="TaskletDelete" class="fr.jerep6.ogi.batch.common.tasklet.TaskletDelete">
+		<property name="resources" value="file:${bienici.extraction.file.root.path}*" />
+	</bean>
+	
+	<bean id="TaskletZip" class="fr.jerep6.ogi.batch.common.tasklet.TaskletZip">
+		<property name="resource" value="file:${bienici.extraction.file.root.path}" />
+		<property name="zipNamePattern" value="${bienici.extraction.file.zip.name}" />
+	</bean>
+	
+	<bean id="TaskletFTPUpload" class="fr.jerep6.ogi.batch.common.tasklet.TaskletFTPUpload">
+		<property name="resources" value="file:${bienici.extraction.file.root.path}${bienici.extraction.file.zip.name}" />
+		<property name="destinationDirectory" value="${bienici.ftp.directory}" />
+		<property name="ftpHost" value="${bienici.ftp.host}" />
+		<property name="ftpLogin" value="${bienici.ftp.login}" />
+		<property name="ftpPwd" value="${bienici.ftp.pwd}" />
+	</bean>
+	
+	
+	
+	
+	<bean id="report" class="fr.jerep6.ogi.batch.bienici.Ack" scope="prototype" />
+	
+	<!-- ACK for create/update -->
+	<bean id="cvsReaderAckCreateUpdate" class="org.springframework.batch.item.file.FlatFileItemReader">
+		<property name="resource" value="file:${bienici.extraction.file.root.path}${bienici.extraction.file.csv.name}" />
+		<property name="lineMapper">
+			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+
+			  <property name="lineTokenizer">
+			        <bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+					<property name="names" value="${bienici.extraction.file.ack.csv.schema}" />
+					<property name="delimiter" value="!#" />
+				</bean>
+			  </property>
+			  
+				<property name="fieldSetMapper">   
+					<bean class="org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper">
+						<property name="prototypeBeanName" value="report" />
+					</bean>			
+				</property>
+	 
+			  </bean>
+		  </property>
+  	</bean>
+	<bean id="jdbcWriterAckCreateUpdate" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+		<property name="dataSource" ref="dataSource" />
+		<property name="sql" value="${bienici.write.ack.createupdate.sql}" />
+		<!-- In order to avoid EmptyResultDataAccessException if last partner request isn't push -->
+		<property name="assertUpdates" value="false" />
+		<!-- It will take care matching between object property and sql name parameter -->
+		<property name="itemSqlParameterSourceProvider">
+			<bean class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider" />
+		</property>
+	</bean>
+
+	<!-- ACK for delete -->
+	<bean id="jpaReaderAckDelete" class="org.springframework.batch.item.database.JpaPagingItemReader">
+	    <property name="queryString" value="${bienici.extraction.ack.jpql}" />
+	    <property name="entityManagerFactory" ref="emFactory" />
+	</bean>
+	<bean id="jdbcWriterAckDelete" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+		<property name="dataSource" ref="dataSource" />
+		<property name="sql" value="${bienici.write.ack.delete.sql}" />
+		<!-- It will take care matching between object property and sql name parameter -->
+		<property name="itemSqlParameterSourceProvider">
+			<bean class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider" />
+		</property>
+	</bean>
+	
+</beans>
