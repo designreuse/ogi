@@ -6,11 +6,15 @@ function($scope, $http, Page, ServiceConfiguration) {
         "seloger" : {"jobName":"jobPasserelle-seloger.com"},
         "acimflo" : {"jobName":"jobPasserelle-acimflo"},
         "diaporama" : {"jobName":"jobPasserelle-diaporama"},
-        "leboncoin" : {"jobName":"jobPasserelle-leboncoin"}
+        "leboncoin" : {"jobName":"jobPasserelle-leboncoin"},
+        "annoncesjaunes" : {"jobName":"jobPasserelle-annoncesjaunes"},
+        "bienici" : {"jobName":"jobPasserelle-bienici"}
     }
 
     // Read jobs status
     $scope.jobs = {};
+    getExecutions("annoncesjaunes");
+    getExecutions("bienici");
     getExecutions("seloger");
     getExecutions("leboncoin");
     getExecutions("acimflo");
