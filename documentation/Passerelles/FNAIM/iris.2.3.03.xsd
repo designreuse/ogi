@@ -1,0 +1,2400 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" version="1.0">
+	<xsd:element name="TRANSFERT">
+		<xsd:complexType>
+			<xsd:sequence>
+				<!-- Cette balise décrit l agence qui transfère les biens.  -->
+				<xsd:element name="AGENCE" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<!-- Numéro FNAIM de l'agence. Un numéro d'adhérent FNAIM est compris entre 1 et 599 999  -->
+							<xsd:element name="ADH_NUM">
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:int">
+										<xsd:maxInclusive value="600000" fixed="true"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<!-- v2.3 -->
+							<!--
+							Le numéro SIREN dans le cas d’un agence principale / Le numéro SIRET dans le cas d’une succursale. 
+							Cet identifiant nous permet de faire le rapprochement entre les informations des agences reçues et nos adhérents. 
+							Tout mandat appartenant à une agence non identifiable par le numéro SIRET ou SIREN transmis ou non sera rejeté. -->
+							<xsd:element name="ID_ENTREPRISE" type="xsd:string" minOccurs="0"/>
+							<!-- Cette balise décrit la liste des négociateurs de l'agence qui transfère les biens. Cette balise est répétée autant de fois qu'il existe de négociateurs. -->
+							<xsd:element name="NEGOCIATEUR" minOccurs="0" maxOccurs="unbounded">
+								<xsd:complexType>
+									<xsd:all>
+                                        <!-- Identifiant unique du négociateur. Taille maximum : 50 caractères. -->
+										<xsd:element name="NUM">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="50" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+                                        <!-- Civilité du négociateur. (voir dictionnaire des références) -->
+										<xsd:element name="CIVILITE" type="xsd:int"/>
+                                        <!-- Nom du négociateur. Taille maximum : 40 caractères. -->
+										<xsd:element name="NOM">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="40" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+                                        <!-- Prénom du négociateur. Taille maximum : 40 caractères. -->
+										<xsd:element name="PRENOM">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="40" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+                                        <!-- Téléphone du négociateur. Taille maximum : 15 caractères. -->
+										<xsd:element name="TELEPHONE" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="15" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Portable du négociateur. Taille maximum : 15 caractères. -->
+										<xsd:element name="PORTABLE" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="15" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Email du négociateur. Taille maximum : 50 caractères -->
+										<xsd:element name="EMAIL" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="50" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+									</xsd:all>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>		
+				<!-- Cette balise décrit un bien à transférer vers les serveurs FNAIM. Cette balise est le point d'entrée de la description d'un bien. Sa définition conditionnera les balises filles conformément à l'action de création, modification ou suppression du bien. Cette balise est répétée autant de fois qu'il existe de biens à transférer. -->
+				<xsd:element name="BIEN" minOccurs="0" maxOccurs="unbounded">
+					<xsd:complexType>
+						<xsd:all>
+							<!-- Cette balise contient les informations du ou des propriétaires de l’affaire. Cette balise est répétée autant de fois qu'il existe de propriétaires. Elle doit être contenue dans une balise BIEN  -->
+							<xsd:element name="PROPRIETAIRE" minOccurs="0">
+								<xsd:complexType>
+									<xsd:all>
+										<!-- Numéro de la fiche du propriétaire. Taille maximum : 50 caractères.  -->
+										<xsd:element name="PRO_NUM">
+										<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="50" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>	
+                                        <!-- Civilité du négociateur. (voir dictionnaire des références) -->
+										<xsd:element name="CIVILITE" type="xsd:int"/>
+                                        <!-- Nom du négociateur. Taille maximum : 40 caractères. -->
+										<xsd:element name="NOM">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="40"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+                                        <!-- Prénom du négociateur. Taille maximum : 40 caractères. -->
+										<xsd:element name="PRENOM">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="40"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Ligne 1 de l'adresse. Taille maximum : 40 caractères.  -->
+										<xsd:element name="ADRESSE1">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="40"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Ligne 2 de l'adresse. Taille maximum : 40 caractères.  -->
+										<xsd:element name="ADRESSE2" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="40"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Code postal de la commune. Taille maximum : 5 chiffres -->
+										<xsd:element name="CP">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:pattern value="(\d{5})"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Code INSEE de la commune. Ce champ n'est pas obligatoire aujourd'hui mais le sera plus tard. Taille maximum : 5 chiffres. -->
+										<xsd:element name="CODE_INSEE" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:pattern value="(\d{5})"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Ville du propriétaire. Taille maximum : 50 caractères. -->
+										<xsd:element name="VILLE">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="50"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Code du pays -->
+										<xsd:element name="PAYS" type="xsd:int"/>
+										<!-- Telephone Taille maximum : 15 caractères. -->
+										<xsd:element name="TELEPHONE_DOMICILE" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="15"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Telephone Taille maximum : 15 caractères. -->
+										<xsd:element name="TELEPHONE_BUREAU" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="15"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Telephone Taille maximum : 15 caractères. -->
+										<xsd:element name="TELEPHONE_PORTABLE" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="15"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Email du négociateur. Taille maximum : 50 caractères -->
+										<xsd:element name="EMAIL" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="50"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- commentaires Taille maximum : 255 caractères -->
+										<xsd:element name="COMMENTAIRES" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="255"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+									</xsd:all>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="INFO_GENERALES">
+								<xsd:complexType>
+									<xsd:all>
+                                        <!-- Numéro FNAIM de l'agence. Un numéro d'adhérent FNAIM est compris entre 1 et 599 999  -->
+										<xsd:element name="ADH_NUM">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:int">
+													<xsd:maxInclusive value="600000" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- v2.3 -->
+										<!--
+										  Le numéro SIREN dans le cas d’un agence principale / Le numéro SIRET dans le cas d’une succursale. 
+										  Cet identifiant nous permet de faire le rapprochement entre les informations des agences reçues et nos adhérents. 
+										  Tout mandat appartenant à une agence non identifiable par le numéro SIRET ou SIREN transmis ou non sera rejeté. -->
+										<xsd:element name="ID_ENTREPRISE" type="xsd:string" minOccurs="0"/>
+										<xsd:element name="AFF_NUM">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="50" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>			              
+										<!-- Code du négociateur. Taille maximum : 50 caractères.  -->                                                                  
+										<xsd:element name="CODE_NEGOCIATEUR" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="50" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Date de création de l’affaire.  -->
+										<xsd:element name="DATE_CREATION">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:pattern value="(\d{1,2})/(\d{1,2})/(\d{4}|\d{2})"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Cette balise n’est présente que lors de la réception. A l’envoi vers le serveur la date de modification correspond au jour  
+                                        de la transaction.  -->
+										<xsd:element name="DATE_MODIFICATION">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:pattern value="(\d{1,2})/(\d{1,2})/(\d{4}|\d{2})"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- -->
+										<xsd:element name="DATE_ECHEANCE" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:pattern value="(\d{1,2})/(\d{1,2})/(\d{4}|\d{2})"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Gestion de l’affichage sur Internet. Si false’ l’affaire ne sera pas visible sur le site Internet  -->
+										<xsd:element name="TRANSFERT_PUBLIC" type="BoolType"/>
+										<!--  -->
+										<xsd:element name="VISIBLE_TOUTES_AGENCES" type="BoolType"/>
+                                        <!-- Affaire réservée aux collectivités.   -->
+										<xsd:element name="AFFAIRE_RESERVEE" type="BoolType" minOccurs="0"/>
+                                        <!-- Consommation d’énergie en kWhEP/m²/an.   -->
+										<xsd:element name="DPE" type="xsd:decimal" minOccurs="0"/>
+                 						<!-- Classification de la consommation d’énergie.   -->		
+										<xsd:element name="ETIQUETTE_DPE" type="xsd:string" minOccurs="0"/>
+										<!-- Estimation des émissions : kg éqCO2/m²/an.   -->
+										<xsd:element name="GES" type="xsd:decimal" minOccurs="0"/>
+										<!-- Classification des émissions GES.   -->
+										<xsd:element name="ETIQUETTE_GES" type="xsd:string" minOccurs="0"/>
+										<!-- La valeur DPE n’est pas obligatoire.   -->
+										<xsd:element name="DPE_NON_OBLIGATOIRE" type="BoolType" minOccurs="0"/>
+										<!-- Contact en charge de l’annonce.   -->
+										<xsd:element name="CONTACT_INTERNET" type="xsd:string" minOccurs="0"/>
+										<!-- Telephone Taille maximum : 15 caractères. -->
+										<xsd:element name="TELEPHONE_INTERNET" type="xsd:string" minOccurs="0"/>
+										<!-- Le téléphone à afficher sur l’annonce.   -->
+										<xsd:element name="EMAIL_INTERNET" type="xsd:string" minOccurs="0"/>
+										<!-- v2.3 -->
+										<!--  L’activité est exercée sous le statut d’agent commercial (0 : non, 1 : oui)   -->
+										<xsd:element name="AGENT_STATUT_COMMERCIAL" type="xsd:int" minOccurs="0"/>
+									</xsd:all>
+								</xsd:complexType>
+							</xsd:element>
+							<!-- Cette balise contient les informations concernant la location du bien. Elle peut être couplée avec la balise <VENTE> dans le cas d’une vente location. Elle doit être contenue dans une balise BIEN -->
+							<xsd:element name="LOCATION" minOccurs="0">
+								<xsd:complexType>
+									<xsd:all>
+										<!-- Balise mère incluant le type de loyer ainsi que sa valeur (il est à noter que au moins un des champs enfants est 
+                                         obligatoire).  -->
+										<xsd:element name="LOYER" type="loyer_dets" />
+										<!-- Dépôt de garantie.  -->
+										<xsd:element name="DEPOT_GARANTIE" type="xsd:decimal"/>
+										<!-- -->
+										<xsd:element name="FRAIS_DIVERS" type="xsd:decimal" minOccurs="0"/>
+										<!-- Quelle personne établit l’état des lieux. (voir dictionnaire des références)  -->
+										<xsd:element name="ETAT_LIEUX" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="FRAIS_AGENCE" type="xsd:decimal" minOccurs="0"/>
+										<!-- Honoraires pour la rédaction du bail à la charge du locataire.  -->
+										<xsd:element name="HONORAIRES_BAIL_LOCATAIRE" type="xsd:decimal" minOccurs="0"/>
+										<!-- Honoraires pour la rédaction du bail à la charge du propriétaire.  -->
+										<xsd:element name="HONORAIRES_BAIL_PROPRIETAIRE" type="xsd:decimal" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="HONORAIRES_LOCATION_LOCATAIRE" type="xsd:decimal" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="HONORAIRES_LOCATION_PROPRIETAIRE" type="xsd:decimal" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="HONORAIRES_ETAT_LOCATAIRE" type="xsd:decimal" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="HONORAIRES_ETAT_PROPRIETAIRE" type="xsd:decimal" minOccurs="0"/>
+										<!-- Honoraires pour la négociation / entremise à la charge du propriétaire.   -->
+										<xsd:element name="HONORAIRES_NEGOCIATION_ENTREMISE" type="xsd:decimal" minOccurs="0"/>
+										<!-- Honoraires pour la constitution du dossier à la charge du locataire.   -->
+										<xsd:element name="HONORAIRES_FRAIS_DOSSIER_LOCATAIRE" type="xsd:decimal" minOccurs="0"/>
+										<!-- Honoraires pour la constitution du dossier à la charge du propriétaire.   -->
+										<xsd:element name="HONORAIRES_FRAIS_DOSSIER_PROPRIETAIRE" type="xsd:decimal" minOccurs="0"/>
+										<!-- Honoraires pour la visite à la charge du locataire.   -->
+										<xsd:element name="HONORAIRES_VISITE_LOCATAIRE" type="xsd:decimal" minOccurs="0"/>
+										<!-- Honoraires pour la visite à la charge du propriétaire.   -->
+										<xsd:element name="HONORAIRES_VISITE_PROPRIETAIRE" type="xsd:decimal" minOccurs="0"/>
+										<!-- Total des honoraires listés ci-dessus à la charge du locataire.   -->
+										<xsd:element name="HONORAIRES_TOTAL_LOCATAIRE" type="xsd:decimal"/>
+										<!-- Total des honoraires listés ci-dessus à la charge du propriétaire.   -->
+										<xsd:element name="HONORAIRES_TOTAL_PROPRIETAIRE" type="xsd:decimal"/>
+										<!-- Existe-t-il une caution ?   -->
+										<xsd:element name="CAUTION" type="BoolType" minOccurs="0"/>
+										<!-- -->										
+										<xsd:element name="PROVISION_SUR_CHARGES" type="xsd:decimal"/>	
+										<!-- -->									
+										<xsd:element name="CHARGES" type="xsd:decimal" minOccurs="0"/>
+										<!-- Durée en année du bail.   -->
+										<xsd:element name="DUREE_BAIL" type="xsd:int" minOccurs="0"/>										
+										<!-- Date de libération du bien.   -->
+										<xsd:element name="LIBRE_LE" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:pattern value="(\d{1,2})/(\d{1,2})/(\d{4}|\d{2})"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- -->
+										<xsd:element name="TYPE_MANDAT">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:length value="1" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- -->
+										<xsd:element name="NUM_MANDAT" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="15" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- -->
+										<xsd:element name="DATE_MANDAT" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:pattern value="(\d{1,2})/(\d{1,2})/(\d{4}|\d{2})"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Date du passage sous compromis.  -->
+										<xsd:element name="DATE_COMPROMIS" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:pattern value="(\d{1,2})/(\d{1,2})/(\d{4}|\d{2})"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- 35 Locataire 36 Propriétaire  -->
+										<xsd:element name="OCCUPE_PAR" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="LOYER_ACTUEL" type="xsd:decimal" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="DATE_FIN_BAIL" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:pattern value="(\d{1,2})/(\d{1,2})/(\d{4}|\d{2})"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Telephone Taille maximum : 15 caractères. -->
+										<xsd:element name="TELEPHONE_LOC_ACTUEL" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="15" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+									</xsd:all>
+								</xsd:complexType>
+							</xsd:element>
+							<!-- Cette balise contient les informations concernant la vente du bien. Elle peut être couplée avec la balise LOCATION
+                                 dans le cas d’une vente location. Elle doit être contenue dans une balise BIEN  -->
+							<xsd:element name="VENTE" minOccurs="0">
+								<xsd:complexType>
+									<xsd:all>
+										<!-- Estimation du prix du bien.  -->
+										<xsd:element name="ESTIMATION" type="xsd:decimal" minOccurs="0"/>
+										<!-- Prix de vente du bien, H.A.I.  -->
+										<xsd:element name="PRIX" type="xsd:decimal"/>
+										<!-- Prix de vente du bien (net vendeur)  -->
+										<xsd:element name="PRIX_HORS_HA" type="xsd:decimal" minOccurs="0"/>
+										<!-- Honoraires de l’agence.  -->
+										<xsd:element name="HONORAIRES" type="xsd:decimal" minOccurs="0"/>
+										<!-- Numéro du mandat. Taille maximum : 15 caractères.  -->
+										<xsd:element name="NUM_MANDAT" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="15" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Le type du mandat. S=simple, E= Exclusif, P=Privilégié. (voir dictionnaire des références). Taille maximum : 1 caractère.  -->
+										<xsd:element name="TYPE_MANDAT">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="1" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Date du mandat  -->
+										<xsd:element name="DATE_MANDAT" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:pattern value="(\d{1,2})/(\d{1,2})/(\d{4}|\d{2})"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<xsd:element name="PASSE_SOUS_COMPROMIS" type="BoolType" minOccurs="0"/>
+										<!-- Date du passage sous compromis.  -->
+										<xsd:element name="DATE_COMPROMIS" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:pattern value="(\d{1,2})/(\d{1,2})/(\d{4}|\d{2})"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- -->
+										<xsd:element name="TAXE_HABITATION" type="xsd:decimal" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="TAXE_FONCIERE" type="xsd:decimal" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="CHARGES_MENSUELLES" type="xsd:decimal" minOccurs="0"/>
+										<!-- 37 Droit d'enregistrement 38 TVA 39 Cession de parts 40 Transfert d'actions -->
+										<xsd:element name="REGIME_FISCAL" type="xsd:int" minOccurs="0"/>
+										<!-- A qui revient la charge des honoraires. 0=vendeur, 1=acquéreur  -->
+										<xsd:element name="CHARGES_HONORAIRES" type="BoolType" minOccurs="0"/>
+										<!-- v2.3 -->
+										<!-- % des honoraires TTC à la charge de l’acquéreur par rapport au prix de vente  -->
+										<xsd:element name="HONORAIRES_POURCENTAGE_ACQUEREUR" type="xsd:decimal" minOccurs="0"/>
+										<!-- v2.3 -->
+										<!-- Quote-part budget prévisionnel dépenses courantes charge du vendeur (€/an)  -->
+										<xsd:element name="COPRO_QUOTE_PART" type="xsd:decimal" minOccurs="0"/>
+										<!-- v2.3 -->
+										<!-- Nombre de lots dans la copropriété  -->
+										<xsd:element name="COPRO_NOMBRE_LOTS" type="xsd:int" minOccurs="0"/>
+										<!-- v2.3 -->
+										<!-- Numéro du lot  -->
+										<xsd:element name="COPRO_NUM_LOT" type="xsd:string" minOccurs="0"/>
+										<!-- v2.3 -->
+										<!-- Procédures diligentées contre le syndicat de copropriété (0 = non, 1 = oui)  -->
+										<xsd:element name="COPRO_PROC_DILIG" type="xsd:int" minOccurs="0"/>
+										<!-- v2.3 -->
+										<!-- Demande de désignation d’un mandataire ad hoc (0 = non, 1 = oui, autre = non spécifié) -->
+										<xsd:element name="COPRO_MAN_ADHOC" type="xsd:int" minOccurs="0"/>
+										<!-- v2.3 -->
+										<!-- Demande de désignation d’un administrateur provisoire (0 = non, 1 = oui, autre = non spécifié)  -->
+										<xsd:element name="COPRO_ADMIN_PROV" type="xsd:int" minOccurs="0"/>
+										<!-- v2.3 -->
+										<!-- Demande de désignation d’experts (0 = non, 1 = oui, autre = non spécifié)  -->
+										<xsd:element name="COPRO_DES_EXP" type="xsd:int" minOccurs="0"/>
+									</xsd:all>
+								</xsd:complexType>
+							</xsd:element>
+							<!-- Cette balise contient les informations concernant le viager. Elle apparaît seule et ne peut être couplée avec une balise de transaction. 
+                             Elle peut être contenue dans une balise BIEN  -->
+							<xsd:element name="VIAGER" minOccurs="0">
+								<xsd:complexType>
+									<xsd:all>
+										<!-- Nombre de têtes sur laquelle porte la rente.  -->
+										<xsd:element name="NOMBRE_TETES" type="xsd:int" minOccurs="0"/>
+										<!-- Montant du bouquet.  -->
+										<xsd:element name="BOUQUET" type="xsd:decimal"/>
+										<!-- Montant de la rente.  -->
+										<xsd:element name="RENTE" type="xsd:decimal" minOccurs="0"/>
+										<!-- Date du mandat.  -->
+										<xsd:element name="DATE_MANDAT" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:pattern value="(\d{1,2})/(\d{1,2})/(\d{4}|\d{2})"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Numéro du mandat. Taille maximum : 15 caractères.  -->
+										<xsd:element name="NUM_MANDAT" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="15" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Le type du mandat. S=simple, E= Exclusif, P=Privilégié. Taille maximum : 1 caractère.  -->
+										<xsd:element name="TYPE_MANDAT">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="1" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Date du passage sous compromis -->
+										<xsd:element name="DATE_COMPROMIS" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:pattern value="(\d{1,2})/(\d{1,2})/(\d{4}|\d{2})"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+									</xsd:all>
+								</xsd:complexType>
+							</xsd:element>
+							<!-- Cette balise contient les informations génériques du bien maison. Cette balise de bien ne peut être couplée à une autre 
+                                 Elle peut être contenue dans une balise BIEN  -->
+							<xsd:element name="MAISON" minOccurs="0">
+								<xsd:complexType>
+									<xsd:all>
+										<!-- Nombre de pièces.  -->
+										<xsd:element name="NBRE_PIECES" type="xsd:int"/>
+										<!-- Nombre de chambres.  -->
+										<xsd:element name="NBRE_CHAMBRES" type="xsd:int"/>
+										<!-- Surface totale. --> 
+										<xsd:element name="SURFACE_HABITABLE" type="xsd:int"/>
+										<!-- Surface séjour.  -->
+										<xsd:element name="SURFACE_SEJOUR" type="xsd:int"/>
+										<!-- Surface terrain.  -->
+										<xsd:element name="SURFACE_TERRAIN" type="xsd:int"/>
+										<!-- Nombre de niveaux.  -->
+										<xsd:element name="NBRE_NIVEAUX" type="xsd:int"/>
+										<!-- Année de construction du bien.  -->
+										<xsd:element name="ANNEE_CONSTRUCTION" type="xsd:int"/>
+										<!-- Surface des dépendances.   -->
+										<xsd:element name="SURFACE_DEPENDANCE" type="xsd:int" minOccurs="0"/>
+										<!--  -->
+										<xsd:element name="CATEGORIE" type="categorie_maison"/>
+										<!-- -->
+										<xsd:element name="ETAT_GENERAL" type="etat_general_type" minOccurs="0"/>
+										<!-- Etat intérieur. 71 Somptueux 72 A rafraîchir 73 Très bon 74 Bon 75 Etat moyen 76 Habitable en l'état 77 Travaux à prévoir   
+										 -->
+										<xsd:element name="ETAT_INTERIEUR" type="etat_interieur_type" minOccurs="0"/>
+										<!-- Etat extérieur. 81 Somptueux 82 Très bon 83 Bon 84 Travaux à prévoir 85 A réhabiliter 86 A rafraîchir -->
+										<xsd:element name="ETAT_EXTERIEUR" type="etat_exterieur_type" minOccurs="0"/>
+										<!-- Nombre de salles de bains.   -->
+										<xsd:element name="NBRE_SALLE_BAIN" type="xsd:int"/>
+										<!-- Nombre de garages.   -->
+										<xsd:element name="NBRE_GARAGE" type="xsd:int" minOccurs="0"/>
+										<!-- Nombre de balcons.   -->
+										<xsd:element name="NBRE_BALCON" type="xsd:int" minOccurs="0"/>
+										<!-- Nombre de salles d’eau.   -->
+										<xsd:element name="NBRE_SALLE_EAU" type="xsd:int" minOccurs="0"/>
+										<!-- Nombre de parkings.   -->
+										<xsd:element name="NBRE_PARKING" type="xsd:int" minOccurs="0"/>
+										<!-- Nombre de terrasse  -->
+										<xsd:element name="NBRE_TERRASSE" type="xsd:int" minOccurs="0"/>
+										<!-- 18 Aménagée 19 Equipée 20 Kitchenette 337 Simple 359 sans cuisine 402 Américaine 403 Nue  -->
+										<xsd:element name="CUISINE" type="xsd:int" minOccurs="0"/>
+										<!-- Le bien possède-t-il un sous-sol ?  -->
+										<xsd:element name="SOUS_SOL" type="BoolType" minOccurs="0"/>
+										<!-- 41 Pierre 42 Brique 43 Parpaing 44 Béton 45 Bois 46 Meulière -->
+										<xsd:element name="CONSTRUCTION" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="MITOYENNETE" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="STANDING" type="xsd:int" minOccurs="0"/>
+										<!-- Le bien est ‘meublé’ ou non.  -->
+										<xsd:element name="MEUBLE" type="BoolType"/>
+										<!-- 48 Terrasse 49 Tuiles 50 Ardoises 51 Chaumes 52 Autre 53 Tôle 429 Shingle  -->
+										<xsd:element name="COUVERTURE" type="xsd:int" minOccurs="0"/>
+										<!-- contient les informations de situation du bien -->
+										<xsd:element name="LOCALISATION" type="xsd:int" minOccurs="0"/>
+										<!--  -->
+										<xsd:element name="LOTISSEMENT" type="BoolType" minOccurs="0"/>
+										<!-- 7 Est 8 Nord 9 Nord-est 10 Nord-ouest 11 Ouest 12 Sud 13 Sud-ouest 14 Sud-est 404 Est-Ouest 405 Nord-Sud 414 Ouest-Est --> 
+										<xsd:element name="EXPOSITION" type="xsd:int" minOccurs="0"/>
+										<!-- 21 Collectif  22 Individuel 23 Central 24 Oui sans précision 25 Pompe a chaleur 26 Climatisation 406 Sans climatisation 
+                                             423 Aucun 425 Production Solaire 426 Production Géothermique 444 Mixte  -->
+										<xsd:element name="CHAUFFAGE" type="xsd:int" minOccurs="0"/>
+										<!-- 31 Gaz 32 Electrique 33 Fuel 34 Autres 415 Gaz ville 416 Gaz citerne 417 Charbon 418 Bois 419 Solaire 422 Géothermique 
+                                             451 Sans -->
+										<xsd:element name="MECANISME_CHAUFFAGE" type="xsd:int" minOccurs="0"/>
+										<!-- 27 Radiateur 28 Au sol 29 Air pulsé 30 Convecteurs 430 Panneau rayonnant  -->
+										<xsd:element name="MODE_CHAUFFAGE" type="xsd:int" minOccurs="0"/>
+									</xsd:all>
+								</xsd:complexType>
+							</xsd:element>
+							<!-- Cette balise contient les informations génériques du bien appartement. Cette balise de bien peut être couplée à une balise <RESIDENCE>. 
+                                 Elle peut être contenue dans une balise BIEN  -->
+							<xsd:element name="APPARTEMENT" minOccurs="0">
+								<xsd:complexType>
+									<xsd:all>
+										<!-- Numéro de l’étage.  -->
+										<xsd:element name="NUM_ETAGE" type="xsd:int" minOccurs="0"/>
+										<!-- Numéro du dernier étage.  -->
+										<xsd:element name="NUM_DERNIER_ETAGE" type="xsd:int" minOccurs="0"/>
+										<!-- Surface totale.  -->
+										<xsd:element name="SURFACE_HABITABLE" type="xsd:int"/>										
+										<!-- Surface séjour.  -->
+										<xsd:element name="SURFACE_SEJOUR" type="xsd:int"/>
+										<!-- Nombre de pièces.  -->
+										<xsd:element name="NBRE_PIECES" type="xsd:int"/>
+										<!-- Nombre de chambres.  -->
+										<xsd:element name="NBRE_CHAMBRES" type="xsd:int"/>
+										<!-- Année de construction du bien -->
+										<xsd:element name="ANNEE_CONSTRUCTION" type="xsd:int"/>
+										<!--  -->
+										<xsd:element name="TERRAIN_PRIVATIF" type="xsd:int" minOccurs="0"/>
+										<!-- Nombre de niveau du bien.  -->
+										<xsd:element name="NBRE_NIVEAUX" type="xsd:int"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="CATEGORIE" type="categorie_appartement"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="ETAT_GENERAL" type="etat_general_type" minOccurs="0"/>
+										<!-- Nombre de salles de bain du bien.  -->
+										<xsd:element name="NBRE_SALLE_BAIN" type="xsd:int"/>
+										<!-- Nombre de garages.  -->
+										<xsd:element name="NBRE_GARAGE" type="xsd:int" minOccurs="0"/>
+										<!-- Nombre de balcons.  -->
+										<xsd:element name="NBRE_BALCON" type="xsd:int" minOccurs="0"/>
+										<!-- Nombre de salles d’eau.  -->
+										<xsd:element name="NBRE_SALLE_EAU" type="xsd:int" minOccurs="0"/>
+										<!-- Nombre de parkings.  -->
+										<xsd:element name="NBRE_PARKING" type="xsd:int" minOccurs="0"/>
+										<!-- NOMBRE DE TERRASSE -->
+										<xsd:element name="NBRE_TERRASSE" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="CUISINE" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="EAU_CHAUDE" type="xsd:int" minOccurs="0"/>
+										<!-- L’immeuble possède un accès handicapés ou non.  -->
+										<xsd:element name="ACCES_HANDICAPES" type="BoolType" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="ASCENSEUR" type="BoolType" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="STANDING" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="MEUBLE" type="BoolType" />
+										<!-- -->
+										<xsd:element name="NBRE_CAVES" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="LOCALISATION" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="EXPOSITION" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="CHAUFFAGE" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="MECANISME_CHAUFFAGE" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="MODE_CHAUFFAGE" type="xsd:int" minOccurs="0"/>
+									</xsd:all>
+								</xsd:complexType>
+							</xsd:element>
+							<!-- Cette balise contient les informations génériques du bien terrain. Cette balise de bien ne peut être couplée à une autre 
+                                 Elle peut être contenue dans une balise BIEN  -->
+							<xsd:element name="TERRAIN" minOccurs="0">
+								<xsd:complexType>
+									<xsd:all>
+										<!-- Coefficient d’occupation des Sols.  -->
+										<xsd:element name="COS" type="xsd:decimal" minOccurs="0"/>
+										<!-- Surface Hors Oeuvre Nette.  -->
+										<xsd:element name="SHON" type="xsd:int" minOccurs="0"/>										
+										<!-- Surface du Terrain.  -->
+										<xsd:element name="SURFACE_TERRAIN" type="xsd:int"/>
+										<!-- -->
+										<xsd:element name="DATE_CA" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:pattern value="(\d{1,2})/(\d{1,2})/(\d{4}|\d{2})"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Date de remise du certificat d'urbanisme.  -->
+										<xsd:element name="DATE_CU" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:pattern value="(\d{1,2})/(\d{1,2})/(\d{4}|\d{2})"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Hauteur maximum du terrain.  -->
+										<xsd:element name="HAUTEUR_MAXI" type="xsd:int" minOccurs="0"/>
+										<!--  -->
+										<xsd:element name="LONGUEUR_FACADE" type="xsd:int" minOccurs="0"/>
+										<!-- Date du permis de construire.  -->
+										<xsd:element name="DATE_PC" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:pattern value="(\d{1,2})/(\d{1,2})/(\d{4}|\d{2})"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- -->
+										<xsd:element name="VIABILITE" type="BoolType" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="GAZ" type="BoolType" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="LOTISSEMENT" type="BoolType" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="ASSAINISSEMENT" type="BoolType" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="URBANISME" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="LOCALISATION" type="xsd:int" minOccurs="0"/>
+										<!--  -->
+										<xsd:element name="CLOTURE" type="BoolType" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="ASPECT" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="CATEGORIE" type="categorie_terrain"/>
+									</xsd:all>
+								</xsd:complexType>
+							</xsd:element>
+							<!-- Cette balise contient les informations spécifiques à la résidence de l’appartement. Cette balise doit être couplée à une balise <APPARTEMENT>. Elle peut être contenue dans une balise BIEN  -->
+
+							<xsd:element name="RESIDENCE" minOccurs="0">
+								<xsd:complexType>
+									<xsd:all>
+										<!-- Non de la résidence.  -->
+										<xsd:element name="RESIDENCE_NOM" type="xsd:string" minOccurs="0"/>
+										<!-- Nombre d’étages de la résidence.  -->
+										<xsd:element name="NB_ETAGES" type="xsd:int" minOccurs="0"/>
+										<!-- Année ou époque de construction du bien. Taille maximum : 15 caractères.  -->
+										<xsd:element name="ANNEE_CONSTRUCTION" type="xsd:string"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="CONSTRUCTION" type="xsd:int"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="TYPE_CHAUFFAGE" type="xsd:int"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="EAU_CHAUDE" type="xsd:int"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="STANDING" type="xsd:int"/>
+										<!-- La résidence possède-t-elle un tennis ?  -->
+										<xsd:element name="TENNIS" type="BoolType"/>
+										<!-- La résidence possède-t-elle un jardin ?  -->
+										<xsd:element name="JARDIN" type="BoolType"/>
+										<!-- La résidence a-t-elle un gardien ?  -->
+										<xsd:element name="GARDIEN" type="BoolType"/>
+										<!-- La résidence possède-t-elle un ascenseur ?  -->
+										<xsd:element name="ASCENSEUR" type="BoolType"/>
+										<!-- La résidence possède-t-elle une piscine ?  -->
+										<xsd:element name="PISCINE" type="BoolType"/>
+										<!-- La résidence possède-t-elle un parc ?  -->
+										<xsd:element name="PARC" type="BoolType"/>
+										<!-- Nom de la localité où se trouve la résidence -->
+										<xsd:element name="NOM_LOCALITE" type="xsd:string" minOccurs="0"/>
+									</xsd:all>
+								</xsd:complexType>
+							</xsd:element>
+							<!-- Cette balise contient les informations génériques du bien demeure. Cette balise de bien ne peut être couplée à une autre 
+                                 Elle peut être contenue dans une balise  -->
+							<xsd:element name="DEMEURE" minOccurs="0">
+								<xsd:complexType>
+									<xsd:all>
+										<!-- -->
+										<xsd:element name="NBRE_PIECES" type="xsd:int"/>
+										<!-- -->
+										<xsd:element name="NBRE_CHAMBRES" type="xsd:int"/>
+										<!-- -->
+										<xsd:element name="SURFACE_HABITABLE" type="xsd:int"/>
+										<!-- -->
+										<xsd:element name="SURFACE_SEJOUR" type="xsd:int"/>
+										<!-- -->
+										<xsd:element name="ETAT_INTERIEUR" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="ETAT_EXTERIEUR" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="SURFACE_DEPENDANCE" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="SURFACE_PARC" type="xsd:int" minOccurs="0"/>
+										<!-- Description de l’époque du bien. Taille maximum : 30 caractères.  -->
+										<xsd:element name="EPOQUE" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="30" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Surface autres terrains.  -->
+										<xsd:element name="SURFACE_AUTRE_TERRAIN" type="xsd:int" minOccurs="0"/>
+										<!-- Surface des parties boisées du bien.  -->
+										<xsd:element name="SURFACE_BOIS" type="xsd:int" minOccurs="0"/>
+										<!-- Surface Terre.  -->
+										<xsd:element name="SURFACE_TERRE" type="xsd:int" minOccurs="0"/>
+										<!-- Surface de l’étang, si il y a lieu.  -->										
+										<xsd:element name="SURFACE_ETANG" type="xsd:int" minOccurs="0"/>
+										<!-- Longueur de larivière, si il y a lieu.  -->
+										<xsd:element name="LONGUEUR_RIVIERE" type="xsd:int" minOccurs="0"/>										
+										<!-- Distance du bien par rapport à une gare.  -->
+										<xsd:element name="DISTANCE_TRAIN" type="xsd:int" minOccurs="0"/>
+										<!-- Distance du bien par rapport à un aéroport.  -->
+										<xsd:element name="DISTANCE_AEROPORT" type="xsd:int" minOccurs="0"/>
+										<!-- Distance du bien par rapport à une autoroute.  -->
+										<xsd:element name="DISTANCE_AUTOROUTE" type="xsd:int" minOccurs="0"/>
+										<!-- Distance du bien par rapport aux différents types de commodités.  -->
+										<xsd:element name="DISTANCE_COMMODITES" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="CATEGORIE" type="categorie_demeure"/>
+										<!-- Nombre de salles de bain.  -->
+										<xsd:element name="NBRE_SALLE_BAIN" type="xsd:int" minOccurs="0"/>
+										<!-- Nombre de garages.  -->
+										<xsd:element name="NBRE_GARAGE" type="xsd:int" minOccurs="0"/>
+										<!-- Nombre de niveaux.  -->
+										<xsd:element name="NBRE_NIVEAU" type="xsd:int" minOccurs="0"/>
+										<!-- Nombre de balcons.  -->
+										<xsd:element name="NBRE_BALCON" type="xsd:int" minOccurs="0"/>
+										<!-- Nombre de salle d’eau.  -->
+										<xsd:element name="NBRE_SALLE_EAU" type="xsd:int" minOccurs="0"/>
+										<!-- Nombre de parkings.  -->
+										<xsd:element name="NBRE_PARKING" type="xsd:int" minOccurs="0"/>
+										<!-- Nombre de terrasses.  -->
+										<xsd:element name="NBRE_TERRASSE" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="CUISINE" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="EAU_CHAUDE" type="xsd:int" minOccurs="0"/>
+										<!-- Le bien possède un sous-sol ou non.  -->
+										<xsd:element name="SOUS_SOL" type="BoolType" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="CONSTRUCTION" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="MITOYENNETE" type="xsd:int" minOccurs="0"/>
+										<xsd:element name="ISOLATION" type="BoolType" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="COUVERTURE" type="xsd:int" minOccurs="0"/>
+										<xsd:element name="NBRE_CAVES" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="LOCALISATION" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="CLASSEMENT" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="CHAUFFAGE" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="MECANISME_CHAUFFAGE" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->										
+										<xsd:element name="MODE_CHAUFFAGE" type="xsd:int" minOccurs="0"/>
+										<!-- Le bien possède-t-il une piscine ?  -->
+										<xsd:element name="DESCRIPTION_PISCINE" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il un tennis ?  -->
+										<xsd:element name="DESCRIPTION_TENNIS" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il un logement pour un gardien ?  -->
+										<xsd:element name="LOGEMENT_GARDIEN" type="BoolType" minOccurs="0"/>
+										<!-- Peut apparaître 5 fois au maximum. (voir dictionnaire des références)  -->
+										<xsd:element name="PROPRIETE_DEMEURE" type="xsd:int" minOccurs="0"/>
+										<xsd:element name="AGREMENT_VUE" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il une vue agréable ?  -->
+										<xsd:element name="AGREMENT_CHASSE" type="BoolType" minOccurs="0"/>
+										<!-- Le bien a-t-il une zone de chasse à proximité ?  -->
+										<xsd:element name="AGREMENT_GOLF" type="BoolType" minOccurs="0"/>
+										<!-- Le bien a-t-il un golf à proximité ?  -->
+										<xsd:element name="AGREMENT_LAC" type="BoolType" minOccurs="0"/>
+										<!-- Le bien a-t-il un lac à proximité ?  -->
+										<xsd:element name="AGREMENT_MONTAGNE" type="BoolType" minOccurs="0"/>
+										<!-- Le bien a-t-il une zone montagneuse à proximité ?  -->
+										<xsd:element name="AGREMENT_MER" type="BoolType" minOccurs="0"/>
+										<!-- Le bien a-t-il la mer à proximité ?  -->
+									</xsd:all>
+								</xsd:complexType>
+							</xsd:element>
+							<!-- Cette balise contient les informations génériques du bien parking. Cette balise de bien ne peut être couplée à une autre 
+                                 Elle peut être contenue dans une balise BIEN   -->
+							<xsd:element name="PARKING" minOccurs="0">
+								<xsd:complexType>
+									<xsd:all>
+										<!-- Surface du parking.  -->
+										<xsd:element name="SURFACE" type="xsd:int"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="TYPE_PARKING" type="type_parking"/>
+										<!-- Niveau où se situe le bien.  -->
+										<xsd:element name="NIVEAU" type="xsd:int"/>
+										<!-- Numéro du lot.  -->
+										<xsd:element name="NUM_LOT" type="xsd:int" minOccurs="0"/>
+										<xsd:element name="COPROPRIETE" type="BoolType" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="DISPONIBILITE" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références) -->
+										<xsd:element name="ETAT_GENERAL" type="etat_general_type" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="LOCALISATION" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="CATEGORIE" type="categorie_parking"/>
+									</xsd:all>
+								</xsd:complexType>
+							</xsd:element>
+
+							<!-- Cette balise contient les informations génériques du bien immeuble. Cette balise de bien ne peut être couplée à une autre 
+                                 Elle peut être contenue dans une balise BIEN -->
+							<xsd:element name="IMMEUBLE" minOccurs="0">
+								<xsd:complexType>
+									<xsd:all>
+										<!-- Surface totale du bien.  -->
+										<xsd:element name="SURFACE_TOTALE" type="xsd:int"/>
+										<!-- Surface cadastrée du bien.  -->
+										<xsd:element name="SURFACE_CADASTREE" type="xsd:int"/>
+										<!-- Année de construction du bien.  -->
+										<xsd:element name="ANNEE_CONSTRUCTION" type="xsd:int"/>
+										<!--  -->
+										<xsd:element name="NBRE_LOT" type="xsd:int" minOccurs="0"/>
+										<!-- Nombre d’appartements.  -->
+										<xsd:element name="NBRE_APPARTEMENT" type="xsd:int"/>
+										<!-- Nombre de niveaux.  -->
+										<xsd:element name="NBRE_NIVEAU" type="xsd:int"/>
+										<!-- Nombre de parkings. -->
+										<xsd:element name="NBRE_PARKING" type="xsd:int" minOccurs="0"/>
+										<!-- Nombre de garages.  -->
+										<xsd:element name="NBRE_GARAGE" type="xsd:int" minOccurs="0"/>
+										<!-- Nombre de niveaux.  -->
+										<xsd:element name="NBRE_CAVE" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="STANDING" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="ETAT_GENERAL" type="etat_general_type" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="EAU_CHAUDE" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="LOCALISATION" type="xsd:int" minOccurs="0"/>
+										<!-- L’immeuble possède un accès handicapés ou non.  -->
+										<xsd:element name="ACCES_HANDICAPES" type="BoolType" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="IMMEUBLE_COLLECTIF" type="BoolType" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="IMMEUBLE_INDEPENDANT" type="BoolType" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="CHAUFFAGE" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="MODE_CHAUFFAGE" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="MECANISME_CHAUFFAGE" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="CATEGORIE" type="categorie_immeuble"/>
+									</xsd:all>
+								</xsd:complexType>
+							</xsd:element>
+							<!-- Cette balise contient les informations génériques du bien agricole ou viticole. Cette balise de bien ne peut être couplée à une autre 
+                                 Elle peut être contenue dans une balise BIEN  -->
+							<xsd:element name="AGRICOLE_VITICOLE" minOccurs="0">
+								<xsd:complexType>
+									<xsd:sequence>
+										<!-- Superficie totale.  -->
+										<xsd:element name="SUPERFICIE_TOTALE" type="xsd:int"/>
+										<!-- -->
+										<xsd:element name="SUPERFICIE_AGRICOLE_UTILE" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="SUPERFICIE_PLUS_GROS_LOT" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="SUPERFICIE_MARAICHAGE" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="SUPERFICIE_LANDES" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="CULTURE_INDUSTRIELLE" type="BoolType" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="IRRIGABLE" type="BoolType" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="ROUTE_GOUDRONNEE" type="BoolType" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="DESCRIPTIF" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="EXPLOITANT" type="xsd:int" minOccurs="0"/>
+										<!-- Le nombre d’habitation du bien.  -->
+										<xsd:element name="NBRE_HABITATION" type="xsd:int" minOccurs="0"/>
+										<!-- La surface totale des habitations du bien.  -->
+										<xsd:element name="SURFACE_HABITATION" type="xsd:int" minOccurs="0"/>
+										<!-- Le nombre d’exploitation du bien.  -->
+										<xsd:element name="NBRE_EXPLOITATION" type="xsd:int" minOccurs="0"/>
+										<!-- La surface totale des exploitations du bien.  -->
+										<xsd:element name="SURFACE_EXPLOITATION" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="NBRE_AUTRES" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="SURFACE_AUTRES" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="AGRICOLE_CATEGORIE" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="AGRICOLE_POLYCULTURE" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="AGRICOLE_BOIS" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="AGRICOLE_PLANTES_SARCELES" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="AGRICOLE_DIVERS" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="AGRICOLE_PRAIRIES" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="AGRICOLE_CEREALES" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="AGRICOLE_FRUITIERS" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="AGRICOLE_CHEPTEL" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="AGRICOLE_MATERIEL" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="VITICOLE_APPELLATION1" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="50" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- -->
+										<xsd:element name="VITICOLE_APPELLATION1_SURFACE" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="VITICOLE_APPELLATION2" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="50" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- -->
+										<xsd:element name="VITICOLE_APPELLATION2_SURFACE" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="VITICOLE_CEPAGE" minOccurs="0" maxOccurs="6">
+											<xsd:complexType>
+												<xsd:sequence>
+													<!-- -->
+													<xsd:element name="VITICOLE_NOM_CEPAGE" minOccurs="0">
+														<xsd:simpleType>
+															<xsd:restriction base="xsd:string">
+																<xsd:maxLength value="30" fixed="true"/>
+															</xsd:restriction>
+														</xsd:simpleType>
+													</xsd:element>
+													<!-- -->
+													<xsd:element name="VITICOLE_SURFACE" type="xsd:int" minOccurs="0"/>
+													<!-- -->
+													<xsd:element name="VITICOLE_AGE" type="xsd:int" minOccurs="0"/>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<!-- -->
+										<xsd:element name="CATEGORIE" type="categorie_agricole_viticole"/>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+							<!-- Cette balise contient les informations génériques du bien forêt. Cette balise de bien ne peut être couplée à une autre 
+                             Elle peut être contenue dans une balise BIEN  -->
+
+							<xsd:element name="FORET" minOccurs="0">
+								<xsd:complexType>
+									<xsd:sequence>
+										<!-- Superficie totale.   -->
+										<xsd:element name="SUPERFICIE_TOTALE" type="xsd:int"/>
+										<!-- Nature de la terre. Taille maximum : 30 caractères.   -->
+										<xsd:element name="NATURE_TERRE" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="30" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- -->
+										<xsd:element name="TYPE_RELIEF" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="30" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- -->
+										<xsd:element name="CHEMIN_VIDANGE" type="BoolType" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="CHASSE" type="BoolType" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="DESCRIPTIF" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="DISTANCE_ROUTE_GOUDRONNE" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="DISTANCE_AUTOROUTE" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="PRETS" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="LOI_SERROT" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="ETAT_FORET_PLANTATION" type="BoolType" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="ETAT_PLANTATION_AGE" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="ETAT_FORET_FUTAIE" type="BoolType" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="ETAT_PLANTATION_VOLUME" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="NBRE_HABITATION" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="SURFACE_HABITATION" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="NBRE_EXPLOITATION" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="SURFACE_EXPLOITATION" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="NBRE_AUTRES" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="SURFACE_AUTRES" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="ARBRES" minOccurs="0" maxOccurs="14">
+											<xsd:complexType>
+												<xsd:sequence>
+													<xsd:element name="ARBRE_TYPE" type="xsd:int" minOccurs="0"/>
+													<xsd:element name="ARBRE_AGE" type="xsd:int" minOccurs="0"/>
+													<xsd:element name="ARBRE_SURFACE" type="xsd:int" minOccurs="0"/>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<!-- -->
+										<xsd:element name="CATEGORIE" type="categorie_foret"/>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+							<!-- Cette balise contient les informations génériques du bien local commercial. Cette balise de bien ne peut être couplée à une autre. 
+                                 Elle peut être contenue dans une balise BIEN  -->
+							<xsd:element name="LOCAL_COMMERCIAL" minOccurs="0">
+								<xsd:complexType>
+									<xsd:all>
+										<!-- Nombre de lots.  -->
+										<xsd:element name="NBRE_LOT" type="xsd:int" minOccurs="0"/>
+										<!-- Etage du bien.  -->
+										<xsd:element name="NUM_ETAGE" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="STANDING" type="xsd:int"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="ANCIENNETE" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="ZONE_ECONOMIQUE" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="SURFACE_UTILE" type="xsd:int"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="LONGUEUR_VITRINE" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="GROS_OEUVRE" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="CHAUFFAGE" type="xsd:int" minOccurs="0"/>
+										<!-- La surface est-elle divisible ?  -->
+										<xsd:element name="SURFACE_DIVISIBLE" type="BoolType" minOccurs="0"/>
+										<!-- Surface minimum.  -->
+										<xsd:element name="SURFACE_MINIMUM" type="xsd:int"/>
+										<!-- Correspond au nombre de parking.  -->
+										<xsd:element name="PARKING" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il un monte-charge ?  -->
+										<xsd:element name="MONTE_CHARGE" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il une climatisation ?  -->
+										<xsd:element name="CLIMATISATION" type="BoolType" minOccurs="0"/>
+										         <!-- Le bien est-il près d’un accès routier ?  -->
+								                <xsd:element name="PROXIMITE_ACCES_ROUTIER" type="BoolType"  minOccurs="0"/>
+								                 <!-- Le bien est-il près d’un accès routier ?  -->
+								                <xsd:element name="PROXIMITE_ACCES_TOUT_TONNAGE" type="BoolType"  minOccurs="0"/>
+								                <xsd:element name="PROXIMITE_AEROGARE" type="BoolType"  minOccurs="0"/>
+								                <!-- Le bien est-il près d’une aérogare ?  -->
+								                <!-- Le bien est-il près d’une gare routière ?  -->
+								                <xsd:element name="PROXIMITE_GARE_ROUTIERE" type="BoolType"  minOccurs="0"/>
+								                <!-- Le bien est-il près de commerces ?  -->
+								                <xsd:element name="PROXIMITE_COMMERCES" type="BoolType"  minOccurs="0"/>
+								                <!-- Le bien est-il près d’une gare de Métro ou de RER ?  -->
+								                <xsd:element name="PROXIMITE_METRO_RER" type="BoolType"  minOccurs="0"/>
+								                <!-- Le bien est-il près d’une gare SNCF ? -->
+								                <xsd:element name="PROXIMITE_SNCF" type="BoolType"  minOccurs="0"/>
+								                <!-- Le bien est-il près d’une voie fluviale ?  -->
+								                <xsd:element name="PROXIMITE_VOIE_FLUVIALE" type="BoolType"  minOccurs="0"/>
+								                <!-- Marché d’Intérêt Régional.  -->
+								                <xsd:element name="MIR" type="BoolType"  minOccurs="0"/>
+								                <!-- Marché d’Intérêt National.  -->
+								                <xsd:element name="MIN" type="BoolType"  minOccurs="0"/>
+								         <!-- Surface du magasin.  -->
+										<xsd:element name="DESCRIPTIF_MAGASIN" type="xsd:int" minOccurs="0"/>										
+										<!-- Surface de la salle d’exposition.  -->
+										<xsd:element name="DESCRIPTIF_SALLE_EXPO" type="xsd:int" minOccurs="0"/>
+										<xsd:element name="DESCRIPTIF_COMMERCIAL_ETAGE" type="xsd:int" minOccurs="0"/>
+										<!-- Surface du logement.  -->
+										<xsd:element name="DESCRIPTIF_LOGEMENT" type="xsd:int" minOccurs="0"/>
+										<!-- Surface de la réserve.  -->
+										<xsd:element name="DESCRIPTIF_RESERVE" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références) -->
+										<xsd:element name="CATEGORIE" type="categorie_local_commercial"/>
+									</xsd:all>
+								</xsd:complexType>
+							</xsd:element>
+							<!-- Cette balise contient les informations génériques du bien local professionnel. Cette balise de bien ne peut être couplée à une autre. 
+                                 Elle peut être contenue dans une balise BIEN  -->
+							<xsd:element name="LOCAL_PROFESSIONNEL" minOccurs="0">
+								<xsd:complexType>
+									<xsd:all>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="STANDING" type="xsd:int"/>
+										<!-- L’étage courant du bien.  -->
+										<xsd:element name="NUM_ETAGE" type="xsd:int" minOccurs="0"/>
+										<!-- Numéro du dernier étage du bien.  -->
+										<xsd:element name="NUM_DERNIER_ETAGE" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="NBRE_LOTS" type="xsd:int" minOccurs="0"/>
+										<!-- Nombre de pièces du bien.  -->
+										<xsd:element name="NBRE_PIECES" type="xsd:int"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="ANCIENNETE" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="ZONE_ECONOMIQUE" type="xsd:int" minOccurs="0"/>
+										<!-- Surface utile du bien.  -->
+										<xsd:element name="SURFACE_UTILE" type="xsd:int"/>
+										<!-- Surface minimum du bien.  -->
+										<xsd:element name="SURFACE_TOTALE" type="xsd:int"/>
+										<!-- Hauteur sous plafond du bien.  -->
+										<xsd:element name="HAUTEUR_SOUS_PLAFOND" type="xsd:int" minOccurs="0"/>
+										<!-- Surface de l’étage courant.  -->
+										<xsd:element name="SURFACE_ETAGE_COURANT" type="xsd:int" minOccurs="0"/>
+										<!-- La surface du bien est-elle divisible ?  -->
+										<xsd:element name="SURFACE_DIVISIBLE" type="BoolType" minOccurs="0"/>
+										<!-- Surface minimum du bien.  -->
+										<xsd:element name="SURFACE_MINIMUM" type="xsd:int"/>
+										<!--  -->
+										<xsd:element name="CHAUFFAGE" type="xsd:int" minOccurs="0"/>
+                                        <!-- Téléphone du négociateur. Taille maximum : 15 caractères. -->
+										<xsd:element name="TELEPHONE" type="BoolType" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="TYPE_TELEPHONE" type="xsd:int" minOccurs="0"/>
+										<!-- Le nombre de lignes téléphoniques.  -->
+										<xsd:element name="NBRE_LIGNES" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="IMMEUBLE_COLLECTIF" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il un monte-charge ?  -->
+										<xsd:element name="MONTE_CHARGE" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il un local archive ?  -->
+										<xsd:element name="LOCAL_ARCHIVES" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il une télésurveillance ? -->
+										<xsd:element name="TELESURVEILLANCE" type="BoolType" minOccurs="0"/>
+										<!--  -->
+										<xsd:element name="IMMEUBLE_INDIVIDUEL" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il une climatisation ?  -->
+										<xsd:element name="CLIMATISATION" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il des dépendances ?  -->
+										<xsd:element name="DEPENDANCES" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il un restaurant ?  -->
+										<xsd:element name="RESTAURANT" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il un ascenseur ?  -->
+										<xsd:element name="ASCENSEUR" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il un faux plancher ?  -->
+										<xsd:element name="FAUX_PLANCHER" type="BoolType" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="MUR_CLOISONNE" type="BoolType" minOccurs="0"/>
+										<!-- Le bien est-il près d’un accès routier ?  -->
+										<xsd:element name="PROXIMITE_ACCES_ROUTIER" type="BoolType"  minOccurs="0"/>
+										<!--  -->
+										<xsd:element name="PROXIMITE_ACCES_TOUT_TONNAGE" type="BoolType"  minOccurs="0"/>
+										<!-- Le bien est-il près d’un aérogare ?  -->
+										<xsd:element name="PROXIMITE_AEROGARE" type="BoolType"  minOccurs="0"/>
+										<!-- Le bien est-il près d’une gare routière ?  -->
+										<xsd:element name="PROXIMITE_GARE_ROUTIERE" type="BoolType"  minOccurs="0"/>
+										<!-- Le bien est-il près de commerces ?  -->
+										<xsd:element name="PROXIMITE_COMMERCES" type="BoolType"  minOccurs="0"/>
+										<!-- Le bien est-il près d’un gare de Métro ou RER ?  -->
+										<xsd:element name="PROXIMITE_METRO_RER" type="BoolType"  minOccurs="0"/>
+										<!--  -->
+										<xsd:element name="PROXIMITE_SNCF" type="BoolType"  minOccurs="0"/>
+										<!-- Le bien est-il près d’une voie fluviale ?  -->
+										<xsd:element name="PROXIMITE_VOIE_FLUVIALE" type="BoolType"  minOccurs="0"/>
+										<!-- Marché d’Intérêt Régional.  -->
+										<xsd:element name="MIR" type="BoolType"  minOccurs="0"/>
+										<!-- Marché d’Intérêt National.  -->
+										<xsd:element name="MIN" type="BoolType"  minOccurs="0"/>
+								         <!-- (voir dictionnaire des références)  -->       
+										<xsd:element name="CATEGORIE" type="categorie_local_professionnel" />
+									</xsd:all>
+								</xsd:complexType>
+							</xsd:element>
+							<!-- Cette balise contient les informations génériques du bien local industriel. Cette balise de bien ne peut être couplée à une autre. 
+                             Elle peut être contenue dans une balise BIEN  -->
+							<xsd:element name="LOCAL_INDUSTRIEL" minOccurs="0">
+								<xsd:complexType>
+									<xsd:all>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="STANDING" type="xsd:int"/>
+										<!--Numéro de l’étage courant du bien.  -->
+										<xsd:element name="NUM_ETAGE" type="xsd:int" minOccurs="0"/>
+										<xsd:element name="NBRE_LOTS" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="GROS_OEUVRE" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="ANCIENNETE" type="xsd:int" minOccurs="0"/>
+										<!--(voir dictionnaire des références)  -->
+										<xsd:element name="ZONE_ECONOMIQUE" type="xsd:int" minOccurs="0"/>
+										<!-- Surface utile du bien.  -->
+										<xsd:element name="SURFACE_UTILE" type="xsd:int"/>
+										<!-- Surface totale du bien.  -->
+										<xsd:element name="SURFACE_TOTALE" type="xsd:int"/>
+										<!-- Hauteur sous plafond du bien.  -->
+										<xsd:element name="HAUTEUR_SOUS_PLAFOND" type="xsd:int" minOccurs="0"/>
+										<!-- La surface du bien est-elle divisible ?  -->
+										<xsd:element name="SURFACE_DIVISIBLE" type="BoolType" minOccurs="0"/>
+										<!-- Surface minimum du bien.  -->
+										<xsd:element name="SURFACE_MINIMUM" type="xsd:int"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="CHAUFFAGE" type="xsd:int" minOccurs="0"/>										
+                                        <!-- Téléphone du négociateur. Taille maximum : 15 caractères.  -->
+										<xsd:element name="TELEPHONE" type="BoolType" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="TYPE_TELEPHONE" type="xsd:int" minOccurs="0"/>
+										<!-- Le nombre de lignes téléphonique du bien.  -->
+										<xsd:element name="NBRE_LIGNES" type="xsd:int" minOccurs="0"/>
+										<xsd:element name="IMMEUBLE_COLLECTIF" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il un monte-charge ?  -->
+										<xsd:element name="MONTE_CHARGE" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il un quai de déchargement ?  -->
+										<xsd:element name="QUAI" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il une aire de manoeuvre?  -->
+										<xsd:element name="AIRE_MANOEUVRE" type="BoolType" minOccurs="0"/>
+										<xsd:element name="IMMEUBLE_INDIVIDUEL" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il une climatisation ?  -->
+										<xsd:element name="CLIMATISATION" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il des sprinklers ?  -->
+										<xsd:element name="SPRINKLERS" type="BoolType" minOccurs="0"/>
+										<xsd:element name="AIR_COMPRIME" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il un ascenseur ?  -->
+										<xsd:element name="ASCENSEUR" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il une alarme incendie ?  -->
+										<xsd:element name="RESEAU_ALARME_INCENDIE" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il un pont roulant ?  -->
+										<xsd:element name="PONT_ROULANT" type="BoolType" minOccurs="0"/>
+										        <!-- Le bien est-il près d’un accès routier ?  -->
+								                <xsd:element name="PROXIMITE_ACCES_ROUTIER" type="BoolType"  minOccurs="0"/>							                
+								                <xsd:element name="PROXIMITE_ACCES_TOUT_TONNAGE" type="BoolType"  minOccurs="0"/>
+								                <!-- Le bien est-il près d’une aérogare ?  -->
+								                <xsd:element name="PROXIMITE_AEROGARE" type="BoolType"  minOccurs="0"/>
+								                <!-- Le bien est-il près d’une gare routière ?  -->
+								                <xsd:element name="PROXIMITE_GARE_ROUTIERE" type="BoolType"  minOccurs="0"/>								               
+								                <xsd:element name="PROXIMITE_COMMERCES" type="BoolType"  minOccurs="0"/>
+								                <!-- Le bien est-il près d’une gare de Métro ou RER ?  -->
+								                <xsd:element name="PROXIMITE_METRO_RER" type="BoolType"  minOccurs="0"/>
+								                <!-- Le bien est-il près d’une gare SNCF ?  -->
+								                <xsd:element name="PROXIMITE_SNCF" type="BoolType"  minOccurs="0"/>
+								                <!-- Le bien est-il près d’une voie fluviale ?  -->
+								                <xsd:element name="PROXIMITE_VOIE_FLUVIALE" type="BoolType"  minOccurs="0"/>
+								                <!-- Marché d’Intérêt Régional.  -->
+								                <xsd:element name="MIR" type="BoolType"  minOccurs="0"/>
+								                <!-- Marché d’Intérêt National. -->
+								                <xsd:element name="MIN" type="BoolType"  minOccurs="0"/>
+								        <!-- (voir dictionnaire des références)  -->        
+										<xsd:element name="TOITURE" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="SOLS" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="COUVERTURE" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="STRUCTURE" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="CHARPENTE" type="xsd:int" minOccurs="0"/>										
+										<!-- Le bien possède-t-il un groupe électrogène ?  -->
+										<xsd:element name="GROUPE_ELECTROGENE" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il un onduleur ?  -->
+										<xsd:element name="ONDULEUR" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il une ligne triphasé ?  -->
+										<xsd:element name="TRIPHASE" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il une ligne monophasé ?  -->
+										<xsd:element name="MONOPHASE" type="BoolType" minOccurs="0"/>
+										<xsd:element name="PUISSANCE_EDF" type="xsd:int" minOccurs="0"/>
+										<!-- (voir dictionnaire des références) -->
+										<xsd:element name="CATEGORIE" type="categorie_local_industriel"/>
+									</xsd:all>
+								</xsd:complexType>
+							</xsd:element>
+							<!-- -->
+							<xsd:element name="FOND_COMMERCE" minOccurs="0">
+								<xsd:complexType>
+									<xsd:sequence>
+										<!-- Peut apparaître 5 fois maximum. (voir dictionnaire des références)  -->
+										<xsd:element name="ACTIVITE" type="xsd:int" maxOccurs="5"/>
+										<!-- Le nombre de pièces du bien.  -->
+										<xsd:element name="NBRE_PIECES" type="xsd:int" minOccurs="0"/>
+										<!-- Le nombre de parkings du bien.  -->
+										<xsd:element name="NBRE_PARKING" type="xsd:int" minOccurs="0"/>
+										<!-- Le nombre de garages du bien.  -->
+										<xsd:element name="NBRE_GARAGE" type="xsd:int" minOccurs="0"/>
+										<!-- Surface du commerce.  -->
+										<xsd:element name="SURFACE_COMMERCE" type="xsd:int"/>
+										<!-- Surface de l’annexe du bien.  -->
+										<xsd:element name="SURFACE_ANNEXE" type="xsd:int" minOccurs="0"/>
+										<!-- Le fond de commerce possède-t-il un logement.  -->
+										<xsd:element name="LOGEMENT" type="BoolType" minOccurs="0"/>
+										<!-- Surface du logement.  -->
+										<xsd:element name="SURFACE_LOGEMENT" type="xsd:int" minOccurs="0"/>
+										<!-- Chiffre d’affaire HT.  -->
+										<xsd:element name="CHIFFRE_AFFAIRE_HT" type="xsd:decimal"/>
+										<!-- Bénéfice restitué.  -->
+										<xsd:element name="BENEFICE_RECONSTITUE" type="xsd:decimal"/>
+										<!-- Total de la commission.  -->
+										<xsd:element name="TOTAL_COMMISSION" type="xsd:decimal"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="FORME_JURIDIQUE" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="RENTABILITE_CASH_FLOW" type="xsd:decimal" minOccurs="0"/>
+										<!-- Date de création de l’affaire.  -->
+										<xsd:element name="DATE_AFFAIRE" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:pattern value="(\d{1,2})/(\d{1,2})/(\d{4}|\d{2})"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Expiration du bail.  -->										
+										<xsd:element name="BAIL_EXPIRATION" type="xsd:int"/>
+										<!-- -->
+										<xsd:element name="NBRE_PERSONNEL" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="TAUX_TAXES_PROFESSIONNELLES" type="xsd:decimal" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="ANNEE1" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="4" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Première année d’activité. Taille maximum : 4 caractères.  -->
+										<xsd:element name="ANNEE1_CA_HT" type="xsd:decimal" minOccurs="0"/>
+										<!-- Chiffre d’affaire de la première année d’activité.  -->
+										<xsd:element name="ANNEE1_RESULTAT" type="xsd:decimal" minOccurs="0"/>
+										<!-- Deuxième année d’activité .Taille maximum : 4 caractères.  -->
+										<xsd:element name="ANNEE2" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="4" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- -->
+										<xsd:element name="ANNEE2_CA_HT" type="xsd:decimal" minOccurs="0"/>
+										<!-- Résultat de la deuxième année.  -->
+										<xsd:element name="ANNEE2_RESULTAT" type="xsd:decimal" minOccurs="0"/>
+										<!-- Troisième année d’activité .Taille maximum : 4 caractères.  -->
+										<xsd:element name="ANNEE3" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="4" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- -->
+										<xsd:element name="ANNEE3_CA_HT" type="xsd:decimal" minOccurs="0"/>
+										<!-- Chiffre d’affaire de la troisième année d’activité.  -->
+										<xsd:element name="ANNEE3_RESULTAT" type="xsd:decimal" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="CATEGORIE" type="categorie_fond_commerce"/>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+							<!-- Cette balise contient les informations génériques du bien location de vacances. Cette balise de bien doit être couplée à la balise PLANNING et TARIFICATION. Elle peut être contenue dans une balise BIEN -->
+							<xsd:element name="VACANCES" minOccurs="0">
+								<xsd:complexType>
+									<xsd:all>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="THEME" type="xsd:int"/>
+										<!-- -->
+										<xsd:element name="AVENANT_DEBUT" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:pattern value="(\d{1,2})/(\d{1,2})/(\d{4}|\d{2})"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- -->
+										<xsd:element name="AVENANT_FIN" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:pattern value="(\d{1,2})/(\d{1,2})/(\d{4}|\d{2})"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Nombre de pièces du bien.  -->
+										<xsd:element name="NBRE_PIECES" type="xsd:string"/>
+										<!-- Balise mère du groupe de balise <PIECE>. <PIECE> peut être instanciée au minimum une fois et au maximum d’après la valeur de la balise NBR_PIECES  -->
+										<xsd:element name="GROUPE_PIECES" minOccurs="0">
+	         										<xsd:complexType>
+	           											<xsd:sequence>
+													<!-- -->
+													<xsd:element name="PIECE" maxOccurs="unbounded" minOccurs="0">
+														<xsd:complexType>
+															<xsd:all>
+																<!-- Appartient au module de balise <PIECE>. Taille maximum : 30 caractères.  -->
+																<xsd:element name="LIBELLE_PIECE">
+																	<xsd:simpleType>
+																		<xsd:restriction base="xsd:string">
+																			<xsd:maxLength value="30" fixed="true"/>
+																		</xsd:restriction>
+																	</xsd:simpleType>
+																</xsd:element>
+																<!-- Appartient au module de balise <PIECE>. Taille maximum : 5 caractères -->
+																<xsd:element name="PIECE_EXPOSITION" minOccurs="0">
+																	<xsd:simpleType>
+																		<xsd:restriction base="xsd:string">
+																			<xsd:maxLength value="5" fixed="true"/>
+																		</xsd:restriction>
+																	</xsd:simpleType>
+																</xsd:element>
+																<!-- Appartient au module de balise <PIECE>.  -->
+																<xsd:element name="PIECE_SURFACE" type="xsd:int" minOccurs="0"/>
+																<!-- Appartient au module de balise <PIECE>. Le nombre de lits une place  -->
+																<xsd:element name="PIECE_LIT_1_PLACE" type="xsd:int" minOccurs="0"/>
+																<!-- Appartient au module de balise <PIECE>. Le nombre de lits deux places  -->
+																<xsd:element name="PIECE_LIT_2_PLACES" type="xsd:int" minOccurs="0"/>
+															</xsd:all>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+									          </xsd:complexType>
+									        </xsd:element>
+										<!-- Surface totale du bien.  -->
+										<xsd:element name="SURFACE" type="xsd:int"/>
+										<!-- Nombre de couchage total du bien.  -->
+										<xsd:element name="NBRE_COUCHAGES" type="xsd:int" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="DEPOT_GARANTIE" type="BoolType" minOccurs="0"/>
+										<!-- Taille maximum : 40 caractères.  -->
+										<xsd:element name="TYPE_BIEN" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="40" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Animaux autorisé ou non.  -->
+										<xsd:element name="INFO_ANIMAUX_AUTORISES" type="BoolType" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="INFO_LIT_2_PLACES" type="BoolType" minOccurs="0"/>
+										<!-- Existence d’un balcon ou non.  -->
+										<xsd:element name="INFO_BALCON" type="BoolType" minOccurs="0"/>
+										<!-- Existence d’une cour ou non.  -->
+										<xsd:element name="INFO_COUR" type="BoolType" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="INFO_FOUR" type="BoolType" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="INFO_WC" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il un lave-linge ?  -->
+										<xsd:element name="INFO_LAVE_LINGE" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il un parc ?  -->
+										<xsd:element name="INFO_PARC" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il un piscine ?  -->
+										<xsd:element name="INFO_PISCINE" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il un réfrigérateur ?  -->
+										<xsd:element name="INFO_REFRIGERATEUR" type="BoolType" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="INFO_LIT_1_PLACE" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il un lit enfant ? -->
+										<xsd:element name="INFO_LIT_ENFANT" type="BoolType" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="INFO_COCOTTE" type="BoolType" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="INFO_FER_REPASSER" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il un garage ? -->
+										<xsd:element name="INFO_GARAGE" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il un jardin ? -->
+										<xsd:element name="INFO_JARDIN" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il un lave-vaisselle ? -->
+										<xsd:element name="INFO_LAVE_VAISSELLE" type="BoolType" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="INFO_PARKING" type="BoolType" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="INFO_RECHAUD" type="BoolType" minOccurs="0"/>
+										<!-- Le bien possède-t-il un ascenseur ? -->
+										<xsd:element name="ASCENSEUR" type="BoolType" minOccurs="0"/>
+										<!-- Balise mère du groupe de balise <ALENTOURS>. Alentours peut apparaître 9 fois au maximum. Balises incluses dans ALENTOURS -->
+										<xsd:element name="GROUPE_ALENTOURS" minOccurs="0">
+											<xsd:complexType>
+												<xsd:sequence>
+													<!-- -->
+													<xsd:element name="ALENTOURS" minOccurs="0" maxOccurs="9">
+														<xsd:complexType>
+															<xsd:sequence>
+																<!-- Obligatoire dans la balise ALENTOURS. Description des alentours .Taille maximum : 30 caractères. -->
+																<xsd:element name="LIBELLE">
+																	<xsd:simpleType>
+																		<xsd:restriction base="xsd:string">
+																			<xsd:maxLength value="30" fixed="true"/>
+																		</xsd:restriction>
+																	</xsd:simpleType>
+																</xsd:element>
+																<!-- Obligatoire dans la balise <ALENTOURS> -->
+																<xsd:element name="DISTANCE" type="xsd:int"/>
+															<!-- Obligatoire dans la balise <ALENTOURS>. Distance exprimée en Km ou m. Taille maximum : 5 caractères. -->
+																<xsd:element name="UNITE">
+																	<xsd:simpleType>
+																		<xsd:restriction base="xsd:string">
+																			<xsd:maxLength value="5" fixed="true"/>
+																		</xsd:restriction>
+																	</xsd:simpleType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+									        </xsd:element>
+										<!-- Une activité de ski de fond est-elle possible ? -->
+										<xsd:element name="ACTIVITES_SKI_FOND" type="BoolType" minOccurs="0"/>
+										<!-- Une activité de ski alpin est-elle possible ? -->
+										<xsd:element name="ACTIVITES_SKI_ALPIN" type="BoolType" minOccurs="0"/>
+										<!-- Une activité golf est-elle possible ? Description du format des fichiers de transfert des biens immobiliers -->
+										<xsd:element name="ACTIVITES_GOLF" type="BoolType" minOccurs="0"/>
+										<!-- Une activité VTT est-elle possible ? -->
+										<xsd:element name="ACTIVITES_VTT" type="BoolType" minOccurs="0"/>
+										<!-- Une activité équitation est-elle possible ? -->
+										<xsd:element name="ACTIVITES_EQUITATION" type="BoolType" minOccurs="0"/>
+										<!-- Une activité randonnée est-elle possible ? -->
+										<xsd:element name="ACTIVITES_RANDONNEE" type="BoolType" minOccurs="0"/>
+										<!-- Une activité parapente est-elle possible ? -->
+										<xsd:element name="ACTIVITES_PARAPENTE" type="BoolType" minOccurs="0"/>
+										<!-- Une activité de sports nautiques est-elle possible ? -->
+										<xsd:element name="ACTIVITES_SPORTS_NAUTIQUE" type="BoolType" minOccurs="0"/>
+										<!-- Ligne 1 de l'adresse. Taille maximum : 40 caractères.  -->
+										<!-- Les locations de vacances sont un cas particulier, la localisation est intégrée dans sa définition. Taille maximum : 40 
+                                             caractères. -->
+										<xsd:element name="ADRESSE1">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="40" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Ligne 2 de l'adresse. Taille maximum : 40 caractères.  -->
+										<xsd:element name="ADRESSE2" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="40" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Ligne 3 de l'adresse. Taille maximum : 40 caractères.  -->
+										<xsd:element name="ADRESSE3" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="40" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Ligne 4 de l'adresse. Taille maximum : 40 caractères.  -->
+										<xsd:element name="ADRESSE4" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="40" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Code postal de la commune. Taille maximum : 5 chiffres -->
+										<xsd:element name="CP">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:int">
+													<xsd:pattern value="(\d{5})"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Ville du propriétaire. Taille maximum : 50 caractères. -->
+										<xsd:element name="VILLE">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="50" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Code du pays -->
+										<xsd:element name="PAYS">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="20" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Texte libre pour préciser la localisation. Taille maximum : 40 caractères. -->
+										<xsd:element name="LOCALISATION" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="40" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- (voir dictionnaire des références) -->
+										<xsd:element name="CATEGORIE" type="categorie_vacances"/>
+									</xsd:all>
+								</xsd:complexType>
+							</xsd:element>
+							<!-- Cette balise contient les informations d’occupation de la location vacances. Cette balise doit obligatoirement figurer avec la balise VACANCES. Elle n’apparaît qu’une fois. Elle peut être contenue dans une balise BIEN. Par défaut chaque jour de l’année est considéré comme ‘hors location’. Seules sont envoyées les périodes libres et les périodes occupées.  -->
+							<xsd:element name="PLANNING" minOccurs="0">
+								<xsd:complexType>
+									<xsd:sequence>
+										<!-- Module de balise contenant trois éléments enfants. Balises incluses dans OCCUPATION  -->
+										<xsd:element name="OCCUPATION" minOccurs="0" maxOccurs="unbounded">
+											<xsd:complexType>
+												<xsd:sequence>
+													<!-- -->
+													<xsd:element name="DATE_DEBUT" minOccurs="0">
+														<xsd:simpleType>
+															<xsd:restriction base="xsd:string">
+																<xsd:pattern value="(\d{1,2})/(\d{1,2})/(\d{4}|\d{2})"/>
+															</xsd:restriction>
+														</xsd:simpleType>
+													</xsd:element>
+													<!-- -->
+													<xsd:element name="DATE_FIN" minOccurs="0">
+														<xsd:simpleType>
+															<xsd:restriction base="xsd:string">
+																<xsd:pattern value="(\d{1,2})/(\d{1,2})/(\d{4}|\d{2})"/>
+															</xsd:restriction>
+														</xsd:simpleType>
+													</xsd:element>
+													<!-- Appartient au module de balise OCCUPATION. Si false : Libre.   -->
+													<xsd:element name="OCCUPE" type="BoolType" minOccurs="0"/>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+							<!-- Cette balise contient les informations de tarifs de la location vacances. Cette balise doit obligatoirement figurer avec la balise <VACANCES>. Elle n’apparaît qu’une fois. Elle peut être contenue dans une balise BIEN  -->
+							<xsd:element name="TARIFICATION" minOccurs="0">
+								<xsd:complexType>
+									<xsd:sequence>
+										<!-- -->
+										<xsd:element name="TARIF" minOccurs="0" maxOccurs="unbounded">
+											<xsd:complexType>
+												<xsd:sequence>
+													<!-- -->
+													<xsd:element name="DATE_DEBUT" minOccurs="0">
+														<xsd:simpleType>
+															<xsd:restriction base="xsd:string">
+																<xsd:pattern value="(\d{1,2})/(\d{1,2})/(\d{4}|\d{2})"/>
+															</xsd:restriction>
+														</xsd:simpleType>
+													</xsd:element>
+													<!-- -->
+													<xsd:element name="DATE_FIN" minOccurs="0">
+														<xsd:simpleType>
+															<xsd:restriction base="xsd:string">
+																<xsd:pattern value="(\d{1,2})/(\d{1,2})/(\d{4}|\d{2})"/>
+															</xsd:restriction>
+														</xsd:simpleType>
+													</xsd:element>
+													<!-- -->
+													<xsd:element name="PRIX" type="xsd:decimal" minOccurs="0"/>
+													<!-- Appartient au module de balise TARIF. Correspond au nombre de jours.  -->
+													<xsd:element name="TYPE_TARIFICATION" type="xsd:int" minOccurs="0"/>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+							<!-- Cette balise contient les informations confidentielles du bien. Cette balise accompagne une balise de bien. Elle n’apparaît qu’une fois. 
+                             Elle peut être contenue dans une balise BIEN   -->
+							<xsd:element name="CONFIDENTIEL" minOccurs="0">
+								<xsd:complexType>
+									<xsd:sequence>
+										<!-- -->
+										<xsd:element name="SYNDIC" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="50" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- -->
+										<xsd:element name="NOTAIRE" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="50" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Description du moyen de visite. Taille maximum : 50 caractères. -->
+										<xsd:element name="MOYEN_VISITE" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="50" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- -->
+										<xsd:element name="CLES_AGENCE" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="50" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="COPROPRIETE" type="xsd:int" minOccurs="0"/>
+										<!-- Seulement dans les locaux. Pour le local commercial, cette balise correspond au nom d’immeuble. Taille maximum : 50  -->
+										<xsd:element name="NOM_SITE" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="50" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+							<!--  Cette balise contient les informations de situation du bien. Cette balise accompagne une balise de bien. Elle n’apparaît qu’une fois. 
+                                  Elle peut être contenue dans une balise BIEN  -->
+							<xsd:element name="LOCALISATION">
+								<xsd:complexType>
+									<xsd:all>
+										<!-- Code postal de la commune. Taille maximum : 5 chiffres. -->
+										<xsd:element name="CODE_POSTAL">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:int">
+													<xsd:pattern value="(\d{5})"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Code INSEE de la commune. Ce champ n'est pas obligatoire aujourd'hui mais le sera plus tard. Taille maximum : 5 chiffres. -->
+										<xsd:element name="CODE_INSEE" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:int">
+													<xsd:pattern value="(\d{5})"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Ville du propriétaire. Taille maximum : 50 caractères. -->
+										<xsd:element name="VILLE" type="xsd:string" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="VILLE_INTERNET" type="xsd:string" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="CP_INTERNET" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:int">
+													<xsd:pattern value="(\d{5})"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- -->
+										<xsd:element name="NUM_RUE" type="xsd:int" minOccurs="0"/>
+										<!-- Le numéro est-il un ‘bis’ ?  -->
+										<xsd:element name="BIS_RUE" type="BoolType" minOccurs="0"/>
+										<!-- (voir dictionnaire des références)  -->
+										<xsd:element name="TYPE_RUE" type="xsd:int" minOccurs="0"/>
+										<!-- Numéro de la rue.  -->
+										<xsd:element name="NOM_RUE" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="40" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Nom de la résidence. Taille maximum : 80 caractères.  -->
+										<xsd:element name="RESIDENCE" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="80" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Nom du quartier .Taille maximum : 80 caractères.  -->
+										<xsd:element name="QUARTIER" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="80" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Texte libre indiquant la situation du bien par exemple : ’centre ville’. Taille maximum : 80 caractères.  -->
+										<xsd:element name="SITUATION">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="80" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Visibilité du code postal sur internet.  -->
+										<xsd:element name="VISIBLE" type="BoolType"/>
+										<!-- Longitude internet. -->
+										<xsd:element name="LONGITUDE" type="xsd:decimal" minOccurs="0" />
+										<!-- Latitude internet. -->
+										<xsd:element name="LATITUDE" type="xsd:decimal" minOccurs="0" />
+									</xsd:all>
+								</xsd:complexType>
+							</xsd:element>
+							<!-- commentaires Taille maximum : 255 caractères -->
+							<xsd:element name="COMMENTAIRES">
+								<xsd:complexType>
+									<xsd:all>
+										<!-- Commentaires en langue française. Taille maximum : 1200 caractères.   -->
+										<xsd:element name="FR" minOccurs="0" >
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="1200" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Commentaires en langue anglaise. Taille maximum : 1200 caractères.   -->
+										<xsd:element name="US" minOccurs="0" >
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="1200" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Commentaires en allemand. Taille maximum : 1200 caractères.   -->
+										<xsd:element name="DE" minOccurs="0" >
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="1200" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Commentaires en espagnol. Taille maximum : 1200 caractères.   -->
+										<xsd:element name="ES" minOccurs="0" >
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="1200" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Commentaires en italien. Taille maximum : 1200 caractères.   -->
+										<xsd:element name="IT" minOccurs="0" >
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="1200" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Commentaires destinés à l’inter-cabinet, n’apparaît pas sur les sites FNAIM. Taille maximum : 4000 caractères.   -->
+										<xsd:element name="LIBRE" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="4000" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- Commentaires confidentiels destinés aux SIA. Taille maximum : 1200 caractères. -->
+										<xsd:element name="INFO_CONFIDENTIELS" minOccurs="0">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:maxLength value="1200" fixed="true"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<!-- -->
+										<xsd:element name="VISITE_VIRTUELLE" type="xsd:string" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="ACCROCHE_UN" type="xsd:string" minOccurs="0"/>
+										<!-- -->
+										<xsd:element name="ACCROCHE_DEUX" type="xsd:string" minOccurs="0"/>
+									</xsd:all>
+								</xsd:complexType>
+							</xsd:element>
+							<!-- Cette balise contient les images associées au bien. Cette balise accompagne une balise de bien. Elle n’apparaît qu’une fois. 
+                                 Elle peut être contenue dans une balise BIEN  -->
+							<xsd:element name="IMAGES" minOccurs="0">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="IMG" minOccurs="0" maxOccurs="unbounded">
+											<xsd:complexType>
+												<xsd:sequence>
+													<!-- Cette balise doit être créée impérativement à vide. Elle est nécessaire pour la gestion des flux vers les 
+													serveurs FNAIM -->
+													<xsd:element name="DATA" type="xsd:string" minOccurs="0"/>
+												</xsd:sequence>
+												<!-- Attribut qui indique que si l’on doit supprimer cette image ou pas.  -->
+												<xsd:attribute name="supprimerimg" type="BoolType" use="optional"/>
+												<!-- Numéro de l’image. Ce numéro doit être compris entre 1 et 10 inclus.  -->
+												<xsd:attribute name="num" type="xsd:int"/>
+												<!-- Chemin et nom du fichier (ne pas mettre l’extension du fichier ‘.jpg’). Le chemin peut être absolu ou relatif. Taille 
+												maximum : 150 caractères.  -->                                                                                             
+												<xsd:attribute name="nom">
+													<xsd:simpleType>
+														<xsd:restriction base="xsd:string">
+															<xsd:maxLength value="150"/>
+														</xsd:restriction>
+													</xsd:simpleType>
+												</xsd:attribute>
+												<!-- Légende de l’image. Taille maximum : 100 caractères.  -->
+												<xsd:attribute name="commentaire">
+													<xsd:simpleType>
+														<xsd:restriction base="xsd:string">
+															<xsd:maxLength value="100"/>
+														</xsd:restriction>
+													</xsd:simpleType>
+												</xsd:attribute>
+											</xsd:complexType>
+										</xsd:element>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+                         	<!-- Cette balise contient les informations nécessaires pour archiver l’affaire. Elle n’apparaît que si l’attribut "action" est égal à "S", une seule fois. Elle doit être contenue dans une balise <BIEN>.  -->						
+							<xsd:element name="ARCHIVAGE" minOccurs="0">
+								<xsd:complexType>
+									<xsd:all>
+										<!-- 1 Vendue par l'agence 2 Retirée de la vente 3 Fin de mandat 4 Vendue par un confrère 5 Vendue par le propriétaire 
+                                             6 Vendue par autre intermédiaire 7 Vendue aux enchères 8 loué Description du format des fichiers de transfert des biens immob
+                                             9 non loué -->
+										<xsd:element name="MOTIF_SUPPRESSION" type="xsd:integer"/>
+										<!-- Prix de vente ou loyer lors de la transaction.  -->
+										<xsd:element name="PRIX_VENTE" type="xsd:decimal"/>
+										<!-- Module de balise contenant sept éléments enfants.  -->
+										<xsd:element name="ACQUEREUR" minOccurs="0">
+											<xsd:complexType>
+												<xsd:all>
+                                                    <!-- Nom du négociateur. Taille maximum : 40 caractères. -->
+													<xsd:element name="NOM" minOccurs="0">
+														<xsd:simpleType>
+															<xsd:restriction base="xsd:string">
+																<xsd:maxLength value="40" fixed="true"/>
+															</xsd:restriction>
+														</xsd:simpleType>
+													</xsd:element>
+                                                    <!-- Prénom du négociateur. Taille maximum : 40 caractères. -->
+													<xsd:element name="PRENOM" minOccurs="0">
+														<xsd:simpleType>
+															<xsd:restriction base="xsd:string">
+																<xsd:maxLength value="40" fixed="true"/>
+															</xsd:restriction>
+														</xsd:simpleType>
+													</xsd:element>
+													<xsd:element name="ADRESSE" minOccurs="0">
+														<xsd:simpleType>
+															<xsd:restriction base="xsd:string">
+																<xsd:maxLength value="40" fixed="true"/>
+															</xsd:restriction>
+														</xsd:simpleType>
+													</xsd:element>
+													<!-- Code postal de la commune. Taille maximum : 5 chiffres -->
+													<xsd:element name="CP" minOccurs="0">
+														<xsd:simpleType>
+															<xsd:restriction base="xsd:string">
+																<xsd:pattern value="(\d{5})"/>
+															</xsd:restriction>
+														</xsd:simpleType>
+													</xsd:element>
+													<!-- Ville du propriétaire. Taille maximum : 50 caractères. -->
+													<xsd:element name="VILLE" minOccurs="0">
+														<xsd:simpleType>
+															<xsd:restriction base="xsd:string">
+																<xsd:maxLength value="50" fixed="true"/>
+															</xsd:restriction>
+														</xsd:simpleType>
+													</xsd:element>
+													<!-- Code du pays -->
+													<xsd:element name="PAYS" type="xsd:integer" minOccurs="0"/>
+													<!-- Appartient au module de balise <ACQUEREUR>. Taille maximum : 50 caractères.  -->
+													<xsd:element name="PROFESSION" minOccurs="0">
+														<xsd:simpleType>
+															<xsd:restriction base="xsd:string">
+																<xsd:maxLength value="50" fixed="true"/>
+															</xsd:restriction>
+														</xsd:simpleType>
+													</xsd:element>
+												</xsd:all>
+											</xsd:complexType>
+										</xsd:element>
+									</xsd:all>
+								</xsd:complexType>
+							</xsd:element>
+
+						</xsd:all>
+						<xsd:attribute name="action" type="xsd:string" use="optional"/>
+					</xsd:complexType>
+				</xsd:element>
+				<!-- Cette balise décrit un bien qui a été archivé ou un bien à supprimer.-->
+				<xsd:element name="SUPPRESSION" minOccurs="0">
+				    <xsd:complexType>
+				      <xsd:sequence>
+				        <xsd:element maxOccurs="unbounded" name="BIEN_SUPP">
+				          <xsd:complexType>
+				            <xsd:sequence>
+                                <!-- Numéro FNAIM de l'agence. Un numéro d'adhérent FNAIM est compris entre 1 et 599 999  -->
+								<xsd:element name="ADH_NUM" type="xsd:int" />
+								<!-- v2.3 -->
+								<!--
+								  Le numéro SIREN dans le cas d’un agence principale / Le numéro SIRET dans le cas d’une succursale. 
+								  Cet identifiant nous permet de faire le rapprochement entre les informations des agences reçues et nos adhérents. 
+								  Tout mandat appartenant à une agence non identifiable par le numéro SIRET ou SIREN transmis ou non sera rejeté. -->
+								<xsd:element name="ID_ENTREPRISE" type="xsd:string" minOccurs="0"/>
+								<!-- Numéro de l’affaire. Taille maximum : 50 caractères. -->
+								<xsd:element name="AFF_NUM">
+				              		<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+									<xsd:maxLength value="50" fixed="true"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							  <!-- Date de la suppression de l’affaire, correspond à la date de vente ou de location de l’affaire. -->
+				              <xsd:element name="DATE_SUPPRESSION" minOccurs="0">
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:pattern value="(\d{1,2})/(\d{1,2})/(\d{4}|\d{2})"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						      <!-- Champ indiquant le type de bien suivant la normalisation Iris. Ex : "Appartement", "Demeure","Terrain","Parking", etc. -->
+				              <xsd:element name="TYPE_BIEN" type="xsd:string"  minOccurs="0"/>
+				              <!-- Champ indiquant la transaction suivant la normalisation Iris. Ex : "Vente", "Location","Viager". -->
+				              <xsd:element name="TRANSACTION" type="xsd:string"  minOccurs="0"/>
+				            </xsd:sequence>
+				          </xsd:complexType>
+				        </xsd:element>
+				      </xsd:sequence>
+				    </xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+			<!-- -->
+			<xsd:attribute name="origine" type="xsd:string" use="required"/>
+			<!-- 1.0 -->
+			<xsd:attribute name="version" type="xsd:decimal" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:complexType name="loyer_dets" mixed="true">
+		<xsd:all>
+			<!-- Loyer mensuel hors charges -->
+			<xsd:element name="HORS_CHARGES" type="xsd:decimal" minOccurs="0"/>
+			<!-- Loyer mensuel charges comprises -->
+			<xsd:element name="CHARGES_COMPRISES" type="xsd:decimal" minOccurs="0"/>
+			<!-- Loyer au m² par mois. -->
+			<xsd:element name="METRE_CARRE_MENSUEL" type="xsd:decimal" minOccurs="0"/>
+			<!-- Loyer au m² par an. -->
+			<xsd:element name="METRE_CARRE_ANNUEL" type="xsd:decimal" minOccurs="0"/>
+		</xsd:all>
+	</xsd:complexType>
+	<!--  -->
+	<xsd:simpleType name="BoolType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="True"/>
+			<xsd:enumeration value="False"/>
+			<xsd:enumeration value="true"/>
+			<xsd:enumeration value="false"/>
+			<xsd:enumeration value="0"/>
+			<xsd:enumeration value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  -->
+	<xsd:simpleType name="etat_general_type">
+		<xsd:restriction base="xsd:int">
+			<!-- non défini -->
+			<xsd:enumeration value="-1"/>
+			<xsd:enumeration value="0"/>
+			<!-- Habitable -->
+			<xsd:enumeration value="68"/>
+			<!-- Travaux à prévoir -->
+			<xsd:enumeration value="69"/>
+			<!-- Très bon état -->
+			<xsd:enumeration value="70"/>
+			<!-- Etat moyen -->
+			<xsd:enumeration value="411"/>
+			<!-- Neuf -->
+			<xsd:enumeration value="412"/>
+			<!-- Bon état -->
+			<xsd:enumeration value="431"/>
+			<!-- Exceptionnel -->
+			<xsd:enumeration value="432"/>
+			<!-- A rafraîchir -->
+			<xsd:enumeration value="433"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  -->
+	<xsd:simpleType name="etat_interieur_type">
+		<xsd:restriction base="xsd:int">
+			<!-- non défini -->
+			<xsd:enumeration value="-1"/>
+			<xsd:enumeration value="0"/>
+			<!-- Somptueux -->
+			<xsd:enumeration value="71"/>
+			<!-- A rafraichir -->
+			<xsd:enumeration value="72"/>
+			<!-- Très bon -->
+			<xsd:enumeration value="73"/>
+			<!-- Bon -->
+			<xsd:enumeration value="74"/>
+			<!-- Etat moyen -->
+			<xsd:enumeration value="75"/>
+			<!-- Habitable en l etat -->
+			<xsd:enumeration value="76"/>
+			<!-- Travaux a prevoir -->
+			<xsd:enumeration value="77"/>
+			<!-- A amenager -->
+			<xsd:enumeration value="78"/>
+			<!-- A rehabiliter -->
+			<xsd:enumeration value="79"/>
+			<!-- A renover -->
+			<xsd:enumeration value="80"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  -->
+	<xsd:simpleType name="etat_exterieur_type">
+		<xsd:restriction base="xsd:int">
+			<!-- non défini -->
+			<xsd:enumeration value="-1"/>
+			<xsd:enumeration value="0"/>
+			<!-- Somptueux -->
+			<xsd:enumeration value="81"/>
+			<!-- Tres bon -->
+			<xsd:enumeration value="82"/>
+			<!-- Bon -->
+			<xsd:enumeration value="83"/>
+			<!-- Travaux a prevoir -->
+			<xsd:enumeration value="84"/>
+			<!-- A rehabiliter -->
+			<xsd:enumeration value="85"/>
+			<!-- A raffraichir -->
+			<xsd:enumeration value="86"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  -->
+	<xsd:simpleType name="categorie_appartement">
+		<xsd:restriction base="xsd:int">
+			<!-- non défini -->
+			<xsd:enumeration value="-1"/>
+			<xsd:enumeration value="0"/>
+			<!-- appartement -->
+			<xsd:enumeration value="1"/>
+			<!-- appartement rénové -->
+			<xsd:enumeration value="2"/>
+			<!-- habitation de loisirs -->
+			<xsd:enumeration value="3"/>
+			<!-- appartement ancien -->
+			<xsd:enumeration value="4"/>
+			<!-- appartement bourgeois -->
+			<xsd:enumeration value="5"/>
+			<!-- appartement neuf -->
+			<xsd:enumeration value="6"/>
+			<!-- appartement récent -->
+			<xsd:enumeration value="7"/>
+			<!-- appartement à rénover -->
+			<xsd:enumeration value="8"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  -->
+	<xsd:simpleType name="categorie_maison">
+		<xsd:restriction base="xsd:int">
+			<!-- demeure -->
+			<xsd:enumeration value="9"/>
+			<!-- fermette -->
+			<xsd:enumeration value="10"/>
+			<!-- habitation de loisirs -->
+			<xsd:enumeration value="11"/>
+			<!-- hôtel particulier -->
+			<xsd:enumeration value="12"/>
+			<!-- maison individuelle -->
+			<xsd:enumeration value="13"/>
+			<!-- maison de campagne -->
+			<xsd:enumeration value="14"/>
+			<!-- maison neuve -->
+			<xsd:enumeration value="15"/>
+			<!-- pavillon -->
+			<xsd:enumeration value="16"/>
+			<!-- villa -->
+			<xsd:enumeration value="17"/>
+			<!-- mas -->
+			<xsd:enumeration value="18"/>
+			<!-- maison de village -->
+			<xsd:enumeration value="19"/>
+			<!-- maison -->
+			<xsd:enumeration value="20"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  -->
+	<xsd:simpleType name="categorie_parking">
+		<xsd:restriction base="xsd:int">
+			<!-- parking -->
+			<xsd:enumeration value="37"/>
+			<!-- garage / box -->
+			<xsd:enumeration value="38"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  -->
+	<xsd:simpleType name="categorie_terrain">
+		<xsd:restriction base="xsd:int">
+			<!-- terrain a amenager -->
+			<xsd:enumeration value="46"/>
+			<!-- terrain a batir -->
+			<xsd:enumeration value="47"/>
+			<!-- terrain industriel et artisanal -->
+			<xsd:enumeration value="48"/>
+			<!-- terrain non constructible -->
+			<xsd:enumeration value="49"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  -->
+	<xsd:simpleType name="type_parking">
+		<xsd:restriction base="xsd:int">
+			<!-- externe -->
+			<xsd:enumeration value="177"/>
+			<!-- couvert -->
+			<xsd:enumeration value="178"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  -->
+	<xsd:simpleType name="categorie_fond_commerce">
+		<xsd:restriction base="xsd:int">
+			<!--  café, hotel, restaurant, tabac -->
+			<xsd:enumeration value="28"/>
+			<!-- Boulangerie, pâtisserie, briocherie, levure -->
+			<xsd:enumeration value="29"/>
+			<!-- Boucherie, charcuterie, poissonnerie, tout alimentaire -->
+			<xsd:enumeration value="30"/>
+			<!-- Parfumerie, coiffure, fleurs, équipement de la personne -->
+			<xsd:enumeration value="31"/>
+			<!-- garage, station service -->
+			<xsd:enumeration value="32"/>
+			<!-- laverie, pressing, teinturerie -->
+			<xsd:enumeration value="33"/>
+			<!-- pharmacie -->
+			<xsd:enumeration value="34"/>
+			<!-- autres activités, services -->
+			<xsd:enumeration value="35"/>
+			<!-- librairie, papeterie, tabac, presse -->
+			<xsd:enumeration value="36"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  -->
+	<xsd:simpleType name="categorie_immeuble">
+		<xsd:restriction base="xsd:int">
+			<!-- immeuble loué -->
+			<xsd:enumeration value="39"/>
+			<!-- immeuble vide -->
+			<xsd:enumeration value="40"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  -->
+	<xsd:simpleType name="categorie_vacances">
+		<xsd:restriction base="xsd:int">
+			<!-- Appartement -->
+			<xsd:enumeration value="56"/>
+			<!-- Chalet -->
+			<xsd:enumeration value="57"/>
+			<!-- Villa -->
+			<xsd:enumeration value="58"/>
+			<!-- Location de prestige -->
+			<xsd:enumeration value="59"/>
+			<!-- Maison individuelle -->
+			<xsd:enumeration value="60"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  -->
+	<xsd:simpleType name="categorie_agricole_viticole">
+		<xsd:restriction base="xsd:int">
+			<!-- agricole -->
+			<xsd:enumeration value="41"/>
+			<!-- viticole -->
+			<xsd:enumeration value="42"/>
+			<!-- agricole & viticole -->
+			<xsd:enumeration value="43"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  -->
+	<xsd:simpleType name="categorie_foret">
+		<xsd:restriction base="xsd:int">
+			<!-- foret -->
+			<xsd:enumeration value="44"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  -->
+	<xsd:simpleType name="categorie_local_commercial">
+		<xsd:restriction base="xsd:int">
+			<!-- boutique -->
+			<xsd:enumeration value="54"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  -->
+	<xsd:simpleType name="categorie_local_industriel">
+		<xsd:restriction base="xsd:int">
+			<!-- Local industriel / d'activités -->
+			<xsd:enumeration value="52"/>
+			<!-- Entrepot -->
+			<xsd:enumeration value="53"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  -->
+	<xsd:simpleType name="categorie_local_professionnel">
+		<xsd:restriction base="xsd:int">
+			<!-- Bureau -->
+			<xsd:enumeration value="50"/>
+			<!-- Locaux professionnels -->
+			<xsd:enumeration value="51"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  -->
+	<xsd:simpleType name="categorie_demeure">
+		<xsd:restriction base="xsd:int">
+			<!-- chateau -->
+			<xsd:enumeration value="21"/>
+			<!-- demeure ancienne -->
+			<xsd:enumeration value="22"/>
+			<!-- demeure contemporaine -->
+			<xsd:enumeration value="23"/>
+			<!-- mas -->
+			<xsd:enumeration value="24"/>
+			<!-- demeure traditionnelle -->
+			<xsd:enumeration value="25"/>
+			<!-- manoir -->
+			<xsd:enumeration value="26"/>
+			<!-- maison de maitres -->
+			<xsd:enumeration value="27"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>
