@@ -39,18 +39,34 @@ sed -i 's/API_URL:.*,/API_URL:window.location.protocol+"\/\/"+window.location.ho
 ENVIRONMENT_BATCH_FILE=$PATH_OGI_INSTALL"resources/batch/properties/environment-batch.properties"
 sed -i 's/db.url.*$/db.url=jdbc:mysql:\/\/localhost:3306\/ogi/g' $ENVIRONMENT_BATCH_FILE
 
+# SELOGER
 sed -i 's/seloger.extraction.file.root.path.*$/seloger.extraction.file.root.path =\/data\/tmp\/seloger\//g' $ENVIRONMENT_BATCH_FILE
 sed -i 's/seloger.ftp.host.*$/seloger.ftp.host =transferts.seloger.com/g' $ENVIRONMENT_BATCH_FILE
 sed -i 's/seloger.ftp.directory.*$/seloger.ftp.directory =\//g' $ENVIRONMENT_BATCH_FILE
 sed -i 's/seloger.ftp.login.*$/seloger.ftp.login =seloger/g' $ENVIRONMENT_BATCH_FILE
 sed -i 's/seloger.ftp.pwd.*$/seloger.ftp.pwd =ENC(rhK37DQml8UwTU\/S7kWIQA==)/g' $ENVIRONMENT_BATCH_FILE
 
-#leboncoin
+# LEBONCOIN
 sed -i 's/leboncoin.extraction.file.root.path.*$/leboncoin.extraction.file.root.path =\/data\/tmp\/leboncoin\//g' $ENVIRONMENT_BATCH_FILE
 sed -i 's/leboncoin.ftp.host.*$/leboncoin.ftp.host = ftp.ubiflow.net/g' $ENVIRONMENT_BATCH_FILE
-sed -i 's/seloger.ftp.directory.*$/seloger.ftp.directory =\//g' $ENVIRONMENT_BATCH_FILE
+sed -i 's/leboncoin.ftp.directory.*$/leboncoin.ftp.directory =\//g' $ENVIRONMENT_BATCH_FILE
 sed -i 's/leboncoin.ftp.login.*$/leboncoin.ftp.login =ag400081/g' $ENVIRONMENT_BATCH_FILE
 sed -i 's/leboncoin.ftp.pwd.*$/leboncoin.ftp.pwd =ENC(xy3kaLMLn7QIiRwrjSt6oA==)/g' $ENVIRONMENT_BATCH_FILE
+
+#ANNONCES JAUNES
+sed -i 's/annoncesjaunes.extraction.file.root.path.*$/annoncesjaunes.extraction.file.root.path =\/data\/tmp\/annoncesjaunes\//g' $ENVIRONMENT_BATCH_FILE
+sed -i 's/annoncesjaunes.ftp.host.*$/annoncesjaunes.ftp.host = ftp.ANNONCES/g' $ENVIRONMENT_BATCH_FILE
+sed -i 's/annoncesjaunes.ftp.directory.*$/annoncesjaunes.ftp.directory =\//g' $ENVIRONMENT_BATCH_FILE
+sed -i 's/annoncesjaunes.ftp.login.*$/annoncesjaunes.ftp.login =ag400081/g' $ENVIRONMENT_BATCH_FILE
+sed -i 's/annoncesjaunes.ftp.pwd.*$/annoncesjaunes.ftp.pwd =ENC(xy3kaLMLn7QIiRwrjSt6oA==)/g' $ENVIRONMENT_BATCH_FILE
+
+
+# BIENICI
+sed -i 's/bienici.extraction.file.root.path.*$/bienici.extraction.file.root.path =\/data\/tmp\/bienici\//g' $ENVIRONMENT_BATCH_FILE
+sed -i 's/bienici.ftp.host.*$/bienici.ftp.host = ftp.ubiflow.net/g' $ENVIRONMENT_BATCH_FILE
+sed -i 's/bienici.ftp.directory.*$/bienici.ftp.directory =\//g' $ENVIRONMENT_BATCH_FILE
+sed -i 's/bienici.ftp.login.*$/bienici.ftp.login =ag400081/g' $ENVIRONMENT_BATCH_FILE
+sed -i 's/bienici.ftp.pwd.*$/bienici.ftp.pwd =ENC(xy3kaLMLn7QIiRwrjSt6oA==)/g' $ENVIRONMENT_BATCH_FILE
 
 
 SCRIPT_SELOGER=$PATH_OGI_INSTALL"batchs/bin/passerelle-seloger.sh"
@@ -69,6 +85,14 @@ SCRIPT_LEBONCOIN=$PATH_OGI_INSTALL"batchs/bin/passerelle-leboncoin.sh"
 sed -i "s/PROPERTIES_PWD/\$OGI_KEY/g" $SCRIPT_LEBONCOIN
 sed -i "s/JAVA\=.*$/JAVA\=\/app\/java\/jdk\/bin\/java/g" $SCRIPT_LEBONCOIN
 
+SCRIPT_ANNONCESJAUNES=$PATH_OGI_INSTALL"batchs/bin/passerelle-annoncesjaunes.sh"
+sed -i "s/PROPERTIES_PWD/\$OGI_KEY/g" $SCRIPT_ANNONCESJAUNES
+sed -i "s/JAVA\=.*$/JAVA\=\/app\/java\/jdk\/bin\/java/g" $SCRIPT_ANNONCESJAUNES
+
+SCRIPT_BIENICI=$PATH_OGI_INSTALL"batchs/bin/passerelle-bienici.sh"
+sed -i "s/PROPERTIES_PWD/\$OGI_KEY/g" $SCRIPT_BIENICI
+sed -i "s/JAVA\=.*$/JAVA\=\/app\/java\/jdk\/bin\/java/g" $SCRIPT_BIENICI
+
 SCRIPT_ES_INDEX_ALL=$PATH_OGI_INSTALL"batchs/bin/elasticsearch-index_all.sh"
 sed -i "s/PROPERTIES_PWD/\$OGI_KEY/g" $SCRIPT_ES_INDEX_ALL
 sed -i "s/JAVA\=.*$/JAVA\=\/app\/java\/jdk\/bin\/java/g" $SCRIPT_ES_INDEX_ALL
@@ -79,6 +103,10 @@ LOG4J_FILE=$PATH_OGI_INSTALL"resources/batch/log4j2-batchs.xml"
 sed -i 's/fileName=".*"/filename="\/data\/logs\/batchs.log"/g' $LOG4J_FILE
 sed -i 's/filePattern=".*"/filePattern="\data\/logs\/batchs-%d{yyyy-MM-dd}-%i.log"/g' $LOG4J_FILE
 
+#log4j diaporama
+LOG4J_FILE=$PATH_OGI_INSTALL"resources/batch/log4j2-batchs-diaporama.xml"
+sed -i 's/fileName=".*"/filename="\/data\/logs\/batchs-diaporama.log"/g' $LOG4J_FILE
+sed -i 's/filePattern=".*"/filePattern="\data\/logs\/batchs-diaporama-%d{yyyy-MM-dd}-%i.log"/g' $LOG4J_FILE
 
 #log4j file acimflo
 LOG4J_FILE=$PATH_OGI_INSTALL"resources/batch/log4j2-batchs-acimflo.xml"
@@ -95,10 +123,16 @@ LOG4J_FILE=$PATH_OGI_INSTALL"resources/batch/log4j2-batchs-leboncoin.xml"
 sed -i 's/fileName=".*"/filename="\/data\/logs\/batchs-leboncoin.log"/g' $LOG4J_FILE
 sed -i 's/filePattern=".*"/filePattern="\data\/logs\/batchs-leboncoin-%d{yyyy-MM-dd}-%i.log"/g' $LOG4J_FILE
 
-#log4j diaporama
-LOG4J_FILE=$PATH_OGI_INSTALL"resources/batch/log4j2-batchs-diaporama.xml"
-sed -i 's/fileName=".*"/filename="\/data\/logs\/batchs-diaporama.log"/g' $LOG4J_FILE
-sed -i 's/filePattern=".*"/filePattern="\data\/logs\/batchs-diaporama-%d{yyyy-MM-dd}-%i.log"/g' $LOG4J_FILE
+#log4j annonces jaunes
+LOG4J_FILE=$PATH_OGI_INSTALL"resources/batch/log4j2-batchs-annoncesjaunes.xml"
+sed -i 's/fileName=".*"/filename="\/data\/logs\/batchs-annoncesjaunes.log"/g' $LOG4J_FILE
+sed -i 's/filePattern=".*"/filePattern="\data\/logs\/batchs-annoncesjaunes-%d{yyyy-MM-dd}-%i.log"/g' $LOG4J_FILE
+
+#log4j bienici
+LOG4J_FILE=$PATH_OGI_INSTALL"resources/batch/log4j2-batchs-bienici.xml"
+sed -i 's/fileName=".*"/filename="\/data\/logs\/batchs-bienici.log"/g' $LOG4J_FILE
+sed -i 's/filePattern=".*"/filePattern="\data\/logs\/batchs-bienici-%d{yyyy-MM-dd}-%i.log"/g' $LOG4J_FILE
+
 
 #log4j index_all
 LOG4J_FILE=$PATH_OGI_INSTALL"resources/batch/log4j2-batchs-index_all.xml"
