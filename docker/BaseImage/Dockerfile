@@ -1,8 +1,8 @@
 FROM debian:wheezy
 MAINTAINER jerep6
 
-# MAJ des paquets
-RUN apt-get update
+# MAJ des paquets.
+RUN apt-get update && echo "1"
 
 # Install packages File is needed for file type detection with Files.probeContentType
 RUN apt-get install --no-install-recommends -y wget curl ca-certificates less procps vim cron file
