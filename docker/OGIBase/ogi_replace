@@ -65,8 +65,8 @@ sed -i 's/annoncesjaunes.ftp.pwd.*$/annoncesjaunes.ftp.pwd =ENC(xy3kaLMLn7QIiRwr
 sed -i 's/bienici.extraction.file.root.path.*$/bienici.extraction.file.root.path =\/data\/tmp\/bienici\//g' $ENVIRONMENT_BATCH_FILE
 sed -i 's/bienici.ftp.host.*$/bienici.ftp.host = ftp.ubiflow.net/g' $ENVIRONMENT_BATCH_FILE
 sed -i 's/bienici.ftp.directory.*$/bienici.ftp.directory =\//g' $ENVIRONMENT_BATCH_FILE
-sed -i 's/bienici.ftp.login.*$/bienici.ftp.login =ag400081/g' $ENVIRONMENT_BATCH_FILE
-sed -i 's/bienici.ftp.pwd.*$/bienici.ftp.pwd =ENC(xy3kaLMLn7QIiRwrjSt6oA==)/g' $ENVIRONMENT_BATCH_FILE
+sed -i 's/bienici.ftp.login.*$/bienici.ftp.login =ag400289/g' $ENVIRONMENT_BATCH_FILE
+sed -i 's/bienici.ftp.pwd.*$/bienici.ftp.pwd =ENC(JmZb87NYTnSWQJDdlhaCQw==)/g' $ENVIRONMENT_BATCH_FILE
 
 
 SCRIPT_SELOGER=$PATH_OGI_INSTALL"batchs/bin/passerelle-seloger.sh"
