@@ -55,10 +55,10 @@ sed -i 's/leboncoin.ftp.pwd.*$/leboncoin.ftp.pwd =ENC(xy3kaLMLn7QIiRwrjSt6oA==)/
 
 #ANNONCES JAUNES
 sed -i 's/annoncesjaunes.extraction.file.root.path.*$/annoncesjaunes.extraction.file.root.path =\/data\/tmp\/annoncesjaunes\//g' $ENVIRONMENT_BATCH_FILE
-sed -i 's/annoncesjaunes.ftp.host.*$/annoncesjaunes.ftp.host = ftp.ANNONCES/g' $ENVIRONMENT_BATCH_FILE
+sed -i 's/annoncesjaunes.ftp.host.*$/annoncesjaunes.ftp.host = fluxftp.annoncesjaunes.fr/g' $ENVIRONMENT_BATCH_FILE
 sed -i 's/annoncesjaunes.ftp.directory.*$/annoncesjaunes.ftp.directory =\//g' $ENVIRONMENT_BATCH_FILE
-sed -i 's/annoncesjaunes.ftp.login.*$/annoncesjaunes.ftp.login =ag400081/g' $ENVIRONMENT_BATCH_FILE
-sed -i 's/annoncesjaunes.ftp.pwd.*$/annoncesjaunes.ftp.pwd =ENC(xy3kaLMLn7QIiRwrjSt6oA==)/g' $ENVIRONMENT_BATCH_FILE
+sed -i 's/annoncesjaunes.ftp.login.*$/annoncesjaunes.ftp.login =ENC(FOAjA9z25aM0zznz+cRr7A==)/g' $ENVIRONMENT_BATCH_FILE
+sed -i 's/annoncesjaunes.ftp.pwd.*$/annoncesjaunes.ftp.pwd =ENC(rwNlr0WQiH57ScgTs73I0w==)/g' $ENVIRONMENT_BATCH_FILE
 
 
 # BIENICI

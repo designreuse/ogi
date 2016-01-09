@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import fr.jerep6.ogi.persistance.bo.Document;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 
 @Getter
@@ -14,6 +15,9 @@ import fr.jerep6.ogi.persistance.bo.RealProperty;
 public class RealPropertyCSV {
 	/** Property for composite item processor */
 	private RealProperty	property;
+	
+	@Setter
+	private List<Document>	photos;
 
 	// 1 -- 10
 	@Setter
@@ -231,7 +235,7 @@ public class RealPropertyCSV {
 		this.property = property;
 	}
 
-	public List<String> getPhotos() {
+	public List<String> getPhotosName() {
 		List<String> lWithNull = new ArrayList<>(20);
 		lWithNull.add(photo1);
 		lWithNull.add(photo2);

@@ -12,8 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.core.io.Resource;
 
-import fr.jerep6.ogi.utils.DocumentUtils;
-import fr.jerep6.ogi.utils.Functions;
+import fr.jerep6.ogi.persistance.bo.Document;
 
 /**
  * Collect photos of property and place them into destination directory
@@ -30,22 +29,12 @@ public class ProcessorPhotos implements ItemProcessor<RealPropertyCSV, RealPrope
 
 	private Path			absPhotosDirectory;
 
-	private void copyPhoto(String relativePathFile) throws IOException {
+	private void copyPhoto(Document photo, String photoName) throws IOException {
 
-		
-		// ProcesorTransformToCSV save into cvs photo path with "photos" leading directory. Remove it to access original
-		// file into OGI directory
-		Path relativePathComputed = Paths.get(photoDirName).relativize(Paths.get(relativePathFile));
-		Path relativePathComputedWithoutReference = Paths.get(photoDirName).relativize(Paths.get(Functions.removeReferenceToPhotoName(relativePathFile)));
-
-		// Compute absolute path for this file. Need to delete reference in filename
-		Path absPhotoPath = DocumentUtils.absolutize(relativePathComputedWithoutReference);
-
+		// LeBonCoin require photo on archive root. Have to rename photo to avoid collision file into OGI directory
 		// Folder into copy photos
-		Path destinationDirectory = absPhotosDirectory.resolve(relativePathComputed.getParent());
-		Files.createDirectories(destinationDirectory);
 		try {
-			Files.copy(absPhotoPath, destinationDirectory.resolve(relativePathComputed.getFileName()),
+			Files.copy(photo.getAbsolutePath(), absPhotosDirectory.resolve(Paths.get(photoName).getFileName()),
 					StandardCopyOption.REPLACE_EXISTING);
 		} catch (NoSuchFileException nsfe) {
 			LOGGER.warn("Error coping file", nsfe);
@@ -61,8 +50,8 @@ public class ProcessorPhotos implements ItemProcessor<RealPropertyCSV, RealPrope
 	public RealPropertyCSV process(RealPropertyCSV item) throws Exception {
 
 		// Copy all available photos in RealPropertyCSV into output directory
-		for (String photo : item.getPhotos()) {
-			copyPhoto(photo);
+		for (int i = 0; i < item.getPhotos().size(); i++) {
+			copyPhoto(item.getPhotos().get(i), item.getPhotosName().get(i));
 		}
 
 		return item;

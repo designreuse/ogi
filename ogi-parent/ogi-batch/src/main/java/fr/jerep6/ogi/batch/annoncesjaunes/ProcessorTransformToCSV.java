@@ -1,11 +1,15 @@
 package fr.jerep6.ogi.batch.annoncesjaunes;
 
+import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.MethodUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
@@ -13,6 +17,7 @@ import org.springframework.batch.item.ItemProcessor;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 
+import fr.jerep6.ogi.batch.annoncesjaunes.RealPropertyCSV;
 import fr.jerep6.ogi.enumeration.EnumCategory;
 import fr.jerep6.ogi.enumeration.EnumDescriptionType;
 import fr.jerep6.ogi.enumeration.EnumOrientation;
@@ -23,18 +28,14 @@ import fr.jerep6.ogi.persistance.bo.Address;
 import fr.jerep6.ogi.persistance.bo.DPE;
 import fr.jerep6.ogi.persistance.bo.Document;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
-import fr.jerep6.ogi.persistance.bo.RealPropertyBuilt;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 import fr.jerep6.ogi.persistance.bo.RealPropertyPlot;
 import fr.jerep6.ogi.persistance.bo.Rent;
 import fr.jerep6.ogi.persistance.bo.Sale;
 import fr.jerep6.ogi.service.external.ServicePartner;
-import fr.jerep6.ogi.utils.Functions;
 
 public class ProcessorTransformToCSV implements ItemProcessor<ExtractAnnoncesJaunes, RealPropertyCSV> {
 	private static Logger						LOGGER		= LoggerFactory.getLogger(ProcessorTransformToCSV.class);
-
-	private static final String					MEUBLEE		= "Location meublée";
 
 	private static final String					MODE_SALE	= "SALE";
 	private static final String					MODE_RENT	= "RENT";
@@ -171,33 +172,33 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractAnnoncesJau
 		}
 	}
 
+	
 	/**
 	 * Populate only six photos max
 	 *
 	 * @param item
 	 * @param r
+	 * @throws InvocationTargetException
+	 * @throws IllegalAccessException
+	 * @throws NoSuchMethodException
 	 */
-	private void populatePhotos(RealProperty item, RealPropertyCSV r) {
-		List<Document> photos = item.getPhotos();
-		if (photos.size() >= 1) {
-			r.setPhoto1(photoDirName + "/" + Functions.addReferenceToPhotoName(photos.get(0).getPath(), item.getReference()));
-		}
-		if (photos.size() >= 2) {
-			r.setPhoto2(photoDirName + "/" + Functions.addReferenceToPhotoName(photos.get(1).getPath(), item.getReference()));
-		}
-		if (photos.size() >= 3) {
-			r.setPhoto3(photoDirName + "/" + Functions.addReferenceToPhotoName(photos.get(2).getPath(), item.getReference()));
-		}
-		if (photos.size() >= 4) {
-			r.setPhoto4(photoDirName + "/" + Functions.addReferenceToPhotoName(photos.get(3).getPath(), item.getReference()));
-		}
-		if (photos.size() >= 5) {
-			r.setPhoto5(photoDirName + "/" + Functions.addReferenceToPhotoName(photos.get(4).getPath(), item.getReference()));
-		}
-		if (photos.size() >= 6) {
-			r.setPhoto6(photoDirName + "/" + Functions.addReferenceToPhotoName(photos.get(5).getPath(), item.getReference()));
-		}
+	private void populatePhotos(RealProperty item, RealPropertyCSV r) throws NoSuchMethodException,
+	IllegalAccessException, InvocationTargetException {
+		// Compute max 6 photos
+		Integer nbPhotosToCompute = 6;
 
+		List<Document> photos = item.getPhotos();
+		List<Document> photosToCopy = new ArrayList<>(nbPhotosToCompute);
+
+		String reference = item.getReference();
+		for (int i = 0; i < photos.size() && i < nbPhotosToCompute; i++) {
+			// Utilisation d'un path pour supprimer le 1er / si photoDirName est vide
+			String p = Paths.get(photoDirName).resolve(reference + "_" + photos.get(i).getAbsolutePath().getFileName())
+					.toString();
+			MethodUtils.invokeExactMethod(r, "setPhoto" + (i + 1), p);
+			photosToCopy.add(photos.get(i));
+		}
+		r.setPhotos(photosToCopy);
 	}
 
 	private void populatePlot(RealProperty item, RealPropertyCSV r) {

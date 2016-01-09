@@ -65,13 +65,13 @@
 			<tasklet ref="TaskletPhotosResize" />
 		</batch:step>
 	    
-	    <batch:step id="stepTaskletZip" next="stepAckCreateUpdatePrp">
+	    <batch:step id="stepTaskletZip" next="stepFTPUpload">
 			<tasklet ref="TaskletZip" />
 		</batch:step>
 		
-<!-- 		<batch:step id="stepFTPUpload" next="stepAckCreateUpdatePrp"> -->
-<!-- 			<tasklet ref="TaskletFTPUpload" /> -->
-<!-- 		</batch:step> -->
+		<batch:step id="stepFTPUpload" next="stepAckCreateUpdatePrp">
+			<tasklet ref="TaskletFTPUpload" />
+		</batch:step>
 		
 		<!-- Write into database the synchronization with annoncesjaunes -->
 		<batch:step id="stepAckCreateUpdatePrp" next="stepAckDeletePrp">
@@ -162,7 +162,7 @@
 	<bean id="DeciderHasPrpProcessed" class="fr.jerep6.ogi.batch.annoncesjaunes.DeciderHasPrpProcessed" />
 
     <bean id="TaskletPhotosResize" class="fr.jerep6.ogi.batch.annoncesjaunes.TaskletPhotosResize">
-		<property name="photosDirectory" value="file:${annoncesjaunes.extraction.file.root.path}${seloger.extraction.file.photos.directory}" />
+		<property name="photosDirectory" value="file:${annoncesjaunes.extraction.file.root.path}${annoncesjaunes.extraction.file.photos.directory}" />
 		<property name="photoSize" value="${annoncesjaunes.extraction.file.photos.size}" />
 	</bean>
 	
