@@ -34,7 +34,7 @@ public class ProcessorPhotos implements ItemProcessor<RealPropertyCSV, RealPrope
 		// LeBonCoin require photo on archive root. Have to rename photo to avoid collision file into OGI directory
 		// Folder into copy photos
 		try {
-			Files.copy(photo.getAbsolutePath(), absPhotosDirectory.resolve(photoName),
+			Files.copy(photo.getAbsolutePath(), absPhotosDirectory.resolve(Paths.get(photoName).getFileName()),
 					StandardCopyOption.REPLACE_EXISTING);
 		} catch (NoSuchFileException nsfe) {
 			LOGGER.warn("Error coping file", nsfe);
