@@ -176,11 +176,11 @@
 	</bean>
 	
 	<bean id="TaskletFTPUpload" class="fr.jerep6.ogi.batch.common.tasklet.TaskletFTPUpload">
-		<property name="resources" value="file:${seloger.extraction.file.root.path}${seloger.extraction.file.zip.name}" />
-		<property name="destinationDirectory" value="${seloger.ftp.directory}" />
-		<property name="ftpHost" value="${seloger.ftp.host}" />
-		<property name="ftpLogin" value="${seloger.ftp.login}" />
-		<property name="ftpPwd" value="${seloger.ftp.pwd}" />
+		<property name="resources" value="file:${annoncesjaunes.extraction.file.root.path}${annoncesjaunes.extraction.file.zip.name}" />
+		<property name="destinationDirectory" value="${annoncesjaunes.ftp.directory}" />
+		<property name="ftpHost" value="${annoncesjaunes.ftp.host}" />
+		<property name="ftpLogin" value="${annoncesjaunes.ftp.login}" />
+		<property name="ftpPwd" value="${annoncesjaunes.ftp.pwd}" />
 	</bean>
 	
 	
