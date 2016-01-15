@@ -237,7 +237,6 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractAnnoncesJau
 		Sale sale = item.getSale();
 		if (sale != null) {
 			r.setPrix(sale.getPriceFinal().toString());
-			r.setHonoraires(Objects.firstNonNull(sale.getCommission(), Float.valueOf("0")).toString());
 			r.setMandatExclusif(toBoolean(sale.getExclusive()));
 		}
 	}
