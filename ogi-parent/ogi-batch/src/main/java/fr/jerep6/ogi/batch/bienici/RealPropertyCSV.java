@@ -34,6 +34,7 @@ public class RealPropertyCSV {
 	@Setter
 	private String			adresseVille;
 	private String			adressePays;
+	@Setter
 	private String			adresseRue;
 	private String			adresseQuartier;
 	private String			activiteCommerciale;

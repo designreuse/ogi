@@ -63,6 +63,7 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractBienIci, Re
 		Address addr = item.getAddress();
 		r.setAdresseCP(addr.getPostalCode());
 		r.setAdresseVille(addr.getCity());
+		r.setAdresseRue(addr.getStreet());
 
 		r.setSurfaceTerrain(ObjectUtils.toString(item.getLandArea()));
 
