@@ -133,7 +133,7 @@
 		<property name="resource" value="file:${annoncesjaunes.extraction.file.root.path}${annoncesjaunes.extraction.file.csv.name}" />
 		<property name="shouldDeleteIfExists" value="false" />
 		<property name="appendAllowed" value="true" />
-		<property name="encoding" value="UTF-8" />
+		<property name="encoding" value="ISO-8859-1" />
 		<property name="lineSeparator" value="&#13;&#10;" />
 		
 		<property name="lineAggregator">
