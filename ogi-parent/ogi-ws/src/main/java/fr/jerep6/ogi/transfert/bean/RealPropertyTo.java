@@ -21,7 +21,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 // type de l'objet. @JsonSubTypes fait la correspondance entre les classes et les valeurs dans le json
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "mappingType")
 @JsonSubTypes({ @Type(name = "liveable", value = RealPropertyLivableTo.class),
-		@Type(name = "plot", value = RealPropertyPlotTo.class) })
+	@Type(name = "plot", value = RealPropertyPlotTo.class),
+	@Type(name = "business", value = RealPropertyBusinessTo.class)})
 // lombok
 @Getter
 @Setter

@@ -3,8 +3,10 @@ package fr.jerep6.ogi.transfert.mapping;
 import ma.glasnost.orika.MappingContext;
 import ma.glasnost.orika.ObjectFactory;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
+import fr.jerep6.ogi.persistance.bo.RealPropertyBusiness;
 import fr.jerep6.ogi.persistance.bo.RealPropertyPlot;
 import fr.jerep6.ogi.transfert.bean.RealPropertyLivableTo;
+import fr.jerep6.ogi.transfert.bean.RealPropertyBusinessTo;
 import fr.jerep6.ogi.transfert.bean.RealPropertyPlotTo;
 import fr.jerep6.ogi.transfert.bean.RealPropertyTo;
 
@@ -26,6 +28,9 @@ public class FactoryRealPropertyTo implements ObjectFactory<RealPropertyTo> {
 		}
 		else if (RealPropertyPlot.class.equals(c)) {
 			rpt = new RealPropertyPlotTo();
+		}
+		else if (RealPropertyBusiness.class.equals(c)) {
+			rpt = new RealPropertyBusinessTo();
 		}
 		// TODO : others types
 

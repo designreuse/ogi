@@ -1,0 +1,27 @@
+<div ng-controller="ControllerPrpTabDesc">
+    <div class="row">
+        <fieldset class="col-xs-6">
+            <div class="form-group">
+                <label>Eau</label>
+                <div class="checkbox">
+                    <label class="checkbox-inline"><input type="radio" ng-value="true" ng-model="prp.water" /> Oui</label>
+                    <label class="checkbox-inline"><input type="radio" ng-value="false" ng-model="prp.water"  ng-checked="prp.water==false" /> Non</label>
+                </div>
+            </div>
+
+        </fieldset>
+
+        <fieldset class="col-xs-6">
+            <div class="form-group">
+                <label>Electricité</label>
+                <div class="checkbox">
+                    <label class="checkbox-inline"><input type="radio" ng-value="true" ng-model="prp.electricity" /> Oui</label>
+                    <label class="checkbox-inline"><input type="radio" ng-value="false" ng-model="prp.electricity" ng-checked="prp.electricity==false" /> Non</label>
+                </div>
+            </div>
+
+        </fieldset>
+    </div>
+
+
+</div>

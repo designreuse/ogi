@@ -65,7 +65,8 @@ function ControllerPrpParent($scope, $log, $http, $routeParams,
         var mt = {
             "HSE":"liveable",
             "APT":"liveable",
-            "PLT":"plot"
+            "PLT":"plot",
+            "BSN":"business"
         }
         return mt[categCode];
     }
