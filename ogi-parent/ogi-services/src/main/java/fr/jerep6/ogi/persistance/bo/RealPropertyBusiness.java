@@ -8,11 +8,6 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import org.hibernate.annotations.Parameter;
-import org.hibernate.annotations.Type;
-
-import fr.jerep6.ogi.enumeration.EnumDoor;
-
 @Entity
 @Table(name = "TA_PROPERTY_BUSINESS")
 @PrimaryKeyJoinColumn(name = "PRO_ID")
@@ -27,7 +22,12 @@ public class RealPropertyBusiness extends RealPropertyBuilt {
 	@Column(name = "PRB_ELECTRICITY")
 	private Boolean		electricity;
 
+	
 
+	public RealPropertyBusiness() {
+		super(null, null, null);
+	}
+	
 	public RealPropertyBusiness(String reference, Category category, fr.jerep6.ogi.persistance.bo.Type type) {
 		super(reference, category, type);
 	}

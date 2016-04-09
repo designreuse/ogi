@@ -121,6 +121,7 @@ public class OrikaMapperService extends ConfigurableMapper {
 		.exclude("owners")//
 		.exclude("partnersRequests")//
 		.exclude("state")//
+		.exclude("dpeFile")//
 		.byDefault().register();
 
 	}
