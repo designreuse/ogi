@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 
 import fr.jerep6.ogi.enumeration.EnumCategory;
@@ -20,6 +21,7 @@ import fr.jerep6.ogi.persistance.bo.Address;
 import fr.jerep6.ogi.persistance.bo.DPE;
 import fr.jerep6.ogi.persistance.bo.Document;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
+import fr.jerep6.ogi.persistance.bo.RealPropertyBusiness;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 import fr.jerep6.ogi.persistance.bo.RealPropertyPlot;
 import fr.jerep6.ogi.persistance.bo.Rent;
@@ -38,12 +40,14 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractSeLoger, Re
 	private ServicePartner						serviceSeLoger;
 
 	/** Matching between OGI category and seloger category */
-	private static Map<EnumCategory, String>	mapTypeBien	= new HashMap<>();
+	private static Map<String, String>	mapTypeBien	= new HashMap<>();
 
 	static {
-		mapTypeBien.put(EnumCategory.APARTMENT, "Appartement");
-		mapTypeBien.put(EnumCategory.HOUSE, "Maison");
-		mapTypeBien.put(EnumCategory.PLOT, "Terrain");
+		mapTypeBien.put(EnumCategory.APARTMENT.getCode(), "Appartement");
+		mapTypeBien.put(EnumCategory.HOUSE.getCode(), "Maison");
+		mapTypeBien.put(EnumCategory.PLOT.getCode(), "Terrain");
+		mapTypeBien.put("Bureaux".toLowerCase(), "Bureaux");
+		mapTypeBien.put("Local".toLowerCase(), "Local");
 	}
 
 	private String								estateCode;
@@ -187,6 +191,21 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractSeLoger, Re
 			r.setMandatExclusif(toBoolean(sale.getExclusive()));
 		}
 	}
+	
+
+	private String getTypeBien(RealProperty item) {
+		String type = mapTypeBien.get(item.getCategory().getCode().getCode());
+
+		// For business use type information
+		if(item instanceof RealPropertyBusiness) {
+			type = mapTypeBien.get(Objects.firstNonNull(item.getType().getLabel(), "").toLowerCase());
+			// If OGI type doesn't match use default type
+			if(Strings.isNullOrEmpty(type)) {
+				type = mapTypeBien.get("Local".toLowerCase());
+			}
+		}
+		return type;
+	}
 
 	@Override
 	public RealPropertyCSV process(ExtractSeLoger extract) throws Exception {
@@ -214,7 +233,7 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractSeLoger, Re
 					break;
 			}
 
-			r.setTypeBien(mapTypeBien.get(item.getCategory().getCode()));
+			r.setTypeBien(getTypeBien(item));
 
 			populateCommon(item, r);
 			populatePhotos(item, r);

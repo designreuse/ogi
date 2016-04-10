@@ -28,6 +28,7 @@ import fr.jerep6.ogi.persistance.bo.Address;
 import fr.jerep6.ogi.persistance.bo.DPE;
 import fr.jerep6.ogi.persistance.bo.Document;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
+import fr.jerep6.ogi.persistance.bo.RealPropertyBusiness;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 import fr.jerep6.ogi.persistance.bo.RealPropertyPlot;
 import fr.jerep6.ogi.persistance.bo.Rent;
@@ -42,12 +43,15 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractAnnoncesJau
 
 	private ServicePartner						serviceAnnoncesJaunes;
 
-	/** Matching between OGI categories and annonces jaune categories */
-	private static Map<EnumCategory, String>	mapTypeBien	= new HashMap<>();
+	/** Matching between OGI category and seloger category */
+	private static Map<String, String>	mapTypeBien	= new HashMap<>();
+
 	static {
-		mapTypeBien.put(EnumCategory.APARTMENT, "Appartement");
-		mapTypeBien.put(EnumCategory.HOUSE, "Maison");
-		mapTypeBien.put(EnumCategory.PLOT, "Terrain");
+		mapTypeBien.put(EnumCategory.APARTMENT.getCode(), "Appartement");
+		mapTypeBien.put(EnumCategory.HOUSE.getCode(), "Maison");
+		mapTypeBien.put(EnumCategory.PLOT.getCode(), "Terrain");
+		mapTypeBien.put("Bureaux".toLowerCase(), "Bureaux");
+		mapTypeBien.put("Local".toLowerCase(), "Local Commercial");
 	}
 	
 	/** Matching between OGI states and annonces jaunes states */
@@ -241,6 +245,20 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractAnnoncesJau
 		}
 	}
 
+	private String getTypeBien(RealProperty item) {
+		String type = mapTypeBien.get(item.getCategory().getCode().getCode());
+
+		// For business use type information
+		if(item instanceof RealPropertyBusiness) {
+			type = mapTypeBien.get(Objects.firstNonNull(item.getType().getLabel(), "").toLowerCase());
+			// If OGI type doesn't match use default type
+			if(Strings.isNullOrEmpty(type)) {
+				type = mapTypeBien.get("Local".toLowerCase());
+			}
+		}
+		return type;
+	}
+	
 	@Override
 	public RealPropertyCSV process(ExtractAnnoncesJaunes extract) throws Exception {
 		RealProperty item = extract.getProperty();
@@ -266,7 +284,7 @@ public class ProcessorTransformToCSV implements ItemProcessor<ExtractAnnoncesJau
 					break;
 			}
 
-			r.setTypeBien(mapTypeBien.get(item.getCategory().getCode()));
+			r.setTypeBien(getTypeBien(item));
 
 			populateCommon(item, r);
 			populatePhotos(item, r);
