@@ -23,6 +23,7 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.core.io.Resource;
 
 import fr.jerep6.ogi.framework.utils.FileUtils;
+import fr.jerep6.ogi.utils.ImageUtils;
 
 public class TaskletPhotosResize implements Tasklet {
 	private final Logger	LOGGER	= LoggerFactory.getLogger(TaskletPhotosResize.class);
@@ -46,11 +47,7 @@ public class TaskletPhotosResize implements Tasklet {
 				LOGGER.debug("Resize {}", file);
 
 				if (FileUtils.isImage(file)) {
-					// Resize image
-					BufferedImage img = ImageIO.read(file.toFile());
-					BufferedImage imgResize = Scalr.resize(img, photoSize);
-					ImageIO.write(imgResize, "jpeg", file.toFile());
-
+					ImageUtils.resize(file, photoSize, file.toFile());
 					m.put("nbPhotosResize", m.get("nbPhotosResize") + 1);
 				}
 				return FileVisitResult.CONTINUE;
