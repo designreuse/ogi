@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.jerep6.ogi</groupId>
 	<artifactId>ogi-parent</artifactId>
-	<version>0.8.0</version>
+	<version>0.8.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -448,7 +448,7 @@
 	<scm>
 		<connection>scm:git:ssh://git@github.com/jerep6/ogi.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/jerep6/ogi.git</developerConnection>
-		<tag>0.8.0</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<distributionManagement>
