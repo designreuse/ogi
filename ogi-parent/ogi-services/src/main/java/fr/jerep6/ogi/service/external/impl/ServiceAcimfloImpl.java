@@ -1,5 +1,6 @@
 package fr.jerep6.ogi.service.external.impl;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.CookieHandler;
@@ -24,6 +25,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.ByteArrayBody;
 import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.InputStreamBody;
@@ -212,9 +214,10 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 				Path p = d.getAbsolutePath();
 				ContentType mime = ContentType.create(Files.probeContentType(p));
 
-				InputStream imgResized = ImageUtils.resize(p, ACIMFLO_IMAGE_SIZE);
+				ByteArrayOutputStream os = new ByteArrayOutputStream();
+				ImageUtils.resize(p, ACIMFLO_IMAGE_SIZE, os);
 				builder.addPart("photos[]",
-						new InputStreamBody(imgResized, mime, StringUtils.stripAccents(p.getFileName().toString())));
+						new ByteArrayBody(os.toByteArray(), mime, StringUtils.stripAccents(p.getFileName().toString())));
 
 				// If photo is order 1 (ie apercu) => save its rank
 				if (d.getOrder().equals(1)) {

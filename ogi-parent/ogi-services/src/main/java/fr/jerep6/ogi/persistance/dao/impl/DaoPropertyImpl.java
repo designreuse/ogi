@@ -1,6 +1,7 @@
 package fr.jerep6.ogi.persistance.dao.impl;
 
 import java.math.BigInteger;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -121,6 +122,10 @@ public class DaoPropertyImpl extends AbstractDao<RealProperty, Integer> implemen
 
 	@Override
 	public List<Object[]> readReferences(List<Integer> techid) {
+		if(techid.isEmpty()) {
+			return Collections.<Object[]>emptyList();
+		}
+		
 		StringBuilder q = new StringBuilder();
 		q.append("SELECT techid, reference FROM " + RealProperty.class.getName() + " r");
 		q.append(" WHERE r.techid IN ( :" + PARAM_TECHID + ")");
