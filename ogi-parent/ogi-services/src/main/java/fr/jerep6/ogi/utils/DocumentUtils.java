@@ -65,7 +65,7 @@ public class DocumentUtils {
 	 *            type of document
 	 * @return
 	 */
-	public static Path getDirectory(String reference, DocumentType docType) {
+	public static Path getDirectory(String reference, EnumDocumentType docType) {
 		Preconditions.checkArgument(!Strings.isNullOrEmpty(reference));
 
 		String docPath = "";

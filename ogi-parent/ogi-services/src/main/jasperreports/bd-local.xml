@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jdbcDataAdapter class="net.sf.jasperreports.data.jdbc.JdbcDataAdapterImpl"><name>mysql-ogi</name><driver>com.mysql.jdbc.Driver</driver><username>ogi</username><password>ogi</password><savePassword>true</savePassword><url>jdbc:mysql://vm/ogi</url><database></database><serverAddress></serverAddress><classpath>/Users/jpinsolle/travail/acimflo/ogi/workspace/ogi/ogi-parent/ogi-services/src/main/jasperreports/driver/mysql-connector-java-5.1.38-bin.jar</classpath></jdbcDataAdapter>

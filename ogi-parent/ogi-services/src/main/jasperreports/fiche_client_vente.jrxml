@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.1.final using JasperReports Library version 6.2.1  -->
+<!-- 2016-04-17T20:33:39 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="20" uuid="96540068-ead6-4274-af4c-90fbe87736a3">
 	<property name="ireport.zoom" value="1.0000000000000044"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="288"/>
 	<property name="ireport.background.image.properties" value="false,false,0.25,0,0,0,0,0,0"/>
-	<style name="Crosstab Data Text" hAlign="Center"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="bd-local.xml"/>
+	<style name="Crosstab Data Text" hTextAlign="Center" hImageAlign="Center"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -233,6 +236,12 @@ LIMIT 0,9
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["D:\\Developpement\\Master\\Java7\\workspace\\ogi\\ogi-parent\\ogi-services\\src\\main\\jasperreports\\"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="photo1" class="java.io.InputStream" isForPrompting="false"/>
+	<parameter name="photo2" class="java.io.InputStream" isForPrompting="false"/>
+	<parameter name="photo3" class="java.io.InputStream" isForPrompting="false"/>
+	<parameter name="photo4" class="java.io.InputStream" isForPrompting="false"/>
+	<parameter name="photo5" class="java.io.InputStream" isForPrompting="false"/>
+	<parameter name="photo6" class="java.io.InputStream" isForPrompting="false"/>
 	<queryString>
 		<![CDATA[SELECT
 addr.ADD_CITY AS CITY,
@@ -323,8 +332,14 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 				<subreportParameter name="reference">
 					<subreportParameterExpression><![CDATA[$P{reference}]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportParameter name="DOC_DIR">
-					<subreportParameterExpression><![CDATA[$P{DOC_DIR}]]></subreportParameterExpression>
+				<subreportParameter name="photo1">
+					<subreportParameterExpression><![CDATA[$P{photo1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="photo2">
+					<subreportParameterExpression><![CDATA[$P{photo2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="photo3">
+					<subreportParameterExpression><![CDATA[$P{photo3}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[this.getClass().getClassLoader().getResourceAsStream("jasper/fiche_client_subreport_photos1.jasper")]]></subreportExpression>
@@ -509,8 +524,11 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 				<subreportParameter name="reference">
 					<subreportParameterExpression><![CDATA[$P{reference}]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportParameter name="DOC_DIR">
-					<subreportParameterExpression><![CDATA[$P{DOC_DIR}]]></subreportParameterExpression>
+				<subreportParameter name="photo4">
+					<subreportParameterExpression><![CDATA[$P{photo4}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="photo5">
+					<subreportParameterExpression><![CDATA[$P{photo5}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[this.getClass().getClassLoader().getResourceAsStream("jasper/fiche_client_subreport_photos2.jasper")]]></subreportExpression>

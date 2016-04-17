@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.1.final using JasperReports Library version 6.2.1  -->
+<!-- 2016-04-17T21:00:03 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fiche_vitrine_A3" pageWidth="1190" pageHeight="842" orientation="Landscape" columnWidth="1150" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="880702b2-f6b1-499a-8c90-1e573d17a77d">
 	<property name="ireport.zoom" value="0.6209213230591558"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="151"/>
 	<parameter name="reference" class="java.lang.String"/>
 	<parameter name="DOC_DIR" class="java.lang.String"/>
+	<parameter name="photo1" class="java.io.InputStream"/>
+	<parameter name="photo2" class="java.io.InputStream"/>
+	<parameter name="photo3" class="java.io.InputStream"/>
 	<queryString>
 		<![CDATA[SELECT
 (SELECT DOC_PATH
@@ -56,7 +61,7 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 		<band height="802" splitType="Stretch">
 			<image scaleImage="FillFrame">
 				<reportElement mode="Opaque" x="0" y="0" width="664" height="524" isPrintWhenDetailOverflows="true" uuid="a6e973be-25e6-4616-91ee-bb70e6a64d9c">
-					<printWhenExpression><![CDATA[java.nio.file.Files.exists(java.nio.file.Paths.get($P{DOC_DIR} + $F{PHOTO1}))]]></printWhenExpression>
+					<printWhenExpression><![CDATA[$P{photo1} != null]]></printWhenExpression>
 				</reportElement>
 				<box>
 					<pen lineWidth="1.5" lineColor="#771B60"/>
@@ -65,11 +70,11 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 					<bottomPen lineWidth="1.5" lineColor="#771B60"/>
 					<rightPen lineWidth="1.5" lineColor="#771B60"/>
 				</box>
-				<imageExpression><![CDATA[$P{DOC_DIR} + $F{PHOTO1}]]></imageExpression>
+				<imageExpression><![CDATA[$P{photo1}]]></imageExpression>
 			</image>
 			<image>
 				<reportElement positionType="Float" x="346" y="561" width="318" height="241" uuid="264e3fc2-4610-4d31-ae0f-ef1eaf6f3e37">
-					<printWhenExpression><![CDATA[java.nio.file.Files.exists(java.nio.file.Paths.get($P{DOC_DIR} + $F{PHOTO3}))]]></printWhenExpression>
+					<printWhenExpression><![CDATA[$P{photo3} != null]]></printWhenExpression>
 				</reportElement>
 				<box>
 					<pen lineWidth="1.5" lineColor="#771B60"/>
@@ -78,7 +83,7 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 					<bottomPen lineWidth="1.5" lineColor="#771B60"/>
 					<rightPen lineWidth="1.5" lineColor="#771B60"/>
 				</box>
-				<imageExpression><![CDATA[$P{DOC_DIR} + $F{PHOTO3}]]></imageExpression>
+				<imageExpression><![CDATA[$P{photo3}]]></imageExpression>
 			</image>
 			<textField>
 				<reportElement mode="Transparent" x="744" y="2" width="370" height="94" forecolor="#484545" uuid="df0e71e1-59e1-44ac-8f3a-27eb3a3ae2bf"/>
@@ -96,7 +101,7 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 			</textField>
 			<image>
 				<reportElement positionType="Float" x="0" y="561" width="318" height="241" uuid="9d386f79-c5da-4ac9-a8e1-896bd1054bc0">
-					<printWhenExpression><![CDATA[java.nio.file.Files.exists(java.nio.file.Paths.get($P{DOC_DIR} + $F{PHOTO2}))]]></printWhenExpression>
+					<printWhenExpression><![CDATA[$P{photo2} != null]]></printWhenExpression>
 				</reportElement>
 				<box>
 					<pen lineWidth="1.5" lineColor="#771B60"/>
@@ -105,7 +110,7 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 					<bottomPen lineWidth="1.5" lineColor="#771B60"/>
 					<rightPen lineWidth="1.5" lineColor="#771B60"/>
 				</box>
-				<imageExpression><![CDATA[$P{DOC_DIR} + $F{PHOTO2}]]></imageExpression>
+				<imageExpression><![CDATA[$P{photo2}]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="1084" y="115" width="30" height="59" forecolor="#A01755" uuid="b5854089-1067-4228-8e70-1a1c90cdc3e9"/>

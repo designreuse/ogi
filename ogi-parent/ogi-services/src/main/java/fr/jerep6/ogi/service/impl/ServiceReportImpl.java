@@ -41,9 +41,12 @@ import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.service.ServiceRealProperty;
 import fr.jerep6.ogi.service.ServiceReport;
+import fr.jerep6.ogi.utils.ImageUtils;
 
 @Service("serviceReport")
 public class ServiceReportImpl extends AbstractService implements ServiceReport {
+	private static final int IMAGE_SIZE = 800;
+
 	private final Logger					LOGGER			= LoggerFactory.getLogger(ServiceReportImpl.class);
 
 	@Autowired
@@ -119,6 +122,9 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 	public ByteArrayOutputStream generate(String prpReference, EnumReport reportType, String format,
 			EnumPageSize pageSize) throws TechnicalException {
 		Preconditions.checkArgument(!Strings.isNullOrEmpty(prpReference));
+		
+		Optional<RealProperty> prp = serviceRealProperty.readByReference(prpReference);
+		Integer numberOfPhotos = prp.get().getPhotos().size();
 
 		// Get file name from type
 		String reportName = computeReportName(prpReference, reportType, pageSize);
@@ -133,10 +139,17 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("DOC_DIR", jasperDocumentDirectory);
 			parameters.put("reference", prpReference);
+			parameters.put("photo1", numberOfPhotos >= 1 ? ImageUtils.resize(prp.get().getPhotos().get(0).getAbsolutePath(), IMAGE_SIZE): null);
+			parameters.put("photo2", numberOfPhotos >= 2 ? ImageUtils.resize(prp.get().getPhotos().get(1).getAbsolutePath(), IMAGE_SIZE): null);
+			parameters.put("photo3", numberOfPhotos >= 3 ? ImageUtils.resize(prp.get().getPhotos().get(2).getAbsolutePath(), IMAGE_SIZE): null);
+			parameters.put("photo4", numberOfPhotos >= 4 ? ImageUtils.resize(prp.get().getPhotos().get(3).getAbsolutePath(), IMAGE_SIZE): null);
+			parameters.put("photo5", numberOfPhotos >= 5 ? ImageUtils.resize(prp.get().getPhotos().get(4).getAbsolutePath(), IMAGE_SIZE): null);
+			parameters.put("photo6", numberOfPhotos >= 6 ? ImageUtils.resize(prp.get().getPhotos().get(5).getAbsolutePath(), IMAGE_SIZE): null);
 			parameters.put(JRParameter.REPORT_LOCALE, Locale.FRANCE);
 
 			Connection connection = dataSource.getConnection();
 			JasperPrint print = JasperFillManager.fillReport(report, parameters, connection);
+
 
 			// Generate report
 			ByteArrayOutputStream data = generate(print, format);

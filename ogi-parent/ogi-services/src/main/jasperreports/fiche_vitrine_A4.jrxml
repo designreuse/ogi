@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.1.final using JasperReports Library version 6.2.1  -->
+<!-- 2016-04-17T21:09:42 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="vitrine" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9c93a378-d1d0-4914-b9e5-2435be506bd9">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
@@ -6,10 +8,10 @@
 	<parameter name="reference" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["D:\\Developpement\\Master\\Java7\\workspace\\ogi\\ogi-parent\\ogi-services\\src\\main\\jasperreports\\"]]></defaultValueExpression>
-	</parameter>
 	<parameter name="DOC_DIR" class="java.lang.String"/>
+	<parameter name="photo1" class="java.io.InputStream"/>
+	<parameter name="photo2" class="java.io.InputStream"/>
+	<parameter name="photo3" class="java.io.InputStream"/>
 	<queryString>
 		<![CDATA[SELECT
 (SELECT DOC_PATH
@@ -61,7 +63,7 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 		<band height="802" splitType="Stretch">
 			<image scaleImage="FillFrame">
 				<reportElement mode="Opaque" x="73" y="19" width="416" height="313" isPrintWhenDetailOverflows="true" uuid="b5b68dc5-524c-4d4f-9565-6ada447307f6">
-					<printWhenExpression><![CDATA[java.nio.file.Files.exists(java.nio.file.Paths.get($P{DOC_DIR} + $F{PHOTO1}))]]></printWhenExpression>
+					<printWhenExpression><![CDATA[$P{photo1} != null]]></printWhenExpression>
 				</reportElement>
 				<box>
 					<pen lineWidth="1.0" lineColor="#771B60"/>
@@ -70,7 +72,7 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 					<bottomPen lineWidth="1.0" lineColor="#771B60"/>
 					<rightPen lineWidth="1.0" lineColor="#771B60"/>
 				</box>
-				<imageExpression><![CDATA[$P{DOC_DIR} + $F{PHOTO1}]]></imageExpression>
+				<imageExpression><![CDATA[$P{photo1}]]></imageExpression>
 			</image>
 			<textField>
 				<reportElement mode="Transparent" x="2" y="334" width="555" height="49" forecolor="#484545" uuid="aecebf81-d795-4e46-acb2-f79f3ee94200"/>
@@ -94,7 +96,7 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 			</image>
 			<image scaleImage="FillFrame">
 				<reportElement x="382" y="450" width="173" height="130" isPrintWhenDetailOverflows="true" uuid="a188fba2-43f0-44c7-9ad1-b2a097a99867">
-					<printWhenExpression><![CDATA[java.nio.file.Files.exists(java.nio.file.Paths.get($P{DOC_DIR} + $F{PHOTO2}))]]></printWhenExpression>
+					<printWhenExpression><![CDATA[$P{photo2} != null]]></printWhenExpression>
 				</reportElement>
 				<box>
 					<pen lineWidth="1.0" lineColor="#771B60"/>
@@ -103,11 +105,11 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 					<bottomPen lineWidth="1.0" lineColor="#771B60"/>
 					<rightPen lineWidth="1.0" lineColor="#771B60"/>
 				</box>
-				<imageExpression><![CDATA[$P{DOC_DIR} + $F{PHOTO2}]]></imageExpression>
+				<imageExpression><![CDATA[$P{photo2}]]></imageExpression>
 			</image>
 			<image scaleImage="FillFrame">
 				<reportElement positionType="Float" x="382" y="600" width="173" height="130" uuid="c79897f1-d5c3-4ddb-b7d5-ef387684df42">
-					<printWhenExpression><![CDATA[java.nio.file.Files.exists(java.nio.file.Paths.get($P{DOC_DIR} + $F{PHOTO3}))]]></printWhenExpression>
+					<printWhenExpression><![CDATA[$P{photo3} != null]]></printWhenExpression>
 				</reportElement>
 				<box bottomPadding="0">
 					<pen lineWidth="1.0" lineColor="#771B60"/>
@@ -116,7 +118,7 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 					<bottomPen lineWidth="1.0" lineColor="#771B60"/>
 					<rightPen lineWidth="1.0" lineColor="#771B60"/>
 				</box>
-				<imageExpression><![CDATA[$P{DOC_DIR} + $F{PHOTO3}]]></imageExpression>
+				<imageExpression><![CDATA[$P{photo3}]]></imageExpression>
 			</image>
 			<textField>
 				<reportElement x="0" y="515" width="310" height="95" forecolor="#A01755" uuid="a8a3976b-9c4e-4c62-b060-93490407e867"/>
