@@ -240,14 +240,14 @@ public class ServiceRealPropertyImpl extends AbstractTransactionalService<RealPr
 			serviceDPE.writeDPEFiles(built.getReference(), built.getDpe());
 		}
 
-		if (propertyFromJson instanceof RealPropertyLivable) {
-			RealPropertyLivable liveable = (RealPropertyLivable) prp;
-			RealPropertyLivable liveableJson = (RealPropertyLivable) propertyFromJson;
+		if (propertyFromJson instanceof RealPropertyBuilt) {
+			RealPropertyBuilt built = (RealPropertyBuilt) prp;
+			RealPropertyBuilt builtJson = (RealPropertyBuilt) propertyFromJson;
 
 			// Rooms
-			List<Room> rooms = serviceRoom.merge(liveable.getRooms(), liveableJson.getRooms(), prp.getDocuments());
-			liveable.setRooms(rooms);
-			rooms.stream().forEach(r -> r.setProperty(liveable));
+			List<Room> rooms = serviceRoom.merge(built.getRooms(), builtJson.getRooms(), prp.getDocuments());
+			built.setRooms(rooms);
+			rooms.stream().forEach(r -> r.setProperty(built));
 		}
 
 		// Save real property into database
