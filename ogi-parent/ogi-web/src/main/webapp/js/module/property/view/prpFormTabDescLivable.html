@@ -2,7 +2,7 @@
     <div class="row">
         <fieldset class="col-xs-4">
             <legend>Surfaces</legend>
-            <div class="form-group">
+            <div class="form-group" ng-if="displayLiveable()">
                 <label class="control-label">Surface Habitable</label>
                 <div class="input-group">
                     <input class="form-control" type="number" step="0.01" ng-model="prp.area" />
@@ -27,149 +27,145 @@
 
         <fieldset class="col-xs-8">
             <legend>Nombre de pièces</legend>
-            <div class="col-xs-6">
-                <div class="form-group">
-                    <label>Pièces</label>
-                    <div class="input-group" minus-plus>
-                        <span class="input-group-addon glyphicon glyphicon-minus"></span>
-                        <input class="form-control" type="number" ng-model="prp.nbRoom" />
-                        <span class="input-group-addon glyphicon glyphicon-plus"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Chambres</label>
-                    <div class="input-group" minus-plus>
-                        <span class="input-group-addon glyphicon glyphicon-minus"></span>
-                        <input class="form-control" type="number" ng-model="prp.nbBedRoom" />
-                        <span class="input-group-addon glyphicon glyphicon-plus"></span>
-                    </div>
-                </div>
+              <div class="col-xs-6 form-group">
+                  <label>Pièces</label>
+                  <div class="input-group" minus-plus>
+                      <span class="input-group-addon glyphicon glyphicon-minus"></span>
+                      <input class="form-control" type="number" ng-model="prp.nbRoom" />
+                      <span class="input-group-addon glyphicon glyphicon-plus"></span>
+                  </div>
+              </div>
+              <div class="col-xs-6 form-group" ng-if="displayLiveable()">
+                  <label>Salles de bains</label>
+                  <div class="input-group" minus-plus>
+                      <span class="input-group-addon glyphicon glyphicon-minus"></span>
+                      <input class="form-control" type="number" ng-model="prp.nbBathRoom" />
+                      <span class="input-group-addon glyphicon glyphicon-plus"></span>
+                  </div>
+              </div>
 
-                <div class="form-group">
-                    <label>Garage</label>
-                    <div class="input-group" minus-plus>
-                        <span class="input-group-addon glyphicon glyphicon-minus"></span>
-                        <input class="form-control" type="number" ng-model="prp.nbGarage" />
-                        <span class="input-group-addon glyphicon glyphicon-plus"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-6">
-                <div class="form-group">
-                    <label>Salles de bains</label>
-                    <div class="input-group" minus-plus>
-                        <span class="input-group-addon glyphicon glyphicon-minus"></span>
-                        <input class="form-control" type="number" ng-model="prp.nbBathRoom" />
-                        <span class="input-group-addon glyphicon glyphicon-plus"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Salles d'eau</label>
-                    <div class="input-group" minus-plus>
-                        <span class="input-group-addon glyphicon glyphicon-minus"></span>
-                        <input class="form-control" type="number" ng-model="prp.nbShowerRoom" />
-                        <span class="input-group-addon glyphicon glyphicon-plus"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>WC</label>
-                    <div class="input-group" minus-plus>
-                        <span class="input-group-addon glyphicon glyphicon-minus"></span>
-                        <input class="form-control" type="number" ng-model="prp.nbWC" />
-                        <span class="input-group-addon glyphicon glyphicon-plus"></span>
-                    </div>
-                </div>
-            </div>
+              <div class="col-xs-6 form-group" ng-if="displayLiveable()">
+                  <label>Chambres</label>
+                  <div class="input-group" minus-plus>
+                      <span class="input-group-addon glyphicon glyphicon-minus"></span>
+                      <input class="form-control" type="number" ng-model="prp.nbBedRoom" />
+                      <span class="input-group-addon glyphicon glyphicon-plus"></span>
+                  </div>
+              </div>
+              <div class="col-xs-6 form-group" ng-if="displayLiveable()">
+                  <label>Salles d'eau</label>
+                  <div class="input-group" minus-plus>
+                      <span class="input-group-addon glyphicon glyphicon-minus"></span>
+                      <input class="form-control" type="number" ng-model="prp.nbShowerRoom" />
+                      <span class="input-group-addon glyphicon glyphicon-plus"></span>
+                  </div>
+              </div>
+
+              <div class="col-xs-6 form-group">
+                  <label>Garage</label>
+                  <div class="input-group" minus-plus>
+                      <span class="input-group-addon glyphicon glyphicon-minus"></span>
+                      <input class="form-control" type="number" ng-model="prp.nbGarage" />
+                      <span class="input-group-addon glyphicon glyphicon-plus"></span>
+                  </div>
+              </div>
+              <div class="col-xs-6 form-group" ng-if="displayLiveable()">
+                  <label>WC</label>
+                  <div class="input-group" minus-plus>
+                      <span class="input-group-addon glyphicon glyphicon-minus"></span>
+                      <input class="form-control" type="number" ng-model="prp.nbWC" />
+                      <span class="input-group-addon glyphicon glyphicon-plus"></span>
+                  </div>
+              </div>
+
         </fieldset>
     </div>
 
     <fieldset>
         <legend>Descriptif construction</legend>
         <div class="row">
-            <div class="col-xs-6">
-                <div class="form-group">
-                    <label class="control-label">Type de bien</label>
-                    <select class="form-control" ng-model="saveData.type" ng-options="t.label for t in types" ng-change="typeChange()">
-                        <option value="">--- Sélectionner un type ---</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Année construction</label>
-                    <input class="form-control" type="text" ng-model="saveData.buildDate" />
-                </div>
+          <div class="form-group col-xs-6">
+              <label class="control-label">Type de bien</label>
+              <select class="form-control" ng-model="saveData.type" ng-options="t.label for t in types" ng-change="typeChange()">
+                  <option value="">--- Sélectionner un type ---</option>
+              </select>
+          </div>
+          <div class="form-group col-xs-6" ng-if="displayLiveable()">
+            <label>Murs extérieurs</label>
+            <select class="form-control" ng-model="saveData.wall" ng-options="l.label for l in walls" ng-change="wallChange()">
+              <option value="">--- Sélectionner un mur ---</option>
+            </select>
+          </div>
 
-                <div class="form-group">
-                    <label>Étage</label>
-                    <div class="input-group">
-                        <input class="form-control" type="text" ng-model="prp.floorLevel" />
-                        <span class="input-group-addon">/</span>
-                        <input class="form-control" type="number" ng-model="prp.nbFloor" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Exposition</label>
-                    <select class="form-control" ng-model="prp.orientation">
-                            <option value="">--- Sélectionner une orientation ---</option>
-                            <option value="N">Nord</option>
-                            <option value="S">Sud</option>
-                            <option value="E">Est</option>
-                            <option value="W">Ouest</option>
 
-                            <option value="NE">Nord-Est</option>
-                            <option value="NW">Nord-Ouest</option>
-                            <option value="SE">Sud-Est</option>
-                            <option value="SW">Sud-Ouest</option>
-                        </select>
-                </div>
+          <div class="form-group col-xs-6">
+              <label>Année construction</label>
+              <input class="form-control" type="text" ng-model="saveData.buildDate" />
+          </div>
+          <div class="form-group col-xs-6">
+            <label>Isolation</label>
+            <select class="form-control" ng-model="saveData.insulation" ng-options="l.label for l in insulations" ng-change="insulationChange()">
+              <option value="">--- Sélectionner une isolation ---</option>
+            </select>
+          </div>
 
-                <div class="form-group">
-                    <label>Toiture</label>
-                    <select class="form-control" ng-model="saveData.roof" ng-options="l.label for l in roofs" ng-change="roofChange()">
-                        <option value="">--- Sélectionner une toiture ---</option>
-                    </select>
-                </div>
+          <div class="form-group col-xs-6">
+              <label>Étage</label>
+              <div class="input-group">
+                  <input class="form-control" type="text" ng-model="prp.floorLevel" />
+                  <span class="input-group-addon">/</span>
+                  <input class="form-control" type="number" ng-model="prp.nbFloor" />
+              </div>
+          </div>
+          <div class="form-group col-xs-6" ng-if="displayLiveable()">
+            <label>Chauffage</label>
+            <select class="form-control" ng-model="saveData.heating" ng-options="l.label for l in heatings" ng-change="heatingChange()">
+              <option value="">--- Sélectionner un chauffage ---</option>
+            </select>
+          </div>
 
-            </div>
 
-            <div class="col-xs-6">
-                <div class="form-group">
-                    <label>Murs extérieurs</label>
-                    <select class="form-control" ng-model="saveData.wall" ng-options="l.label for l in walls" ng-change="wallChange()">
-                        <option value="">--- Sélectionner un mur ---</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Isolation</label>
-                    <select class="form-control" ng-model="saveData.insulation" ng-options="l.label for l in insulations" ng-change="insulationChange()">
-                        <option value="">--- Sélectionner une isolation ---</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Chauffage</label>
-                    <select class="form-control" ng-model="saveData.heating" ng-options="l.label for l in heatings" ng-change="heatingChange()">
-                        <option value="">--- Sélectionner un chauffage ---</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Stationnement</label>
-                    <select class="form-control" ng-model="saveData.parking" ng-options="l.label for l in parkings" ng-change="parkingChange()">
-                        <option value="">--- Sélectionner un stationnement ---</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Assainissement</label>
-                    <select class="form-control" ng-model="saveData.sanitation" ng-options="l.label for l in sanitations" ng-change="sanitationChange()">
-                        <option value="">--- Sélectionner un assainissement ---</option>
-                    </select>
-                </div>
+          <div class="form-group col-xs-6">
+              <label>Exposition</label>
+              <select class="form-control" ng-model="prp.orientation">
+                      <option value="">--- Sélectionner une orientation ---</option>
+                      <option value="N">Nord</option>
+                      <option value="S">Sud</option>
+                      <option value="E">Est</option>
+                      <option value="W">Ouest</option>
 
-                <div style="margin-bottom: 20px;">
-                    <label class="control-label">Etat</label>
-                    <div ui-slider min="0" max="4" ng-model="saveData.stateOrder"></div>
-                    <div class="center">{{states[saveData.stateOrder].label}}&nbsp;</div>
-                </div>
+                      <option value="NE">Nord-Est</option>
+                      <option value="NW">Nord-Ouest</option>
+                      <option value="SE">Sud-Est</option>
+                      <option value="SW">Sud-Ouest</option>
+                  </select>
+          </div>
+          <div class="form-group col-xs-6">
+            <label>Stationnement</label>
+            <select class="form-control" ng-model="saveData.parking" ng-options="l.label for l in parkings" ng-change="parkingChange()">
+              <option value="">--- Sélectionner un stationnement ---</option>
+            </select>
+          </div>
 
-            </div>
+          <div class="form-group col-xs-6" ng-if="displayLiveable()">
+              <label>Toiture</label>
+              <select class="form-control" ng-model="saveData.roof" ng-options="l.label for l in roofs" ng-change="roofChange()">
+                  <option value="">--- Sélectionner une toiture ---</option>
+              </select>
+          </div>
+          <div class="form-group col-xs-6" ng-if="displayLiveable()">
+            <label>Assainissement</label>
+            <select class="form-control" ng-model="saveData.sanitation" ng-options="l.label for l in sanitations" ng-change="sanitationChange()">
+              <option value="">--- Sélectionner un assainissement ---</option>
+            </select>
+          </div>
+
+          <div class="col-xs-12" style="margin-bottom: 20px; ">
+            <label class="control-label">Etat</label>
+            <div ui-slider min="0" max="4" ng-model="saveData.stateOrder"></div>
+            <div class="center">{{states[saveData.stateOrder].label}}&nbsp;</div>
+          </div>
+
         </div>
     </fieldset>
 
@@ -211,13 +207,30 @@
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group">
-                    <label>Lotissement</label>
-                    <div class="checkbox">
-                        <label class="checkbox-inline"><input type="radio" ng-value="true" ng-model="prp.housingEstate"> Lotissement</label>
-                        <label class="checkbox-inline"><input type="radio" ng-value="false" ng-model="prp.housingEstate" ng-checked="prp.housingEstate==false"> Hors Lotissement</label>
-                    </div>
+              <div class="form-group col-xs-12" ng-if="displayLiveable()">
+                  <label>Lotissement</label>
+                  <div class="checkbox">
+                      <label class="checkbox-inline"><input type="radio" ng-value="true" ng-model="prp.housingEstate"> Lotissement</label>
+                      <label class="checkbox-inline"><input type="radio" ng-value="false" ng-model="prp.housingEstate" ng-checked="prp.housingEstate==false"> Hors Lotissement</label>
+                  </div>
+              </div>
+
+              <div class="form-group col-xs-12" ng-if="displayBusiness()">
+                <label>Eau</label>
+                <div class="checkbox">
+                  <label class="checkbox-inline"><input type="radio" ng-value="true" ng-model="prp.water"/> Oui</label>
+                  <label class="checkbox-inline"><input type="radio" ng-value="false" ng-model="prp.water" ng-checked="prp.water==false"/> Non</label>
                 </div>
+              </div>
+
+              <div class="form-group col-xs-12" ng-if="displayBusiness()">
+                <label>Electricité</label>
+                <div class="checkbox">
+                  <label class="checkbox-inline"><input type="radio" ng-value="true" ng-model="prp.electricity"/> Oui</label>
+                  <label class="checkbox-inline"><input type="radio" ng-value="false" ng-model="prp.electricity" ng-checked="prp.electricity==false"/> Non</label>
+                </div>
+              </div>
+
             </div>
         </div>
     </fieldset>

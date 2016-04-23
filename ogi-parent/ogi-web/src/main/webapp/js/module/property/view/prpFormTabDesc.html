@@ -2,12 +2,8 @@
   <div ng-include="'js/module/property/view/prpFormTabDescPlot.html'"></div>
 </div>
 
-<div ng-if="prp.category.code == 'HSE' || prp.category.code == 'APT'">
+<div ng-if="prp.category.code == 'HSE' || prp.category.code == 'APT' || prp.category.code == 'BSN'">
   <div ng-include="'js/module/property/view/prpFormTabDescLivable.html'"></div>
-</div>
-
-<div ng-if="prp.category.code == 'BSN'">
-  <div ng-include="'js/module/property/view/prpFormTabDescBusiness.html'"></div>
 </div>
 
 <script type="text/ng-template" id="modalAddType.html">
