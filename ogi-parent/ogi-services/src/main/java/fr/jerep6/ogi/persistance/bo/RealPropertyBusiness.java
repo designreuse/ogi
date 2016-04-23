@@ -16,10 +16,10 @@ import lombok.Setter;
 @Setter
 public class RealPropertyBusiness extends RealPropertyBuilt {
 
-	@Column(name = "PRB_WATER")
+	@Column(name = "PRS_WATER")
 	private Boolean		water;
 
-	@Column(name = "PRB_ELECTRICITY")
+	@Column(name = "PRS_ELECTRICITY")
 	private Boolean		electricity;
 
 	
