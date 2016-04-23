@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.1.final using JasperReports Library version 6.2.1  -->
-<!-- 2016-04-17T20:33:39 -->
+<!-- 2016-04-24T00:58:10 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="20" uuid="96540068-ead6-4274-af4c-90fbe87736a3">
 	<property name="ireport.zoom" value="1.0000000000000044"/>
 	<property name="ireport.x" value="0"/>
@@ -189,10 +189,12 @@ where r.PRO_REFERENCE=$P{reference}
 
 UNION ALL
 
+-- Lotissement only on livable so JOIN
 select
 'Lotissement' AS CLE,
 CASE PRO_HOUSING_ESTATE WHEN 1 THEN 'Oui' ELSE 'Non' end AS VALEUR
 from TA_PROPERTY r
+JOIN TA_PROPERTY_LIVABLE rl ON r.PRO_ID=rl.PRO_ID
 where r.PRO_REFERENCE=$P{reference}
 
 
@@ -223,6 +225,27 @@ CAST(IFNULL(PRB_INSULATION, '-') AS CHAR) AS VALEUR
 from TA_PROPERTY r
 JOIN TA_PROPERTY_BUILT rb ON r.PRO_ID=rb.PRO_ID AND PRB_INSULATION IS NOT NULL
 where r.PRO_REFERENCE=$P{reference}
+
+
+UNION ALL
+
+select
+'Eau' AS CLE,
+CASE PRS_WATER WHEN 1 THEN 'Oui' ELSE 'Non' end AS VALEUR
+from TA_PROPERTY r
+JOIN TA_PROPERTY_BUSINESS rb ON r.PRO_ID=rb.PRO_ID
+where r.PRO_REFERENCE=$P{reference}
+
+UNION ALL
+
+select
+'Électricité' AS CLE,
+CASE PRS_ELECTRICITY WHEN 1 THEN 'Oui' ELSE 'Non' end AS VALEUR
+from TA_PROPERTY r
+JOIN TA_PROPERTY_BUSINESS rb ON r.PRO_ID=rb.PRO_ID
+where r.PRO_REFERENCE=$P{reference}
+
+
 ) general
 
 LIMIT 0,9
@@ -306,7 +329,7 @@ WHERE prp.PRO_REFERENCE=$P{reference}]]>
 				<textElement>
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Mandat : "+$F{MANDAT_REFERENCE}+"\n"+
+				<textFieldExpression><![CDATA["Mandat : "+($F{MANDAT_REFERENCE} != null ? $F{MANDAT_REFERENCE} : "")+"\n"+
 "Référence : "+$F{REFERENCE}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
