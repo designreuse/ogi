@@ -84,6 +84,9 @@ angular.module('myApp.property').controller("ControllerPrpTabDesc",
       if (!$scope.utils.isUndefinedOrNull($scope.saveData.type)) {
         $scope.prp.type = $scope.saveData.type.label;
       }
+      else {
+        $scope.prp.type = null;
+      }
     });
 
 
@@ -125,6 +128,9 @@ angular.module('myApp.property').controller("ControllerPrpTabDesc",
       }
       else if (!$scope.utils.isUndefinedOrNull($scope.saveData[vPrp])) {
         $scope.prp[vPrp] = vSaveData.label;
+      }
+      else {
+        $scope.prp[vPrp] = null;
       }
     }
 

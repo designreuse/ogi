@@ -54,15 +54,17 @@
         </tr>
         </thead>
 
-        <tbody ng-if="prp.category.code == 'HSE' || prp.category.code == 'APT'">
+        <tbody ng-if="prp.category.code == 'HSE' || prp.category.code == 'APT' || prp.category.code == 'BSN'">
           <tr><td>Type</td><td>{{prp.type}}</td></tr>
-          <tr><td>Surface Habitable</td><td>{{(prp.area | area) || '-'}}</td></tr>
+          <tr ng-if="displayLiveable()"><td>Surface Habitable</td><td>{{(prp.area | area) || '-'}}</td></tr>
           <tr><td>Surface Terrain</td><td>{{(prp.landArea | area) || '-'}}</td></tr>
           <tr><td>Année de construction</td><td>{{(prp.buildDate | date:'yyyy') || '-'}}</td></tr>
           <tr><td>Taxe foncière</td><td>{{(prp.sale.propertyTax | number:0) || '-'}} €</td></tr>
-          <tr><td>Lotissement</td><td>{{(prp.housingEstate | boolean) || '-'}}</td></tr>
-          <tr><td>Chauffage</td><td>{{prp.heating || '-'}}</td></tr>
-          <tr><td>Assainissement</td><td>{{prp.sanitation || '-'}}</td></tr>
+          <tr ng-if="displayLiveable()"><td>Lotissement</td><td>{{(prp.housingEstate | boolean) || '-'}}</td></tr>
+          <tr ng-if="displayLiveable()"><td>Chauffage</td><td>{{prp.heating || '-'}}</td></tr>
+          <tr ng-if="displayLiveable()"><td>Assainissement</td><td>{{prp.sanitation || '-'}}</td></tr>
+          <tr ng-if="displayBusiness()"><td>Eau</td><td>{{(prp.watter | boolean) || '-'}}</td></tr>
+          <tr ng-if="displayBusiness()"><td>Électricité</td><td>{{(prp.electicity | boolean) || '-'}}</td></tr>
         </tbody>
 
         <tbody ng-if="prp.category.code == 'PLT'">
