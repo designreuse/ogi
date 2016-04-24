@@ -60,9 +60,11 @@ import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.Description;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
 import fr.jerep6.ogi.persistance.bo.RealPropertyBuilt;
+import fr.jerep6.ogi.persistance.bo.RealPropertyBusiness;
 import fr.jerep6.ogi.persistance.bo.RealPropertyLivable;
 import fr.jerep6.ogi.persistance.bo.Rent;
 import fr.jerep6.ogi.persistance.bo.Sale;
+import fr.jerep6.ogi.persistance.bo.Type;
 import fr.jerep6.ogi.service.ServicePartnerRequest;
 import fr.jerep6.ogi.service.external.ServicePartner;
 import fr.jerep6.ogi.service.external.transfert.AcimfloResultDelete;
@@ -493,28 +495,33 @@ public class ServiceAcimfloImpl extends AbstractService implements ServicePartne
 	@Override
 	public void validate(RealProperty prp) throws MultipleBusinessException {
 		MultipleBusinessException mbe = new MultipleBusinessException();
-
-		Description description = prp.getDescription(EnumDescriptionType.WEBSITE_OWN);
-		if ((prp.getSale() == null || prp.getSale().getPriceFinal() == null) && prp.getRent() == null) {
-			mbe.add(EnumBusinessErrorProperty.NO_SALE, prp.getReference());
+		
+		if(prp instanceof RealPropertyBusiness) {
+			mbe.add(EnumBusinessErrorProperty.UNSUPPORTED_CATEGORY, prp.getCategory().getLabel());
 		}
-		if (description == null || description.getLabel() == null) {
-			mbe.add(EnumBusinessErrorProperty.NO_DESCRIPTION_WEBSITE_OWN, prp.getReference());
-		}
-
-		if (prp.getRent() != null) {
-			if (prp.getRent().getPrice() == null || prp.getRent().getPrice() <= 0F) {
-				mbe.add(EnumBusinessErrorProperty.NO_RENT_PRICE, prp.getReference());
+		else {
+			Description description = prp.getDescription(EnumDescriptionType.WEBSITE_OWN);
+			if ((prp.getSale() == null || prp.getSale().getPriceFinal() == null) && prp.getRent() == null) {
+				mbe.add(EnumBusinessErrorProperty.NO_SALE, prp.getReference());
 			}
-
-			if (prp.getRent().getCommission() == null || prp.getRent().getCommission() < 0F) {
-				mbe.add(EnumBusinessErrorProperty.NO_RENT_COMMISSION, prp.getReference());
+			if (description == null || description.getLabel() == null) {
+				mbe.add(EnumBusinessErrorProperty.NO_DESCRIPTION_WEBSITE_OWN, prp.getReference());
 			}
-		}
-
-		if (prp.getSale() != null) {
-			if (prp.getSale().getPrice() == null || prp.getSale().getPrice() <= 0F) {
-				mbe.add(EnumBusinessErrorProperty.NO_SALE_PRICE, prp.getReference());
+	
+			if (prp.getRent() != null) {
+				if (prp.getRent().getPrice() == null || prp.getRent().getPrice() <= 0F) {
+					mbe.add(EnumBusinessErrorProperty.NO_RENT_PRICE, prp.getReference());
+				}
+	
+				if (prp.getRent().getCommission() == null || prp.getRent().getCommission() < 0F) {
+					mbe.add(EnumBusinessErrorProperty.NO_RENT_COMMISSION, prp.getReference());
+				}
+			}
+	
+			if (prp.getSale() != null) {
+				if (prp.getSale().getPrice() == null || prp.getSale().getPrice() <= 0F) {
+					mbe.add(EnumBusinessErrorProperty.NO_SALE_PRICE, prp.getReference());
+				}
 			}
 		}
 

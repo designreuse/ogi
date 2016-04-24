@@ -23,6 +23,7 @@ public enum EnumBusinessErrorProperty implements ErrorCode {
 	NO_CHARGES("NO_CHARGES", "Property haven't charges"), //
 	NO_ROOM_NUMBER("NO_ROOM_NUMBER", "Property haven't room number"), //
 	NO_ROOM_TYPE("NO_ROOM_TYPE", "Room haven't type"), //
+	UNSUPPORTED_CATEGORY("UNSUPPORTED_CATEGORY", "Category is not supported"), //
 	;
 
 	private String	code;

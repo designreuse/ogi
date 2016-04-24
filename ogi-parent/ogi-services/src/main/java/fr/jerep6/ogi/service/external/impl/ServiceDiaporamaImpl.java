@@ -43,6 +43,7 @@ import fr.jerep6.ogi.framework.service.impl.AbstractService;
 import fr.jerep6.ogi.framework.utils.StringUtils;
 import fr.jerep6.ogi.persistance.bo.Category;
 import fr.jerep6.ogi.persistance.bo.RealProperty;
+import fr.jerep6.ogi.persistance.bo.RealPropertyBusiness;
 import fr.jerep6.ogi.service.ServicePartnerRequest;
 import fr.jerep6.ogi.service.external.ServicePartner;
 import fr.jerep6.ogi.service.external.transfert.AcimfloResultDelete;
@@ -304,17 +305,21 @@ public class ServiceDiaporamaImpl extends AbstractService implements ServicePart
 	@Override
 	public void validate(RealProperty prp) throws MultipleBusinessException {
 		MultipleBusinessException mbe = new MultipleBusinessException();
-
-		if (prp.getSale() == null || prp.getSale().getPriceFinal() == null) {
-			mbe.add(EnumBusinessErrorProperty.NO_SALE, prp.getReference());
+		
+		if(prp instanceof RealPropertyBusiness) {
+			mbe.add(EnumBusinessErrorProperty.UNSUPPORTED_CATEGORY, prp.getCategory().getLabel());
 		}
-
-		if (prp.getSale() != null) {
-			if (prp.getSale().getPrice() == null || prp.getSale().getPrice() <= 0F) {
-				mbe.add(EnumBusinessErrorProperty.NO_SALE_PRICE, prp.getReference());
+		else {	
+			if (prp.getSale() == null || prp.getSale().getPriceFinal() == null) {
+				mbe.add(EnumBusinessErrorProperty.NO_SALE, prp.getReference());
+			}
+	
+			if (prp.getSale() != null) {
+				if (prp.getSale().getPrice() == null || prp.getSale().getPrice() <= 0F) {
+					mbe.add(EnumBusinessErrorProperty.NO_SALE_PRICE, prp.getReference());
+				}
 			}
 		}
-
 		mbe.checkErrors();
 	}
 }
