@@ -33,7 +33,6 @@
 	<mvc:annotation-driven />
 
 	<!-- File upload servlet 3.0+ -->
-
 	<bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver" />
-
+	
 </beans>

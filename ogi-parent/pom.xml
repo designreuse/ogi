@@ -28,6 +28,7 @@
 		<commonnet.version>3.3</commonnet.version>
 		<elasticsearch.version>1.3.4</elasticsearch.version>
 		<lucene.version>4.9.1</lucene.version>
+		<swagger.version>2.4.0</swagger.version>
 
 		<log4j.version>2.0-rc1</log4j.version>
 		<slf4j.version>1.7.6</slf4j.version>
@@ -174,6 +175,23 @@
 				<version>3.1.4.GA</version>
 			</dependency>
 
+
+			<!-- ###### SWAGGER ###### -->
+			<dependency>
+			    <groupId>io.springfox</groupId>
+			    <artifactId>springfox-swagger2</artifactId>
+  				<version>${swagger.version}</version>
+			</dependency>
+			<dependency>
+			    <groupId>io.springfox</groupId>
+			    <artifactId>springfox-spring-web</artifactId>
+  				<version>${swagger.version}</version>
+			</dependency>
+			<dependency>
+			    <groupId>io.springfox</groupId>
+			    <artifactId>springfox-swagger-ui</artifactId>
+  				<version>${swagger.version}</version>
+			</dependency>
 
 
 			<!-- ###### Utils ###### -->
