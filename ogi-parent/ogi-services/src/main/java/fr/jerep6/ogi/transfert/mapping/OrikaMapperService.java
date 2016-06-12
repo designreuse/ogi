@@ -18,6 +18,7 @@ import fr.jerep6.ogi.persistance.bo.RealPropertyPlot;
 import fr.jerep6.ogi.persistance.bo.Rent;
 import fr.jerep6.ogi.persistance.bo.Room;
 import fr.jerep6.ogi.persistance.bo.Sale;
+import fr.jerep6.ogi.persistance.bo.Visit;
 
 @Component("orikaMapperService")
 public class OrikaMapperService extends ConfigurableMapper {
@@ -46,6 +47,8 @@ public class OrikaMapperService extends ConfigurableMapper {
 				.register();
 		factory.classMap(Room.class, Room.class).exclude("techid").exclude("photo").exclude("property").byDefault()
 				.register();
+		factory.classMap(Visit.class, Visit.class).exclude("techid").exclude("property").byDefault()
+		.register();
 
 		// Map only basic type (string, integer ...)
 		factory.classMap(RealProperty.class, RealProperty.class)//

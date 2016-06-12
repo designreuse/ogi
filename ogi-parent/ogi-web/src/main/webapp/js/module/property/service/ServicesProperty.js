@@ -61,17 +61,29 @@ angular.module('myApp.property').factory('ServiceDPE', function(Utils) {
 });
 
 angular.module('myApp.property').factory('ServiceLabel', function($http, ServiceConfiguration) {
-    return {
-        getLabels : function(type){
-            return $http.get(ServiceConfiguration.API_URL+"/rest/label/"+type);
-        },
-        saveLabel : function(type, label) {
-            var l = {
-                "techid": null,
-                "type": type,
-                "label": label
-            }
-            return $http.post(ServiceConfiguration.API_URL+"/rest/label/", l);
-        }
+  return {
+    getLabels : function(type){
+      return $http.get(ServiceConfiguration.API_URL+"/rest/label/" + type);
+    },
+    saveLabel : function(type, label) {
+      var l = {
+        "techid": null,
+        "type": type,
+        "label": label
+      }
+      return $http.post(ServiceConfiguration.API_URL+"/rest/label/", l);
     }
+  }
+});
+
+
+angular.module('myApp.property').factory('ServiceVisitSummary', function($http, ServiceConfiguration, $q) {
+  return {
+    getSummaries : function(prpRef){
+      return $http.get(ServiceConfiguration.API_URL+"/rest/visit/" + prpRef);
+    },
+    addSummary : function(summary) {
+      return $http.post(ServiceConfiguration.API_URL+"/rest/visit/", summary);
+    }
+  }
 });

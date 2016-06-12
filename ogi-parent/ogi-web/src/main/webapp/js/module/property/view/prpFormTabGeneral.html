@@ -1,172 +1,172 @@
 <!--BEGIN DIV GENERAL -->
 <div ng-controller="ControllerPrpTabGeneral" file-upload="options">
-    <div class="row">
-        <div class="col-xs-7">
+  <div class="row">
+      <div class="col-xs-7">
 
-            <div class="row">
-                <div class="form-group col-xs-6" style="width: 250px">
-                    <label uib-tooltip="Une fois renseignée, la référence ne peut pas être modifiée">Référence</label>
-                    <input class="form-control" type="text" ng-model="prp.reference" ng-disabled="true" />
-                </div>
+          <div class="row">
+              <div class="form-group col-xs-6" style="width: 250px">
+                  <label uib-tooltip="Une fois renseignée, la référence ne peut pas être modifiée">Référence</label>
+                  <input class="form-control" type="text" ng-model="prp.reference" ng-disabled="true" />
+              </div>
 
-                <div class="col-xs-6">
-                    <label  uib-tooltip="Si coché une mention apparaîtra sur la fiche client">
-                        <input type="checkbox" ng-model="prp.independentConsultant" /> Conseiller indépendant
-                    </label>
-                </div>
-            </div>
+              <div class="col-xs-6">
+                  <label  uib-tooltip="Si coché une mention apparaîtra sur la fiche client">
+                      <input type="checkbox" ng-model="prp.independentConsultant" /> Conseiller indépendant
+                  </label>
+              </div>
+          </div>
 
-            <fieldset>
-                <legend>Localisation</legend>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="form-group">
-                            <label>Adresse</label>
-                            <input class="form-control" type="text" ng-model="saveData.address.street" />
-                        </div>
+          <fieldset>
+              <legend>Localisation</legend>
+              <div class="row">
+                  <div class="col-xs-12">
+                      <div class="form-group">
+                          <label>Adresse</label>
+                          <input class="form-control" type="text" ng-model="saveData.address.street" />
+                      </div>
 
-                        <div class="form-group">
-                            <label>Complément Adresse</label>
-                            <input class="form-control" type="text" ng-model="saveData.address.additional" />
-                        </div>
-                        <div class="form-group">
-                            <label>Code Postal</label>
-                            <input class="form-control" type="text" ng-model="saveData.address.postalCode" />
-                        </div>
-                        <div class="form-group">
-                            <label>Ville</label>
-                            <input class="form-control" type="text" ng-model="saveData.address.city" />
-                        </div>
-                    </div>
+                      <div class="form-group">
+                          <label>Complément Adresse</label>
+                          <input class="form-control" type="text" ng-model="saveData.address.additional" />
+                      </div>
+                      <div class="form-group">
+                          <label>Code Postal</label>
+                          <input class="form-control" type="text" ng-model="saveData.address.postalCode" />
+                      </div>
+                      <div class="form-group">
+                          <label>Ville</label>
+                          <input class="form-control" type="text" ng-model="saveData.address.city" />
+                      </div>
+                  </div>
 
-                </div>
-            </fieldset>
+              </div>
+          </fieldset>
 
-            <fieldset>
-                <legend>Commentaires</legend>
-                <uib-tabset>
-                    <uib-tab heading="Fiche Client"><textarea class="form-control" rows="6" ng-model="prp.descriptions['CLIENT'].label"></textarea></uib-tab>
-                    <uib-tab heading="Fiche Vitrine"><textarea class="form-control" rows="6" ng-model="prp.descriptions['VITRINE'].label"></textarea></uib-tab>
-                    <uib-tab heading="Acimflo"><textarea class="form-control" rows="6" ng-model="prp.descriptions['WEBSITE_PERSO'].label"></textarea></uib-tab>
-                    <uib-tab heading="Sites Immobiliers"><textarea class="form-control" rows="6" ng-model="prp.descriptions['WEBSITE_AUTRE'].label"></textarea></uib-tab>
-                    <uib-tab heading="Interne"><textarea class="form-control" rows="6" ng-model="prp.descriptions['APP'].label"></textarea></uib-tab>
-                </uib-tabset>
-            </fieldset>
+          <fieldset>
+              <legend>Commentaires</legend>
+              <uib-tabset>
+                  <uib-tab heading="Fiche Client"><textarea class="form-control" rows="6" ng-model="prp.descriptions['CLIENT'].label"></textarea></uib-tab>
+                  <uib-tab heading="Fiche Vitrine"><textarea class="form-control" rows="6" ng-model="prp.descriptions['VITRINE'].label"></textarea></uib-tab>
+                  <uib-tab heading="Acimflo"><textarea class="form-control" rows="6" ng-model="prp.descriptions['WEBSITE_PERSO'].label"></textarea></uib-tab>
+                  <uib-tab heading="Sites Immobiliers"><textarea class="form-control" rows="6" ng-model="prp.descriptions['WEBSITE_AUTRE'].label"></textarea></uib-tab>
+                  <uib-tab heading="Interne"><textarea class="form-control" rows="6" ng-model="prp.descriptions['APP'].label"></textarea></uib-tab>
+              </uib-tabset>
+          </fieldset>
 
-        </div>
-        <div id="map" class="col-xs-5">
-            <div id="map_canvas" ui-map="map"
-                 style="height:500px;width:100%;border:2px solid #777777;margin:3px; border:1px solid"
-                 ui-options="mapOptions"
-                 ui-event="{'map-idle' : 'onMapIdle()', 'map-click': 'clickMap($event, $params)'}"
-                    >
-            </div>
-            <div class="center">
-                <button class="btn btn-default" ng-click="findPositionByAddress()">Trouver la position</button>
-                <button class="btn btn-default" ng-click="resetMap()">RAZ map</button>
-            </div>
-        </div>
+      </div>
+      <div id="map" class="col-xs-5">
+          <div id="map_canvas" ui-map="map"
+               style="height:500px;width:100%;border:2px solid #777777;margin:3px; border:1px solid"
+               ui-options="mapOptions"
+               ui-event="{'map-idle' : 'onMapIdle()', 'map-click': 'clickMap($event, $params)'}"
+                  >
+          </div>
+          <div class="center">
+              <button class="btn btn-default" ng-click="findPositionByAddress()">Trouver la position</button>
+              <button class="btn btn-default" ng-click="resetMap()">RAZ map</button>
+          </div>
+      </div>
+  </div>
+
+  <fieldset ng-class="{'fileupload-processing': processing() || loadingFiles}">
+      <legend>Photos</legend>
+
+      <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+      <div class="row fileupload-buttonbar">
+          <div class="col-xs-4">
+              <!-- The fileinput-button span is used to style the file input field as button -->
+              <span class="btn btn-success fileinput-button" ng-class="{disabled: disabled}">
+                  <i class="glyphicon glyphicon-plus"></i>
+                  <span>Ajouter des photos...</span>
+                  <input type="file" name="file[]" multiple ng-disabled="disabled" />
+              </span>
+              <button type="button" class="btn btn-primary start" data-ng-click="submit()">
+                  <i class="glyphicon glyphicon-arrow-up"></i>
+                  <span>Envoyer</span>
+              </button>
+              <!--
+              <button type="button" class="btn btn-warning cancel" data-ng-click="cancel()">
+                  <i class="glyphicon glyphicon-ban-circle"></i>
+                  <span>Cancel upload</span>
+              </button>-->
+              <!-- The loading indicator is shown during file processing -->
+              <div class="fileupload-loading"></div>
+          </div>
+          <!-- The global progress information -->
+          <div class="col-xs-8 fade" ng-class="{in: active()}">
+              <!-- The global progress bar -->
+              <div class="progress progress-striped active" file-upload-progress="progress()">
+                      <div class="progress-bar" ng-style="{width: num + '%'}"></div>
+              </div>
+              <!-- The extended global progress information
+              <div class="progress-extended">&nbsp;</div> -->
+          </div>
+      </div>
+
+
+    <!-- The table listing the files available for upload/download -->
+    <table class="table table-striped files ng-cloak">
+      <tr ng-repeat="file in queue">
+        <td ng-switch="!!file.thumbnailUrl">
+          <div class="preview" ng-switch-when="true">
+              <a ng-href="{{file.url}}" title="{{file.name}}" target="_blank" download="{{file.name}}" gallery><img ng-src="{{file.thumbnailUrl}}" alt=""></a>
+          </div>
+          <div class="preview" ng-switch-default file-upload-preview="file"></div>
+        </td>
+        <td>
+          <p class="name" ng-switch on="!!file.url">
+            <span ng-switch-when="true" ng-switch on="!!file.thumbnailUrl">
+              <a ng-switch-when="true" ng-href="{{file.url}}"  title="{{file.name}}" target="_blank" download="{{file.name}}" gallery>{{file.name}}</a>
+              <a ng-switch-default ng-href="{{file.url}}" title="{{file.name}}" download="{{file.name}}">{{file.name}}</a>
+            </span>
+            <span ng-switch-default>{{file.name}}</span>
+          </p>
+          <div ng-show="file.error"><span class="label label-danger">Error</span> <span ng-bind-html="file.error"></span></div>
+        </td>
+        <td>
+          <p class="size">{{file.size | formatFileSize}}</p>
+          <div class="progress progress-striped active fade" ng-class="{pending: 'in'}[file.$state()]" file-upload-progress="file.$progress()">
+            <div class="progress-bar progress-bar-success bar" ng-style="{width: num + '%'}"></div>
+          </div>
+        </td>
+        <td>
+          <button type="button" class="btn btn-warning cancel" data-ng-click="file.$cancel()" data-ng-hide="!file.$cancel">
+            <i class="glyphicon glyphicon-ban-circle"></i>
+            <span>Supprimer</span>
+          </button>
+          <!--
+          <button data-ng-controller="FileDestroyController" type="button" class="btn btn-danger destroy" data-ng-click="file.$destroy()" data-ng-hide="!file.$destroy">
+              <i class="glyphicon glyphicon-trash"></i>
+              <span>Delete</span>
+          </button>
+          -->
+        </td>
+      </tr>
+    </table>
+
+    <ul ui-sortable="sortableOptions" id="list-photos" class="list-unstyled list-inline" ng-model="prp.photos">
+      <li ng-repeat="photo in prp.photos">
+        <img ng-src="{{photo.url}}?size=110,110&crop=110,110&&sizeMode=inversed_automatic" />
+        <div class="photoName">{{photo.name}}</div>
+        <a class="btn" href="{{photo.url}}" target="_blank"><i class="glyphicon glyphicon-eye-open"></i></a>
+        <a class="btn" ng-click="deletePhoto($index)"><i class="glyphicon glyphicon-trash"></i></a>
+      </li>
+    </ul>
+  </fieldset>
+
+
+  <div class="modal hide" modal="shouldBeOpenGeoloc" options="opts">
+    <div class="modal-header"><a class="close" ng-click="closeGeoloc()">×</a>
+      <h3>Adresses trouvées</h3>
     </div>
-
-    <fieldset ng-class="{'fileupload-processing': processing() || loadingFiles}">
-        <legend>Photos</legend>
-
-        <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-        <div class="row fileupload-buttonbar">
-            <div class="col-xs-4">
-                <!-- The fileinput-button span is used to style the file input field as button -->
-                <span class="btn btn-success fileinput-button" ng-class="{disabled: disabled}">
-                    <i class="glyphicon glyphicon-plus"></i>
-                    <span>Ajouter des photos...</span>
-                    <input type="file" name="file[]" multiple ng-disabled="disabled" />
-                </span>
-                <button type="button" class="btn btn-primary start" data-ng-click="submit()">
-                    <i class="glyphicon glyphicon-arrow-up"></i>
-                    <span>Envoyer</span>
-                </button>
-                <!--
-                <button type="button" class="btn btn-warning cancel" data-ng-click="cancel()">
-                    <i class="glyphicon glyphicon-ban-circle"></i>
-                    <span>Cancel upload</span>
-                </button>-->
-                <!-- The loading indicator is shown during file processing -->
-                <div class="fileupload-loading"></div>
-            </div>
-            <!-- The global progress information -->
-            <div class="col-xs-8 fade" ng-class="{in: active()}">
-                <!-- The global progress bar -->
-                <div class="progress progress-striped active" file-upload-progress="progress()">
-                        <div class="progress-bar" ng-style="{width: num + '%'}"></div>
-                </div>
-                <!-- The extended global progress information
-                <div class="progress-extended">&nbsp;</div> -->
-            </div>
-        </div>
-
-
-        <!-- The table listing the files available for upload/download -->
-        <table class="table table-striped files ng-cloak">
-            <tr ng-repeat="file in queue">
-                <td ng-switch="!!file.thumbnailUrl">
-                    <div class="preview" ng-switch-when="true">
-                        <a ng-href="{{file.url}}" title="{{file.name}}" target="_blank" download="{{file.name}}" gallery><img ng-src="{{file.thumbnailUrl}}" alt=""></a>
-                    </div>
-                    <div class="preview" ng-switch-default file-upload-preview="file"></div>
-                </td>
-                <td>
-                    <p class="name" ng-switch on="!!file.url">
-                        <span ng-switch-when="true" ng-switch on="!!file.thumbnailUrl">
-                            <a ng-switch-when="true" ng-href="{{file.url}}"  title="{{file.name}}" target="_blank" download="{{file.name}}" gallery>{{file.name}}</a>
-                            <a ng-switch-default ng-href="{{file.url}}" title="{{file.name}}" download="{{file.name}}">{{file.name}}</a>
-                        </span>
-                        <span ng-switch-default>{{file.name}}</span>
-                    </p>
-                    <div ng-show="file.error"><span class="label label-danger">Error</span> <span ng-bind-html="file.error"></span></div>
-                </td>
-                <td>
-                    <p class="size">{{file.size | formatFileSize}}</p>
-                    <div class="progress progress-striped active fade" ng-class="{pending: 'in'}[file.$state()]" file-upload-progress="file.$progress()">
-                        <div class="progress-bar progress-bar-success bar" ng-style="{width: num + '%'}"></div>
-                    </div>
-                </td>
-                <td>
-                    <button type="button" class="btn btn-warning cancel" data-ng-click="file.$cancel()" data-ng-hide="!file.$cancel">
-                        <i class="glyphicon glyphicon-ban-circle"></i>
-                        <span>Supprimer</span>
-                    </button>
-                    <!--
-                    <button data-ng-controller="FileDestroyController" type="button" class="btn btn-danger destroy" data-ng-click="file.$destroy()" data-ng-hide="!file.$destroy">
-                        <i class="glyphicon glyphicon-trash"></i>
-                        <span>Delete</span>
-                    </button>
-                    -->
-                </td>
-            </tr>
-        </table>
-
-        <ul ui-sortable="sortableOptions" id="list-photos" class="list-unstyled list-inline" ng-model="prp.photos">
-            <li ng-repeat="photo in prp.photos">
-                <img ng-src="{{photo.url}}?size=110,110&crop=110,110&&sizeMode=inversed_automatic" />
-                <div class="photoName">{{photo.name}}</div>
-                <a class="btn" href="{{photo.url}}" target="_blank"><i class="glyphicon glyphicon-eye-open"></i></a>
-                <a class="btn" ng-click="deletePhoto($index)"><i class="glyphicon glyphicon-trash"></i></a>
-            </li>
-        </ul>
-    </fieldset>
-
-
-    <div class="modal hide" modal="shouldBeOpenGeoloc" options="opts">
-        <div class="modal-header"><a class="close" ng-click="closeGeoloc()">×</a>
-            <h3>Adresses trouvées</h3>
-        </div>
-        <div class="modal-body">
-            <ul>
-                <li ng-repeat="place in places">
-                    {{place.formatted_address}} <a href="javascript:;" ng-click="usePlace($index)">Utiliser</a>
-                </li>
-            </ul>
-        </div>
+    <div class="modal-body">
+      <ul>
+        <li ng-repeat="place in places">
+          {{place.formatted_address}} <a href="javascript:;" ng-click="usePlace($index)">Utiliser</a>
+        </li>
+      </ul>
     </div>
+  </div>
 
 
 </div>

@@ -121,6 +121,9 @@ public class RealProperty {
 	inverseJoinColumns = @JoinColumn(name = "OWN_ID")//
 			)
 	private Set<Owner>					owners				= new HashSet<>(0);
+	
+	@OneToMany(mappedBy = "property")
+	private Set<Visit>					visits				= new HashSet<>(0);
 
 	@OneToMany(mappedBy = "property")
 	private Set<PartnerRequest>			partnersRequests;

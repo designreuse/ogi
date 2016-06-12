@@ -1,0 +1,41 @@
+<!--BEGIN DIV GENERAL -->
+<div ng-controller="ControllerPrpTabVisitSummary as ctrlSummary">
+  <!-- date, client, resumé-->
+
+  <div class="row">
+    <div class="col-xs-12 form-group">
+      <label>Date</label>
+      <div class="input-group">
+        <input type="text" class="form-control" ng-model="ctrlSummary.summary.date"
+               uib-datepicker-popup="{{ctrlSummary.dateFormat}}" show-weeks="false" is-open="ctrlSummary.calendarOpen"
+               datepicker-options="ctrlSummary.dateOptions" show-button-bar="false"
+        />
+        <span class="input-group-addon glyphicon glyphicon-calendar pointer" ng-click="ctrlSummary.openCalendar($event)"></span>
+      </div>
+    </div>
+
+    <div class="col-xs-12 form-group">
+      <label>Client</label>
+      <input class="form-control" type="text" ng-model="ctrlSummary.summary.client" />
+    </div>
+
+    <div class="col-xs-12 form-group">
+      <label>Client</label>
+      <textarea class="form-control" rows="6" ng-model="ctrlSummary.summary.txt"></textarea>
+    </div>
+
+    <div class="col-xs-12 form-group">
+      <button  style="display:block; width:100%" type="submit" class="btn btn-success" ng-click="ctrlSummary.addVisitSummary()">
+        <i class="glyphicon glyphicon-floppy-disk"></i>
+        Ajouter un compte rendu
+      </button>
+    </div>
+  </div>
+
+
+  <div class="row">
+    {{ctrlSummary.summaries}}
+  </div>
+
+</div>
+<!--END DIV GENERAL -->

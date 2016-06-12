@@ -13,7 +13,8 @@ function ControllerPrpParent($scope, $log, $http, $routeParams,
             "equipment":{"active" : false, "url" : "js/module/property/view/formPrpTabGeneral.html"},
             "diagnosis":{"active" : false, "url" : "js/module/property/view/prpFormTabDiagnosis.html", "categToHide" : ["PLT"]},
             "room":     {"active" : false, "url" : "js/module/property/view/prpFormTabRoom.html", "categToHide" : ["PLT"]},
-            "partner":  {"active" : false, "url" : "js/module/property/view/prpFormTabPartner.html"}
+            "partner":  {"active" : false, "url" : "js/module/property/view/prpFormTabPartner.html"},
+            "visitsummary":  {"active" : false, "url" : "js/module/property/view/prpFormTabVisitSummary.html"}
         },
 
         clean : function () {
@@ -37,7 +38,7 @@ function ControllerPrpParent($scope, $log, $http, $routeParams,
             return activeKey;
         }
     };
-    $scope.addMenu.select("owner");
+    $scope.addMenu.select("visitsummary");
 
     /**
      * Indicate if tab must be display according to prp category

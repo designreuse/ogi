@@ -19,6 +19,7 @@
 
         <li ng-if="!formCreate" ng-class="{active: addMenu.getActive() == 'doc'}"><a ng-click="addMenu.select('doc')" href="javascript:;">Documents</a></li>
         <li ng-if="!formCreate" ng-class="{active: addMenu.getActive()== 'partner'}"><a ng-click="addMenu.select('partner')" href="javascript:;">Sites externes</a></li>
+        <li ng-if="!formCreate" ng-class="{active: addMenu.getActive()== 'visitsummary'}"><a ng-click="addMenu.select('visitsummary')" href="javascript:;">Visites</a></li>
     </ul>
 
     <!-- name is used by FormController to published form into scope -->

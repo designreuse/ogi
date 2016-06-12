@@ -51,6 +51,7 @@ import fr.jerep6.ogi.persistance.bo.Rent;
 import fr.jerep6.ogi.persistance.bo.Room;
 import fr.jerep6.ogi.persistance.bo.Sale;
 import fr.jerep6.ogi.persistance.bo.State;
+import fr.jerep6.ogi.persistance.bo.Visit;
 import fr.jerep6.ogi.rest.batch.transfert.BatchReportInstanceTo;
 import fr.jerep6.ogi.rest.batch.transfert.BatchReportJobExecutionTo;
 import fr.jerep6.ogi.rest.batch.transfert.BatchReportStepExecutionTo;
@@ -81,6 +82,7 @@ import fr.jerep6.ogi.transfert.bean.RentTo;
 import fr.jerep6.ogi.transfert.bean.RoomTo;
 import fr.jerep6.ogi.transfert.bean.SaleTo;
 import fr.jerep6.ogi.transfert.bean.StateTo;
+import fr.jerep6.ogi.transfert.bean.VisitTo;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterDocumentType;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumBatchExitStatus;
 import fr.jerep6.ogi.transfert.mapping.converter.ConverterEnumBatchStatus;
@@ -240,6 +242,7 @@ public class OrikaMapper extends ConfigurableMapper {
 		factory.classMap(Label.class, LabelTo.class).byDefault().register();
 		factory.classMap(State.class, StateTo.class).byDefault().register();
 		factory.classMap(Owner.class, OwnerTo.class).byDefault().register();
+		factory.classMap(Visit.class, VisitTo.class).byDefault().register();
 		factory.classMap(DPE.class, DPETo.class).byDefault().register();
 		factory.classMap(SearchResult.class, SearchResultTo.class).byDefault().register();
 		factory.classMap(RealProperty.class, RealPropertyLinkTo.class)//
