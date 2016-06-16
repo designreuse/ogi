@@ -1,10 +1,10 @@
 angular.module('myApp.property').controller("ControllerList",
-function ($scope, $http, Page, ServiceObjectChecked, ServiceAlert, ServiceConfiguration, $uibModal, $log, $dialogs) {
+function ($scope, $http, Page, ServiceObjectChecked, ServiceAlert, ServiceConfiguration, $uibModal, $log, fmDialogs) {
     Page.setTitle("Liste des biens");
 
     $scope.confirmDeletion = function(index) {
-        $dialogs.confirm('Confirmation','Voulez-vous supprimer le bien ?')
-            .result.then(function(btn){
+        fmDialogs.confirm('Confirmation','Voulez-vous supprimer le bien ?')
+            .then(function(btn){
                 $http.delete(ServiceConfiguration.API_URL+"/rest/property/",
                     {"params": {
                         "ref": $scope.properties[index].reference

@@ -3,7 +3,15 @@ function ($scope, Page, ServiceVisitSummary) {
   var _this = this;
 
   _this.summaries = [];
+  _this.summary;
 
+
+  $scope.httpGetCurrentType.then(function() {
+    _this.summary = emptySummary();
+
+    // Get all summaries for current real property
+    ServiceVisitSummary.getSummaries($scope.prp.reference).then((result) => _this.summaries = result.data);
+  });
 
   _this.openCalendar = function($event) {
     $event.preventDefault();
@@ -16,8 +24,6 @@ function ($scope, Page, ServiceVisitSummary) {
   };
   _this.dateFormat= "dd/MM/yyyy";
 
-  _this.summary = emptySummary();
-
 
   /** Add visit to database and append it to list */
   _this.addVisitSummary = function () {
@@ -29,7 +35,6 @@ function ($scope, Page, ServiceVisitSummary) {
   };
 
 
-  ServiceVisitSummary.getSummaries($scope.prp.reference).then((result) => _this.summaries = result);
 
 
   /** Create empty summary with defaut date */
@@ -37,7 +42,10 @@ function ($scope, Page, ServiceVisitSummary) {
     return {
       date : new Date(),
       client: '',
-      txt : ''
+      description : '',
+      property: {
+        reference: $scope.prp.reference
+      }
     };
   };
 });

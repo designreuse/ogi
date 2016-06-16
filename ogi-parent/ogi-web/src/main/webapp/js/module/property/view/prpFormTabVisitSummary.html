@@ -20,13 +20,13 @@
     </div>
 
     <div class="col-xs-12 form-group">
-      <label>Client</label>
-      <textarea class="form-control" rows="6" ng-model="ctrlSummary.summary.txt"></textarea>
+      <label>Description</label>
+      <textarea class="form-control" rows="6" ng-model="ctrlSummary.summary.description"></textarea>
     </div>
 
     <div class="col-xs-12 form-group">
       <button  style="display:block; width:100%" type="submit" class="btn btn-success" ng-click="ctrlSummary.addVisitSummary()">
-        <i class="glyphicon glyphicon-floppy-disk"></i>
+        <i class="glyphicon glyphicon-plus"></i>
         Ajouter un compte rendu
       </button>
     </div>
@@ -34,7 +34,14 @@
 
 
   <div class="row">
-    {{ctrlSummary.summaries}}
+    <div class="col-xs-12">
+      <div class="panel panel-default cols-xs-12" ng-repeat="sum in ctrlSummary.summaries">
+        <div class="panel-heading">
+          <span class="summary-date">{{sum.date | date:'dd/MM/yyyy'}}</span> - <span class="summary-client">{{sum.client}}</span>
+        </div>
+        <div class="panel-body summary-description" ng-bind-html="sum.description | nl2br"></div>
+      </div>
+    </div>
   </div>
 
 </div>

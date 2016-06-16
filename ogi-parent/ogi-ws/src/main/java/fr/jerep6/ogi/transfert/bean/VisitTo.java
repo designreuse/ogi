@@ -16,6 +16,7 @@ public class VisitTo {
 	private Calendar date;
 	private String	client;
 	private String	description;
+	private RealPropertyLinkTo property;
 
 	public VisitTo() {
 		super();

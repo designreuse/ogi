@@ -30,6 +30,7 @@ public class DaoVisitImpl extends AbstractDao<Visit, Integer> implements DaoVisi
 		q.append("SELECT v FROM " + Visit.class.getName() + " v");
 		q.append(" JOIN v.property p");
 		q.append(" WHERE p.reference = :" + PARAM_PRP);
+		q.append(" ORDER BY v.date DESC");
 
 		TypedQuery<Visit> query = entityManager.createQuery(q.toString(), Visit.class);
 		query.setParameter(PARAM_PRP, prpRef);

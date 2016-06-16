@@ -1,5 +1,5 @@
 function ControllerPrpParent($scope, $log, $http, $routeParams,
-                             Page, ServiceConfiguration, ServiceObject, Utils, ServiceAlert, $dialogs) {
+                             Page, ServiceConfiguration, ServiceObject, Utils, ServiceAlert, fmDialogs) {
     $scope.formCreate = true;
 
     // Top menu for active item
@@ -97,8 +97,8 @@ function ControllerPrpParent($scope, $log, $http, $routeParams,
     };
 
   $scope.confirmDeletion = function(reference) {
-    $dialogs.confirm('Confirmation','Voulez-vous supprimer le bien ?')
-      .result.then(function(btn){
+    fmDialogs.confirm('Confirmation','Voulez-vous supprimer le bien ?')
+      .then(function(btn){
         $http.delete(ServiceConfiguration.API_URL+"/rest/property/",
           {"params": {
             "ref": reference

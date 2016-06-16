@@ -7,18 +7,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
 
-import fr.jerep6.ogi.persistance.bo.Owner;
 import fr.jerep6.ogi.persistance.bo.Visit;
-import fr.jerep6.ogi.service.ServiceOwner;
 import fr.jerep6.ogi.service.ServiceVisit;
-import fr.jerep6.ogi.transfert.ListResult;
-import fr.jerep6.ogi.transfert.bean.OwnerTo;
 import fr.jerep6.ogi.transfert.bean.VisitTo;
 import fr.jerep6.ogi.transfert.mapping.OrikaMapper;
 
@@ -39,7 +33,7 @@ public class WSVisit extends AbtractWS {
 	public VisitTo create(@RequestBody VisitTo visit) {
 		Preconditions.checkNotNull(visit);
 		Visit visitBo = mapper.map(visit, Visit.class);
-		Visit visiInsert = serviceVisit.createOrUpdate(visitBo);
+		Visit visiInsert = serviceVisit.createOrUpdate(visit.getProperty().getReference(), visitBo);
 		return mapper.map(visiInsert, VisitTo.class);
 	}
 
@@ -57,7 +51,7 @@ public class WSVisit extends AbtractWS {
 		Preconditions.checkArgument(techid.equals(visit.getTechid()));
 
 		Visit visitBo = mapper.map(visit, Visit.class);
-		serviceVisit.createOrUpdate(visitBo);
+		serviceVisit.createOrUpdate(visit.getProperty().getReference(), visitBo);
 		return visit;
 	}
 }

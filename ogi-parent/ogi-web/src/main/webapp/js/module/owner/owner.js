@@ -1,6 +1,6 @@
 
 // 'ngSanitize' => for ng-bind-html
-var modOwner = angular.module('myApp.owner', ['ngRoute', 'ui.bootstrap', 'ngSanitize', 'dialogs']);
+var modOwner = angular.module('myApp.owner', ['ngRoute', 'ui.bootstrap', 'ngSanitize', 'fmDialogs']);
 
 
 // ###### ROUTES ######

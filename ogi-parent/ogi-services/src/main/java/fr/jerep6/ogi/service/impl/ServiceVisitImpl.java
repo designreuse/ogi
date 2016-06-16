@@ -43,12 +43,15 @@ public class ServiceVisitImpl extends AbstractTransactionalService<Visit, Intege
 
 	@Autowired
 	private DaoVisit			daoVisit;
+	
+	@Autowired
+	private ServiceRealProperty serviceProperty;
 
 	@Autowired
 	private OrikaMapperService	mapper;
 
 	@Override
-	public Visit createOrUpdate(Visit visit) {
+	public Visit createOrUpdate(String prpRef, Visit visit) {
 		validate(visit);
 
 		if (visit.getTechid() != null) {
@@ -57,6 +60,7 @@ public class ServiceVisitImpl extends AbstractTransactionalService<Visit, Intege
 			mapper.map(visit, visitBD);
 			update(visitBD);
 		} else {
+			visit.setProperty(serviceProperty.readByReference(prpRef).get());
 			save(visit);
 		}
 		return visit;

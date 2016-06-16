@@ -1,12 +1,12 @@
 angular.module('myApp.owner').controller("ControllerOwnerList",
-function ($scope, $http, Page, ServiceAlert, ServiceConfiguration, $log, $dialogs, ServiceOwner) {
+function ($scope, $http, Page, ServiceAlert, ServiceConfiguration, $log, fmDialogs, ServiceOwner) {
     Page.setTitle("Liste des propriétaires");
 
     $scope.owners = [];
 
     $scope.delete = function(index) {
-        $dialogs.confirm('Confirmation','Voulez-vous supprimer le propriétaire ?')
-            .result.then(function(btn){
+        fmDialogs.confirm('Confirmation','Voulez-vous supprimer le propriétaire ?')
+            .then(function(btn){
                 $http.delete(ServiceConfiguration.API_URL+"/rest/owner/",
                     {"params": {
                         "ref": $scope.owners[index].techid

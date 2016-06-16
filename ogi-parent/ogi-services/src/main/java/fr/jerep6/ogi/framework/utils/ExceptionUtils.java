@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 
 import fr.jerep6.ogi.framework.exception.AbstractException;
@@ -30,7 +31,7 @@ public final class ExceptionUtils {
 		String codeException = null;
 		Object[] args = new Object[] {};
 		if (exception instanceof AbstractException) {
-			Object[] tmpArgs = ((AbstractException) exception).getArguments();
+			Object[] tmpArgs = Objects.firstNonNull(((AbstractException) exception).getArguments(), new Object[]{});
 			List<Object> argsList = new ArrayList<>();
 
 			for (Object arg : tmpArgs) {
