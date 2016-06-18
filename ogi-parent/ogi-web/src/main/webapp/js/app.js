@@ -1,6 +1,6 @@
 // 'ngSanitize' => for ng-bind-html
 var myApp = angular.module('myApp',
-    ['ngRoute', 'pascalprecht.translate',
+    ['ngRoute', 'pascalprecht.translate', 'ngAnimate',
     'myApp.property', 'myApp.owner', 'myApp.dashboard',
     'myApp.common', 'myApp.passerelle', 'myApp.config',
     'myApp.search']);

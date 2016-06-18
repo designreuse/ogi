@@ -45,6 +45,11 @@ public class WSVisit extends AbtractWS {
 		return visitsTo;
 	}
 
+	@RequestMapping(value = "/{visitTechid}", method = RequestMethod.DELETE)
+	public void delete(@PathVariable("visitTechid") Integer visitTechid) throws InterruptedException {
+		serviceVisit.delete(visitTechid);
+	}
+
 	@RequestMapping(value = "/{techid}", method = RequestMethod.PUT, consumes = "application/json;charset=UTF-8")
 	public VisitTo update(@PathVariable("techid") Integer techid, @RequestBody VisitTo visit) {
 		Preconditions.checkNotNull(visit);

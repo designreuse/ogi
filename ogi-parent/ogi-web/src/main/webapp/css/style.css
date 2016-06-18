@@ -11,7 +11,7 @@ input[type=number] {
   background-color: #411D38;
 }
 a {
-  color: #847f83;
+  color: #847F83;
 }
 .alert-dismissable {
   margin-bottom: 5px;
@@ -54,10 +54,6 @@ a {
 .center {
   text-align: center;
 }
-.right {
-  text-align: right;
-}
-
 legend + .control-group {
   margin-top: 0px;
 }
@@ -187,11 +183,14 @@ ul#list-photos li.highlight {
 .mycheckbox-inline input[type="checkbox"] {
   margin-left: -15px;
 }
-#prpList {
-  margin-top: 15px;
+.summaries .animate-hide.ng-hide {
+  transition: all linear 1s;
+  transform: translate(-100%, 0);
+  opacity: 0;
 }
-#search {
-  margin-top: 15px;
+.summaries .animate-hide.ng-hide-remove {
+  transition: all linear 1s;
+  opacity: 1;
 }
 .search-filter-remove {
   float: right;
@@ -240,10 +239,10 @@ ul#list-photos li.highlight {
 }
 /* NAVIGATION */
 .navbar-default .navbar-brand {
-  color: #ffffff;
+  color: white;
 }
 .navbar-default a {
-  color: #ffffff;
+  color: white;
 }
 .navbar-default {
   background: none;
@@ -272,16 +271,16 @@ ul#list-photos li.highlight {
 }
 #wrapper {
   width: 100%;
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.07, #2b0221), color-stop(1, #63485d));
-  background-image: -o-linear-gradient(bottom, #2b0221 7%, #63485d 100%);
-  background-image: -moz-linear-gradient(bottom, #2b0221 7%, #63485d 100%);
-  background-image: -webkit-linear-gradient(bottom, #2b0221 7%, #63485d 100%);
-  background-image: -ms-linear-gradient(bottom, #2b0221 7%, #63485d 100%);
-  background-image: linear-gradient(to bottom, #2b0221 7%, #63485d 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.07, #2B0221), color-stop(1, #63485D));
+  background-image: -o-linear-gradient(bottom, #2B0221 7%, #63485D 100%);
+  background-image: -moz-linear-gradient(bottom, #2B0221 7%, #63485D 100%);
+  background-image: -webkit-linear-gradient(bottom, #2B0221 7%, #63485D 100%);
+  background-image: -ms-linear-gradient(bottom, #2B0221 7%, #63485D 100%);
+  background-image: linear-gradient(to bottom, #2B0221 7%, #63485D 100%);
 }
 /* TABLE */
 .table {
-  border: 1px solid #808080;
+  border: 1px solid gray;
   background-color: white;
 }
 .table > thead > tr > th,
@@ -290,7 +289,7 @@ ul#list-photos li.highlight {
 .table > thead > tr > td,
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
-  border-top: 1px solid #808080;
+  border-top: 1px solid gray;
 }
 .table thead,
 .table thead a {
@@ -302,8 +301,8 @@ ul#list-photos li.highlight {
   background: white;
 }
 /* Menu d'action */
-#prpFormManage {
-  margin-top: 15px;
+.action {
+  margin: 10px;
 }
 /* Liste des actions présentées dans une cellule d'un tableau*/
 .btn-group-action {
@@ -333,51 +332,4 @@ ul#list-photos li.highlight {
 }
 .passerelle_recap_push {
   color: #DEBB33;
-}
-
-/* HTML client view */
-#prpClientView {
-  padding-top: 15px;
-}
-#prpClientView .description h2 {
-  margin-top: 0;
-}
-#prpClientView .description {
-  padding-top: 20px;
-  border-right: 1px solid black;
-  border-bottom: 1px solid black;
-}
-#prpClientView .general-informations {
-  margin-top: 15px;
-}
-
-#prpClientView .rooms .area {
-  text-align: right;
-  padding-right: 15px;
-}
-
-#prpClientView .rooms tbody tr {
-  cursor: pointer;
-}
-#prpClientView .dpe .kwh {
-  margin-right: 10px;
-  margin-bottom: 10px;
-  display: inline-block;
-  vertical-align: top;
-}
-#prpClientView .dpe .ges {
-  display: inline-block;
-  vertical-align: top;
-}
-#prpClientView .highlight {
-  border-right: 1px solid black;
-}
-#prpClientView .highlight .city {
-  font-size: 32px;
-  text-align: center;
-  line-height: 25px;
-}
-#prpClientView .highlight .price {
-  font-size: 50px;
-  text-align: center;
 }

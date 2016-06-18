@@ -11,4 +11,5 @@ import fr.jerep6.ogi.transfert.ListResult;
 public interface ServiceVisit extends TransactionalService<Visit, Integer> {
 	List<Visit> readByProperty(String prpRef);
 	Visit createOrUpdate(String prpRef, Visit owner);
+	void delete(Integer techid);
 }

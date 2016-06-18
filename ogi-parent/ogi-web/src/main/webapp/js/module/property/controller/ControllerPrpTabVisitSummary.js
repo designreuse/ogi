@@ -28,9 +28,15 @@ function ($scope, Page, ServiceVisitSummary) {
   /** Add visit to database and append it to list */
   _this.addVisitSummary = function () {
     ServiceVisitSummary.addSummary(_this.summary).then((result) => {
-      console.log(result);
       _this.summaries.unshift(result.data);
       _this.summary = emptySummary();
+    });
+  };
+  _this.deleteSummary = function (summaryToDelete) {
+    summaryToDelete.deleted = true;
+    ServiceVisitSummary.deleteSummary(summaryToDelete.techid)
+      .catch(function () {
+        summaryToDelete.deleted = false;
     });
   };
 
