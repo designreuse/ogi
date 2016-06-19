@@ -56,11 +56,9 @@ public class DaoPartnerRequestImpl extends AbstractDao<PartnerRequest, Integer> 
 		return resultList;
 	}
 
-	/**
-	 * Retourne pour chaque bien la dernière requête exécutée
-	 */
+	/** Retourne pour chaque bien la dernière requête exécutée. Sauf les requêtes supprimées */
 	@Override
-	public List<PartnerRequest> lastRequests() {
+	public List<PartnerRequest> lastRequestsNotDeleted() {
 		// Je ne veux pas mapper les PartnerRequest dans le bien car hibernate créé une FK lors de la création de la
 		// table
 		// Requête originale : SELECT rp, r FROM " + RealProperty.class.getName() + " rp LEFT JOIN rp.partnersRequests r
@@ -72,6 +70,7 @@ public class DaoPartnerRequestImpl extends AbstractDao<PartnerRequest, Integer> 
 		q.append(" 		AND r2.property = r.property");
 		q.append(" 		AND r2.modificationDate > r.modificationDate");
 		q.append(")");
+		q.append(" AND r.requestType <> '" + EnumPartnerRequestType.DELETE_ACK.getCode() +"'");
 
 		TypedQuery<PartnerRequest> query = entityManager.createQuery(q.toString(), PartnerRequest.class);
 		return query.getResultList();

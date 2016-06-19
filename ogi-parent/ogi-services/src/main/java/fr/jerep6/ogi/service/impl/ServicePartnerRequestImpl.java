@@ -62,9 +62,12 @@ ServicePartnerRequest {
 
 	@Override
 	public Map<String, List<PartnerRequest>> lastRequests() {
-		List<PartnerRequest> lastRequests = daoPartnerRequest.lastRequests();
+		List<PartnerRequest> lastRequests = daoPartnerRequest.lastRequestsNotDeleted();
 		Map<Integer, String> references = serviceRealProperty.readReferences(lastRequests.stream()
 				.map(r -> r.getProperty()).collect(Collectors.toList()));
+		
+		List<PartnerRequest> c = lastRequests.stream().filter(p -> p.getProperty() == 82).collect(Collectors.toList());
+		System.out.println(c);
 
 		Map<String, List<PartnerRequest>> collect2 = lastRequests.stream()
 		// Delete nonexistent properties

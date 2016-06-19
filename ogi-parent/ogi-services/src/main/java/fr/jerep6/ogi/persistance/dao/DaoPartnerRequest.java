@@ -13,6 +13,6 @@ public interface DaoPartnerRequest extends DaoCRUD<PartnerRequest, Integer> {
 
 	PartnerRequest lastRequests(EnumPartner partner, Integer prpTechid);
 
-	List<PartnerRequest> lastRequests();
+	List<PartnerRequest> lastRequestsNotDeleted();
 
 }
