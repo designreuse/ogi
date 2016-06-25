@@ -7,10 +7,10 @@ angular.module('myApp.property').controller("ControllerPrpRead",
 
     $scope.prp = null;
     $http.get(ServiceConfiguration.API_URL + "/rest/property/" + $routeParams.prpRef)
-      .success(function (data, status, headers) {
-        $scope.prp = new PropertyJS(data);
-        $scope.prp.photos.forEach(function (img) {
-          addSlide(img.url + '?size=600,400', img.name);
+      .then(function (response, status, headers) {
+        $scope.prp = new PropertyJS(response.data);
+        $scope.prp.photos.forEach(function (img, index) {
+         addSlide(img.url + '?size=600,400', img.name, index);
         });
       });
 
@@ -38,10 +38,11 @@ angular.module('myApp.property').controller("ControllerPrpRead",
     };
 
 
-    var addSlide = function (url, text) {
+    var addSlide = function (url, text, index) {
       $scope.slides.push({
         image: url,
-        text: text
+        text: text,
+        id: index
       });
     };
 

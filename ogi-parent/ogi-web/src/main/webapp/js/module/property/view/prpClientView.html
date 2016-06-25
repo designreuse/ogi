@@ -13,8 +13,8 @@
   <div class="row">
     <div class="col-sm-6">
       <div>
-        <uib-carousel interval="carouselInterval" no-wrap="false">
-          <uib-slide ng-repeat="slide in slides" active="slide.active">
+        <uib-carousel interval="carouselInterval" no-wrap="false" active="'0'">
+          <uib-slide ng-repeat="slide in slides track by slide.id" index="slide.id"
             <a ng-click="openLightboxModal($index)">
               <img ng-src="{{slide.image}}" style="margin:auto; cursor: pointer" />
             </a>
