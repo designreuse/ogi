@@ -1,175 +1,176 @@
 <!doctype html>
-<html lang="en" ng-app="myApp" ng-controller="MainCtrl" >
+<html lang="en" ng-app="myApp" ng-controller="MainCtrl">
 <head>
-    <meta charset="utf-8">
-    <title ng-bind-template="{{page.title()}}">OGI</title>
+  <meta charset="utf-8">
+  <title ng-bind-template="{{page.title()}}">OGI</title>
 
 
+  <script src="http://maps.googleapis.com/maps/api/js?sensor=false&language=fr&region=FR&v=3"></script>
+  <script src="js/lib/jquery.js"></script>
+  <script src="js/lib/jquery-ui.js"></script>
+  <script src="js/lib/angular.js"></script>
+  <script src="js/lib/angular-animate.min.js"></script>
+  <script src="js/lib/angular-sanitize.js"></script>
+  <script src="js/lib/angular-route.js"></script>
+  <script src="js/lib/angular-locale_fr-fr.js"></script>
+  <script src="js/lib/ui-bootstrap-tpls-1.3.3.js"></script>
+  <script src="js/lib/fm-error-analyzer.js"></script>
+  <script src="js/lib/ui-event.js"></script>
+  <script src="js/lib/ui-map.js"></script>
+  <script src="js/lib/ui-sortable.js"></script>
 
-    <script src="js/lib/jquery.js"></script>
-    <script src="js/lib/jquery-ui.js"></script>
-    <script src="js/lib/angular.js"></script>
-    <script src="js/lib/angular-animate.min.js"></script>
-    <script src="js/lib/angular-sanitize.js"></script>
-    <script src="js/lib/angular-route.js"></script>
-    <script src="js/lib/angular-locale_fr-fr.js"></script>
-    <script src="js/lib/ui-bootstrap-tpls-1.3.3.js"></script>
-    <script src="js/lib/fm-error-analyzer.js"></script>
-    <script src="js/lib/ui-event.js"></script>
-    <script src="js/lib/ui-map.js"></script>
-    <script src="js/lib/ui-sortable.js"></script>
-    <script src="http://maps.googleapis.com/maps/api/js?sensor=false&language=fr&region=FR&v=3" async></script>
-    <script src="js/lib/dialogs.min.js"></script>
-    <script src="js/lib/ui-slider.js"></script>
-    <script src="js/lib/angular-translate.min.js"></script>
-    <script src="js/i18n/translations.js"></script>
-    <script src="js/lib/checklist-model.js"></script>
-    <script src="js/lib/lodash.min.js"></script>
-    <script src="js/lib/angular-bootstrap-lightbox.min.js"></script>
+  <script src="js/lib/dialogs.min.js"></script>
+  <script src="js/lib/ui-slider.js"></script>
+  <script src="js/lib/angular-translate.min.js"></script>
+  <script src="js/i18n/translations.js"></script>
+  <script src="js/lib/checklist-model.js"></script>
+  <script src="js/lib/lodash.min.js"></script>
+  <script src="js/lib/angular-bootstrap-lightbox.min.js"></script>
 
-    <!-- File upload -->
-    <script src="js/lib/upload/jquery.ui.widget.js"></script>
-    <script src="js/lib/upload/load-image.min.js"></script>
-    <script src="js/lib/upload/jquery.fileupload.js"></script>
-    <script src="js/lib/upload/jquery.fileupload-process.js"></script>
-    <script src="js/lib/upload/jquery.fileupload-image.js"></script>
-    <script src="js/lib/upload/jquery.fileupload-validate.js"></script>
-    <script src="js/lib/upload/jquery.fileupload-angular.js"></script>
-
-
-    <!-- OGI -->
-    <script src="js/app.js"></script>
-    <script src="js/module/config/config.js"></script>
-
-    <!-- Module common -->
-    <script src="js/module/common/common.js"></script>
-    <script src="js/module/common/utils.js"></script>
-    <script src="js/module/common/objects.js"></script>
-    <script src="js/module/common/filter/filters.js"></script>
-    <script src="js/module/common/service/services.js"></script>
-    <script src="js/module/common/service/ServiceUtils.js"></script>
-    <script src="js/module/common/directive/directives.js"></script>
-    <script src="js/module/common/controller/ControllerAlert.js"></script>
-    <script src="js/module/common/controller/ControllerMain.js"></script>
-    <script src="js/module/common/service/ServiceUrl.js"></script>
-
-    <!-- Module search -->
-    <script src="js/module/search/search.js"></script>
-    <script src="js/module/search/controller/ControllerSearch.js"></script>
-    <script src="js/module/search/service/ServiceSearch.js"></script>
-
-    <!-- Module property -->
-    <script src="js/module/property/property.js"></script>
-    <script src="js/module/property/controller/ControllerPrpRead.js"></script>
-    <script src="js/module/property/controller/ControllerList.js"></script>
-    <script src="js/module/property/controller/ControllerPrp.js"></script>
-    <script src="js/module/property/controller/ControllerPrpAdd.js"></script>
-    <script src="js/module/property/controller/ControllerPrpModify.js"></script>
-    <script src="js/module/property/controller/ControllerPrpTabGeneral.js"></script>
-    <script src="js/module/property/controller/ControllerPrpTabDesc.js"></script>
-    <script src="js/module/property/controller/ControllerPrpOwner.js"></script>
-    <script src="js/module/property/controller/ControllerPrpTabDocuments.js"></script>
-    <script src="js/module/property/controller/ControllerPrpTabAdministratif.js"></script>
-    <script src="js/module/property/controller/ControllerPrpTabDiagnosis.js"></script>
-    <script src="js/module/property/controller/ControllerPrpTabPartner.js"></script>
-    <script src="js/module/property/controller/ControllerPrpTabRoom.js"></script>
-    <script src="js/module/property/controller/ControllerPrpTabVisitSummary.js"></script>
-    <script src="js/module/property/service/ServicesProperty.js"></script>
-
-    <!-- Module owner -->
-    <script src="js/module/owner/owner.js"></script>
-    <script src="js/module/owner/controller/ControllerOwnerList.js"></script>
-    <script src="js/module/owner/controller/ControllerOwnerParent.js"></script>
-    <script src="js/module/owner/controller/ControllerOwnerAdd.js"></script>
-    <script src="js/module/owner/controller/ControllerOwnerModify.js"></script>
-    <script src="js/module/owner/service/ServicesOwner.js"></script>
-
-    <!-- Module dashboard -->
-    <script src="js/module/dashboard/dashboard.js"></script>
-    <script src="js/module/dashboard/controller/ControllerBatch.js"></script>
-    <script src="js/module/dashboard/controller/ControllerHome.js"></script>
-
-    <!-- Module passerelle -->
-    <script src="js/module/passerelle/passerelle.js"></script>
-    <script src="js/module/passerelle/controller/ControllerPasserelleRecap.js"></script>
+  <!-- File upload -->
+  <script src="js/lib/upload/jquery.ui.widget.js"></script>
+  <script src="js/lib/upload/load-image.min.js"></script>
+  <script src="js/lib/upload/jquery.fileupload.js"></script>
+  <script src="js/lib/upload/jquery.fileupload-process.js"></script>
+  <script src="js/lib/upload/jquery.fileupload-image.js"></script>
+  <script src="js/lib/upload/jquery.fileupload-validate.js"></script>
+  <script src="js/lib/upload/jquery.fileupload-angular.js"></script>
 
 
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="theme/font-awesome.css">
-    <link rel="stylesheet" href="theme/sb-admin.css">
-    <link rel="stylesheet" href="css/redmond/jquery-ui-1.10.3.custom.css">
-    <link rel="stylesheet" href="css/dialogs.min.css">
-    <link rel="stylesheet" href="css/angular-bootstrap-lightbox.min.css">
+  <!-- OGI -->
+  <script src="js/app.js"></script>
+  <script src="js/module/config/config.js"></script>
 
-    <link rel="stylesheet" href="css/style.css">
+  <!-- Module common -->
+  <script src="js/module/common/common.js"></script>
+  <script src="js/module/common/utils.js"></script>
+  <script src="js/module/common/objects.js"></script>
+  <script src="js/module/common/filter/filters.js"></script>
+  <script src="js/module/common/service/services.js"></script>
+  <script src="js/module/common/service/ServiceUtils.js"></script>
+  <script src="js/module/common/directive/directives.js"></script>
+  <script src="js/module/common/controller/ControllerAlert.js"></script>
+  <script src="js/module/common/controller/ControllerMain.js"></script>
+  <script src="js/module/common/service/ServiceUrl.js"></script>
 
-    <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
-    <link rel="stylesheet" href="css/jquery.fileupload-ui.css">
+  <!-- Module search -->
+  <script src="js/module/search/search.js"></script>
+  <script src="js/module/search/controller/ControllerSearch.js"></script>
+  <script src="js/module/search/service/ServiceSearch.js"></script>
 
-    <link rel=icon href="img/logo-ogi.png" type="image/png">
+  <!-- Module property -->
+  <script src="js/module/property/property.js"></script>
+  <script src="js/module/property/controller/ControllerPrpRead.js"></script>
+  <script src="js/module/property/controller/ControllerList.js"></script>
+  <script src="js/module/property/controller/ControllerPrp.js"></script>
+  <script src="js/module/property/controller/ControllerPrpAdd.js"></script>
+  <script src="js/module/property/controller/ControllerPrpModify.js"></script>
+  <script src="js/module/property/controller/ControllerPrpTabGeneral.js"></script>
+  <script src="js/module/property/controller/ControllerPrpTabDesc.js"></script>
+  <script src="js/module/property/controller/ControllerPrpOwner.js"></script>
+  <script src="js/module/property/controller/ControllerPrpTabDocuments.js"></script>
+  <script src="js/module/property/controller/ControllerPrpTabAdministratif.js"></script>
+  <script src="js/module/property/controller/ControllerPrpTabDiagnosis.js"></script>
+  <script src="js/module/property/controller/ControllerPrpTabPartner.js"></script>
+  <script src="js/module/property/controller/ControllerPrpTabRoom.js"></script>
+  <script src="js/module/property/controller/ControllerPrpTabVisitSummary.js"></script>
+  <script src="js/module/property/service/ServicesProperty.js"></script>
+
+  <!-- Module owner -->
+  <script src="js/module/owner/owner.js"></script>
+  <script src="js/module/owner/controller/ControllerOwnerList.js"></script>
+  <script src="js/module/owner/controller/ControllerOwnerParent.js"></script>
+  <script src="js/module/owner/controller/ControllerOwnerAdd.js"></script>
+  <script src="js/module/owner/controller/ControllerOwnerModify.js"></script>
+  <script src="js/module/owner/service/ServicesOwner.js"></script>
+
+  <!-- Module dashboard -->
+  <script src="js/module/dashboard/dashboard.js"></script>
+  <script src="js/module/dashboard/controller/ControllerBatch.js"></script>
+  <script src="js/module/dashboard/controller/ControllerHome.js"></script>
+
+  <!-- Module passerelle -->
+  <script src="js/module/passerelle/passerelle.js"></script>
+  <script src="js/module/passerelle/controller/ControllerPasserelleRecap.js"></script>
+
+
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="theme/font-awesome.css">
+  <link rel="stylesheet" href="theme/sb-admin.css">
+  <link rel="stylesheet" href="css/redmond/jquery-ui-1.10.3.custom.css">
+  <link rel="stylesheet" href="css/dialogs.min.css">
+  <link rel="stylesheet" href="css/angular-bootstrap-lightbox.min.css">
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+  <link rel="stylesheet" href="css/jquery.fileupload-ui.css">
+
+  <link rel=icon href="img/logo-ogi.png" type="image/png">
 </head>
 
 <body>
-    <div id="wrapper">
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#/accueil">OGI</a>
-            </div>
-            <form class="navbar-form navbar-right" ng-submit="submitSearch()">
-                <div class="input-group custom-search-form">
-                    <input type="text" class="form-control" ng-model="keyword" placeholder="Rechercher ..." />
+<div id="wrapper">
+  <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#/accueil">OGI</a>
+    </div>
+    <form class="navbar-form navbar-right" ng-submit="submitSearch()">
+      <div class="input-group custom-search-form">
+        <input type="text" class="form-control" ng-model="keyword" placeholder="Rechercher ..."/>
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="submit">
-                            <i class="glyphicon glyphicon-search"></i>
+                          <i class="glyphicon glyphicon-search"></i>
                         </button>
                     </span>
-                </div>
-            </form>
-            <!-- /.navbar-header -->
-        </nav>
-        <!-- /.navbar-static-top -->
+      </div>
+    </form>
+    <!-- /.navbar-header -->
+  </nav>
+  <!-- /.navbar-static-top -->
 
-        <nav class="navbar-default navbar-static-side" role="navigation" ogi-navigation>
-            <div class="sidebar-collapse">
-                <ul class="nav" id="side-menu">
-                    <li><a ogi-navigation-url href="#/accueil"><i class="glyphicon glyphicon-home"></i> Accueil</a></li>
-                    <li><a ogi-navigation-url href="#/search"><i class="glyphicon glyphicon-tower"></i> Biens</a></li>
-                    <li><a ogi-navigation-url href="#/proprietaires/"><i class="glyphicon glyphicon-user"></i> Propriétaires</a></li>
-                    <!--<li><a ogi-navigation-url href="#/dashboard"><i class="glyphicon glyphicon-tasks"></i> Traitements</a></li>-->
-                    <li>
-                        <a href="javascript:;"><i class="fa fa-wrench fa-fw"></i> Passerelles<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li><a ogi-navigation-url href="#/passerelle/recapitulatif">Récapitulatif</a></li>
-                            <li><a ogi-navigation-url href="#/dashboard">Batchs</a></li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-                </ul>
-                <!-- /#side-menu -->
-            </div>
-            <!-- /.sidebar-collapse -->
-        </nav>
-        <!-- /.navbar-static-side -->
-
-        <div id="page-wrapper">
-
-            <div my-customer></div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <div ng-controller="AlertCtrl">
-                        <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
-                            {{alert.date | date:"HH'h 'mm'min 'ss'sec'"}} - <span ng-bind-html="alert.msg"></span>
-                        </uib-alert>
-                    </div>
-                    <div ng-view></div>
-                </div>
-            </div>
-        </div>
+  <nav class="navbar-default navbar-static-side" role="navigation" ogi-navigation>
+    <div class="sidebar-collapse">
+      <ul class="nav" id="side-menu">
+        <li><a ogi-navigation-url href="#/accueil"><i class="glyphicon glyphicon-home"></i> Accueil</a></li>
+        <li><a ogi-navigation-url href="#/search"><i class="glyphicon glyphicon-tower"></i> Biens</a></li>
+        <li><a ogi-navigation-url href="#/proprietaires/"><i class="glyphicon glyphicon-user"></i> Propriétaires</a>
+        </li>
+        <!--<li><a ogi-navigation-url href="#/dashboard"><i class="glyphicon glyphicon-tasks"></i> Traitements</a></li>-->
+        <li>
+          <a href="javascript:;"><i class="fa fa-wrench fa-fw"></i> Passerelles<span class="fa arrow"></span></a>
+          <ul class="nav nav-second-level">
+            <li><a ogi-navigation-url href="#/passerelle/recapitulatif">Récapitulatif</a></li>
+            <li><a ogi-navigation-url href="#/dashboard">Batchs</a></li>
+          </ul>
+          <!-- /.nav-second-level -->
+        </li>
+      </ul>
+      <!-- /#side-menu -->
     </div>
+    <!-- /.sidebar-collapse -->
+  </nav>
+  <!-- /.navbar-static-side -->
 
-    <script src="theme/collapse.js"></script>
-    <script src="theme/transition.js"></script>
-    <script src="theme/jquery.metisMenu.js"></script>
-    <script src="theme/sb-admin.js"></script>
+  <div id="page-wrapper">
+
+    <div my-customer></div>
+    <div class="row">
+      <div class="col-xs-12">
+        <div ng-controller="AlertCtrl">
+          <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
+            {{alert.date | date:"HH'h 'mm'min 'ss'sec'"}} - <span ng-bind-html="alert.msg"></span>
+          </uib-alert>
+        </div>
+        <div ng-view></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="theme/collapse.js"></script>
+<script src="theme/transition.js"></script>
+<script src="theme/jquery.metisMenu.js"></script>
+<script src="theme/sb-admin.js"></script>
 </body>
 </html>
