@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ProjectTasksOptions">
+  <component name="ProjectTasksOptions" suppressed-tasks="Babel">
     <TaskOptions isEnabled="true">
-      <option name="arguments" value="C:\Users\jerep6\node_modules\less\bin\lessc --no-color $FileName$" />
+      <option name="arguments" value="$USER_HOME$/install/nvm/versions/node/v4.2.4/bin/lessc --no-color $FileName$" />
       <option name="checkSyntaxErrors" value="true" />
       <option name="description" value="Compiles .less files into .css files" />
       <option name="exitCodeBehavior" value="ERROR" />
@@ -20,8 +20,7 @@
         </array>
       </option>
       <option name="outputFromStdout" value="true" />
-      <option name="passParentEnvs" value="true" />
-      <option name="program" value="C:/Program Files/nodejs/node.exe" />
+      <option name="program" value="$USER_HOME$/install/nvm/versions/node/v4.2.4/bin/node" />
       <option name="scopeName" value="Project Files" />
       <option name="trackOnlyRoot" value="false" />
       <option name="workingDir" value="$FileDir$" />
@@ -29,4 +28,3 @@
     </TaskOptions>
   </component>
 </project>
-
