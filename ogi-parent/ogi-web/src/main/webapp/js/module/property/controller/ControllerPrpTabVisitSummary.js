@@ -1,5 +1,5 @@
 angular.module('myApp.property').controller("ControllerPrpTabVisitSummary",
-function ($scope, Page, ServiceVisitSummary) {
+function ($scope, Page, ServiceVisitSummary, $timeout) {
   var _this = this;
 
   _this.summaries = [];
@@ -18,6 +18,12 @@ function ($scope, Page, ServiceVisitSummary) {
     $event.stopPropagation();
     _this.calendarOpen = true;
   };
+  _this.openCalendarUpdate = function(summary, $event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    summary.calendarOpen = true;
+  };
+
   _this.dateOptions = {
     'formatYear': "yyyy",
     'startingDay': 1
@@ -37,7 +43,25 @@ function ($scope, Page, ServiceVisitSummary) {
     ServiceVisitSummary.deleteSummary(summaryToDelete.techid)
       .catch(function () {
         summaryToDelete.deleted = false;
-    });
+      });
+  };
+
+
+  _this.updateSummary = function (summaryToUpdate, callbackToExecute) {
+    ServiceVisitSummary.updateSummary(summaryToUpdate)
+      .then(function () {
+        // Call the callback (toogle edit mode)
+        callbackToExecute();
+
+        summaryToUpdate.updated = true;
+        summaryToUpdate.updatedBegin = true;
+        summaryToUpdate.updatedEnd = false;
+        $timeout(function () {
+          summaryToUpdate.updatedBegin = false;
+          summaryToUpdate.updatedEnd = true;
+        }, 1500);
+
+      });
   };
 
 
@@ -54,5 +78,20 @@ function ($scope, Page, ServiceVisitSummary) {
       }
     };
   };
+});
+
+angular.module('myApp.property').controller("ControllerVisitEditable",
+function ($scope, Page, ServiceVisitSummary) {
+  var _this = this;
+
+  var editable = false;
+  _this.toogleEditable = function () {
+    editable = !editable;
+  };
+
+  _this.isEditable = function () {
+    return editable;
+  };
+
 });
 

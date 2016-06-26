@@ -105,6 +105,55 @@ ul#list-photos li.highlight{
 
 .summaries {
 
+  .summary-heading {
+    display:table; width:100%;
+    vertical-align: middle;
+
+    .summary-heading-title {
+      display: table-cell;
+    }
+    .summary-heading-action {
+      display: table-cell;
+      text-align: right;
+      vertical-align: middle;
+
+      span {
+        margin: 0 5px;
+      }
+    }
+    .summary-input-separation {
+      display:table-cell;
+      vertical-align: middle;
+      padding: 0px 5px;
+      text-align: center;
+    }
+  }
+
+  .summary {
+    position: relative;
+  }
+
+  .confirm-updated {
+    position: absolute;
+    right: 15px;
+    font-size: 80px;
+    top: 16px;
+    display: none;
+    opacity: 0;
+  }
+  .summary-updated .confirm-updated {
+    display: block;
+  }
+
+  .summary-updated .confirm-updated.confirm-updated-animation-begin {
+    transition: all linear 1s;
+    opacity: 1;
+  }
+  .summary-updated .confirm-updated.confirm-updated-animation-end {
+    transition: all linear 1s;
+    opacity: 0;
+  }
+
   .animate-hide.ng-hide {
     transition: all linear 1s;
     transform: translate(-100%, 0);

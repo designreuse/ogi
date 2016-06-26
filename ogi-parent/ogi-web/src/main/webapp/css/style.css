@@ -183,6 +183,50 @@ ul#list-photos li.highlight {
 .mycheckbox-inline input[type="checkbox"] {
   margin-left: -15px;
 }
+.summaries .summary-heading {
+  display: table;
+  width: 100%;
+  vertical-align: middle;
+}
+.summaries .summary-heading .summary-heading-title {
+  display: table-cell;
+}
+.summaries .summary-heading .summary-heading-action {
+  display: table-cell;
+  text-align: right;
+  vertical-align: middle;
+}
+.summaries .summary-heading .summary-heading-action span {
+  margin: 0 5px;
+}
+.summaries .summary-heading .summary-input-separation {
+  display: table-cell;
+  vertical-align: middle;
+  padding: 0px 5px;
+  text-align: center;
+}
+.summaries .summary {
+  position: relative;
+}
+.summaries .confirm-updated {
+  position: absolute;
+  right: 15px;
+  font-size: 80px;
+  top: 16px;
+  display: none;
+  opacity: 0;
+}
+.summaries .summary-updated .confirm-updated {
+  display: block;
+}
+.summaries .summary-updated .confirm-updated.confirm-updated-animation-begin {
+  transition: all linear 1s;
+  opacity: 1;
+}
+.summaries .summary-updated .confirm-updated.confirm-updated-animation-end {
+  transition: all linear 1s;
+  opacity: 0;
+}
 .summaries .animate-hide.ng-hide {
   transition: all linear 1s;
   transform: translate(-100%, 0);

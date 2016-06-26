@@ -38,7 +38,7 @@ function ControllerPrpParent($scope, $log, $http, $routeParams,
             return activeKey;
         }
     };
-    $scope.addMenu.select("owner");
+    $scope.addMenu.select("visitsummary");
 
     /**
      * Indicate if tab must be display according to prp category

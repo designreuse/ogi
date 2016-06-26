@@ -35,12 +35,53 @@
 
   <div class="row summaries">
     <div class="col-xs-12">
-      <div class="panel panel-default cols-xs-12 summary animate-hide" ng-repeat="sum in ctrlSummary.summaries" ng-hide="sum.deleted">
-        <div class="panel-heading bold">
-          <span class="pull-right pointer glyphicon glyphicon-remove" ng-click="ctrlSummary.deleteSummary(sum)"></span>
-          <span class="summary-date">{{sum.date | date:'dd/MM/yyyy'}}</span> - <span class="summary-client">{{sum.client}}</span>
+      <div class="panel panel-default cols-xs-12 summary animate-hide" ng-class="{'summary-updated': sum.updated}"
+           ng-repeat="sum in ctrlSummary.summaries" ng-hide="sum.deleted" ng-controller="ControllerVisitEditable as ctrlEditable">
+
+        <div class="confirm-updated" ng-class="{'confirm-updated-animation-begin': sum.updatedBegin, 'confirm-updated-animation-end': sum.updatedEnd}">
+          <span class="glyphicon glyphicon-ok"></span>
         </div>
-        <div class="panel-body summary-description" ng-bind-html="sum.description | nl2br"></div>
+        <div class="panel-heading bold summary-heading">
+          <div class="summary-heading-title">
+
+            <div ng-show="!ctrlEditable.isEditable()">
+              <span class="summary-date">{{sum.date | date:'dd/MM/yyyy'}}</span>
+              -
+              <span class="summary-client">{{sum.client}}</span>
+            </div>
+
+
+            <div ng-show="ctrlEditable.isEditable()" class="input-group">
+              <input type="text" class="form-control" ng-model="sum.date"
+                     uib-datepicker-popup="{{ctrlSummary.dateFormat}}" show-weeks="false" is-open="sum.calendarOpen"
+                     datepicker-options="ctrlSummary.dateOptions" show-button-bar="false"
+              />
+              <span class="input-group-addon glyphicon glyphicon-calendar pointer" ng-click="ctrlSummary.openCalendarUpdate(sum, $event)"></span>
+              <span class="summary-input-separation">-</span>
+              <input ng-show="ctrlEditable.isEditable()" class="form-control" type="text" ng-model="sum.client" />
+            </div>
+
+
+          </div>
+
+          <div class="summary-heading-action">
+            <span class="pointer glyphicon glyphicon-edit" ng-click="ctrlEditable.toogleEditable()"  title="Modifier la visite"  ng-show="!ctrlEditable.isEditable()"></span>
+            <button type="submit" class="pointer btn btn-primary" ng-click="ctrlSummary.updateSummary(sum, ctrlEditable.toogleEditable)" ng-show="ctrlEditable.isEditable()">
+              <i class="glyphicon glyphicon-save"></i> Modifier
+            </button>
+
+            <span ng-show="!ctrlEditable.isEditable()"  class="pointer glyphicon glyphicon-remove"  ng-click="ctrlSummary.deleteSummary(sum)" title="Supprimer la visite"></span>
+            <span ng-show="ctrlEditable.isEditable()"   class="pointer glyphicon glyphicon-remove"  ng-click="ctrlEditable.toogleEditable()"  title="Annuler la modification"></span>
+          </div>
+
+        </div>
+
+        <div class="panel-body summary-description">
+          <p ng-show="!ctrlEditable.isEditable()" ng-bind-html="sum.description | nl2br"></p>
+          <textarea ng-show="ctrlEditable.isEditable()" class="form-control" rows="4" ng-model="sum.description">
+            {{sum.description}}
+          </textarea>
+        </div>
       </div>
     </div>
   </div>

@@ -85,6 +85,9 @@ angular.module('myApp.property').factory('ServiceVisitSummary', function($http, 
     addSummary : function(summary) {
       return $http.post(ServiceConfiguration.API_URL+"/rest/visit/", summary);
     },
+    updateSummary : function(summary) {
+      return $http.put(ServiceConfiguration.API_URL+"/rest/visit/" + summary.techid, summary);
+    },
     deleteSummary : function(visitId){
       return $http.delete(ServiceConfiguration.API_URL+"/rest/visit/" + visitId);
     },
