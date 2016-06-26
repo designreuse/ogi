@@ -218,14 +218,19 @@ ul#list-photos li.highlight {
 }
 .summaries .summary-updated .confirm-updated {
   display: block;
+  animation-name: summary-update-animation;
+  animation-duration: 3s;
 }
-.summaries .summary-updated .confirm-updated.confirm-updated-animation-begin {
-  transition: all linear 1s;
-  opacity: 1;
-}
-.summaries .summary-updated .confirm-updated.confirm-updated-animation-end {
-  transition: all linear 1s;
-  opacity: 0;
+@keyframes summary-update-animation {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 .summaries .animate-hide.ng-hide {
   transition: all linear 1s;

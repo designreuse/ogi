@@ -1,5 +1,5 @@
 angular.module('myApp.property').controller("ControllerPrpTabVisitSummary",
-function ($scope, Page, ServiceVisitSummary, $timeout) {
+function ($scope, Page, ServiceVisitSummary) {
   var _this = this;
 
   _this.summaries = [];
@@ -52,15 +52,7 @@ function ($scope, Page, ServiceVisitSummary, $timeout) {
       .then(function () {
         // Call the callback (toogle edit mode)
         callbackToExecute();
-
         summaryToUpdate.updated = true;
-        summaryToUpdate.updatedBegin = true;
-        summaryToUpdate.updatedEnd = false;
-        $timeout(function () {
-          summaryToUpdate.updatedBegin = false;
-          summaryToUpdate.updatedEnd = true;
-        }, 1500);
-
       });
   };
 
