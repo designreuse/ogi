@@ -61,7 +61,7 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 
 	private static Map<EnumReport, String>	reportsConfig	= new HashMap<>(2);
 	static {
-		reportsConfig.put(EnumReport.CLIENT, "fiche_client_vente$SUFFIXE.jasper");
+		reportsConfig.put(EnumReport.CLIENT, "fiche_client_$SALERENT$SUFFIXE.jasper");
 		reportsConfig.put(EnumReport.VITRINE, "fiche_vitrine_$PAGESIZE$SUFFIXE.jasper");
 	}
 
@@ -86,6 +86,12 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 				}
 				break;
 			case CLIENT:
+				if(prp.get().getRent() != null) {
+					reportName = reportName.replace("$SALERENT", "location");					
+				} else {
+					reportName = reportName.replace("$SALERENT", "vente");										
+				}
+				
 				reportName = replaceSuffix(reportName, prp.get().getCategory());
 				break;
 		}

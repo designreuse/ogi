@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.1.final using JasperReports Library version 6.2.1  -->
+<!-- 2016-07-02T13:40:17 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="20" uuid="96540068-ead6-4274-af4c-90fbe87736a3">
+	<property name="ireport.zoom" value="1.0000000000000044"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="288"/>
+	<property name="ireport.background.image.properties" value="false,false,0.25,0,0,0,0,0,0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="bd-local.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<style name="Crosstab Data Text" hTextAlign="Center" hImageAlign="Center"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#9FAFDF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFCFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0E68C">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#FFF9BF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#FFFDEF"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#733A3A">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#E6CFCF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.25" lineColor="#EFEFEF"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFEFEF"/>
+		</conditionalStyle>
+	</style>
+	<style name="Table TH 1" mode="Opaque" forecolor="#FFFFFF" backcolor="#666666" fill="Solid" scaleImage="FillFrame" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false">
+		<box>
+			<pen lineWidth="0.25" lineColor="#EFEFEF"/>
+		</box>
+	</style>
+	<style name="Table TH 2" mode="Opaque" forecolor="#FFFFFF" backcolor="#666666" fill="Solid" scaleImage="FillFrame" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<subDataset name="Room Dataset" uuid="ba75f5d9-d9e9-4386-9a61-dbb05ff2c314">
+		<parameter name="reference" class="java.lang.String" isForPrompting="false">
+			<defaultValueExpression><![CDATA[$P{reference}]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT
+     r.`ROO_AREA` AS ROO_AREA,
+     r.`ROO_TYPE` AS ROO_TYPE,
+     r.`ROO_FLOOR` AS ROO_FLOOR,
+     r.`ROO_FLOOR_LEVEL` AS ROO_FLOOR_LEVEL
+FROM
+     TA_ROOM r
+ JOIN TA_PROPERTY p ON p.PRO_ID=r.PRO_ID
+
+ WHERE p.PRO_REFERENCE=$P{reference}
+ORDER BY ROO_ID
+LIMIT 0, 15]]>
+		</queryString>
+		<field name="ROO_AREA" class="java.lang.Float">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="ROO_TYPE" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="ROO_FLOOR" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="ROO_FLOOR_LEVEL" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<subDataset name="General Dataset" uuid="806be28e-5904-4b4a-8f57-106e3c278cc2">
+		<parameter name="reference" class="java.lang.String" isForPrompting="false">
+			<defaultValueExpression><![CDATA[$P{reference}]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT *
+
+FROM
+(
+select
+'Charges' AS CLE,
+CAST(
+	concat(
+		IF(REN_SERVICE_CHARGE IS NULL, '-', concat(REN_SERVICE_CHARGE, ' €'))
+        ,
+        IF(REN_SERVICE_CHARGE_INCLUDED = 1, ' (comprises)', '')
+	)
+ AS CHAR) AS VALEUR
+from TA_PROPERTY r
+JOIN TA_RENT rnt ON rnt.PRO_ID=r.PRO_ID AND REN_SERVICE_CHARGE IS NOT NULL
+where r.PRO_REFERENCE=$P{reference}
+
+UNION ALL
+
+select
+'Honoraires' AS CLE,
+CAST(IF(REN_COMMISSION IS NULL, '-', concat(REN_COMMISSION, ' €')) AS CHAR) AS VALEUR
+from TA_PROPERTY r
+JOIN TA_RENT rnt ON rnt.PRO_ID=r.PRO_ID AND REN_COMMISSION IS NOT NULL
+where r.PRO_REFERENCE=$P{reference}
+
+UNION ALL
+
+select
+'Dépôt de garantie' AS CLE,
+CAST(IF(REN_DEPOSIT IS NULL, '-', concat(REN_DEPOSIT, ' €')) AS CHAR) AS VALEUR
+from TA_PROPERTY r
+JOIN TA_RENT rnt ON rnt.PRO_ID=r.PRO_ID AND REN_DEPOSIT IS NOT NULL
+where r.PRO_REFERENCE=$P{reference}
+
+UNION ALL
+
+select
+'Type' AS CLE,
+CAST(TYP_LABEL AS CHAR) AS VALEUR
+from TA_PROPERTY r
+JOIN TR_TYPE t on r.TYP_ID=t.TYP_ID
+where r.PRO_REFERENCE=$P{reference}
+
+UNION ALL
+
+select
+'Surface Habitable' AS CLE,
+CAST(IF(PRB_AREA IS NOT NULL, concat(PRB_AREA, ' m²') ,'-') AS CHAR) AS VALEUR
+from TA_PROPERTY r
+JOIN TA_PROPERTY_BUILT rb ON r.PRO_ID=rb.PRO_ID
+where r.PRO_REFERENCE=$P{reference}
+
+UNION ALL
+
+select
+'Surface Terrain' AS CLE,
+CAST(IF(PRO_LAND_AREA IS NOT NULL, concat(PRO_LAND_AREA, ' m²') ,'-') AS CHAR) AS VALEUR
+from TA_PROPERTY r
+where r.PRO_REFERENCE=$P{reference} AND PRO_LAND_AREA IS NOT NULL
+
+UNION ALL
+
+select
+'Année de construction' AS CLE,
+CAST(IFNULL(DATE_FORMAT(PRB_BUILD_DATE,'%Y'), '-') AS CHAR) AS VALEUR
+from TA_PROPERTY r
+JOIN TA_PROPERTY_BUILT rb ON r.PRO_ID=rb.PRO_ID
+where r.PRO_REFERENCE=$P{reference}
+
+UNION ALL
+
+select
+'Meublé' AS CLE,
+CASE REN_FUNISHED WHEN 1 THEN 'Oui' ELSE 'Non' end AS VALEUR
+from TA_PROPERTY r
+JOIN TA_RENT rnt ON rnt.PRO_ID=r.PRO_ID AND REN_DEPOSIT IS NOT NULL
+where r.PRO_REFERENCE=$P{reference}
+
+UNION ALL
+
+select
+'Copropriété' AS CLE,
+CAST(
+  concat(
+	IF(PRB_COOWNERSHIP_LOT_NUMBER IS NULL,
+		'',
+		concat(PRB_COOWNERSHIP_LOT_NUMBER, ' lots')
+	)
+  ,
+	IF(PRB_COOWNERSHIP_LOT_NUMBER IS NULL, '', ' - ')
+   ,
+   	IF(PRB_COOWNERSHIP_CHARGES IS NULL,
+		'',
+		concat('Charges ', PRB_COOWNERSHIP_CHARGES, ' €/an')
+	)
+   )
+AS CHAR) AS VALEUR
+from TA_PROPERTY r
+JOIN TA_PROPERTY_BUILT rb ON r.PRO_ID=rb.PRO_ID
+	AND (PRB_COOWNERSHIP_LOT_NUMBER IS NOT NULL OR PRB_COOWNERSHIP_CHARGES IS NOT NULL )
+where r.PRO_REFERENCE=$P{reference}
+
+UNION ALL
+
+select
+'Chauffage' AS CLE,
+CAST(IFNULL(PRL_HEATING, '-') AS CHAR) AS VALEUR
+from TA_PROPERTY r
+JOIN TA_PROPERTY_LIVABLE rl ON r.PRO_ID=rl.PRO_ID AND PRL_HEATING IS NOT NULL
+where r.PRO_REFERENCE=$P{reference}
+
+UNION ALL
+
+select
+'Assainissement' AS CLE,
+CAST(IFNULL(PRO_SANITATION, '-') AS CHAR) AS VALEUR
+from TA_PROPERTY r
+where
+r.PRO_REFERENCE=$P{reference} AND PRO_SANITATION IS NOT NULL
+
+
+UNION ALL
+
+select
+'Isolation' AS CLE,
+CAST(IFNULL(PRB_INSULATION, '-') AS CHAR) AS VALEUR
+from TA_PROPERTY r
+JOIN TA_PROPERTY_BUILT rb ON r.PRO_ID=rb.PRO_ID AND PRB_INSULATION IS NOT NULL
+where r.PRO_REFERENCE=$P{reference}
+
+
+UNION ALL
+
+select
+'Eau' AS CLE,
+CASE PRS_WATER WHEN 1 THEN 'Oui' ELSE 'Non' end AS VALEUR
+from TA_PROPERTY r
+JOIN TA_PROPERTY_BUSINESS rb ON r.PRO_ID=rb.PRO_ID
+where r.PRO_REFERENCE=$P{reference}
+
+UNION ALL
+
+select
+'Électricité' AS CLE,
+CASE PRS_ELECTRICITY WHEN 1 THEN 'Oui' ELSE 'Non' end AS VALEUR
+from TA_PROPERTY r
+JOIN TA_PROPERTY_BUSINESS rb ON r.PRO_ID=rb.PRO_ID
+where r.PRO_REFERENCE=$P{reference}
+
+
+) general
+
+LIMIT 0,9
+;]]>
+		</queryString>
+		<field name="CLE" class="java.lang.String"/>
+		<field name="VALEUR" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="reference" class="java.lang.String"/>
+	<parameter name="DOC_DIR" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D:\\Developpement\\Master\\Java7\\workspace\\ogi\\ogi-parent\\ogi-services\\src\\main\\jasperreports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="photo1" class="java.io.InputStream" isForPrompting="false"/>
+	<parameter name="photo2" class="java.io.InputStream" isForPrompting="false"/>
+	<parameter name="photo3" class="java.io.InputStream" isForPrompting="false"/>
+	<parameter name="photo4" class="java.io.InputStream" isForPrompting="false"/>
+	<parameter name="photo5" class="java.io.InputStream" isForPrompting="false"/>
+	<parameter name="photo6" class="java.io.InputStream" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[SELECT
+addr.ADD_CITY AS CITY,
+rnt.REN_MAND_TYPE AS MANDAT_TYPE,
+rnt.REN_MAND_REFERENCE AS MANDAT_REFERENCE,
+DESCRIPTION.DSC_LABEL AS DSC_LABEL,
+IFNULL(rnt.`REN_PRICE`, 0) + IFNULL(rnt.`REN_COMMISSION_MANAGEMENT`, 0) AS PRIX,
+prp.PRO_LAND_AREA AS LAND_AREA,
+prp.PRO_HOUSING_ESTATE AS HOUSING_ESTATE,
+prp.PRO_REFERENCE AS REFERENCE,
+prp.PRO_INDEPENDENT_CONSULTANT AS INDEPENDANT_CONSULTANT
+
+FROM TA_PROPERTY prp
+LEFT JOIN TA_RENT rnt ON rnt.pro_id=prp.pro_id
+LEFT JOIN TA_ADDRESS addr ON addr.`ADD_ID` = prp.`ADD_ID`
+LEFT JOIN TA_DESCRIPTION DESCRIPTION ON DESCRIPTION.PRO_ID=prp.PRO_ID AND DESCRIPTION.DSC_TYPE='CLIENT'
+
+WHERE prp.PRO_REFERENCE=$P{reference}]]>
+	</queryString>
+	<field name="CITY" class="java.lang.String"/>
+	<field name="MANDAT_TYPE" class="java.lang.String"/>
+	<field name="MANDAT_REFERENCE" class="java.lang.String"/>
+	<field name="DSC_LABEL" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PRIX" class="java.lang.Double"/>
+	<field name="LAND_AREA" class="java.lang.Float"/>
+	<field name="HOUSING_ESTATE" class="java.lang.Boolean"/>
+	<field name="REFERENCE" class="java.lang.String"/>
+	<field name="INDEPENDANT_CONSULTANT" class="java.lang.Boolean"/>
+	<background>
+		<band height="500" splitType="Stretch">
+			<image scaleImage="FillFrame">
+				<reportElement x="-20" y="0" width="595" height="60" uuid="7efe0440-8add-494f-a981-58fa90f5c9c2"/>
+				<imageExpression><![CDATA[this.getClass().getClassLoader().getResourceAsStream("jasper/img/client_head.png")]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<title>
+		<band height="60" splitType="Stretch">
+			<staticText>
+				<reportElement x="527" y="0" width="27" height="60" forecolor="#A01755" uuid="d99199a1-759b-4ee6-ae33-df022722a9af">
+					<printWhenExpression><![CDATA[$F{PRIX} != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="26" isBold="true"/>
+				</textElement>
+				<text><![CDATA[€]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="#,##0">
+				<reportElement x="399" y="0" width="128" height="60" forecolor="#A01755" uuid="8689a9b3-5c9d-470e-85e7-0fe666ab2cf7">
+					<printWhenExpression><![CDATA[$F{PRIX} != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="26" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRIX}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="20" width="156" height="39" uuid="b3d17468-309f-4e80-a7a7-23b76f037a9a"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Mandat : "+($F{MANDAT_REFERENCE} != null ? $F{MANDAT_REFERENCE} : "")+"\n"+
+"Référence : "+$F{REFERENCE}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Transparent" x="158" y="1" width="240" height="59" forecolor="#000000" uuid="657341cd-8edd-4664-85da-2502213ca6e0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="26" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CITY}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Transparent" x="157" y="0" width="240" height="59" forecolor="#FFFF00" uuid="3f64d60a-f528-466f-b09c-a6876ad13fdc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="26" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CITY}.toUpperCase()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="712" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="30" width="275" height="305" uuid="b1ec2ca9-335f-45ca-8715-fc7f46d51414"/>
+				<subreportParameter name="reference">
+					<subreportParameterExpression><![CDATA[$P{reference}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="photo1">
+					<subreportParameterExpression><![CDATA[$P{photo1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="photo2">
+					<subreportParameterExpression><![CDATA[$P{photo2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="photo3">
+					<subreportParameterExpression><![CDATA[$P{photo3}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[this.getClass().getClassLoader().getResourceAsStream("jasper/fiche_client_subreport_photos1.jasper")]]></subreportExpression>
+			</subreport>
+			<componentElement>
+				<reportElement key="table 2" style="table 2" x="279" y="360" width="275" height="75" uuid="2773e884-efd8-4278-8f59-ae44d3ab6840"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Room Dataset" uuid="8a9a7b1f-71f0-40e4-abb6-6834e72361c8">
+						<datasetParameter name="reference">
+							<datasetParameterExpression><![CDATA[$P{reference}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="110" uuid="c23b55ca-0e35-462f-9812-ae3c79ac71e7">
+						<jr:tableHeader style="Table TH 1" height="20" rowSpan="1">
+							<staticText>
+								<reportElement style="Table TH 1" x="0" y="0" width="110" height="20" forecolor="#FFFFFF" uuid="335f1462-ca7b-44da-80fc-3145fa15d607"/>
+								<box>
+									<pen lineWidth="0.0"/>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Pièce]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="110" height="20" uuid="d6cd9710-54f5-4ffb-8a70-0c79ee577e7c"/>
+								<box leftPadding="4"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Arial" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{ROO_TYPE}]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement x="76" y="0" width="33" height="10" uuid="e77bfc0d-79b6-4a80-838d-dc451752656e">
+									<printWhenExpression><![CDATA[$F{ROO_FLOOR_LEVEL} != null]]></printWhenExpression>
+								</reportElement>
+								<box leftPadding="4"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Arial" size="7" isItalic="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{ROO_FLOOR_LEVEL} == 0 ? " [RDC]": " ["+$F{ROO_FLOOR_LEVEL}+"]"]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="80" uuid="caed7d4f-bebe-48b7-8f5a-7af8e2dd2451">
+						<jr:tableHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement style="Table TH 1" x="0" y="0" width="80" height="20" forecolor="#FFFFFF" uuid="3be02be6-2a81-4087-80ce-b8f52f1f93a0"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Surface]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="80" height="20" uuid="cca6a4dd-4238-4553-9a26-0c9f1f4c079e">
+									<printWhenExpression><![CDATA[$F{ROO_AREA} != null]]></printWhenExpression>
+								</reportElement>
+								<box leftPadding="4" rightPadding="30"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Arial"/>
+								</textElement>
+								<textFieldExpression><![CDATA[new DecimalFormat("###0.00").format($F{ROO_AREA})+" m²"]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="85" uuid="a51b8f89-e44f-4b6e-9e58-886c3c03d330">
+						<jr:tableHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement style="Table TH 1" x="0" y="0" width="85" height="20" forecolor="#FFFFFF" uuid="c8b0712d-05d0-4df2-9409-283da1d3dafd"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Sol]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="85" height="20" uuid="6d72792d-6793-4c03-9e3f-8ef24fcb0199">
+									<printWhenExpression><![CDATA[$F{ROO_FLOOR} != null]]></printWhenExpression>
+								</reportElement>
+								<box leftPadding="4"/>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{ROO_FLOOR}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<image>
+				<reportElement x="0" y="568" width="120" height="120" uuid="1a2640f9-3625-460d-b3bb-2f2a15c2b226">
+					<printWhenExpression><![CDATA[java.nio.file.Files.exists(java.nio.file.Paths.get($P{DOC_DIR} + $P{reference}+ "/dpe/kwh-260.png"))]]></printWhenExpression>
+				</reportElement>
+				<imageExpression><![CDATA[$P{DOC_DIR} + $P{reference}+ "/dpe/kwh-260.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="199" y="699" width="156" height="13" uuid="a8bf8ef3-6688-4cfe-915d-f9b9311cad0c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Document non contractuel]]></text>
+			</staticText>
+			<image>
+				<reportElement x="150" y="568" width="120" height="120" uuid="d25ed525-1b8b-4962-a7a4-c58b392cb03c">
+					<printWhenExpression><![CDATA[java.nio.file.Files.exists(java.nio.file.Paths.get($P{DOC_DIR} + $P{reference}+ "/dpe/ges-260.png"))]]></printWhenExpression>
+				</reportElement>
+				<imageExpression><![CDATA[$P{DOC_DIR} + $P{reference}+ "/dpe/ges-260.png"]]></imageExpression>
+			</image>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="279" y="30" width="275" height="52" forecolor="#A01755" backcolor="#FFFFFF" uuid="27acf7df-82a2-4fc5-aa50-712a7a8e2165"/>
+				<box topPadding="10" leftPadding="10" bottomPadding="10" rightPadding="10">
+					<pen lineWidth="0.25" lineColor="#990099"/>
+					<topPen lineWidth="0.0" lineColor="#990099"/>
+					<leftPen lineWidth="0.0" lineColor="#990099"/>
+					<bottomPen lineWidth="0.25" lineColor="#990099"/>
+					<rightPen lineWidth="0.25" lineColor="#990099"/>
+				</box>
+				<textElement markup="html">
+					<font fontName="Arial" size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DSC_LABEL}.replaceAll("->","→").replace("\n", "<br />")]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement key="table 2" style="table 2" x="0" y="360" width="275" height="75" uuid="a36e5df8-99f4-4a47-906b-b250014230bd"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="General Dataset" uuid="30198a80-b96e-474e-8d1e-3a7d8d5ac400">
+						<datasetParameter name="reference">
+							<datasetParameterExpression><![CDATA[$P{reference}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="135" uuid="df94d2d6-1b8b-47c3-8cba-85b2b4bc0706">
+						<jr:tableHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement style="Table TH 2" x="0" y="0" width="135" height="20" forecolor="#FFFFFF" uuid="176fbdd2-c5fe-4f66-9d83-b3e751508ad4"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Arial" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Informations ]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="135" height="20" uuid="bf1b2bec-2b06-49e5-97f0-5bdd05952b44"/>
+								<box leftPadding="4"/>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{CLE}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="140" uuid="1bc5d9aa-da2b-4640-a04e-330fe16f532b">
+						<jr:tableHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement style="Table TH 2" x="0" y="0" width="140" height="20" forecolor="#FFFFFF" uuid="d80c658a-18bf-4168-b8bd-19c8c0b77664"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Arial" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[ générales]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="140" height="20" uuid="e263143d-0f84-4c7f-90cd-80fbd6e07273"/>
+								<box leftPadding="4" rightPadding="0"/>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{VALEUR}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<subreport>
+				<reportElement x="280" y="237" width="275" height="100" uuid="b214a981-d87b-4788-aa12-5d484b5ccecc"/>
+				<subreportParameter name="reference">
+					<subreportParameterExpression><![CDATA[$P{reference}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="photo4">
+					<subreportParameterExpression><![CDATA[$P{photo4}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="photo5">
+					<subreportParameterExpression><![CDATA[$P{photo5}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[this.getClass().getClassLoader().getResourceAsStream("jasper/fiche_client_subreport_photos2.jasper")]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement x="458" y="689" width="98" height="23" uuid="86384d2f-cff5-4a45-8148-63099fe68262">
+					<printWhenExpression><![CDATA[$F{INDEPENDANT_CONSULTANT} !=null && $F{INDEPENDANT_CONSULTANT} == true]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Conseiller indépendant
+RSAC Dax 422900555]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="50">
+			<frame>
+				<reportElement x="0" y="0" width="555" height="0" uuid="b3db133c-0f6d-44af-a646-472cf5666b1d"/>
+				<box>
+					<topPen lineWidth="0.5" lineColor="#680052"/>
+				</box>
+			</frame>
+			<image>
+				<reportElement x="0" y="0" width="88" height="50" uuid="bb43138e-e00b-4643-91b0-6d0aa45472ef"/>
+				<imageExpression><![CDATA[this.getClass().getClassLoader().getResourceAsStream("jasper/img/logo.png")]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="150" y="0" width="294" height="20" forecolor="#999999" uuid="6d4ef60d-f9ff-4b85-92ed-933fc39b8322"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[27 bis, Avenue Nationale, 40230 St Vincent de Tyrosse]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="150" y="20" width="147" height="30" forecolor="#999999" uuid="a277ab04-abb2-42ca-94f0-fd8d3b55ee00"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Tél : 05.58.77.02.15
+Fax : 05.58.77.32.63]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="297" y="20" width="147" height="30" forecolor="#999999" uuid="bcd1df99-bcba-4f22-be34-de52b1a7f4fa"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Email : acimflo@wanadoo.fr
+Site : www.acimflo.com]]></text>
+			</staticText>
+			<image scaleImage="FillFrame">
+				<reportElement x="525" y="3" width="30" height="22" uuid="96aa467c-533f-49ae-820b-d9ec20419850"/>
+				<imageExpression><![CDATA[this.getClass().getClassLoader().getResourceAsStream("jasper/img/fnaim.png")]]></imageExpression>
+			</image>
+			<image scaleImage="FillFrame">
+				<reportElement x="514" y="25" width="41" height="22" uuid="988b7864-38a5-4108-8c36-c2263b410fc7"/>
+				<imageExpression><![CDATA[this.getClass().getClassLoader().getResourceAsStream("jasper/img/amepi.png")]]></imageExpression>
+			</image>
+		</band>
+	</pageFooter>
+</jasperReport>
