@@ -12,22 +12,20 @@
 
 
   <div class="row">
-    <div class="col-sm-6">
-      <div>
-        <uib-carousel interval="carouselInterval" no-wrap="false" active="'0'">
-          <uib-slide ng-repeat="slide in slides track by slide.id" index="slide.id"
-            <a ng-click="openLightboxModal($index)">
-              <img ng-src="{{slide.image}}" style="margin:auto; cursor: pointer" />
-            </a>
-            <div class="carousel-caption">
-              <h4>Photo {{slide.text}}</h4>
-            </div>
-          </uib-slide>
-        </uib-carousel>
-      </div>
+    <div class="col-sm-100 col-lg-6">
+      <uib-carousel interval="carouselInterval" no-wrap="false" active="'0'">
+        <uib-slide ng-repeat="slide in slides track by slide.id" index="slide.id"
+          <a ng-click="openLightboxModal($index)">
+            <img ng-src="{{slide.image}}" style="margin:auto; cursor: pointer" />
+          </a>
+          <div class="carousel-caption">
+            <h4>Photo {{slide.text}}</h4>
+          </div>
+        </uib-slide>
+      </uib-carousel>
     </div>
 
-    <div class="col-sm-offset-0 col-sm-6">
+    <div class="col-sm-100 col-lg-6">
       <div class="highlight">
         <div class="city">{{prp.address.city}}</div>
         <div class="price">
@@ -46,8 +44,7 @@
 
   <div class="row general-informations">
 
-
-    <div class="col-sm-6">
+    <div class="col-sm-12 col-lg-6">
       <table class="table table-condensed">
         <thead>
         <tr>
@@ -80,7 +77,32 @@
         </tbody>
 
       </table>
+    </div>
 
+    <div class="col-sm-12 col-lg-6">
+      <table class="table table-condensed rooms" ng-if="prp.rooms.length > 0">
+        <thead>
+        <tr>
+          <th>Pièce</th>
+          <th>Surface</th>
+          <th>Sol</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr class="pointer" ng-repeat="room in prp.rooms" ng-click="openRoomDetails($index)">
+          <td>{{room.roomType}}</td>
+          <td class="area">{{room.area | number:2 | area }}</td>
+          <td>{{room.floor}}</td>
+        </tr>
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+
+  <div class="row rent">
+    <div class="col-sm-12 col-lg-6">
       <table class="table table-condensed" ng-if="prp.rent">
         <thead>
         <tr>
@@ -98,34 +120,14 @@
         </tbody>
 
       </table>
+    </div>
 
-
+    <div class="col-sm-12 col-lg-6">
       <div class="dpe">
         <img class="kwh" title="Consommation énergétique {{prp.dpe.kwh}}" ng-src="{{kwhImage()}}" ng-if="kwhImage()" />
         <img class="ges" title="Taux d'émission de gaz à effet de serre {{prp.dpe.ges}}" ng-src="{{gesImage()}}" ng-if="gesImage()" />
       </div>
     </div>
-
-    <div class="col-sm-6">
-      <table class="table table-condensed rooms" ng-if="prp.rooms.length > 0">
-        <thead>
-        <tr>
-          <th>Pièce</th>
-          <th>Surface</th>
-          <th>Sol</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <tr ng-repeat="room in prp.rooms" ng-click="openRoomDetails($index)">
-          <td>{{room.roomType}}</td>
-          <td class="area">{{room.area | number:2 | area }}</td>
-          <td>{{room.floor}}</td>
-        </tr>
-        </tbody>
-
-      </table>
-    </div>
-
   </div>
+
 </div>
