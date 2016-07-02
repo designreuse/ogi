@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.base.Strings;
 
+import fr.jerep6.ogi.enumeration.EnumGestionMode;
 import fr.jerep6.ogi.enumeration.EnumPageSize;
 import fr.jerep6.ogi.enumeration.EnumReport;
 import fr.jerep6.ogi.service.ServiceReport;
@@ -60,11 +61,13 @@ public class WSReport extends AbtractWS {
 			@PathVariable("prpRef") String prpReference, //
 			@RequestParam("type") String type, //
 			@RequestParam("format") String format, //
-			@RequestParam("pageSize") String pageSize) throws Exception {
+			@RequestParam("pageSize") String pageSize,
+			@RequestParam("gestionMode") String gestionMode
+			) throws Exception {
 
 		EnumPageSize enumPageFormat = Strings.isNullOrEmpty(pageSize) ? null : EnumPageSize.valueOfByCode(pageSize);
 		ByteArrayOutputStream generateShopFront = serviceReport.generate(prpReference, EnumReport.valueOfByName(type),
-				format, enumPageFormat);
+				format, enumPageFormat, EnumGestionMode.valueOfByCode(gestionMode));
 
 		String fileName = prpReference + "." + mimeType.get(format).getExtension();
 

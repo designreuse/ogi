@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import fr.jerep6.ogi.enumeration.EnumDocumentZoneList;
+import fr.jerep6.ogi.enumeration.EnumGestionMode;
 import fr.jerep6.ogi.framework.service.TransactionalService;
 import fr.jerep6.ogi.persistance.bo.Document;
 import fr.jerep6.ogi.persistance.bo.DocumentType;
@@ -51,6 +51,6 @@ public interface ServiceDocument extends TransactionalService<Document, Integer>
 
 	Set<Document> merge(String prpReference, Set<Document> documentsBD, Set<Document> documentsModif);
 
-	List<DocumentType> listDocumentType(EnumDocumentZoneList zone);
+	List<DocumentType> listDocumentType(EnumGestionMode zone);
 
 }

@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum EnumDocumentZoneList {
+public enum EnumGestionMode {
 	NO("NO"), //
 	ADMINISTRATIF_SALE("SALE"), //
 	ADMINISTRATIF_RENT("RENT");//
@@ -16,13 +16,13 @@ public enum EnumDocumentZoneList {
 	 * @param code
 	 * @return
 	 */
-	public static EnumDocumentZoneList valueOfByCode(String code) {
-		for (EnumDocumentZoneList oneEnum : EnumDocumentZoneList.values()) {
+	public static EnumGestionMode valueOfByCode(String code) {
+		for (EnumGestionMode oneEnum : EnumGestionMode.values()) {
 			if (oneEnum.getCode().equalsIgnoreCase(code)) {
 				return oneEnum;
 			}
 		}
-		throw new IllegalArgumentException("No " + EnumDocumentZoneList.class.getSimpleName() + " for " + code);
+		throw new IllegalArgumentException("No " + EnumGestionMode.class.getSimpleName() + " for " + code);
 	}
 
 	private String	code;

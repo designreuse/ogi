@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Iterables;
 
-import fr.jerep6.ogi.enumeration.EnumDocumentZoneList;
+import fr.jerep6.ogi.enumeration.EnumGestionMode;
 import fr.jerep6.ogi.framework.persistance.dao.impl.AbstractDao;
 import fr.jerep6.ogi.persistance.bo.DocumentType;
 import fr.jerep6.ogi.persistance.dao.DaoDocumentType;
@@ -27,7 +27,7 @@ public class DaoDocumentTypeImpl extends AbstractDao<DocumentType, Integer> impl
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<DocumentType> listDocumentType(EnumDocumentZoneList zone) {
+	public List<DocumentType> listDocumentType(EnumGestionMode zone) {
 		StringBuilder q = new StringBuilder();
 		q.append("SELECT d FROM " + DocumentType.class.getName() + " d");
 		if (zone != null) {

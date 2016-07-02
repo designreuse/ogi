@@ -15,7 +15,7 @@ import lombok.ToString;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 
-import fr.jerep6.ogi.enumeration.EnumDocumentZoneList;
+import fr.jerep6.ogi.enumeration.EnumGestionMode;
 
 @Entity
 @Table(name = "TR_DOCUMENT_TYPE")
@@ -41,10 +41,10 @@ public class DocumentType {
 	/** Where to display document type. For example : ADMINISTRATIF_RENT, ADMINISTRATIF_SALE */
 	@Column(name = "DOT_ZONELIST", nullable = false, length = 24)
 	@Type(type = "fr.jerep6.ogi.framework.persistance.GenericEnumUserType", parameters = {
-			@Parameter(name = "enumClass", value = "fr.jerep6.ogi.enumeration.EnumDocumentZoneList"),
+			@Parameter(name = "enumClass", value = "fr.jerep6.ogi.enumeration.EnumGestionMode"),
 			@Parameter(name = "identifierMethod", value = "getCode"),
 			@Parameter(name = "valueOfMethod", value = "valueOfByCode") })
-	private EnumDocumentZoneList	zoneList;
+	private EnumGestionMode	zoneList;
 
 	public DocumentType() {
 		super();

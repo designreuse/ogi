@@ -1,319 +1,340 @@
 <div ng-controller="ControllerPrpTabAdministratif">
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <span class="pull-right pointer glyphicon" ng-class="{'glyphicon-remove': panel['sale'], 'glyphicon-chevron-down': !panel['sale']}" ng-click="panelShowHide('sale')"></span>
-            <h3 class="panel-title">Vente</h3>
-        </div>
-        <div class="panel-body" ng-if="panel['sale']">
-
-            <!-- mandate row -->
-            <div class="row">
-
-                <!-- left -->
-                <div class="col-xs-6">
-                    <div class="form-group">
-                        <label>Numéro de mandat</label>
-                        <input class="form-control" type="text" ng-model="prp.sale.mandateReference" />
-                    </div>
-
-                    <div class="form-group">
-                        <label>Prix de la vente (sans honoraire)</label>
-                        <div class="input-group">
-                            <input class="form-control" type="text" ng-model="prp.sale.price" ng-change="computePriceFinal()" />
-                            <span class="input-group-addon">€</span>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-xs-6 form-group" style="margin-bottom:0">
-                            <div class="form-group">
-                                <label>Honoraires</label>
-                                <div class="input-group">
-                                    <input class="form-control" type="text" ng-model="prp.sale.commission" ng-change="computePriceFinal()" />
-                                    <span class="input-group-addon">€</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xs-6 form-group" style="margin-bottom:0">
-                            <div class="form-group">
-                                <label>A la charge du vendeur ?</label>
-                                <ul class="list-inline list-unstyled">
-                                    <li>
-                                        <label class="normal"><input type="radio" ng-value="true" ng-model="prp.sale.commissionSeller" /> Oui</label>
-                                    </li>
-                                    <li>
-                                        <label class="normal"><input type="radio" ng-value="false" ng-model="prp.sale.commissionSeller" /> Non</label>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <span style="margin-top: 20px; font-size: 30px; float:right">{{prp.sale.priceFinal | currency}}</span>
-                        <label>Pourcentage des honoraires</label>
-                        <div class="input-group" style="width:160px;" minus-plus>
-                            <span class="input-group-addon glyphicon glyphicon-minus"></span>
-                            <input class="form-control" type="number" ng-model="prp.sale.commissionPercent" ng-change="computeCommision()" />
-                            <span class="input-group-addon glyphicon glyphicon-plus"></span>
-                        </div>
-
-                    </div>
-
-                    <div class="form-group">
-                        <label>Taxe foncière</label>
-                        <div class="input-group">
-                            <input class="form-control" type="text" ng-model="prp.sale.propertyTax" />
-                            <span class="input-group-addon">€</span>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- right -->
-                <div class="col-xs-6">
-                    <div class="row">
-                        <div class="col-xs-6 form-group">
-                            <label>Type de mandat</label>
-                            <ul class="list-inline list-unstyled">
-                                <li>
-                                    <label class="normal"><input type="radio" name="optionsRadios" value="SI" ng-model="prp.sale.mandateType"> Simple</label>
-                                </li>
-                                <li>
-                                    <label class="normal"><input type="radio" name="optionsRadios" value="EX" ng-model="prp.sale.mandateType"> Exclusif</label>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-6 form-group">
-                            <label>Vendu</label>
-                            <ul class="list-inline list-unstyled">
-                                <li>
-                                    <label class="normal"><input type="radio" ng-value="true" ng-model="prp.sale.sold"> Oui</label>
-                                </li>
-                                <li>
-                                    <label class="normal"><input type="radio" ng-value="false" ng-model="prp.sale.sold"> Non</label>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="row" ng-if="prp.sale.sold">
-                        <div class="col-xs-6 form-group">
-                            <label>Date de vente</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" ng-model="prp.sale.soldDate"
-                                       uib-datepicker-popup="{{dateFormat}}" show-weeks="false" is-open="open['soldDate']"
-                                       datepicker-options="dateOptions" show-button-bar="false"
-                                        />
-                                <span class="input-group-addon glyphicon glyphicon-calendar pointer" ng-click="openCalendar($event, 'soldDate')"></span>
-                            </div>
-                        </div>
-                        <div class="col-xs-6 form-group">
-                            <label>Prix de vente</label>
-                            <div class="input-group">
-                                <input class="form-control" type="text" ng-model="prp.sale.soldPrice" />
-                                <span class="input-group-addon">€</span>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label>Début mandat</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" ng-model="prp.sale.mandateStartDate"
-                                   uib-datepicker-popup="{{dateFormat}}" show-weeks="false" is-open="open['mandateStartDate']"
-                                datepicker-options="dateOptions" show-button-bar="false"
-                            />
-                            <span class="input-group-addon glyphicon glyphicon-calendar pointer" ng-click="openCalendar($event, 'mandateStartDate')"></span>
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label>Fin mandat</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" ng-model="prp.sale.mandateEndDate"
-                                   uib-datepicker-popup="{{dateFormat}}" show-weeks="false" is-open="open['mandateEndDate']"
-                                   datepicker-options="dateOptions" show-button-bar="false"
-                            />
-                            <span class="input-group-addon glyphicon glyphicon-calendar pointer" ng-click="openCalendar($event, 'mandateEndDate')"></span>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Prix estimation </label>
-                        <div class="input-group">
-                            <input class="form-control" type="text" ng-model="prp.sale.estimationPrice" />
-                            <span class="input-group-addon">€</span>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Date estimation</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" ng-model="prp.sale.estimationDate"
-                                   uib-datepicker-popup="{{dateFormat}}" show-weeks="false" is-open="open['estimationDate']"
-                                   datepicker-options="dateOptions" show-button-bar="false"
-                            />
-                            <span class="input-group-addon glyphicon glyphicon-calendar pointer" ng-click="openCalendar($event, 'estimationDate')"></span>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-xs-12">
-                    <label>Documents présents dans le dossier</label>
-                    <div class="checkbox mycheckbox-inline">
-                        <label ng-repeat="doc in documentSale">
-                            <input type="checkbox" checklist-model="prp.sale.documents" checklist-value="doc" /> {{doc.type.label}}
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+            <span class="pull-right pointer glyphicon"
+                  ng-class="{'glyphicon-remove': panel['sale'], 'glyphicon-chevron-down': !panel['sale']}"
+                  ng-click="panelShowHide('sale')"></span>
+      <h3 class="panel-title">Vente</h3>
     </div>
+    <div class="panel-body" ng-if="panel['sale']">
 
+      <!-- mandate row -->
+      <div class="row">
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <span class="pull-right pointer glyphicon" ng-class="{'glyphicon-remove': panel['rent'], 'glyphicon-chevron-down': !panel['rent']}" ng-click="panelShowHide('rent')"></span>
-            <h3 class="panel-title">Location</h3>
-        </div>
-        <div class="panel-body" ng-if="panel['rent']">
-            <div class="row">
+        <!-- left -->
+        <div class="col-xs-6">
+          <div class="form-group">
+            <label>Numéro de mandat</label>
+            <input class="form-control" type="text" ng-model="prp.sale.mandateReference"/>
+          </div>
 
-                <!-- left -->
-                <div class="col-xs-6">
-                    <div class="form-group">
-                        <label>Numéro de mandat</label>
-                        <input class="form-control" type="text" ng-model="prp.rent.mandateReference" />
-                    </div>
+          <div class="form-group">
+            <label>Prix de la vente (sans honoraire)</label>
+            <div class="input-group">
+              <input class="form-control" type="text" ng-model="prp.sale.price" ng-change="computePriceFinal()"/>
+              <span class="input-group-addon">€</span>
+            </div>
+          </div>
 
-                    <div class="form-group">
-                        <label>
-                            Location libre le
-                            <i class="glyphicon glyphicon-question-sign" uib-tooltip="Laisser vide pour indiquer que la location est louée" uib-tooltip-trigger="mouseenter"></i>
-                        </label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" ng-model="prp.rent.freeDate"
-                                   uib-datepicker-popup="{{dateFormat}}" show-weeks="false" is-open="open['freeDate']"
-                                   datepicker-options="dateOptions" show-button-bar="false"
-                            />
-                            <span class="input-group-addon glyphicon glyphicon-calendar pointer" ng-click="openCalendar($event, 'freeDate')"></span>
-                        </div>
-                    </div>
+          <div class="row">
+            <div class="col-xs-6 form-group" style="margin-bottom:0">
+              <div class="form-group">
+                <label>Honoraires</label>
+                <div class="input-group">
+                  <input class="form-control" type="text" ng-model="prp.sale.commission"
+                         ng-change="computePriceFinal()"/>
+                  <span class="input-group-addon">€</span>
                 </div>
-
-                <!-- right -->
-                <div class="col-xs-6">
-                    <div class="form-group">
-                        <label>Type de mandat</label>
-                        <ul class="list-inline list-unstyled">
-                            <li>
-                                <label class="normal"><input type="radio" value="SI" ng-model="prp.rent.mandateType"> Simple</label>
-                            </li>
-                            <li>
-                                <label class="normal"><input type="radio" value="EX" ng-model="prp.rent.mandateType"> Exclusif</label>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Location meublée</label>
-                        <ul class="list-inline list-unstyled">
-                            <li>
-                                <label class="normal"><input type="radio" name="furnished" ng-value="true" ng-model="prp.rent.furnished"> Oui</label>
-                            </li>
-                            <li>
-                                <label class="normal"><input type="radio" name="furnished" ng-value="false" ng-model="prp.rent.furnished"> Non</label>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
+              </div>
             </div>
 
-            <div class="row">
-                <!-- left -->
-                <div class="col-xs-6">
-                    <div class="form-group">
-                        <label>Loyer</label>
-                        <div class="input-group">
-                            <input class="form-control" type="text" ng-model="prp.rent.price" ng-change="computeRentFinalPrice()" />
-                            <span class="input-group-addon">€</span>
-                        </div>
-                    </div>
+            <div class="col-xs-6 form-group" style="margin-bottom:0">
+              <div class="form-group">
+                <label>A la charge du vendeur ?</label>
+                <ul class="list-inline list-unstyled">
+                  <li>
+                    <label class="normal"><input type="radio" ng-value="true" ng-model="prp.sale.commissionSeller"/> Oui</label>
+                  </li>
+                  <li>
+                    <label class="normal"><input type="radio" ng-value="false" ng-model="prp.sale.commissionSeller"/>
+                      Non</label>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
 
-                    <div class="form-group displaytable">
-                        <div>
-                            <label>Charges</label>
-                            <div class="input-group">
-                                <input class="form-control" type="text" ng-model="prp.rent.serviceCharge" ng-change="computeRentFinalPrice()" />
-                                <span class="input-group-addon">€</span>
-                            </div>
-                        </div>
-
-                        <div class="checkbox" style="vertical-align: bottom">
-                            <label>
-                                <input type="checkbox" value="true" ng-model="prp.rent.serviceChargeIncluded" ng-change="computeRentFinalPrice()"
-                                       uib-tooltip="Si coché indique que le prix du loyer inclu les charges" uib-tooltip-trigger="mouseenter"
-                                /> Charges comprises
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <span style="font-size: 30px">{{prp.rent.priceFinal | currency}}</span>
-                    </div>
-
-                </div>
-
-                <!-- right -->
-                <div class="col-xs-6">
-                        <div class="form-group">
-                            <label>Honoraires d'entrée</label>
-                            <div class="input-group">
-                                <input class="form-control" type="text" ng-model="prp.rent.commission" />
-                                <span class="input-group-addon">€</span>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Honoraires de gestion</label>
-                            <div class="input-group">
-                                <input class="form-control" type="text" ng-model="prp.rent.commissionManagement"/>
-                                <span class="input-group-addon">€</span>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Dépôt de garantie</label>
-                            <div class="input-group">
-                                <input class="form-control" type="text" ng-model="prp.rent.deposit" />
-                                <span class="input-group-addon">€</span>
-                            </div>
-                        </div>
-                    </div>
+          <div class="form-group">
+            <span style="margin-top: 20px; font-size: 30px; float:right">{{prp.sale.priceFinal | currency}}</span>
+            <label>Pourcentage des honoraires</label>
+            <div class="input-group" style="width:160px;" minus-plus>
+              <span class="input-group-addon glyphicon glyphicon-minus"></span>
+              <input class="form-control" type="number" ng-model="prp.sale.commissionPercent"
+                     ng-change="computeCommision()"/>
+              <span class="input-group-addon glyphicon glyphicon-plus"></span>
             </div>
 
-            <div class="row">
-                <div class="col-xs-12">
-                    <label>Documents présents dans le dossier</label>
-                    <div class="checkbox mycheckbox-inline">
-                        <label ng-repeat="doc in documentRent">
-                            <input type="checkbox" checklist-model="prp.rent.documents" checklist-value="doc" /> {{doc.type.label}}
-                        </label>
-                    </div>
-                </div>
+          </div>
+
+          <div class="form-group">
+            <label>Taxe foncière</label>
+            <div class="input-group">
+              <input class="form-control" type="text" ng-model="prp.sale.propertyTax"/>
+              <span class="input-group-addon">€</span>
             </div>
+          </div>
 
         </div>
+
+        <!-- right -->
+        <div class="col-xs-6">
+          <div class="row">
+            <div class="col-xs-6 form-group">
+              <label>Type de mandat</label>
+              <ul class="list-inline list-unstyled">
+                <li>
+                  <label class="normal"><input type="radio" name="optionsRadios" value="SI"
+                                               ng-model="prp.sale.mandateType"> Simple</label>
+                </li>
+                <li>
+                  <label class="normal"><input type="radio" name="optionsRadios" value="EX"
+                                               ng-model="prp.sale.mandateType"> Exclusif</label>
+                </li>
+              </ul>
+            </div>
+            <div class="col-xs-6 form-group">
+              <label>Vendu</label>
+              <ul class="list-inline list-unstyled">
+                <li>
+                  <label class="normal"><input type="radio" ng-value="true" ng-model="prp.sale.sold"> Oui</label>
+                </li>
+                <li>
+                  <label class="normal"><input type="radio" ng-value="false" ng-model="prp.sale.sold"> Non</label>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="row" ng-if="prp.sale.sold">
+            <div class="col-xs-6 form-group">
+              <label>Date de vente</label>
+              <div class="input-group">
+                <input type="text" class="form-control" ng-model="prp.sale.soldDate"
+                       uib-datepicker-popup="{{dateFormat}}" show-weeks="false" is-open="open['soldDate']"
+                       datepicker-options="dateOptions" show-button-bar="false"
+                />
+                <span class="input-group-addon glyphicon glyphicon-calendar pointer"
+                      ng-click="openCalendar($event, 'soldDate')"></span>
+              </div>
+            </div>
+            <div class="col-xs-6 form-group">
+              <label>Prix de vente</label>
+              <div class="input-group">
+                <input class="form-control" type="text" ng-model="prp.sale.soldPrice"/>
+                <span class="input-group-addon">€</span>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <label>Début mandat</label>
+            <div class="input-group">
+              <input type="text" class="form-control" ng-model="prp.sale.mandateStartDate"
+                     uib-datepicker-popup="{{dateFormat}}" show-weeks="false" is-open="open['mandateStartDate']"
+                     datepicker-options="dateOptions" show-button-bar="false"
+              />
+              <span class="input-group-addon glyphicon glyphicon-calendar pointer"
+                    ng-click="openCalendar($event, 'mandateStartDate')"></span>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <label>Fin mandat</label>
+            <div class="input-group">
+              <input type="text" class="form-control" ng-model="prp.sale.mandateEndDate"
+                     uib-datepicker-popup="{{dateFormat}}" show-weeks="false" is-open="open['mandateEndDate']"
+                     datepicker-options="dateOptions" show-button-bar="false"
+              />
+              <span class="input-group-addon glyphicon glyphicon-calendar pointer"
+                    ng-click="openCalendar($event, 'mandateEndDate')"></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Prix estimation </label>
+            <div class="input-group">
+              <input class="form-control" type="text" ng-model="prp.sale.estimationPrice"/>
+              <span class="input-group-addon">€</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Date estimation</label>
+            <div class="input-group">
+              <input type="text" class="form-control" ng-model="prp.sale.estimationDate"
+                     uib-datepicker-popup="{{dateFormat}}" show-weeks="false" is-open="open['estimationDate']"
+                     datepicker-options="dateOptions" show-button-bar="false"
+              />
+              <span class="input-group-addon glyphicon glyphicon-calendar pointer"
+                    ng-click="openCalendar($event, 'estimationDate')"></span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <label>Documents présents dans le dossier</label>
+          <div class="checkbox mycheckbox-inline">
+            <label ng-repeat="doc in documentSale">
+              <input type="checkbox" checklist-model="prp.sale.documents" checklist-value="doc"/> {{doc.type.label}}
+            </label>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <span class="pull-right pointer glyphicon"
+            ng-class="{'glyphicon-remove': panel['rent'], 'glyphicon-chevron-down': !panel['rent']}"
+            ng-click="panelShowHide('rent')"></span>
+      <h3 class="panel-title">Location</h3>
+    </div>
+    <div class="panel-body" ng-if="panel['rent']">
+      <div class="row">
+
+        <!-- left -->
+        <div class="col-xs-6">
+          <div class="form-group">
+            <label>Numéro de mandat</label>
+            <input class="form-control" type="text" ng-model="prp.rent.mandateReference"/>
+          </div>
+
+          <div class="form-group">
+            <label>
+              Location libre le
+              <i class="glyphicon glyphicon-question-sign"
+                 uib-tooltip="Laisser vide pour indiquer que la location est louée"
+                 uib-tooltip-trigger="mouseenter"></i>
+            </label>
+            <div class="input-group">
+              <input type="text" class="form-control" ng-model="prp.rent.freeDate"
+                     uib-datepicker-popup="{{dateFormat}}" show-weeks="false" is-open="open['freeDate']"
+                     datepicker-options="dateOptions" show-button-bar="false"
+              />
+              <span class="input-group-addon glyphicon glyphicon-calendar pointer"
+                    ng-click="openCalendar($event, 'freeDate')"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- right -->
+        <div class="col-xs-6">
+          <div class="form-group">
+            <label>Type de mandat</label>
+            <ul class="list-inline list-unstyled">
+              <li>
+                <label class="normal"><input type="radio" value="SI" ng-model="prp.rent.mandateType"> Simple</label>
+              </li>
+              <li>
+                <label class="normal"><input type="radio" value="EX" ng-model="prp.rent.mandateType"> Exclusif</label>
+              </li>
+            </ul>
+          </div>
+
+          <div class="form-group">
+            <label>Location meublée</label>
+            <ul class="list-inline list-unstyled">
+              <li>
+                <label class="normal"><input type="radio" name="furnished" ng-value="true"
+                                             ng-model="prp.rent.furnished"> Oui</label>
+              </li>
+              <li>
+                <label class="normal"><input type="radio" name="furnished" ng-value="false"
+                                             ng-model="prp.rent.furnished"> Non</label>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <!-- left -->
+        <div class="col-xs-6">
+          <div class="form-group">
+            <label>Loyer</label>
+            <div class="input-group">
+              <input class="form-control" type="text" ng-model="prp.rent.price" ng-change="computeRentFinalPrice()"/>
+              <span class="input-group-addon">€</span>
+            </div>
+          </div>
+
+          <div class="form-group displaytable">
+            <div>
+              <label>Charges</label>
+              <div class="input-group">
+                <input class="form-control" type="text" ng-model="prp.rent.serviceCharge"
+                       ng-change="computeRentFinalPrice()"/>
+                <span class="input-group-addon">€</span>
+              </div>
+            </div>
+
+            <div class="checkbox" style="vertical-align: bottom">
+              <label>
+                <input type="checkbox" value="true" ng-model="prp.rent.serviceChargeIncluded"
+                       ng-change="computeRentFinalPrice()"
+                       uib-tooltip="Si coché indique que le prix du loyer inclu les charges"
+                       uib-tooltip-trigger="mouseenter"
+                /> Charges comprises
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <span style="font-size: 30px">{{prp.rent.priceFinal | currency}}</span>
+          </div>
+
+        </div>
+
+        <!-- right -->
+        <div class="col-xs-6">
+          <div class="form-group">
+            <label>Honoraires d'entrée</label>
+            <div class="input-group">
+              <input class="form-control" type="text" ng-model="prp.rent.commission"/>
+              <span class="input-group-addon">€</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Honoraires de gestion</label>
+            <div class="input-group">
+              <input class="form-control" type="text" ng-model="prp.rent.commissionManagement"/>
+              <span class="input-group-addon">€</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Dépôt de garantie</label>
+            <div class="input-group">
+              <input class="form-control" type="text" ng-model="prp.rent.deposit"/>
+              <span class="input-group-addon">€</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <label>Documents présents dans le dossier</label>
+          <div class="checkbox mycheckbox-inline">
+            <label ng-repeat="doc in documentRent">
+              <input type="checkbox" checklist-model="prp.rent.documents" checklist-value="doc"/> {{doc.type.label}}
+            </label>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
 </div>
 

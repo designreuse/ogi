@@ -9,8 +9,8 @@ angular.module('myApp.common').factory('ServiceUrl', function(ServiceConfigurati
       urlOwner : function(techid){
           return "#/proprietaires/modifier/"+techid;
       },
-      urlDocument: function(reference, documentType, format, pageSize) {
-        return ServiceConfiguration.API_URL+"/rest/report/"+reference+"?format="+format+"&type="+documentType+"&pageSize="+pageSize;
+      urlDocument: function(reference, documentType, format, pageSize, gestionMode) {
+        return ServiceConfiguration.API_URL+"/rest/report/"+reference+"?format="+format+"&type="+documentType+"&pageSize="+pageSize+"&gestionMode="+gestionMode;
       }
     }
 });

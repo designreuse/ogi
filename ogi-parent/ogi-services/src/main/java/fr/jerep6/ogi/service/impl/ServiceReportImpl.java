@@ -19,6 +19,7 @@ import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.export.ExporterConfiguration;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
@@ -28,10 +29,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
 import fr.jerep6.ogi.enumeration.EnumCategory;
+import fr.jerep6.ogi.enumeration.EnumGestionMode;
 import fr.jerep6.ogi.enumeration.EnumPageSize;
 import fr.jerep6.ogi.enumeration.EnumReport;
 import fr.jerep6.ogi.exception.technical.JasperTechnicalException;
@@ -65,7 +68,7 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 		reportsConfig.put(EnumReport.VITRINE, "fiche_vitrine_$PAGESIZE$SUFFIXE.jasper");
 	}
 
-	private String computeReportName(String prpReference, EnumReport reportType, EnumPageSize pageSize) {
+	private String computeReportName(String prpReference, EnumReport reportType, EnumPageSize pageSize, EnumGestionMode gestionMode) {
 		// If no format => A4
 		pageSize = pageSize == null ? EnumPageSize.A4 : pageSize;
 
@@ -74,6 +77,14 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 		Optional<RealProperty> prp = serviceRealProperty.readByReference(prpReference);
 
 		// Replace format
+		reportName = reportName.replace("$PAGESIZE", pageSize.getCode());
+		
+		if (gestionMode == EnumGestionMode.ADMINISTRATIF_SALE) {
+			reportName = reportName.replace("$SALERENT", "vente");
+		}
+		else if (gestionMode == EnumGestionMode.ADMINISTRATIF_RENT) {
+			reportName = reportName.replace("$SALERENT", "location");
+		}
 		reportName = reportName.replace("$PAGESIZE", pageSize.getCode());
 
 		switch (reportType) {
@@ -85,13 +96,7 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 					reportName = reportName.replace("$SUFFIXE", "");
 				}
 				break;
-			case CLIENT:
-				if(prp.get().getRent() != null) {
-					reportName = reportName.replace("$SALERENT", "location");					
-				} else {
-					reportName = reportName.replace("$SALERENT", "vente");										
-				}
-				
+			case CLIENT:				
 				reportName = replaceSuffix(reportName, prp.get().getCategory());
 				break;
 		}
@@ -116,7 +121,7 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 				exporter = new JROdtExporter();
 				break;
 		}
-
+ 
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		exporter.setExporterInput(new SimpleExporterInput(print));
 		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(bos));
@@ -126,14 +131,14 @@ public class ServiceReportImpl extends AbstractService implements ServiceReport 
 
 	@Override
 	public ByteArrayOutputStream generate(String prpReference, EnumReport reportType, String format,
-			EnumPageSize pageSize) throws TechnicalException {
+			EnumPageSize pageSize, EnumGestionMode gestionMode) throws TechnicalException {
 		Preconditions.checkArgument(!Strings.isNullOrEmpty(prpReference));
 		
 		Optional<RealProperty> prp = serviceRealProperty.readByReference(prpReference);
 		Integer numberOfPhotos = prp.get().getPhotos().size();
 
 		// Get file name from type
-		String reportName = computeReportName(prpReference, reportType, pageSize);
+		String reportName = computeReportName(prpReference, reportType, pageSize, Objects.firstNonNull(gestionMode, EnumGestionMode.ADMINISTRATIF_SALE));
 		Preconditions.checkArgument(!Strings.isNullOrEmpty(reportName));
 
 		try {

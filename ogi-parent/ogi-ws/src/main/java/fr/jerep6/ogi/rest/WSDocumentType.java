@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.jerep6.ogi.enumeration.EnumDocumentZoneList;
+import fr.jerep6.ogi.enumeration.EnumGestionMode;
 import fr.jerep6.ogi.persistance.bo.DocumentType;
 import fr.jerep6.ogi.service.ServiceDocument;
 import fr.jerep6.ogi.transfert.bean.DocumentTypeTo;
@@ -41,13 +41,13 @@ public class WSDocumentType extends AbtractWS {
 	 */
 	@RequestMapping(value = "{zone}", method = RequestMethod.GET)
 	public List<DocumentTypeTo> listDocumentType(@PathVariable("zone") String zone) {
-		EnumDocumentZoneList enumZone = Strings.isNotEmpty(zone) ? EnumDocumentZoneList.valueOfByCode(zone) : null;
+		EnumGestionMode enumZone = Strings.isNotEmpty(zone) ? EnumGestionMode.valueOfByCode(zone) : null;
 		List<DocumentType> documentsTypes = serviceDocument.listDocumentType(enumZone);
 		return mapper.mapAsList(documentsTypes, DocumentTypeTo.class);
 	}
 
 	@RequestMapping(value = "zone", method = RequestMethod.GET)
 	public List<String> listZone() {
-		return mapper.mapAsList(EnumDocumentZoneList.values(), String.class);
+		return mapper.mapAsList(EnumGestionMode.values(), String.class);
 	}
 }

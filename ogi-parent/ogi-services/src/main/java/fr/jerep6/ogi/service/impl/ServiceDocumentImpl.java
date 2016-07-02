@@ -25,7 +25,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Collections2;
 
-import fr.jerep6.ogi.enumeration.EnumDocumentZoneList;
+import fr.jerep6.ogi.enumeration.EnumGestionMode;
 import fr.jerep6.ogi.exception.business.FileAlreadyExist;
 import fr.jerep6.ogi.exception.technical.FileSystemTechnicalException;
 import fr.jerep6.ogi.framework.exception.BusinessException;
@@ -177,7 +177,7 @@ public class ServiceDocumentImpl extends AbstractTransactionalService<Document, 
 	}
 
 	@Override
-	public List<DocumentType> listDocumentType(EnumDocumentZoneList zone) {
+	public List<DocumentType> listDocumentType(EnumGestionMode zone) {
 		return daoDocumentType.listDocumentType(zone);
 	}
 

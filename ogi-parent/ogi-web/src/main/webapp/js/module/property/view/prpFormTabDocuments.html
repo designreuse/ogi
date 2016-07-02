@@ -1,25 +1,27 @@
 <div class="row" ng-controller="ControllerPrpTabDocuments">
+  <div class="col-xs-3" ng-repeat="doc in documents" ng-if="doc.display">
+    <div class="thumbnail thumbnail-document">
+      <div class="preview-document">
+        <img src="img/img-{{doc.type}}.png"/>
+      </div>
 
-    <div class="col-xs-3" ng-repeat="doc in documents">
-        <div class="thumbnail thumbnail-document">
-            <div class="preview-document">
-                <img src="img/img-{{doc.type}}.png" />
-            </div>
-            <div class="caption">
-                <h3>{{doc.name}}</h3>
-                <p class="page-size">
-                    <select ng-if="displayPageSize(doc)" class="form-control" ng-model="doc.selectedPageSize" ng-options="label for label in doc.availablePageSize">
-                    </select>
-                </p>
-                <ul class="list-inline text-center logo-dl">
-                    <li ng-repeat="f in doc.formats">
-                        <a ng-click="computeLink(doc, f)" href="">
-                            <img src="{{availableFormats[f].img}}" alt="" title="{{availableFormats[f].title}}" />
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+      <div class="caption">
+        <h3>{{doc.name}}</h3>
+        <p class="page-size">
+          <select ng-if="displayPageSize(doc)" class="form-control" ng-model="doc.selectedPageSize"
+                  ng-options="label for label in doc.availablePageSize">
+          </select>
+        </p>
+        <ul class="list-inline text-center logo-dl">
+          <li ng-repeat="f in doc.formats">
+            <a ng-click="computeLink(doc, f)" href="">
+              <img src="{{availableFormats[f].img}}" alt="" title="{{availableFormats[f].title}}"/>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
+
+  </div>
 
 </div>
