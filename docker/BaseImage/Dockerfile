@@ -25,6 +25,7 @@ ENV JAVA_HOME /app/java/jdk/
 RUN wget "http://www-us.apache.org/dist/tomcat/tomcat-9/v9.0.0.M8/bin/apache-tomcat-9.0.0.M8.tar.gz" -O /tmp/tomcat.tar.gz
 RUN tar -zxf /tmp/tomcat.tar.gz -C /app/ \
 && mv /app/apache-tomcat* /app/tomcat \
+&& chmod -R o+x /app/ \
 && rm /tmp/tomcat.tar.gz
 
 
