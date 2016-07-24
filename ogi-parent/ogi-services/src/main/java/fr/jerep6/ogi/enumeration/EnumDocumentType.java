@@ -7,7 +7,8 @@ import fr.jerep6.ogi.persistance.bo.DocumentType;
 @Getter
 @AllArgsConstructor
 public enum EnumDocumentType {
-	PHOTO("PHOTO"); //
+	PHOTO("PHOTO"), //
+	PHOTO_SPHERE("PHOTO_SPHERE"); //
 
 	/**
 	 * Get the enumeration from this code. No case sensitive

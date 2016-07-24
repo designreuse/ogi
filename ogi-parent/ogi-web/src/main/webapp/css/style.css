@@ -97,7 +97,14 @@ div[minus-plus=""] > span {
 /* ##### PAGE PRP MANAGEMENT ##### */
 /* ## TAB GENERAL ## */
 /* style des éléments de la liste */
-ul#list-photos li {
+ul.list-photos {
+  /* style de l'élément fantome, qui apparait losque que l'on bouge un élément */
+  /* ## TAB DESC ## */
+  /* ROOMS */
+  /* ROOM MODAL */
+  /* ## CLIENT VIEW ## */
+}
+ul.list-photos li {
   border: 1px solid #ddd;
   padding: 10px;
   cursor: move;
@@ -110,105 +117,101 @@ ul#list-photos li {
   -moz-box-shadow: 2px 2px 5px #ccc;
   text-align: center;
 }
-ul#list-photos li .photoName {
+ul.list-photos li .photoName {
   white-space: nowrap;
   overflow: hidden;
 }
-ul#list-photos li img {
+ul.list-photos li img {
   margin-bottom: 10px;
 }
-/* style de l'élément fantome, qui apparait losque que l'on bouge un élément */
-ul#list-photos li.highlight {
+ul.list-photos li.highlight {
   background: #f2f2f2;
   border: 1px dashed #212326;
 }
-/* ## TAB DESC ## */
-#pieces .add-on {
+ul.list-photos #pieces .add-on {
   cursor: pointer;
 }
-.ui-slider-handle {
+ul.list-photos .ui-slider-handle {
   cursor: pointer !important;
 }
-/* ROOMS */
-.thumbnail {
+ul.list-photos .thumbnail {
   padding: 0px;
   height: 350px;
 }
-.thumbnail .photo-room {
+ul.list-photos .thumbnail .photo-room {
   height: 160px;
 }
-.thumbnail .photo-room img {
+ul.list-photos .thumbnail .photo-room img {
   margin: auto;
   display: block;
   max-height: 160px;
 }
-.thumbnail .caption {
+ul.list-photos .thumbnail .caption {
   padding: 5px;
 }
-.thumbnail .caption h3 {
+ul.list-photos .thumbnail .caption h3 {
   margin-top: 5px;
   text-align: center;
 }
-.thumbnail .caption .description-room {
+ul.list-photos .thumbnail .caption .description-room {
   height: 80px;
 }
-/* ROOM MODAL */
-.modal-body-room {
+ul.list-photos .modal-body-room {
   padding: 5px 20px 20px 20px;
 }
-.roomPhotos .active img {
+ul.list-photos .roomPhotos .active img {
   border: 02px solid #428BCA;
   box-shadow: 5px 5px 5px #898B8D;
 }
-.thumbnail-document {
+ul.list-photos .thumbnail-document {
   height: 300px;
 }
-.thumbnail-document .preview-document {
+ul.list-photos .thumbnail-document .preview-document {
   height: 140px;
 }
-.thumbnail-document .preview-document img {
+ul.list-photos .thumbnail-document .preview-document img {
   margin: auto;
   display: block;
   max-height: 140px;
 }
-.thumbnail-document .page-size {
+ul.list-photos .thumbnail-document .page-size {
   height: 40px;
 }
-.logo-dl img {
+ul.list-photos .logo-dl img {
   width: 40px;
 }
-.mycheckbox-inline label {
+ul.list-photos .mycheckbox-inline label {
   margin-right: 20px;
 }
-.mycheckbox-inline input[type="checkbox"] {
+ul.list-photos .mycheckbox-inline input[type="checkbox"] {
   margin-left: -15px;
 }
-.summaries .summary-heading {
+ul.list-photos .summaries .summary-heading {
   display: table;
   width: 100%;
   vertical-align: middle;
 }
-.summaries .summary-heading .summary-heading-title {
+ul.list-photos .summaries .summary-heading .summary-heading-title {
   display: table-cell;
 }
-.summaries .summary-heading .summary-heading-action {
+ul.list-photos .summaries .summary-heading .summary-heading-action {
   display: table-cell;
   text-align: right;
   vertical-align: middle;
 }
-.summaries .summary-heading .summary-heading-action span {
+ul.list-photos .summaries .summary-heading .summary-heading-action span {
   margin: 0 5px;
 }
-.summaries .summary-heading .summary-input-separation {
+ul.list-photos .summaries .summary-heading .summary-input-separation {
   display: table-cell;
   vertical-align: middle;
   padding: 0px 5px;
   text-align: center;
 }
-.summaries .summary {
+ul.list-photos .summaries .summary {
   position: relative;
 }
-.summaries .confirm-updated {
+ul.list-photos .summaries .confirm-updated {
   position: absolute;
   right: 15px;
   font-size: 80px;
@@ -216,7 +219,7 @@ ul#list-photos li.highlight {
   display: none;
   opacity: 0;
 }
-.summaries .summary-updated .confirm-updated {
+ul.list-photos .summaries .summary-updated .confirm-updated {
   display: block;
   animation-name: summary-update-animation;
   animation-duration: 3s;
@@ -232,33 +235,32 @@ ul#list-photos li.highlight {
     opacity: 0;
   }
 }
-.summaries .animate-hide.ng-hide {
+ul.list-photos .summaries .animate-hide.ng-hide {
   transition: all linear 1s;
   transform: translate(-100%, 0);
   opacity: 0;
 }
-.summaries .animate-hide.ng-hide-remove {
+ul.list-photos .summaries .animate-hide.ng-hide-remove {
   transition: all linear 1s;
   opacity: 1;
 }
-/* ## CLIENT VIEW ## */
-.highlight .city {
+ul.list-photos .highlight .city {
   font-weight: bold;
   font-size: 2em;
   text-align: center;
 }
-.highlight .price {
+ul.list-photos .highlight .price {
   font-weight: bold;
   font-size: 2em;
   text-align: center;
 }
-.description {
+ul.list-photos .description {
   box-shadow: -5px 5px 10px #555555;
   border-left: 1px solid black;
   border-bottom: 1px solid black;
   padding: 0px 10px;
 }
-.general-informations {
+ul.list-photos .general-informations {
   margin-top: 20px;
 }
 .search-filter-remove {
@@ -305,6 +307,12 @@ ul#list-photos li.highlight {
 }
 .unavailable {
   background-color: #E6E6E6;
+}
+.row-space {
+  margin-top: 20px;
+}
+legend {
+  margin-bottom: 10px;
 }
 /* NAVIGATION */
 .navbar-default .navbar-brand {

@@ -6,7 +6,7 @@ function ($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http,
     $scope.mapOptions = {
         center: ServiceConfiguration.MAP_CENTER,
         zoom: 12,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+        //mapTypeId: google.maps.MapTypeId.ROADMAP
     };
 
 
@@ -94,7 +94,7 @@ function ($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http,
 
     // ##### UPLOAD #####
     // http://blueimp.github.io/jQuery-File-Upload/angularjs.html
-    $scope.options = {
+    $scope.photosOptions = {
         url: ServiceConfiguration.API_URL+"/rest/document/",
         type : "POST", // The HTTP request method for the file uploads
         dataType : "json", //The type of data that is expected back from the server.
@@ -110,11 +110,29 @@ function ($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http,
         // type 1 for property's photos
         formData : [{ name: 'reference', value:  $scope.tempReference}, { name: 'type', value:  "PHOTO"}]
     };
+    $scope.photosSphereOptions = {
+        url: ServiceConfiguration.API_URL+"/rest/document/",
+        type : "POST",
+        dataType : "json",
+        limitMultiFileUploads : 2,
+        limitConcurrentUploads: 2,
+        acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+        messages: {
+            maxNumberOfFiles: 'Nombre maximum de fichiers dépassé',
+            acceptFileTypes: 'Type du fichier incompatible avec des images',
+            maxFileSize: 'Fichier trop gros',
+            minFileSize: 'Fichier trop petit'
+        },
+        // type 1 for property's photos
+        formData : [{ name: 'reference', value:  $scope.tempReference}, { name: 'type', value:  "PHOTO_SPHERE"}]
+    };
 
     // Listen to fileuploaddone event
-    $scope.$on('fileuploaddone', function(e, data){
+    $scope.$on('uploadPhotoPhotoDone', function(e, originalEvent, data) {
+        console.log(originalEvent);
+        console.log(data);
         // Extract file from response (file contains document)
-        var file = data._response.result.files[0];
+        var file = data.result.files[0];
         // Set order to table length
         file.document.order = $scope.prp.photos.length+1;
 
@@ -123,13 +141,37 @@ function ($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http,
 
         // Search index of just upload file to remove it to queue
         var index = -1;
-        for (var i = 0; i < $scope.queue.length;  i++) {
-            if($scope.queue[i].name == file.name) {
+        var queue = data.scope.queue;
+        for (var i = 0; i < queue.length;  i++) {
+            if(queue[i].name == file.name) {
                 index = i;
                 break;
             }
         }
-        $scope.queue.splice(index, 1);
+        queue.splice(index, 1);
+    });
+
+    $scope.$on('uploadPhotoPhotoSphereDone', function(e, originalEvent, data) {
+        console.log(originalEvent);
+        console.log(data);
+        // Extract file from response (file contains document)
+        var file = data.result.files[0];
+        // Set order to table length
+        file.document.order = $scope.prp.photos.length+1;
+
+        // Add photo to property
+        $scope.prp.photosSphere.push(file.document);
+
+        // Search index of just upload file to remove it to queue
+        var index = -1;
+        var queue = data.scope.queue;
+        for (var i = 0; i < queue.length;  i++) {
+            if(queue[i].name == file.name) {
+                index = i;
+                break;
+            }
+        }
+        queue.splice(index, 1);
     });
 
 
@@ -140,7 +182,7 @@ function ($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http,
     });
 
     // ##### SORTABLE #####
-    $scope.sortableOptions = {
+    $scope.photosSortableOptions = {
         // This event is triggered when sorting has stopped.
         stop: function(e, ui) {
             $scope.prp.photos.forEach(function(element, index, array) {
@@ -150,8 +192,18 @@ function ($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http,
         placeholder: 'highlight' // class of fantom item
     };
 
-    $scope.deletePhoto = function(index) {
-        $scope.prp.photos.splice(index, 1);
+    $scope.photosSphereSortableOptions = {
+        // This event is triggered when sorting has stopped.
+        stop: function(e, ui) {
+            $scope.prp.photosSphere.forEach(function(element, index, array) {
+                element.order = index+1;
+            });
+        },
+        placeholder: 'highlight' // class of fantom item
+    };
+
+    $scope.deletePhoto = function(index, type) {
+        $scope.prp[({"PHOTO": "photos", "PHOTO_SPHERE": "photosSphere"})[type]].splice(index, 1);
     }
 
 
@@ -184,4 +236,18 @@ function ($scope, Page, $routeParams, ServiceConfiguration, ServiceAlert, $http,
             }
         }
     }
+});
+
+
+angular.module('myApp.property').controller("ControllerPrpTabGeneralUploadPhotos",  function ($scope) {
+    $scope.$on("fileuploaddone", function(e, data) {
+        $scope.$emit("uploadPhotoPhotoDone", e, data);
+    });
+});
+
+
+angular.module('myApp.property').controller("ControllerPrpTabGeneralUploadPhotosSphere",  function ($scope) {
+    $scope.$on("fileuploaddone", function(e, data) {
+        $scope.$emit("uploadPhotoPhotoSphereDone", e, data);
+    });
 });

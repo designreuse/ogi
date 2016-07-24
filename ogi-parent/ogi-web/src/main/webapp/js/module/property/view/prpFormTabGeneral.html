@@ -1,5 +1,5 @@
 <!--BEGIN DIV GENERAL -->
-<div ng-controller="ControllerPrpTabGeneral" file-upload="options">
+<div ng-controller="ControllerPrpTabGeneral">
   <div class="row">
       <div class="col-xs-7">
 
@@ -68,7 +68,7 @@
       </div>
   </div>
 
-  <fieldset ng-class="{'fileupload-processing': processing() || loadingFiles}">
+  <fieldset class="row-space" ng-controller="ControllerPrpTabGeneralUploadPhotos" file-upload="photosOptions" ng-class="{'fileupload-processing': processing() || loadingFiles}">
       <legend>Photos</legend>
 
       <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
@@ -107,12 +107,20 @@
     <!-- The table listing the files available for upload/download -->
     <table class="table table-striped files ng-cloak">
       <tr ng-repeat="file in queue">
-        <td ng-switch="!!file.thumbnailUrl">
-          <div class="preview" ng-switch-when="true">
-              <a ng-href="{{file.url}}" title="{{file.name}}" target="_blank" download="{{file.name}}" gallery><img ng-src="{{file.thumbnailUrl}}" alt=""></a>
+        <td data-ng-switch data-on="!!file.thumbnailUrl">
+          <div class="preview" data-ng-switch-when="true">
+            <a data-ng-href="{{file.url}}" title="{{file.name}}" download="{{file.name}}" data-gallery><img data-ng-src="{{file.thumbnailUrl}}" alt=""></a>
           </div>
-          <div class="preview" ng-switch-default file-upload-preview="file"></div>
+          <div class="preview" data-ng-switch-default data-file-upload-preview="file"></div>
         </td>
+
+        <!--<td ng-switch="!!file.thumbnailUrl">-->
+          <!--<div class="preview" ng-switch-when="true">-->
+              <!--<a ng-href="{{file.url}}" title="{{file.name}}" target="_blank" download="{{file.name}}" gallery><img ng-src="{{file.thumbnailUrl}}" alt=""></a>-->
+          <!--</div>-->
+          <!--<div class="preview" ng-switch-default file-upload-preview="file"></div>-->
+        <!--</td>-->
+
         <td>
           <p class="name" ng-switch on="!!file.url">
             <span ng-switch-when="true" ng-switch on="!!file.thumbnailUrl">
@@ -144,15 +152,104 @@
       </tr>
     </table>
 
-    <ul ui-sortable="sortableOptions" id="list-photos" class="list-unstyled list-inline" ng-model="prp.photos">
+    <ul ui-sortable="photosSortableOptions" class="list-photos list-unstyled list-inline" ng-model="prp.photos">
       <li ng-repeat="photo in prp.photos">
         <img ng-src="{{photo.url}}?size=110,110&crop=110,110&&sizeMode=inversed_automatic" />
         <div class="photoName">{{photo.name}}</div>
         <a class="btn" href="{{photo.url}}" target="_blank"><i class="glyphicon glyphicon-eye-open"></i></a>
-        <a class="btn" ng-click="deletePhoto($index)"><i class="glyphicon glyphicon-trash"></i></a>
+        <a class="btn" ng-click="deletePhoto($index, 'PHOTO')"><i class="glyphicon glyphicon-trash"></i></a>
       </li>
     </ul>
   </fieldset>
+
+
+
+
+
+  <fieldset class="row-space" ng-controller="ControllerPrpTabGeneralUploadPhotosSphere" file-upload="photosSphereOptions" ng-class="{'fileupload-processing': processing() || loadingFiles}">
+    <legend>Photos Sphere
+      <i class="glyphicon glyphicon-question-sign"
+         uib-tooltip="Ajouter ici les photos 360°. Seuls OGI et Acimflo supportent cette visualisation."
+         uib-tooltip-trigger="mouseenter"></i>
+    </legend>
+
+    <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+    <div class="row fileupload-buttonbar">
+      <div class="col-xs-4">
+        <!-- The fileinput-button span is used to style the file input field as button -->
+              <span class="btn btn-success fileinput-button" ng-class="{disabled: disabled}">
+                  <i class="glyphicon glyphicon-plus"></i>
+                  <span>Ajouter des photos...</span>
+                  <input type="file" name="file[]" multiple ng-disabled="disabled" />
+              </span>
+        <button type="button" class="btn btn-primary start" data-ng-click="submit()">
+          <i class="glyphicon glyphicon-arrow-up"></i>
+          <span>Envoyer</span>
+        </button>
+        <!--
+        <button type="button" class="btn btn-warning cancel" data-ng-click="cancel()">
+            <i class="glyphicon glyphicon-ban-circle"></i>
+            <span>Cancel upload</span>
+        </button>-->
+        <!-- The loading indicator is shown during file processing -->
+        <div class="fileupload-loading"></div>
+      </div>
+      <!-- The global progress information -->
+      <div class="col-xs-8 fade" ng-class="{in: active()}">
+        <!-- The global progress bar -->
+        <div class="progress progress-striped active" file-upload-progress="progress()">
+          <div class="progress-bar" ng-style="{width: num + '%'}"></div>
+        </div>
+        <!-- The extended global progress information
+        <div class="progress-extended">&nbsp;</div> -->
+      </div>
+    </div>
+
+
+    <!-- The table listing the files available for upload/download -->
+    <table class="table table-striped files ng-cloak">
+      <tr ng-repeat="file in queue">
+        <td ng-switch="!!file.thumbnailUrl">
+          <div class="preview" ng-switch-when="true">
+            <a ng-href="{{file.url}}" title="{{file.name}}" target="_blank" download="{{file.name}}" gallery><img ng-src="{{file.thumbnailUrl}}" alt=""></a>
+          </div>
+          <div class="preview" ng-switch-default file-upload-preview="file"></div>
+        </td>
+        <td>
+          <p class="name" ng-switch on="!!file.url">
+            <span ng-switch-when="true" ng-switch on="!!file.thumbnailUrl">
+              <a ng-switch-when="true" ng-href="{{file.url}}"  title="{{file.name}}" target="_blank" download="{{file.name}}" gallery>{{file.name}}</a>
+              <a ng-switch-default ng-href="{{file.url}}" title="{{file.name}}" download="{{file.name}}">{{file.name}}</a>
+            </span>
+            <span ng-switch-default>{{file.name}}</span>
+          </p>
+          <div ng-show="file.error"><span class="label label-danger">Error</span> <span ng-bind-html="file.error"></span></div>
+        </td>
+        <td>
+          <p class="size">{{file.size | formatFileSize}}</p>
+          <div class="progress progress-striped active fade" ng-class="{pending: 'in'}[file.$state()]" file-upload-progress="file.$progress()">
+            <div class="progress-bar progress-bar-success bar" ng-style="{width: num + '%'}"></div>
+          </div>
+        </td>
+        <td>
+          <button type="button" class="btn btn-warning cancel" data-ng-click="file.$cancel()" data-ng-hide="!file.$cancel">
+            <i class="glyphicon glyphicon-ban-circle"></i>
+            <span>Supprimer</span>
+          </button>
+        </td>
+      </tr>
+    </table>
+
+    <ul ui-sortable="photosSphereSortableOptions" class="list-photos list-unstyled list-inline" ng-model="prp.photosSphere">
+      <li ng-repeat="photo in prp.photosSphere">
+        <img ng-src="{{photo.url}}?size=110,110&crop=110,110&&sizeMode=inversed_automatic" />
+        <div class="photoName">{{photo.name}}</div>
+        <a class="btn" href="{{photo.url}}" target="_blank"><i class="glyphicon glyphicon-eye-open"></i></a>
+        <a class="btn" ng-click="deletePhoto($index, 'PHOTO_SPHERE')"><i class="glyphicon glyphicon-trash"></i></a>
+      </li>
+    </ul>
+  </fieldset>
+
 
 
   <div class="modal hide" modal="shouldBeOpenGeoloc" options="opts">

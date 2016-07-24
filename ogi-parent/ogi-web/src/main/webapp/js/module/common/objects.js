@@ -67,12 +67,13 @@ function PropertyJS(prpFromAPI) {
         angular.extend(this.address, prpFromAPI.address); // override JS values with server values
     }
 
-    // Override photo only if not exist or empty
+    // Extract photo and photo sphere from documents
     if(utilsObject.isEmpty(prpFromAPI.documents)) {
-        this.photos = [];
-    }
-    else {
-        this.photos = extractDocumentsByType(prpFromAPI.documents, "PHOTO");
+      this.photos = [];
+      this.photosSphere = [];
+    } else {
+      this.photos       = extractDocumentsByType(prpFromAPI.documents, "PHOTO");
+      this.photosSphere = extractDocumentsByType(prpFromAPI.documents, "PHOTO_SPHERE");
     }
 
     if(!utilsObject.isUndefinedOrNull(prpFromAPI.sale)) {
@@ -105,18 +106,20 @@ function PropertyJS(prpFromAPI) {
 
 
     this.toJSON = function() {
-        var prpJSON = angular.extend({}, this);
+      var prpJSON = angular.extend({}, this);
 
-        prpJSON.documents=this.photos//
-        .concat(this.sale ? this.sale.documents : [])//
+      prpJSON.documents = this.photos
+        .concat(this.photosSphere)
+        .concat(this.sale ? this.sale.documents : [])
         .concat(this.rent ? this.rent.documents : []);
 
-        // Delete unecessaries json properties
-        delete prpJSON.photos;
-        if(prpJSON.sale) { delete prpJSON.sale.documents; }
-        if(prpJSON.rent) { delete prpJSON.rent.documents; }
+      // Delete unecessaries json properties
+      delete prpJSON.photos;
+      delete prpJSON.photosSphere;
+      if(prpJSON.sale) { delete prpJSON.sale.documents; }
+      if(prpJSON.rent) { delete prpJSON.rent.documents; }
 
-        return prpJSON;
+      return prpJSON;
     }
 }
 
