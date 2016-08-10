@@ -27,6 +27,7 @@ import fr.jerep6.ogi.framework.utils.ContextUtils;
 import fr.jerep6.ogi.servlet.operation.Operation;
 import fr.jerep6.ogi.servlet.operation.OperationCrop;
 import fr.jerep6.ogi.servlet.operation.OperationSize;
+import fr.jerep6.ogi.servlet.operation.OperationWatermark;
 
 @WebServlet(name = "Photos2", urlPatterns = { "/photos2/*" })
 public class ServletPhotos extends HttpServlet {
@@ -40,6 +41,9 @@ public class ServletPhotos extends HttpServlet {
 
 	/** Image to display when error occured */
 	private Path				imgError;
+	
+	/** Image to inlay to display photosphere*/
+	private Path				waterMarkPhotoSphere;
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -49,10 +53,15 @@ public class ServletPhotos extends HttpServlet {
 			// Read photo
 			BufferedImage img = getImage(request);
 			Map<String, String[]> parameters = request.getParameterMap();
-
+			
 			List<Operation> operations = new ArrayList<>(2);
 			operations.add(new OperationSize(parameters));
 			operations.add(new OperationCrop(parameters));
+			operations.add(OperationWatermark.Builder()
+					.parameters(parameters)
+					.photoSphere(ImageIO.read(Files.newInputStream(waterMarkPhotoSphere)))
+					.build()
+			);
 
 			for (Operation operation : operations) {
 				img = operation.compute(img);
@@ -60,6 +69,7 @@ public class ServletPhotos extends HttpServlet {
 
 			// One year cache
 			response.setHeader("Cache-Control", "max-age=1314000");
+			response.setHeader("Access-Control-Allow-Origin", "*");
 			ImageIO.write(img, "jpeg", response.getOutputStream());
 		} catch (Exception e) {
 			LOGGER.error("Error for serving image " + request.getRequestURI(), e);
@@ -108,5 +118,6 @@ public class ServletPhotos extends HttpServlet {
 		contextPath = config.getServletContext().getContextPath();
 		photosStorageDir = ContextUtils.getProperty("document.storage.dir");
 		imgError = Paths.get(photosStorageDir).resolve(Paths.get("error.jpg"));
+		waterMarkPhotoSphere = Paths.get(photosStorageDir).resolve(Paths.get("photosphere.png"));
 	}
 }
