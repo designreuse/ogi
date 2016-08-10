@@ -2,6 +2,25 @@ angular.module('myApp.property').controller("ControllerPrpRead",
   function ($scope, $rootScope, Page, $routeParams, ServiceConfiguration, ServiceDPE, $http, $log, ServiceUrl, Lightbox) {
     Page.setTitle("Fiche client du bien : " + $routeParams.prpRef);
 
+    // Initialise photospehere options
+    Lightbox.photoSphereOptions = {
+      loading_img: 'http://photo-sphere-viewer.js.org/assets/photosphere-logo.gif',
+      navbar: 'autorotate zoom caption fullscreen',
+      default_fov: 80,
+      mousewheel: false,
+      fisheye: true,
+      lang: {
+        autorotate: 'Rotation automatique',
+        zoom: 'Zoom',
+        zoomOut: 'Zoomer',
+        zoomIn: 'Dezoomer',
+        download: 'Télécharger',
+        fullscreen: 'Plein écran',
+        markers: 'Markers',
+        gyroscope: 'Gyroscope'
+      }
+    };
+
     $scope.carouselInterval = 5000;
     $scope.slides = [];
 
@@ -11,6 +30,14 @@ angular.module('myApp.property').controller("ControllerPrpRead",
         $scope.prp = new PropertyJS(response.data);
         $scope.prp.photos.forEach(function (img, index) {
          addSlide(img.url + '?size=600,400', img.name, index);
+        });
+
+        $scope.prp.photosSphere.forEach(function (img, index) {
+          addSlide(
+            img.url + '?size=600,400&crop=600,400&&sizeMode=inversed_automatic&w=photosphere',
+            img.name,
+            $scope.prp.photos.length + index
+          );
         });
       });
 
@@ -42,14 +69,17 @@ angular.module('myApp.property').controller("ControllerPrpRead",
       $scope.slides.push({
         image: url,
         text: text,
-        id: index
+        id: index,
       });
     };
 
     $scope.openLightboxModal = function (index) {
-      Lightbox.openModal(_.map($scope.prp.photos, function (elt) {
+      const ogiTypeToLightbox = {'PHOTO': 'image', 'PHOTO_SPHERE' : 'photosphere'};
+
+      Lightbox.openModal(_.map($scope.prp.photos.concat($scope.prp.photosSphere), function (elt) {
         return {
-          'url': elt.url
+          url: elt.url,
+          type: ogiTypeToLightbox[elt.type.code]
         };
       }), index);
     };
