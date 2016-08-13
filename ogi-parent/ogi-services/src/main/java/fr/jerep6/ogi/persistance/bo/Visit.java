@@ -38,7 +38,7 @@ public class Visit {
 	@Column(name = "VIS_CLIENT")
 	private String				client;
 
-	@Column(name = "VIS_DESCRIPTION")
+	@Column(name = "VIS_DESCRIPTION", length = 2048)
 	private String				description;
 
 
